@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="custom_font" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/font</item>
+
+    </style>
+</resources>

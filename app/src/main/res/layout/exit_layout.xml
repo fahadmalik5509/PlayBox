@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:background="@drawable/popup_background">
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:text="Confirm exit?"
+        android:textSize="40sp"
+        android:gravity="center"
+        android:textAppearance="@style/custom_font"
+        android:textColor="@color/beige"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="60dp"
+        android:layout_centerHorizontal="true">
+
+    <Button
+        android:id="@+id/no"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@drawable/popup_greenbtn"
+        android:textAppearance="@style/custom_font"
+
+        android:gravity="center"
+        android:text="NO"
+        android:textColor="@color/beige"
+        android:textSize="25sp"
+        android:onClick="noPressed"/>
+
+    <Button
+        android:id="@+id/yes"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@drawable/rounded_button"
+        android:textAppearance="@style/custom_font"
+        android:gravity="center"
+        android:layout_marginLeft="10dp"
+        android:text="YES"
+        android:textColor="@color/beige"
+        android:textSize="25sp"
+        android:onClick="yesPressed"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

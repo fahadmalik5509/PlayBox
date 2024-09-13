@@ -1,0 +1,15 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient android:startColor="#6A2626" android:endColor="#7c2e2e" android:type="linear" android:angle="270"/>
+<!--            <solid android:color="#7c2e2e"/> &lt;!&ndash; Default color &ndash;&gt;-->
+            <corners android:radius="20dp"/> <!-- Rounded corners -->
+        </shape>
+
+        <shape android:shape="rectangle">
+            <solid android:color="#00000000"/> <!-- Transparent color -->
+            <size android:width="0dp" android:height="0dp"/>
+            <padding android:left="0dp" android:right="0dp" android:top="0dp" android:bottom="10dp"/> <!-- Adjust shadow size -->
+        </shape>
+    </item>
+</selector>
