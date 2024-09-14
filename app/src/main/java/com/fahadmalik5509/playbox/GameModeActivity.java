@@ -60,11 +60,11 @@ public class GameModeActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        playerVsPlayerBtn = findViewById(R.id.PlayerVsPlayer);
+        playerVsPlayerBtn = findViewById(R.id.bPlayerVsPlayer);
         playerVsAIBtn = findViewById(R.id.PlayerVsAI);
-        settingImageView = findViewById(R.id.settingimgview);
-        homeImageView = findViewById(R.id.homeimgview);
-        backImageView = findViewById(R.id.backimgview);
+        settingImageView = findViewById(R.id.ivSettingIcon);
+        homeImageView = findViewById(R.id.ivHomeIcon);
+        backImageView = findViewById(R.id.ivBackIcon);
     }
 
     private void animateViewsPulse() {

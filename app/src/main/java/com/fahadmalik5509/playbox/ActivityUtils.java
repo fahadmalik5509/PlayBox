@@ -31,6 +31,7 @@ public class ActivityUtils {
     public static final String SOUND_KEY = "soundEnabled";
     public static final String VIBRATION_KEY = "vibrationEnabled";
     public static final String DIFFICULTY_KEY = "difficultyLevel";
+    public static final String WORDLE_STREAK = "streakNumber";
     public static boolean isVsAi = false;
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
@@ -54,6 +55,9 @@ public class ActivityUtils {
         soundMap.put(R.raw.click_error, soundPool.load(context, R.raw.click_error, 1));
         soundMap.put(R.raw.draw, soundPool.load(context, R.raw.draw, 1));
         soundMap.put(R.raw.win, soundPool.load(context, R.raw.win, 1));
+        soundMap.put(R.raw.key, soundPool.load(context, R.raw.key, 1));
+        soundMap.put(R.raw.enter, soundPool.load(context, R.raw.enter, 1));
+        soundMap.put(R.raw.backspace, soundPool.load(context, R.raw.backspace, 1));
     }
 
     public static void playSound(Context context, int soundResId) {
@@ -95,12 +99,12 @@ public class ActivityUtils {
         view.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    animateViewScale(view, 1f, 0.9f);
+                    animateViewScale(view, 1f, 0.9f,100);
                     view.setAlpha(0.8f);
                     return false;
 
                 case MotionEvent.ACTION_UP:
-                    animateViewScale(view, 0.9f, 1f);
+                    animateViewScale(view, 0.9f, 1f,100);
                     vibrate(context,50);
                     view.setAlpha(1f);
                     return false;
@@ -109,13 +113,13 @@ public class ActivityUtils {
         });
     }
 
-    public static void animateViewScale(View view, float startScale, float endScale) {
+    public static void animateViewScale(View view, float startScale, float endScale,int Duration) {
         if (view != null) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", startScale, endScale);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", startScale, endScale);
 
-            scaleX.setDuration(100);
-            scaleY.setDuration(100);
+            scaleX.setDuration(Duration);
+            scaleY.setDuration(Duration);
 
             scaleX.setInterpolator(new LinearInterpolator());
             scaleY.setInterpolator(new LinearInterpolator());

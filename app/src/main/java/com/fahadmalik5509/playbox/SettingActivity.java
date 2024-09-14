@@ -137,15 +137,15 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        soundButton = findViewById(R.id.sound_Btn);
-        vibrationButton = findViewById(R.id.vibration_Btn);
-        difficultyButton = findViewById(R.id.difficulty_Btn);
+        soundButton = findViewById(R.id.bSound);
+        vibrationButton = findViewById(R.id.bVibration);
+        difficultyButton = findViewById(R.id.bDifficulty);
         easyButton = findViewById(R.id.easyDifficulty);
         mediumButton = findViewById(R.id.mediumDifficulty);
         hardButton = findViewById(R.id.hardDifficulty);
         difficultyLayout = findViewById(R.id.difficultyLayout);
-        homeImageView = findViewById(R.id.homeimgview);
-        backImageView = findViewById(R.id.backimgview);
+        homeImageView = findViewById(R.id.ivHomeIcon);
+        backImageView = findViewById(R.id.ivBackIcon);
     }
     private void animateViewsPulse() {
         animateViewPulse(this, soundButton);

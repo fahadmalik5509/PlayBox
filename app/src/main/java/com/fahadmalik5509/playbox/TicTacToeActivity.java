@@ -140,7 +140,7 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     private void animateWinningButtons(int... winBtn) {
         for (int index : winBtn) {
-            animateViewScale(buttons[index], 1f, 1.1f);
+            animateViewScale(buttons[index], 1f, 1.1f,100);
             changeButtonColor(buttons[index], GREEN_COLOR);
         }
     }
@@ -171,7 +171,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         for (Button button : buttons) {
             button.setText("");
             button.setEnabled(true);
-            animateViewScale(button, 1.1f, 1f);
+            animateViewScale(button, 1.1f, 1f,100);
             changeButtonColor(button, RED_COLOR);
         }
     }
@@ -343,10 +343,10 @@ public class TicTacToeActivity extends AppCompatActivity {
         buttons[8] = findViewById(R.id.btn8);
         gameStatusTextView = findViewById(R.id.event);
         drawImageView = findViewById(R.id.drawImg);
-        settingImageView = findViewById(R.id.settingimgview);
-        homeImageView = findViewById(R.id.homeimgview);
+        settingImageView = findViewById(R.id.ivSettingIcon);
+        homeImageView = findViewById(R.id.ivHomeIcon);
         replayTextView = findViewById(R.id.replay);
-        backImageView = findViewById(R.id.backimgview);
+        backImageView = findViewById(R.id.ivBackIcon);
     }
 
     private void animateViewsPulse() {

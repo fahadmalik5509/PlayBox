@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1a1a1a">
@@ -9,45 +8,25 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp">
+        android:layout_marginBottom="100dp"
+        android:orientation="vertical" >
 
         <Button
-            android:id="@+id/sound_Btn"
-            android:layout_width="250dp"
-            android:layout_height="60dp"
-            android:background="@drawable/rounded_button"
-            android:textAppearance="@style/custom_font"
-            android:gravity="center"
-            android:textColor="@color/beige"
-            android:textSize="25sp"
+            android:id="@+id/bSound"
+            style="@style/NavigationButton"
             android:onClick="handleSoundButtonClick" />
 
         <Button
-            android:id="@+id/vibration_Btn"
-            android:layout_width="250dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_button"
-            android:textAppearance="@style/custom_font"
-            android:gravity="center"
-            android:textColor="@color/beige"
-            android:textSize="25sp"
+            android:id="@+id/bVibration"
+            style="@style/NavigationButton"
             android:onClick="handleVibrationButtonClick" />
 
         <Button
-            android:id="@+id/difficulty_Btn"
-            android:layout_width="250dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_button"
-            android:textAppearance="@style/custom_font"
-            android:gravity="center"
-            android:textColor="@color/beige"
-            android:textSize="25sp"
+            android:id="@+id/bDifficulty"
             android:text="@string/difficulty"
+            style="@style/NavigationButton"
             android:onClick="handleDifficultyButtonClick" />
 
     </LinearLayout>
@@ -56,83 +35,53 @@
         android:id="@+id/difficultyLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="100dp"
+        android:orientation="vertical"
         android:background="#1a1a1a"
         android:visibility="gone">
 
         <Button
             android:id="@+id/easyDifficulty"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
-            android:background="@drawable/rounded_button"
-            android:textAppearance="@style/custom_font"
-            android:layout_gravity="center"
-            android:textColor="@color/beige"
-            android:textSize="25sp"
             android:text="@string/easy"
-            android:onClick="handleEasyButtonClick"/>
+            style="@style/DifficultyButton"
+            android:onClick="handleEasyButtonClick" />
 
         <Button
             android:id="@+id/mediumDifficulty"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_button"
-            android:textAppearance="@style/custom_font"
-            android:layout_gravity="center"
-            android:textColor="@color/beige"
-            android:textSize="25sp"
             android:text="@string/medium"
-            android:onClick="handleMediumButtonClick"/>
+            style="@style/DifficultyButton"
+            android:onClick="handleMediumButtonClick" />
 
         <Button
             android:id="@+id/hardDifficulty"
-            android:layout_width="150dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_button"
-            android:textAppearance="@style/custom_font"
-            android:layout_gravity="center"
-            android:textColor="@color/beige"
-            android:textSize="25sp"
             android:text="@string/hard"
-            android:onClick="handleHardButtonClick"/>
+            style="@style/DifficultyButton"
+            android:onClick="handleHardButtonClick" />
 
     </LinearLayout>
 
+    <!-- Back ImageView -->
+    <ImageView
+        android:id="@+id/ivBackIcon"
+        style="@style/BackImageView"
+        android:onClick="goBack" />
+
+    <!-- Home ImageView -->
+    <ImageView
+        android:id="@+id/ivHomeIcon"
+        style="@style/HomeImageView"
+        android:onClick="goToHome" />
+
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:gravity="center"
-        android:text="Change Settings"
-        android:textAppearance="@style/custom_font"
-        android:textColor="@color/beige"
-        android:textSize="55sp" />
-
-    <!--    Back Img-->
-    <ImageView
-        android:id="@+id/backimgview"
-        android:contentDescription="@string/imageDescription"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="15dp"
-        android:onClick="goBack"
-        app:srcCompat="@drawable/backicon"/>
-
-    <!--    Home Img-->
-    <ImageView
-        android:id="@+id/homeimgview"
-        android:contentDescription="@string/imageDescription"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:onClick="goToHome"
-        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/homeicon"/>
+        android:layout_marginTop="100dp"
+        android:text="Change Settings"
+        android:textSize="30sp"
+        android:textColor="@color/beige"
+        android:textAppearance="@style/custom_font" />
+
 
 </RelativeLayout>

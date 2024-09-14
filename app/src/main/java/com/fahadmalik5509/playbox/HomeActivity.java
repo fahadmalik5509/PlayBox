@@ -111,9 +111,9 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void initializeViews() {
-        playTicTacToeBtn = findViewById(R.id.playtictactoe);
-        playWordleBtn = findViewById(R.id.playwordle);
-        settingBtn = findViewById(R.id.settings);
+        playTicTacToeBtn = findViewById(R.id.bTicTacToe);
+        playWordleBtn = findViewById(R.id.bWordle);
+        settingBtn = findViewById(R.id.bSettings);
     }
     private void animateViewsPulse() {
         animateViewPulse(this, playTicTacToeBtn);

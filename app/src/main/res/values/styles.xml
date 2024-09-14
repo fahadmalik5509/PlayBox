@@ -1,7 +1,88 @@
 <resources>
 
-    <style name="custom_font" parent="TextAppearance.AppCompat">
+    <style name="custom_font">
         <item name="android:fontFamily">@font/font</item>
 
     </style>
+
+    <style name="KeyboardTextView">
+        <item name="android:background">@drawable/keyboard_border</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/keyboard</item>
+        <item name="android:textAppearance">@style/custom_font</item>
+        <item name="android:gravity">center</item>
+        <item name="android:clickable">true</item>
+        <item name="android:onClick">keyboardClicked</item>
+    </style>
+
+    <style name="letterBoxTextView">
+        <item name="android:background">@drawable/default_letterbox</item>
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textAppearance">@style/custom_font</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="BackImageView">
+        <item name="android:background">@drawable/backicon</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_marginStart">15dp</item>
+    </style>
+
+    <style name="HomeImageView">
+        <item name="android:background">@drawable/homeicon</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <style name="SettingImageView">
+        <item name="android:background">@drawable/settingsicon</item>
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_marginEnd">15dp</item>
+    </style>
+
+    <style name="NavigationButton">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:layout_width">250dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/beige</item>
+        <item name="android:textAppearance">@style/custom_font</item>
+    </style>
+
+    <style name="DifficultyButton">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:textSize">25sp</item>
+        <item name="android:textColor">@color/beige</item>
+        <item name="android:textAppearance">@style/custom_font</item>
+        <item name="android:layout_gravity">center</item>
+    </style>
+
+    <style name="BoardButton">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:textSize">50sp</item>
+        <item name="android:textColor">@color/beige</item>
+        <item name="android:textAppearance">@style/custom_font</item>
+    </style>
+
 </resources>

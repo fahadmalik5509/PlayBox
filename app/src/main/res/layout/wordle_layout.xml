@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="#1a1a1a">
 
+    <!-- LetterBox Layout -->
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,367 +16,187 @@
 
         <TextView
             android:id="@+id/_0_0"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="0"
             android:layout_column="0"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_0_1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="0"
             android:layout_column="1"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_0_2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="0"
             android:layout_column="2"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_0_3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="0"
             android:layout_column="3"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_0_4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="0"
             android:layout_column="4"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_1_0"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
             android:layout_row="1"
             android:layout_column="0"
-            android:background="@drawable/default_letterbox"
-            android:textAppearance="@style/custom_font"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textSize="25sp" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_1_1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="1"
             android:layout_column="1"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_1_2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="1"
             android:layout_column="2"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_1_3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="1"
             android:layout_column="3"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_1_4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="1"
             android:layout_column="4"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_2_0"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="2"
             android:layout_column="0"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_2_1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="2"
             android:layout_column="1"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_2_2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="2"
             android:layout_column="2"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_2_3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="2"
             android:layout_column="3"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_2_4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="2"
             android:layout_column="4"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_3_0"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="3"
             android:layout_column="0"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_3_1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="3"
             android:layout_column="1"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_3_2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="3"
             android:layout_column="2"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_3_3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="3"
             android:layout_column="3"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_3_4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="3"
             android:layout_column="4"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_4_0"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="4"
             android:layout_column="0"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_4_1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="4"
             android:layout_column="1"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_4_2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="4"
             android:layout_column="2"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_4_3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="4"
             android:layout_column="3"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_4_4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="4"
             android:layout_column="4"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_5_0"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="5"
             android:layout_column="0"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_5_1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="5"
             android:layout_column="1"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_5_2"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="5"
             android:layout_column="2"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_5_3"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="5"
             android:layout_column="3"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font" />
+            style="@style/letterBoxTextView"/>
 
         <TextView
             android:id="@+id/_5_4"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/default_letterbox"
             android:layout_row="5"
             android:layout_column="4"
-            android:textSize="25sp"
-            android:gravity="center"
-            android:textColor="#ffffff"
-            android:textAppearance="@style/custom_font"
-            />
+            style="@style/letterBoxTextView"/>
 
     </GridLayout>
 
+    <!-- Keyboard Layout -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -393,161 +214,62 @@
             <TextView
                 android:id="@+id/qTextView"
                 android:tag="Q"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:text="Q"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="Q"/>
 
             <TextView
                 android:id="@+id/wTextView"
                 android:tag="W"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="5dp"
-                android:text="W"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="W"/>
 
             <TextView
                 android:id="@+id/eTextView"
                 android:tag="E"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="5dp"
-                android:text="E"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="E"/>
 
             <TextView
                 android:id="@+id/rTextView"
                 android:tag="R"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="5dp"
-                android:text="R"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="R"/>
 
             <TextView
                 android:id="@+id/tTextView"
                 android:tag="T"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="5dp"
-                android:text="T"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="T"/>
 
             <TextView
                 android:id="@+id/yTextView"
                 android:tag="Y"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="5dp"
-                android:text="Y"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="Y"/>
 
             <TextView
                 android:id="@+id/uTextView"
                 android:tag="U"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="5dp"
-                android:text="U"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="U"/>
 
             <TextView
                 android:id="@+id/iTextView"
                 android:tag="I"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="5dp"
-                android:text="I"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="I"/>
 
             <TextView
                 android:id="@+id/oTextView"
                 android:tag="O"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="5dp"
-                android:text="O"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="O"/>
 
             <TextView
                 android:id="@+id/pTextView"
                 android:tag="P"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="5dp"
-                android:text="P"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="P"/>
 
         </LinearLayout>
 
@@ -560,145 +282,56 @@
             <TextView
                 android:id="@+id/aTextView"
                 android:tag="A"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:text="A"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="A"/>
 
             <TextView
                 android:id="@+id/sTextView"
                 android:tag="S"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:background="@drawable/keyboard_border"
-                android:gravity="center"
-                android:text="S"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:clickable="true"
-                android:textAppearance="@style/custom_font"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="S"/>
 
             <TextView
                 android:id="@+id/dTextView"
                 android:tag="D"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="D"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="D"/>
 
             <TextView
                 android:id="@+id/fTextView"
                 android:tag="F"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="F"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="F"/>
 
             <TextView
                 android:id="@+id/gTextView"
                 android:tag="G"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="G"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="G"/>
 
             <TextView
                 android:id="@+id/hTextView"
                 android:tag="H"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="H"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="H"/>
 
             <TextView
                 android:id="@+id/jTextView"
                 android:tag="J"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="J"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="J"/>
 
             <TextView
                 android:id="@+id/kTextView"
                 android:tag="K"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="K"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="K"/>
 
             <TextView
                 android:id="@+id/lTextView"
                 android:tag="L"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="L"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="L"/>
 
         </LinearLayout>
 
@@ -715,7 +348,6 @@
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:textSize="20sp"
-                android:textColor="@color/white"
                 android:gravity="center"
                 android:clickable="true"
                 android:background="@drawable/keyboard_border"
@@ -725,114 +357,44 @@
             <TextView
                 android:id="@+id/zTextView"
                 android:tag="Z"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="Z"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="Z"/>
 
             <TextView
                 android:id="@+id/xTextView"
                 android:tag="X"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="X"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="X"/>
 
             <TextView
                 android:id="@+id/cTextView"
                 android:tag="C"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="C"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="C"/>
 
             <TextView
                 android:id="@+id/vTextView"
                 android:tag="V"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="V"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="V"/>
 
             <TextView
                 android:id="@+id/bTextView"
                 android:tag="B"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="B"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="B"/>
 
             <TextView
                 android:id="@+id/nTextView"
                 android:tag="N"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="N"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="N"/>
 
             <TextView
                 android:id="@+id/mTextView"
                 android:tag="M"
-                android:layout_width="30dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:layout_marginStart="5dp"
-                android:text="M"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:textAppearance="@style/custom_font"
-                android:gravity="center"
-                android:clickable="true"
-                android:background="@drawable/keyboard_border"
-                android:onClick="keyboardClicked"/>
+                style="@style/KeyboardTextView"
+                android:text="M"/>
 
             <TextView
                 android:id="@+id/backspaceTextView"
@@ -842,7 +404,6 @@
                 android:layout_weight="1"
                 android:layout_marginStart="5dp"
                 android:textSize="20sp"
-                android:textColor="@color/white"
                 android:gravity="center"
                 android:clickable="true"
                 android:background="@drawable/keyboard_border"
@@ -852,6 +413,24 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <!-- Back ImageView -->
+    <ImageView
+        android:id="@+id/ivBackIcon"
+        style="@style/BackImageView"
+        android:onClick="goToHome" />
+
+    <!-- Home ImageView -->
+    <ImageView
+        android:id="@+id/ivHomeIcon"
+        style="@style/HomeImageView"
+        android:onClick="goToHome" />
+
+    <!-- Setting ImageView -->
+    <ImageView
+        android:id="@+id/ivSettingIcon"
+        style="@style/SettingImageView"
+        android:onClick="goToSetting" />
 
     <ImageView
         android:id="@+id/resetImg"
@@ -864,38 +443,17 @@
         android:layout_margin="70dp"
         android:visibility="gone"  />
 
-    <!--    Back Img-->
-    <ImageView
-        android:id="@+id/backimgview"
-        android:contentDescription="@string/imageDescription"
+    <TextView
+        android:id="@+id/streak"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="15dp"
-        android:layout_marginStart="15dp"
-        android:onClick="goToHome"
-        android:background="@drawable/backicon"/>
-
-    <!--    Home Img-->
-    <ImageView
-        android:id="@+id/homeimgview"
-        android:contentDescription="@string/imageDescription"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="15dp"
-        android:layout_centerHorizontal="true"
-        android:onClick="goToHome"
-        android:background="@drawable/homeicon"/>
-
-    <!--    Setting Img-->
-    <ImageView
-        android:id="@+id/settingimgview"
-        android:contentDescription="@string/imageDescription"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_alignParentEnd="true"
-        android:onClick="goToSetting"
-        android:background="@drawable/settingsicon"/>
+        android:layout_alignRight="@id/ivSettingIcon"
+        android:layout_marginRight="50dp"
+        android:background="@drawable/circle_border"
+        android:gravity="center"
+        android:textAppearance="@style/custom_font"
+        android:textColor="#1a1a1a"
+        android:textSize="12sp" />
 
 </RelativeLayout>

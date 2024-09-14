@@ -5,6 +5,7 @@ import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -23,7 +24,7 @@ public class WordleActivity extends AppCompatActivity {
     private static final int ROWS = 6;
     private static final int COLS = 5;
 
-    private TextView enterKey, backspaceKey;
+    private TextView enterKey, backspaceKey,streakTextView;
     private final TextView[] keyboard = new TextView[26];
     private ImageView replayImageView, homeImageView, settingImageView, backImageView;
     private final TextView[][] letterbox = new TextView[ROWS][COLS];
@@ -34,6 +35,8 @@ public class WordleActivity extends AppCompatActivity {
     private String targetWord;
     private boolean gameWon = false;
     private boolean gameLost = false;
+    private int streak;
+    SharedPreferences sharedPreferences;
 
     private int revealGuessWord = 0;
 
@@ -42,19 +45,25 @@ public class WordleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wordle_layout);
 
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+
         initializeViews();
         animateViewsPulse();
         loadCommonWords();
         loadDictionary();
         loadARandomCommonWord();
+
+        for(int i = 0; i < COLS; i++) {
+            setBackgroundDrawable(letterbox[currentRow][i],R.drawable.defaultselected_letterbox);
+        }
+
+        streakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
     }
 
     // OnClick Method
     public void keyboardClicked(View view) {
 
         if(gameWon || gameLost) return;
-
-        playSound(this,R.raw.click_ui);
         String pressedKey = (String) view.getTag();
 
         if (pressedKey.equals("enter")) enterClicked();
@@ -63,7 +72,11 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     private void alphabetClicked(String alphabet) {
-        if(currentColumn == COLS) return;
+        playSound(this,R.raw.key);
+        if(currentColumn == COLS) { 
+            jiggleRow();
+            return; 
+        }
         animateViewBounce(letterbox[currentRow][currentColumn]);
         letterbox[currentRow][currentColumn].setText(alphabet);
         userGuess.insert(currentColumn,alphabet);
@@ -71,6 +84,7 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     private void enterClicked() {
+        playSound(this,R.raw.enter);
         revealGuessWord++;
         if(revealGuessWord >= 15) {
             Toast.makeText(this, targetWord, Toast.LENGTH_SHORT).show();
@@ -78,7 +92,7 @@ public class WordleActivity extends AppCompatActivity {
         }
 
         if (!isGuessComplete() || !isValidGuess(userGuess.toString())) {
-            animateInvalidGuess();
+            jiggleRow();
             return;
         }
 
@@ -130,12 +144,31 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     private void handleEndOfTurn() {
+
         if (targetWord.equals(userGuess.toString())) {
+
+            for (int i = 0; i < 5; i++) {
+                float scaleDown = 1.0f - (i * 0.1f);
+                int duration = (i + 1) * 100;
+
+                animateViewScale(letterbox[currentRow][i], 1.0f, scaleDown, duration);
+                animateViewScale(letterbox[currentRow][i], scaleDown, 1.0f, duration);
+            }
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt(WORDLE_STREAK, ++streak);
+            editor.apply();
+
+            streakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
             gameWon = true;
             playSound(this, R.raw.win);
             replayImageView.setVisibility(View.VISIBLE);
         } else {
             currentRow++;
+            for(int i = 0; i < COLS; i++) {
+                if (currentRow < ROWS)
+                    setBackgroundDrawable(letterbox[currentRow][i],R.drawable.defaultselected_letterbox);
+            }
             currentColumn = 0;
             userGuess.setLength(0);
         }
@@ -143,6 +176,13 @@ public class WordleActivity extends AppCompatActivity {
         if (currentRow == ROWS) {
             gameLost = true;
             playSound(this, R.raw.draw);
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt(WORDLE_STREAK, 0);
+            editor.apply();
+
+            streakTextView.setText("0");
+            Toast.makeText(this, "The word was: " + targetWord, Toast.LENGTH_LONG).show();
             replayImageView.setVisibility(View.VISIBLE);
         }
     }
@@ -162,8 +202,9 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     private void backspaceClicked() {
+        playSound(this,R.raw.backspace);
         if(currentColumn == 0) {
-            animateInvalidGuess();
+            jiggleRow();
             return;
         }
 
@@ -192,6 +233,10 @@ public class WordleActivity extends AppCompatActivity {
         for(int i = 0; i < 26; i++) {
             setBackgroundDrawable(keyboard[i],R.drawable.keyboard_border);
         }
+
+        for(int i = 0; i < COLS; i++) {
+            setBackgroundDrawable(letterbox[currentRow][i],R.drawable.defaultselected_letterbox);
+        }
     }
 
     private boolean isGuessComplete() {
@@ -202,7 +247,7 @@ public class WordleActivity extends AppCompatActivity {
         return dictionary.contains(guess.toUpperCase());
     }
 
-    private void animateInvalidGuess() { for (int i = 0; i < COLS; i++) animateViewJiggle(letterbox[currentRow][i]); }
+    private void jiggleRow() { for (int i = 0; i < COLS; i++) animateViewJiggle(letterbox[currentRow][i]); }
 
     private void setBackgroundDrawable(TextView textView, int drawableResId) { textView.setBackgroundResource(drawableResId); }
 
@@ -314,9 +359,10 @@ public class WordleActivity extends AppCompatActivity {
         letterbox[5][4] = findViewById(R.id._5_4);
 
         replayImageView = findViewById(R.id.resetImg);
-        backImageView = findViewById(R.id.backimgview);
-        homeImageView = findViewById(R.id.homeimgview);
-        settingImageView = findViewById(R.id.settingimgview);
+        backImageView = findViewById(R.id.ivBackIcon);
+        homeImageView = findViewById(R.id.ivHomeIcon);
+        settingImageView = findViewById(R.id.ivSettingIcon);
+        streakTextView = findViewById(R.id.streak);
     }
 
     private void animateViewsPulse() {

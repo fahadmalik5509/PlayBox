@@ -3,4 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="beige">#F5F5DC</color>
+    <color name="red">#7c2e2e</color>
+    <color name="green">#11e889</color>
+    <color name="yellow">#ffc107</color>
+    <color name="keyboard">#FF000000</color>
 </resources>
