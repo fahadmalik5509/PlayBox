@@ -24,7 +24,7 @@ public class WordleActivity extends AppCompatActivity {
     private static final int ROWS = 6;
     private static final int COLS = 5;
 
-    private TextView enterKey, backspaceKey,streakTextView;
+    private TextView enterKey, backspaceKey, currentStreakTextView, streakTooltipTextView;
     private final TextView[] keyboard = new TextView[26];
     private ImageView replayImageView, homeImageView, settingImageView, backImageView;
     private final TextView[][] letterbox = new TextView[ROWS][COLS];
@@ -35,7 +35,7 @@ public class WordleActivity extends AppCompatActivity {
     private String targetWord;
     private boolean gameWon = false;
     private boolean gameLost = false;
-    private int streak;
+    private int currentStreak, highestStreak;
     SharedPreferences sharedPreferences;
 
     private int revealGuessWord = 0;
@@ -53,11 +53,19 @@ public class WordleActivity extends AppCompatActivity {
         loadDictionary();
         loadARandomCommonWord();
 
-        for(int i = 0; i < COLS; i++) {
-            setBackgroundDrawable(letterbox[currentRow][i],R.drawable.defaultselected_letterbox);
+        for (int i = 0; i < COLS; i++) {
+            setBackgroundDrawable(letterbox[currentRow][i], R.drawable.defaultselected_letterbox);
         }
 
-        streakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
+        currentStreakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
+        streakTooltipTextView.setText("Streak\nCurrent: " + sharedPreferences.getInt(WORDLE_STREAK, 0) + "\nBest: " + sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0));
+    }
+
+    // OnClick Method
+    public void streakClicked(View view) {
+        playSound(this, R.raw.click_ui);
+        streakTooltipTextView.setVisibility(View.VISIBLE);
+        streakTooltipTextView.postDelayed(() -> streakTooltipTextView.setVisibility(View.GONE), 2000);
     }
 
     // OnClick Method
@@ -72,11 +80,14 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     private void alphabetClicked(String alphabet) {
+
         playSound(this,R.raw.key);
+
         if(currentColumn == COLS) { 
             jiggleRow();
             return; 
         }
+
         animateViewBounce(letterbox[currentRow][currentColumn]);
         letterbox[currentRow][currentColumn].setText(alphabet);
         userGuess.insert(currentColumn,alphabet);
@@ -156,10 +167,11 @@ public class WordleActivity extends AppCompatActivity {
             }
 
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt(WORDLE_STREAK, ++streak);
+            editor.putInt(WORDLE_STREAK, ++currentStreak);
+            if(currentStreak>sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0)) editor.putInt(WORDLE_HIGHEST_STREAK,currentStreak);
             editor.apply();
-
-            streakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
+            streakTooltipTextView.setText("Streak\nCurrent: " + sharedPreferences.getInt(WORDLE_STREAK, 0) + "\nBest: " + sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0));
+            currentStreakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
             gameWon = true;
             playSound(this, R.raw.win);
             replayImageView.setVisibility(View.VISIBLE);
@@ -181,7 +193,7 @@ public class WordleActivity extends AppCompatActivity {
             editor.putInt(WORDLE_STREAK, 0);
             editor.apply();
 
-            streakTextView.setText("0");
+            currentStreakTextView.setText("0");
             Toast.makeText(this, "The word was: " + targetWord, Toast.LENGTH_LONG).show();
             replayImageView.setVisibility(View.VISIBLE);
         }
@@ -202,7 +214,9 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     private void backspaceClicked() {
+
         playSound(this,R.raw.backspace);
+
         if(currentColumn == 0) {
             jiggleRow();
             return;
@@ -259,6 +273,7 @@ public class WordleActivity extends AppCompatActivity {
 
         targetWord = commonWords.get(new Random().nextInt(commonWords.size()));
     }
+
     private void loadDictionary() {
         InputStream inputStream = this.getResources().openRawResource(R.raw.dictionary);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
@@ -294,6 +309,12 @@ public class WordleActivity extends AppCompatActivity {
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
         changeActivity(this, HomeActivity.class, true,false);
+    }
+
+    @Override
+    public void onBackPressed() {
+        vibrate(this, 50);
+        changeActivity(this, HomeActivity.class, true, false);
     }
 
     private void initializeViews() {
@@ -362,7 +383,8 @@ public class WordleActivity extends AppCompatActivity {
         backImageView = findViewById(R.id.ivBackIcon);
         homeImageView = findViewById(R.id.ivHomeIcon);
         settingImageView = findViewById(R.id.ivSettingIcon);
-        streakTextView = findViewById(R.id.streak);
+        currentStreakTextView = findViewById(R.id.tvStreak);
+        streakTooltipTextView = findViewById(R.id.tvStreakTooltip);
     }
 
     private void animateViewsPulse() {
@@ -375,6 +397,6 @@ public class WordleActivity extends AppCompatActivity {
         animateViewPulse(this,homeImageView);
         animateViewPulse(this,settingImageView);
         animateViewPulse(this,backImageView);
+        animateViewPulse(this,currentStreakTextView);
     }
-
 }

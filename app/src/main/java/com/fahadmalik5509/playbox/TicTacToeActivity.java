@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,33 +18,41 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     private final char[] board = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
     private boolean gameWon = false, gameDraw = false;
-    private TextView gameStatusTextView, replayTextView;
-    private ImageView drawImageView, homeImageView, settingImageView, backImageView;
+    private TextView gameStatusTextView, replayTextView, difficultyTooltipTextView;
+    private ImageView drawImageView, homeImageView, settingImageView, backImageView, difficultyImageView;
     private int difficulty;
     private final Button[] buttons = new Button[9];
     private boolean isX = true;
+    private RelativeLayout shadowRelativeLayout;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tictactoe_layout);
 
+
         initializeViews();
+        loadPreferences();
         gameStatusTextView.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));
         animateViewsPulse();
+        updateDifficultyColor();
+    }
+
+    private void loadPreferences() {
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
     }
 
     // OnClick Method
     public void handleBoardClick(View view) {
-        SharedPreferences sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
 
         if (gameWon || gameDraw) {
             playSound(this, R.raw.click_error);
             return;
         }
 
-        playSound(this, R.raw.click_btn);
+        playSound(this, R.raw.click_board);
         int i = Integer.parseInt(view.getTag().toString());
 
         if (isVsAi) {
@@ -134,6 +143,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     private void displayDraw() {
         gameStatusTextView.setText("");
         drawImageView.setVisibility(View.VISIBLE);
+        shadowRelativeLayout.setVisibility(View.VISIBLE);
         gameDraw = true;
         playSound(this, R.raw.draw);
     }
@@ -141,7 +151,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     private void animateWinningButtons(int... winBtn) {
         for (int index : winBtn) {
             animateViewScale(buttons[index], 1f, 1.1f,100);
-            changeButtonColor(buttons[index], GREEN_COLOR);
+            changeBackgroundColor(buttons[index], GREEN_COLOR);
         }
     }
 
@@ -156,6 +166,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         gameDraw = false;
         gameStatusTextView.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));
         drawImageView.setVisibility(View.GONE);
+        shadowRelativeLayout.setVisibility(View.GONE);
 
         resetBoard();
         resetButtons();
@@ -172,7 +183,7 @@ public class TicTacToeActivity extends AppCompatActivity {
             button.setText("");
             button.setEnabled(true);
             animateViewScale(button, 1.1f, 1f,100);
-            changeButtonColor(button, RED_COLOR);
+            changeBackgroundColor(button, RED_COLOR);
         }
     }
 
@@ -330,6 +341,43 @@ public class TicTacToeActivity extends AppCompatActivity {
         changeActivity(this, GameModeActivity.class,true,false);
     }
 
+    // OnClick Method
+    public void difficultyClicked(View view) {
+        playSound(this, R.raw.click_ui);
+
+        difficulty++;
+        if(difficulty>3) difficulty = 1;
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(DIFFICULTY_KEY, difficulty);
+        editor.apply();
+        difficultyTooltipTextView.setText("AI Difficulty\n(" + getDifficultyText() + ")");
+        difficultyTooltipTextView.setVisibility(View.VISIBLE);
+        difficultyTooltipTextView.postDelayed(() -> difficultyTooltipTextView.setVisibility(View.GONE), 2000);
+        updateDifficultyColor();
+        resetGame(view);
+    }
+
+    private void updateDifficultyColor() {
+        if(difficulty == 1) changeBackgroundColor(difficultyImageView, GREEN_COLOR);
+        if(difficulty == 2) changeBackgroundColor(difficultyImageView, YELLOW_COLOR);
+        if(difficulty == 3) changeBackgroundColor(difficultyImageView, RED_COLOR);
+    }
+
+    private String getDifficultyText() {
+
+        if(difficulty == 1) return "Easy";
+        if(difficulty == 2) return "Medium";
+        if(difficulty == 3) return "Hard";
+
+        return null;
+    }
+
+    @Override
+    public void onBackPressed() {
+        vibrate(this, 50);
+        changeActivity(this, GameModeActivity.class, true, false);
+    }
+
     private void initializeViews() {
 
         buttons[0] = findViewById(R.id.btn0);
@@ -341,12 +389,16 @@ public class TicTacToeActivity extends AppCompatActivity {
         buttons[6] = findViewById(R.id.btn6);
         buttons[7] = findViewById(R.id.btn7);
         buttons[8] = findViewById(R.id.btn8);
-        gameStatusTextView = findViewById(R.id.event);
-        drawImageView = findViewById(R.id.drawImg);
+
+        drawImageView = findViewById(R.id.ivDraw);
         settingImageView = findViewById(R.id.ivSettingIcon);
         homeImageView = findViewById(R.id.ivHomeIcon);
-        replayTextView = findViewById(R.id.replay);
         backImageView = findViewById(R.id.ivBackIcon);
+        difficultyImageView = findViewById(R.id.ivDifficulty);
+        gameStatusTextView = findViewById(R.id.tvEvent);
+        replayTextView = findViewById(R.id.tvReplay);
+        difficultyTooltipTextView = findViewById(R.id.tvDifficultyTooltip);
+        shadowRelativeLayout = findViewById(R.id.rlShadow);
     }
 
     private void animateViewsPulse() {
@@ -357,6 +409,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         animateViewPulse(this, settingImageView);
         animateViewPulse(this, replayTextView);
         animateViewPulse(this, backImageView);
+        animateViewPulse(this, difficultyImageView);
     }
 }
 

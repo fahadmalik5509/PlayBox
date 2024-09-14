@@ -15,11 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingActivity extends AppCompatActivity {
 
-    private boolean isSoundEnabled, isVibrationEnabled;
     private Button soundButton, vibrationButton, difficultyButton, easyButton, mediumButton, hardButton;
+    private boolean isSoundEnabled, isVibrationEnabled;
     private SharedPreferences sharedPreferences;
     private LinearLayout difficultyLayout;
-    private ImageView homeImageView,backImageView;
+    private ImageView homeImageView, backImageView;
     private String originActivity;
 
     @Override
@@ -42,8 +42,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void updateButtonStates() {
-        changeButtonColor(soundButton, isSoundEnabled ? GREEN_COLOR : RED_COLOR);
-        changeButtonColor(vibrationButton, isVibrationEnabled ? GREEN_COLOR : RED_COLOR);
+        changeBackgroundColor(soundButton, isSoundEnabled ? GREEN_COLOR : RED_COLOR);
+        changeBackgroundColor(vibrationButton, isVibrationEnabled ? GREEN_COLOR : RED_COLOR);
         updateButtonState(soundButton, isSoundEnabled, "Sounds ");
         updateButtonState(vibrationButton, isVibrationEnabled, "Vibration ");
         updateDifficultyButtonColor();
@@ -52,10 +52,10 @@ public class SettingActivity extends AppCompatActivity {
     //onclick Method
     public void handleSoundButtonClick(View view) {
         isSoundEnabled = !isSoundEnabled;
-        playSound(this,R.raw.click_ui);
+        playSound(this, R.raw.click_ui);
         int color = isSoundEnabled ? GREEN_COLOR : RED_COLOR;
-        changeButtonColor(soundButton,color);
-        updateButtonState(soundButton,isSoundEnabled,"Sounds ");
+        changeBackgroundColor(soundButton, color);
+        updateButtonState(soundButton, isSoundEnabled, "Sounds ");
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(SOUND_KEY, isSoundEnabled);
@@ -65,19 +65,20 @@ public class SettingActivity extends AppCompatActivity {
 
     //onclick Method
     public void handleVibrationButtonClick(View view) {
-        playSound(this,R.raw.click_ui);
+        playSound(this, R.raw.click_ui);
         isVibrationEnabled = !isVibrationEnabled;
         int color = isVibrationEnabled ? GREEN_COLOR : RED_COLOR;
-        changeButtonColor(vibrationButton,color);
-        updateButtonState(vibrationButton,isVibrationEnabled,"Vibration ");
+        changeBackgroundColor(vibrationButton, color);
+        updateButtonState(vibrationButton, isVibrationEnabled, "Vibration ");
 
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(VIBRATION_KEY, isVibrationEnabled);
         editor.apply();
     }
 
+    //onclick Method
     public void handleDifficultyButtonClick(View view) {
-        playSound(this,R.raw.click_ui);
+        playSound(this, R.raw.click_ui);
         difficultyLayout.setVisibility(View.VISIBLE);
     }
 
@@ -85,16 +86,17 @@ public class SettingActivity extends AppCompatActivity {
     public void handleEasyButtonClick(View view) {
         updateDifficulty(1);
     }
+
     //onclick Method
     public void handleMediumButtonClick(View view) { updateDifficulty(2); }
+
     //onclick Method
     public void handleHardButtonClick(View view) {
         updateDifficulty(3);
     }
-    //onclick Method
 
     public void updateDifficulty(int difficulty) {
-        playSound(this,R.raw.click_ui);
+        playSound(this, R.raw.click_ui);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(DIFFICULTY_KEY, difficulty);
         editor.apply();
@@ -109,20 +111,20 @@ public class SettingActivity extends AppCompatActivity {
 
     private void updateDifficultyButtonColor() {
         int difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
-        changeButtonColor(easyButton, difficulty == 1 ? GREEN_COLOR : RED_COLOR);
-        changeButtonColor(mediumButton, difficulty == 2 ? GREEN_COLOR : RED_COLOR);
-        changeButtonColor(hardButton, difficulty == 3 ? GREEN_COLOR : RED_COLOR);
+        changeBackgroundColor(easyButton, difficulty == 1 ? GREEN_COLOR : RED_COLOR);
+        changeBackgroundColor(mediumButton, difficulty == 2 ? GREEN_COLOR : RED_COLOR);
+        changeBackgroundColor(hardButton, difficulty == 3 ? GREEN_COLOR : RED_COLOR);
     }
 
     //onclick Method
     public void goToHome(View view) {
-        playSound(this,R.raw.click_ui);
-        changeActivity(this, HomeActivity.class,true,false);
+        playSound(this, R.raw.click_ui);
+        changeActivity(this, HomeActivity.class, true, false);
     }
 
     // OnClick Method
     public void goBack(View view) {
-        playSound(this,R.raw.click_ui);
+        playSound(this, R.raw.click_ui);
         if (originActivity != null) {
             try {
                 // Launch the originating activity
@@ -136,6 +138,12 @@ public class SettingActivity extends AppCompatActivity {
         finish(); // Close the settings activity
     }
 
+    @Override
+    public void onBackPressed() {
+        vibrate(this, 50);
+        changeActivity(this, HomeActivity.class, true, false);
+    }
+
     private void initializeViews() {
         soundButton = findViewById(R.id.bSound);
         vibrationButton = findViewById(R.id.bVibration);
@@ -147,6 +155,7 @@ public class SettingActivity extends AppCompatActivity {
         homeImageView = findViewById(R.id.ivHomeIcon);
         backImageView = findViewById(R.id.ivBackIcon);
     }
+
     private void animateViewsPulse() {
         animateViewPulse(this, soundButton);
         animateViewPulse(this, vibrationButton);

@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">Play Box</string>
+    <string name="title_name">PlayBox</string>
     <string name="creator">by FAHAD</string>
     <string name="buttonStateOn">%1$s On</string>
     <string name="buttonStateOff">%1$s Off</string>
-    <string name="imageDescription">empty</string>
-    <string name="playGame">PLAY GAME</string>
+    <string name="imageDescription">ImageView</string>
     <string name="settings">SETTINGS</string>
     <string name="pvp">Player Vs Player</string>
     <string name="pvAI">Player   Vs   AI</string>

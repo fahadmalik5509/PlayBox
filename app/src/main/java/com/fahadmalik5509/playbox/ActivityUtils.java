@@ -18,7 +18,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.widget.Button;
 import android.content.SharedPreferences;
 
 public class ActivityUtils {
@@ -32,6 +31,7 @@ public class ActivityUtils {
     public static final String VIBRATION_KEY = "vibrationEnabled";
     public static final String DIFFICULTY_KEY = "difficultyLevel";
     public static final String WORDLE_STREAK = "streakNumber";
+    public static final String WORDLE_HIGHEST_STREAK = "streakHighestNumber";
     public static boolean isVsAi = false;
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
@@ -50,7 +50,7 @@ public class ActivityUtils {
                 .build();
 
         // Preload sounds (You can load more sounds as needed)
-        soundMap.put(R.raw.click_btn, soundPool.load(context, R.raw.click_btn, 1));
+        soundMap.put(R.raw.click_board, soundPool.load(context, R.raw.click_board, 1));
         soundMap.put(R.raw.click_ui, soundPool.load(context, R.raw.click_ui, 1));
         soundMap.put(R.raw.click_error, soundPool.load(context, R.raw.click_error, 1));
         soundMap.put(R.raw.draw, soundPool.load(context, R.raw.draw, 1));
@@ -94,6 +94,23 @@ public class ActivityUtils {
         }
     }
 
+    public static void animateViewScale(View view, float startScale, float endScale,int Duration) {
+        if (view != null) {
+            ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", startScale, endScale);
+            ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", startScale, endScale);
+
+            scaleX.setDuration(Duration);
+            scaleY.setDuration(Duration);
+
+            scaleX.setInterpolator(new LinearInterpolator());
+            scaleY.setInterpolator(new LinearInterpolator());
+
+            scaleX.start();
+            scaleY.start();
+
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     public static void animateViewPulse(Context context, View view) {
         view.setOnTouchListener((v, event) -> {
@@ -111,23 +128,6 @@ public class ActivityUtils {
             }
             return false;
         });
-    }
-
-    public static void animateViewScale(View view, float startScale, float endScale,int Duration) {
-        if (view != null) {
-            ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", startScale, endScale);
-            ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", startScale, endScale);
-
-            scaleX.setDuration(Duration);
-            scaleY.setDuration(Duration);
-
-            scaleX.setInterpolator(new LinearInterpolator());
-            scaleY.setInterpolator(new LinearInterpolator());
-
-            scaleX.start();
-            scaleY.start();
-
-        }
     }
 
     public static void animateViewBounce(View view) {
@@ -157,14 +157,14 @@ public class ActivityUtils {
         if (shouldFinish) fromActivity.finish();
     }
 
-    public static void changeButtonColor(Button button, int color) {
-        if (button == null) return;
+    public static void changeBackgroundColor(View view, int color) {
+        if (view == null) return;
 
-        Drawable background = button.getBackground();
+        Drawable background = view.getBackground();
         if (background instanceof GradientDrawable) {
             ((GradientDrawable) background).setColor(color);
         } else {
-            button.setBackgroundTintList(ColorStateList.valueOf(color));
+            view.setBackgroundTintList(ColorStateList.valueOf(color));
         }
     }
 }

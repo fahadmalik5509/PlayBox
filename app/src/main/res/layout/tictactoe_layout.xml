@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/game_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1a1a1a"
+    android:background="@color/gray"
     tools:context=".TicTacToeActivity">
 
     <GridLayout
@@ -109,19 +108,34 @@
         style="@style/SettingImageView"
         android:onClick="goToSetting" />
 
+    <TextView
+        android:id="@+id/tvEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="Turn X"
+        android:textSize="50sp"
+        android:textColor="@color/beige"
+        android:textAppearance="@style/custom_font"/>
+
+    <RelativeLayout
+        android:id="@+id/rlShadow"
+        style="@style/ShadowLayout"/>
+
     <!--    GameDraw ImageView-->
     <ImageView
         android:contentDescription="@string/imageDescription"
-        android:id="@+id/drawImg"
+        android:id="@+id/ivDraw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginHorizontal="50dp"
         android:visibility="gone"
-        app:srcCompat="@drawable/draw"/>
+        android:src="@drawable/draw"/>
 
     <TextView
-        android:id="@+id/replay"
+        android:id="@+id/tvReplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -133,15 +147,39 @@
         android:textAppearance="@style/custom_font"
         android:onClick="resetGame"/>
 
-    <TextView
-        android:id="@+id/event"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:text="Turn X"
-        android:textSize="50sp"
-        android:textColor="@color/beige"
-        android:textAppearance="@style/custom_font"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp" >
+
+        <ImageView
+            android:id="@+id/ivDifficulty"
+            android:background="@drawable/difficulty_border"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/difficulty"
+            android:gravity="center"
+            android:paddingHorizontal="2dp"
+            android:onClick="difficultyClicked" />
+
+        <TextView
+            android:id="@+id/tvDifficultyTooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivDifficulty"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/popup_background"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textAppearance="@style/custom_font"
+            android:textColor="@color/beige"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
 </RelativeLayout>

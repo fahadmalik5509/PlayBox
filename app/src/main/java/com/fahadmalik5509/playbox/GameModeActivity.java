@@ -38,19 +38,15 @@ public class GameModeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         vibrate(this,50);
-        changeActivity(this,HomeActivity.class,true,false);
+        changeActivity(this, HomeActivity.class,true,false);
     }
 
-    //onclick Method
-    public void goToSetting(View view)  {
-        playSound(this,R.raw.click_ui);
-        launchSettings(this);
-    }
-
-    public void launchSettings(Activity fromActivity) {
-        Intent intent = new Intent(fromActivity, SettingActivity.class);
-        intent.putExtra("origin_activity", fromActivity.getClass().getSimpleName());
-        fromActivity.startActivity(intent);
+    // OnClick Method
+    public void goToSetting(View view) {
+        playSound(this, R.raw.click_ui);
+        Intent intent = new Intent(this, SettingActivity.class);
+        intent.putExtra("origin_activity", this.getClass().getSimpleName());
+        this.startActivity(intent);
     }
 
     //onclick Method

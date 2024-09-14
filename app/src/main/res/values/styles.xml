@@ -12,7 +12,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:layout_marginStart">5dp</item>
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/keyboard</item>
+        <item name="android:textColor">@color/black</item>
         <item name="android:textAppearance">@style/custom_font</item>
         <item name="android:gravity">center</item>
         <item name="android:clickable">true</item>
@@ -30,7 +30,7 @@
     </style>
 
     <style name="BackImageView">
-        <item name="android:background">@drawable/backicon</item>
+        <item name="android:src">@drawable/backicon</item>
         <item name="android:layout_width">30dp</item>
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_marginTop">15dp</item>
@@ -38,7 +38,7 @@
     </style>
 
     <style name="HomeImageView">
-        <item name="android:background">@drawable/homeicon</item>
+        <item name="android:src">@drawable/homeicon</item>
         <item name="android:layout_width">30dp</item>
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_marginTop">15dp</item>
@@ -46,7 +46,7 @@
     </style>
 
     <style name="SettingImageView">
-        <item name="android:background">@drawable/settingsicon</item>
+        <item name="android:src">@drawable/settingsicon</item>
         <item name="android:layout_width">30dp</item>
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_marginTop">15dp</item>
@@ -83,6 +83,14 @@
         <item name="android:textSize">50sp</item>
         <item name="android:textColor">@color/beige</item>
         <item name="android:textAppearance">@style/custom_font</item>
+    </style>
+
+    <style name="ShadowLayout">
+        <item name="android:background">@color/black</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:alpha">0.5</item>
+        <item name="android:visibility">gone</item>
     </style>
 
 </resources>

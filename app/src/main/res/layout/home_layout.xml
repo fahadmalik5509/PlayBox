@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1a1a1a" >
+    android:background="@color/gray" >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:text="PLAYBOX"
+        android:text="@string/title_name"
         android:textSize="55sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/custom_font"
@@ -51,9 +51,13 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="140dp"
         android:layout_marginEnd="30dp"
-        android:text="by FAHAD"
+        android:text="@string/creator"
         android:textSize="20sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/custom_font" />
+
+    <RelativeLayout
+        android:id="@+id/rlShadow"
+        style="@style/ShadowLayout"/>
 
 </RelativeLayout>

@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1a1a1a">
+    android:background="@color/gray">
 
     <!-- LetterBox Layout -->
     <GridLayout
@@ -434,26 +434,49 @@
 
     <ImageView
         android:id="@+id/resetImg"
+        android:src="@drawable/replay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/replay"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:onClick="resetGame"
         android:layout_margin="70dp"
-        android:visibility="gone"  />
+        android:onClick="resetGame"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/streak"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+    <RelativeLayout
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
-        android:layout_alignRight="@id/ivSettingIcon"
-        android:layout_marginRight="50dp"
-        android:background="@drawable/circle_border"
-        android:gravity="center"
-        android:textAppearance="@style/custom_font"
-        android:textColor="#1a1a1a"
-        android:textSize="12sp" />
+        android:layout_marginEnd="30dp" >
+
+        <TextView
+            android:id="@+id/tvStreak"
+            android:background="@drawable/circle_border"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="12sp"
+            android:textColor="@color/gray"
+            android:textAppearance="@style/custom_font"
+            android:gravity="center"
+            android:onClick="streakClicked" />
+
+        <TextView
+            android:id="@+id/tvStreakTooltip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvStreak"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/popup_background"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textAppearance="@style/custom_font"
+            android:textColor="@color/beige"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

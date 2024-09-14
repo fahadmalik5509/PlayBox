@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Confirm exit?"
-        android:textSize="25sp"
+        android:textSize="30sp"
         android:textAppearance="@style/custom_font"
         android:textColor="@color/beige" />
 
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="45dp"
         android:orientation="horizontal" >
 
             <Button
@@ -45,6 +45,5 @@
                 android:onClick="yesPressed" />
 
     </LinearLayout>
-
 
 </RelativeLayout>
