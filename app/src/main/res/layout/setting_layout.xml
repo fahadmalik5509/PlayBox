@@ -23,42 +23,6 @@
             style="@style/NavigationButton"
             android:onClick="handleVibrationButtonClick" />
 
-        <Button
-            android:id="@+id/bDifficulty"
-            android:text="@string/difficulty"
-            style="@style/NavigationButton"
-            android:onClick="handleDifficultyButtonClick" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/difficultyLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        android:orientation="vertical"
-        android:background="@color/gray"
-        android:visibility="gone">
-
-        <Button
-            android:id="@+id/easyDifficulty"
-            android:text="@string/easy"
-            style="@style/DifficultyButton"
-            android:onClick="handleEasyButtonClick" />
-
-        <Button
-            android:id="@+id/mediumDifficulty"
-            android:text="@string/medium"
-            style="@style/DifficultyButton"
-            android:onClick="handleMediumButtonClick" />
-
-        <Button
-            android:id="@+id/hardDifficulty"
-            android:text="@string/hard"
-            style="@style/DifficultyButton"
-            android:onClick="handleHardButtonClick" />
-
     </LinearLayout>
 
     <!-- Back ImageView -->

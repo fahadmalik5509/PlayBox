@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="@drawable/popup_background">
+    android:background="@drawable/exit_popup_background">
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,7 +23,7 @@
 
             <Button
                 android:id="@+id/no"
-                android:background="@drawable/popup_greenbtn"
+                android:background="@drawable/exitno"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:text="NO"

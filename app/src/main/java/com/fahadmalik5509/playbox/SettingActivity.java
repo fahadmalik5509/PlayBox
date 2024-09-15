@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,10 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SettingActivity extends AppCompatActivity {
 
-    private Button soundButton, vibrationButton, difficultyButton, easyButton, mediumButton, hardButton;
+    private Button soundButton, vibrationButton;
     private boolean isSoundEnabled, isVibrationEnabled;
-    private SharedPreferences sharedPreferences;
-    private LinearLayout difficultyLayout;
     private ImageView homeImageView, backImageView;
     private String originActivity;
 
@@ -30,15 +30,12 @@ public class SettingActivity extends AppCompatActivity {
         originActivity = getIntent().getStringExtra("origin_activity");
 
         initializeViews();
-        loadPreferences();
-        updateButtonStates();
+        loadPreferences(this);
         animateViewsPulse();
-    }
 
-    private void loadPreferences() {
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
         isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
+        updateButtonStates();
     }
 
     private void updateButtonStates() {
@@ -46,7 +43,6 @@ public class SettingActivity extends AppCompatActivity {
         changeBackgroundColor(vibrationButton, isVibrationEnabled ? GREEN_COLOR : RED_COLOR);
         updateButtonState(soundButton, isSoundEnabled, "Sounds ");
         updateButtonState(vibrationButton, isVibrationEnabled, "Vibration ");
-        updateDifficultyButtonColor();
     }
 
     //onclick Method
@@ -76,44 +72,9 @@ public class SettingActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    //onclick Method
-    public void handleDifficultyButtonClick(View view) {
-        playSound(this, R.raw.click_ui);
-        difficultyLayout.setVisibility(View.VISIBLE);
-    }
-
-    //onclick Method
-    public void handleEasyButtonClick(View view) {
-        updateDifficulty(1);
-    }
-
-    //onclick Method
-    public void handleMediumButtonClick(View view) { updateDifficulty(2); }
-
-    //onclick Method
-    public void handleHardButtonClick(View view) {
-        updateDifficulty(3);
-    }
-
-    public void updateDifficulty(int difficulty) {
-        playSound(this, R.raw.click_ui);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(DIFFICULTY_KEY, difficulty);
-        editor.apply();
-        updateDifficultyButtonColor();
-        new Handler().postDelayed(() -> difficultyLayout.setVisibility(View.GONE), ACTIVITY_TRANSITION_DELAY_MS + 100);
-    }
-
     private void updateButtonState(Button button, boolean isEnabled, String text) {
         String buttonText = getString(isEnabled ? R.string.buttonStateOn : R.string.buttonStateOff, text);
         button.setText(buttonText);
-    }
-
-    private void updateDifficultyButtonColor() {
-        int difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
-        changeBackgroundColor(easyButton, difficulty == 1 ? GREEN_COLOR : RED_COLOR);
-        changeBackgroundColor(mediumButton, difficulty == 2 ? GREEN_COLOR : RED_COLOR);
-        changeBackgroundColor(hardButton, difficulty == 3 ? GREEN_COLOR : RED_COLOR);
     }
 
     //onclick Method
@@ -147,11 +108,6 @@ public class SettingActivity extends AppCompatActivity {
     private void initializeViews() {
         soundButton = findViewById(R.id.bSound);
         vibrationButton = findViewById(R.id.bVibration);
-        difficultyButton = findViewById(R.id.bDifficulty);
-        easyButton = findViewById(R.id.easyDifficulty);
-        mediumButton = findViewById(R.id.mediumDifficulty);
-        hardButton = findViewById(R.id.hardDifficulty);
-        difficultyLayout = findViewById(R.id.difficultyLayout);
         homeImageView = findViewById(R.id.ivHomeIcon);
         backImageView = findViewById(R.id.ivBackIcon);
     }
@@ -159,10 +115,6 @@ public class SettingActivity extends AppCompatActivity {
     private void animateViewsPulse() {
         animateViewPulse(this, soundButton);
         animateViewPulse(this, vibrationButton);
-        animateViewPulse(this, difficultyButton);
-        animateViewPulse(this, easyButton);
-        animateViewPulse(this, mediumButton);
-        animateViewPulse(this, hardButton);
         animateViewPulse(this, homeImageView);
         animateViewPulse(this, backImageView);
     }

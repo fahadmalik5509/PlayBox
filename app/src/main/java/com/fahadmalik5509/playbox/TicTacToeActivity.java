@@ -5,6 +5,8 @@ import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.transition.Explode;
+import android.transition.Fade;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -12,6 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.airbnb.lottie.LottieAnimationView;
+
 import java.util.Random;
 
 public class TicTacToeActivity extends AppCompatActivity {
@@ -23,8 +28,8 @@ public class TicTacToeActivity extends AppCompatActivity {
     private int difficulty;
     private final Button[] buttons = new Button[9];
     private boolean isX = true;
-    private RelativeLayout shadowRelativeLayout;
-    private SharedPreferences sharedPreferences;
+    private RelativeLayout shadowRelativeLayout, difficultyRelativeLayout;
+    LottieAnimationView fireworkAnimationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,15 +38,13 @@ public class TicTacToeActivity extends AppCompatActivity {
 
 
         initializeViews();
-        loadPreferences();
+        loadPreferences(this);
+        difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
         gameStatusTextView.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));
+        if(isVsAi) difficultyRelativeLayout.setVisibility(View.VISIBLE);
         animateViewsPulse();
         updateDifficultyColor();
-    }
 
-    private void loadPreferences() {
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-        difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
     }
 
     // OnClick Method
@@ -136,6 +139,8 @@ public class TicTacToeActivity extends AppCompatActivity {
         if (board[a] == board[b] && board[b] == board[c]) {
             gameWon = true;
             playSound(this, R.raw.win);
+            fireworkAnimationView.setVisibility(View.VISIBLE);
+            fireworkAnimationView.playAnimation();
             animateWinningButtons(a, b, c);
         }
     }
@@ -167,6 +172,8 @@ public class TicTacToeActivity extends AppCompatActivity {
         gameStatusTextView.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));
         drawImageView.setVisibility(View.GONE);
         shadowRelativeLayout.setVisibility(View.GONE);
+        fireworkAnimationView.cancelAnimation();
+        fireworkAnimationView.setVisibility(View.GONE);
 
         resetBoard();
         resetButtons();
@@ -350,6 +357,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(DIFFICULTY_KEY, difficulty);
         editor.apply();
+
         difficultyTooltipTextView.setText("AI Difficulty\n(" + getDifficultyText() + ")");
         difficultyTooltipTextView.setVisibility(View.VISIBLE);
         difficultyTooltipTextView.postDelayed(() -> difficultyTooltipTextView.setVisibility(View.GONE), 2000);
@@ -399,6 +407,8 @@ public class TicTacToeActivity extends AppCompatActivity {
         replayTextView = findViewById(R.id.tvReplay);
         difficultyTooltipTextView = findViewById(R.id.tvDifficultyTooltip);
         shadowRelativeLayout = findViewById(R.id.rlShadow);
+        difficultyRelativeLayout = findViewById(R.id.rlDifficulty);
+        fireworkAnimationView = findViewById(R.id.lavFireworks);
     }
 
     private void animateViewsPulse() {
@@ -412,4 +422,3 @@ public class TicTacToeActivity extends AppCompatActivity {
         animateViewPulse(this, difficultyImageView);
     }
 }
-

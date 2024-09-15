@@ -17,6 +17,7 @@
             android:id="@+id/bTicTacToe"
             android:text="TIC TAC TOE"
             style="@style/NavigationButton"
+            android:paddingEnd="20dp"
             android:onClick="handleTicTacToeButtonClick" />
 
         <Button

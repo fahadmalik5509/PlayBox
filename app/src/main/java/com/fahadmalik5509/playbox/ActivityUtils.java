@@ -1,5 +1,7 @@
 package com.fahadmalik5509.playbox;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -25,6 +27,9 @@ public class ActivityUtils {
     public static final int GREEN_COLOR = Color.parseColor("#11e889");
     public static final int YELLOW_COLOR = Color.parseColor("#ffc107");
     public static final int RED_COLOR = Color.parseColor("#7c2e2e");
+    public static final int BACKGROUND_COLOR = Color.parseColor("#1a1a1a");
+    public static final int BEIGE_COLOR = Color.parseColor("#F5F5DC");
+    public static final int GRAY_COLOR = Color.parseColor("#2a2a2a");
     static final int ACTIVITY_TRANSITION_DELAY_MS = 50;
     public static final String PREFS_NAME = "MyAppSettings";
     public static final String SOUND_KEY = "soundEnabled";
@@ -36,6 +41,7 @@ public class ActivityUtils {
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
     private static final SparseIntArray soundMap = new SparseIntArray();
+    public static SharedPreferences sharedPreferences;
 
     private ActivityUtils() { throw new UnsupportedOperationException("Cannot instantiate utility class."); }
 
@@ -63,7 +69,7 @@ public class ActivityUtils {
     public static void playSound(Context context, int soundResId) {
         if (context == null || soundPool == null) return;
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        loadPreferences(context);
         boolean isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
 
         if (!isSoundEnabled) return;
@@ -74,9 +80,13 @@ public class ActivityUtils {
         }
     }
 
+    public static void loadPreferences(Context context) {
+        sharedPreferences = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+    }
+
     public static void vibrate(Context context, long milliseconds) {
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         boolean isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
 
         if (!isVibrationEnabled) return;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/game_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -148,15 +148,17 @@
         android:onClick="resetGame"/>
 
     <RelativeLayout
+        android:id="@+id/rlDifficulty"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="30dp" >
+        android:layout_marginEnd="30dp"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/ivDifficulty"
-            android:background="@drawable/difficulty_border"
+            android:background="@drawable/circle_background"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
@@ -172,14 +174,22 @@
             android:layout_below="@+id/ivDifficulty"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:background="@drawable/popup_background"
+            android:background="@drawable/exit_popup_background"
             android:gravity="center"
             android:padding="10dp"
             android:textAppearance="@style/custom_font"
             android:textColor="@color/beige"
             android:textSize="10sp"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
     </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavFireworks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:lottie_rawRes="@raw/fireworks"
+        app:lottie_loop="true"/>
 
 </RelativeLayout>

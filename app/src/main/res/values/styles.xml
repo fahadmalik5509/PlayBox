@@ -6,7 +6,7 @@
     </style>
 
     <style name="KeyboardTextView">
-        <item name="android:background">@drawable/keyboard_border</item>
+        <item name="android:background">@drawable/keyboard_keys_background</item>
         <item name="android:layout_width">30dp</item>
         <item name="android:layout_height">45dp</item>
         <item name="android:layout_weight">1</item>
@@ -20,7 +20,7 @@
     </style>
 
     <style name="letterBoxTextView">
-        <item name="android:background">@drawable/default_letterbox</item>
+        <item name="android:background">@drawable/wordle_letterbox_background</item>
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">50dp</item>
         <item name="android:textSize">25sp</item>
@@ -62,17 +62,6 @@
         <item name="android:textSize">25sp</item>
         <item name="android:textColor">@color/beige</item>
         <item name="android:textAppearance">@style/custom_font</item>
-    </style>
-
-    <style name="DifficultyButton">
-        <item name="android:background">@drawable/rounded_button</item>
-        <item name="android:layout_width">150dp</item>
-        <item name="android:layout_height">60dp</item>
-        <item name="android:layout_margin">5dp</item>
-        <item name="android:textSize">25sp</item>
-        <item name="android:textColor">@color/beige</item>
-        <item name="android:textAppearance">@style/custom_font</item>
-        <item name="android:layout_gravity">center</item>
     </style>
 
     <style name="BoardButton">

@@ -6,11 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.airbnb.lottie.LottieAnimationView;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,7 +41,7 @@ public class WordleActivity extends AppCompatActivity {
     private boolean gameWon = false;
     private boolean gameLost = false;
     private int currentStreak, highestStreak;
-    SharedPreferences sharedPreferences;
+    LottieAnimationView flameLottieAnimationView;
 
     private int revealGuessWord = 0;
 
@@ -45,49 +50,42 @@ public class WordleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wordle_layout);
 
-        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
-
         initializeViews();
         animateViewsPulse();
+        loadPreferences(this);
         loadCommonWords();
         loadDictionary();
         loadARandomCommonWord();
 
-        for (int i = 0; i < COLS; i++) {
-            setBackgroundDrawable(letterbox[currentRow][i], R.drawable.defaultselected_letterbox);
-        }
-
         currentStreakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
-        streakTooltipTextView.setText("Streak\nCurrent: " + sharedPreferences.getInt(WORDLE_STREAK, 0) + "\nBest: " + sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0));
-    }
 
-    // OnClick Method
-    public void streakClicked(View view) {
-        playSound(this, R.raw.click_ui);
-        streakTooltipTextView.setVisibility(View.VISIBLE);
-        streakTooltipTextView.postDelayed(() -> streakTooltipTextView.setVisibility(View.GONE), 2000);
+        if((sharedPreferences.getInt(WORDLE_STREAK, 0)>=5)) {
+            flameLottieAnimationView.setVisibility(View.VISIBLE);
+            animateViewScale(flameLottieAnimationView, 0.0f, 1.0f, 2000);
+            flameLottieAnimationView.playAnimation();
+        }
     }
 
     // OnClick Method
     public void keyboardClicked(View view) {
 
-        if(gameWon || gameLost) return;
+        if (gameWon || gameLost) return;
         String pressedKey = (String) view.getTag();
 
         if (pressedKey.equals("enter")) enterClicked();
         else if (pressedKey.equals("backspace")) backspaceClicked();
         else alphabetClicked(pressedKey);
+
     }
 
     private void alphabetClicked(String alphabet) {
-
-        playSound(this,R.raw.key);
 
         if(currentColumn == COLS) { 
             jiggleRow();
             return; 
         }
 
+        playSound(this,R.raw.key);
         animateViewBounce(letterbox[currentRow][currentColumn]);
         letterbox[currentRow][currentColumn].setText(alphabet);
         userGuess.insert(currentColumn,alphabet);
@@ -95,7 +93,7 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     private void enterClicked() {
-        playSound(this,R.raw.enter);
+
         revealGuessWord++;
         if(revealGuessWord >= 15) {
             Toast.makeText(this, targetWord, Toast.LENGTH_SHORT).show();
@@ -107,6 +105,7 @@ public class WordleActivity extends AppCompatActivity {
             return;
         }
 
+        playSound(this,R.raw.enter);
         boolean[] letterMatched = new boolean[COLS];
         int[] targetLetterCount = initializeTargetLetterCount();
 
@@ -130,10 +129,10 @@ public class WordleActivity extends AppCompatActivity {
         for (int i = 0; i < COLS; i++) {
             char guessChar = userGuess.charAt(i);
             if (targetWord.charAt(i) == guessChar) {
-                setBackgroundDrawable(letterbox[currentRow][i], R.drawable.green_letterbox);
+                changeBackgroundColor(letterbox[currentRow][i], GREEN_COLOR);
                 letterMatched[i] = true;
                 targetLetterCount[guessChar - 'A']--;
-                updateKeyboardColor(guessChar, R.drawable.green_letterbox);
+                updateKeyboardColor(guessChar, GREEN_COLOR);
             }
         }
     }
@@ -144,12 +143,12 @@ public class WordleActivity extends AppCompatActivity {
 
             char guessChar = userGuess.charAt(i);
             if (targetLetterCount[guessChar - 'A'] > 0) {
-                setBackgroundDrawable(letterbox[currentRow][i], R.drawable.yellow_letterbox);
+                changeBackgroundColor(letterbox[currentRow][i], YELLOW_COLOR);
                 targetLetterCount[guessChar - 'A']--;
-                updateKeyboardColor(guessChar, R.drawable.yellow_letterbox);
+                updateKeyboardColor(guessChar, YELLOW_COLOR);
             } else {
-                setBackgroundDrawable(letterbox[currentRow][i], R.drawable.gray_letterbox);
-                updateKeyboardColor(guessChar, R.drawable.gray_letterbox);
+                changeBackgroundColor(letterbox[currentRow][i], GRAY_COLOR);
+                updateKeyboardColor(guessChar, GRAY_COLOR);
             }
         }
     }
@@ -170,17 +169,20 @@ public class WordleActivity extends AppCompatActivity {
             editor.putInt(WORDLE_STREAK, ++currentStreak);
             if(currentStreak>sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0)) editor.putInt(WORDLE_HIGHEST_STREAK,currentStreak);
             editor.apply();
-            streakTooltipTextView.setText("Streak\nCurrent: " + sharedPreferences.getInt(WORDLE_STREAK, 0) + "\nBest: " + sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0));
             currentStreakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
             gameWon = true;
             playSound(this, R.raw.win);
             replayImageView.setVisibility(View.VISIBLE);
-        } else {
-            currentRow++;
-            for(int i = 0; i < COLS; i++) {
-                if (currentRow < ROWS)
-                    setBackgroundDrawable(letterbox[currentRow][i],R.drawable.defaultselected_letterbox);
+
+            if(currentStreak>=5) {
+                flameLottieAnimationView.setVisibility(View.VISIBLE);
+                animateViewScale(flameLottieAnimationView, 0.0f, 1.0f, 2000);
+                flameLottieAnimationView.playAnimation();
             }
+        }
+
+        else {
+            currentRow++;
             currentColumn = 0;
             userGuess.setLength(0);
         }
@@ -189,27 +191,36 @@ public class WordleActivity extends AppCompatActivity {
             gameLost = true;
             playSound(this, R.raw.draw);
 
+            currentStreak = 0;
+
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt(WORDLE_STREAK, 0);
+            editor.putInt(WORDLE_STREAK, currentStreak);
             editor.apply();
 
             currentStreakTextView.setText("0");
             Toast.makeText(this, "The word was: " + targetWord, Toast.LENGTH_LONG).show();
             replayImageView.setVisibility(View.VISIBLE);
+            flameLottieAnimationView.cancelAnimation();
+            animateViewScale(flameLottieAnimationView, 1.0f, 0.0f, 1);
+            flameLottieAnimationView.setVisibility(View.GONE);
         }
     }
 
-    private void updateKeyboardColor(char letter, int newDrawableResId) {
+    private void updateKeyboardColor(char letter, int newDrawableResId)
+    {
         int index = letter - 'A';
 
-        if (newDrawableResId == R.drawable.green_letterbox) {
-            setBackgroundDrawable(keyboard[index], R.drawable.green_letterbox);
-        } else if (newDrawableResId == R.drawable.yellow_letterbox &&
-                !isKeyboardKeyGreen(index)) {
-            setBackgroundDrawable(keyboard[index], R.drawable.yellow_letterbox);
-        } else if (newDrawableResId ==R.drawable.gray_letterbox &&
-                !isKeyboardKeyGreen(index) && !isKeyboardKeyYellow(index)) {
-            setBackgroundDrawable(keyboard[index], R.drawable.gray_letterbox);
+        if (newDrawableResId == GREEN_COLOR)
+        {
+            changeBackgroundColor(keyboard[index], GREEN_COLOR);
+        }
+        else if (newDrawableResId == YELLOW_COLOR && !isKeyboardKeyGreen(index))
+        {
+            changeBackgroundColor(keyboard[index], YELLOW_COLOR);
+        }
+        else if (newDrawableResId == GRAY_COLOR && !isKeyboardKeyGreen(index) && !isKeyboardKeyYellow(index))
+        {
+            changeBackgroundColor(keyboard[index], GRAY_COLOR);
         }
     }
 
@@ -240,16 +251,12 @@ public class WordleActivity extends AppCompatActivity {
         for(int row = 0; row < ROWS; row++) {
             for(int column = 0; column < 5; column++) {
                 letterbox[row][column].setText("");
-                setBackgroundDrawable(letterbox[row][column],R.drawable.default_letterbox);
+                changeBackgroundColor(letterbox[row][column],RED_COLOR);
             }
         }
 
         for(int i = 0; i < 26; i++) {
-            setBackgroundDrawable(keyboard[i],R.drawable.keyboard_border);
-        }
-
-        for(int i = 0; i < COLS; i++) {
-            setBackgroundDrawable(letterbox[currentRow][i],R.drawable.defaultselected_letterbox);
+            changeBackgroundColor(keyboard[i],BEIGE_COLOR);
         }
     }
 
@@ -261,13 +268,30 @@ public class WordleActivity extends AppCompatActivity {
         return dictionary.contains(guess.toUpperCase());
     }
 
-    private void jiggleRow() { for (int i = 0; i < COLS; i++) animateViewJiggle(letterbox[currentRow][i]); }
+    // OnClick Method
+    public void streakClicked(View view) {
+        playSound(this, R.raw.click_ui);
+        streakTooltipTextView.setText("Streak\n(Current: " + sharedPreferences.getInt(WORDLE_STREAK, 0) + ")"+ "\n(Best: " + sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0) + ")");
+        streakTooltipTextView.setVisibility(View.VISIBLE);
+        streakTooltipTextView.postDelayed(() -> streakTooltipTextView.setVisibility(View.GONE), 2000);
+    }
 
-    private void setBackgroundDrawable(TextView textView, int drawableResId) { textView.setBackgroundResource(drawableResId); }
+    private void jiggleRow() {
+        playSound(this,R.raw.click_error);
+        for (int i = 0; i < COLS; i++)
+            animateViewJiggle(letterbox[currentRow][i]);
+    }
 
-    private boolean isKeyboardKeyGreen(int index) { return keyboard[index].getBackground().getConstantState().equals(getDrawable(R.drawable.green_letterbox).getConstantState()); }
+    private boolean isKeyboardKeyGreen(int index) {
+        Drawable background = keyboard[index].getBackground();
+        return background instanceof ColorDrawable && ((ColorDrawable) background).getColor() == GREEN_COLOR;
+    }
 
-    private boolean isKeyboardKeyYellow(int index) { return keyboard[index].getBackground().getConstantState().equals(getDrawable(R.drawable.yellow_letterbox).getConstantState()); }
+    private boolean isKeyboardKeyYellow(int index) {
+        Drawable background = keyboard[index].getBackground();
+        return background instanceof ColorDrawable && ((ColorDrawable) background).getColor() == YELLOW_COLOR;
+    }
+
 
     public void loadARandomCommonWord() {
 
@@ -385,6 +409,7 @@ public class WordleActivity extends AppCompatActivity {
         settingImageView = findViewById(R.id.ivSettingIcon);
         currentStreakTextView = findViewById(R.id.tvStreak);
         streakTooltipTextView = findViewById(R.id.tvStreakTooltip);
+        flameLottieAnimationView = findViewById(R.id.lavFlame);
     }
 
     private void animateViewsPulse() {

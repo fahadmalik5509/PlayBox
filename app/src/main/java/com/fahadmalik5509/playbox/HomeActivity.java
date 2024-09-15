@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.Explode;
+import android.transition.Fade;
+import android.transition.Slide;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,7 @@ public class HomeActivity extends AppCompatActivity {
         initializeSoundPool(this);
         initializeViews();
         animateViewsPulse();
+
     }
 
     public void handleTicTacToeButtonClick(View view) { navigateToActivity(GameModeActivity.class); }
