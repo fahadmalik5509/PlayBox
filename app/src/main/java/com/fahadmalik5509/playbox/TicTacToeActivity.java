@@ -37,8 +37,8 @@ public class TicTacToeActivity extends AppCompatActivity {
         setContentView(R.layout.tictactoe_layout);
 
 
-        initializeViews();
         loadPreferences(this);
+        initializeViews();
         difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
         gameStatusTextView.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));
         if(isVsAi) difficultyRelativeLayout.setVisibility(View.VISIBLE);
@@ -354,9 +354,8 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         difficulty++;
         if(difficulty>3) difficulty = 1;
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(DIFFICULTY_KEY, difficulty);
-        editor.apply();
+
+        saveToSharedPreferences(DIFFICULTY_KEY,difficulty);
 
         difficultyTooltipTextView.setText("AI Difficulty\n(" + getDifficultyText() + ")");
         difficultyTooltipTextView.setVisibility(View.VISIBLE);

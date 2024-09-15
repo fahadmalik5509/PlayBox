@@ -84,9 +84,27 @@ public class ActivityUtils {
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
     }
 
+    public static void saveToSharedPreferences(String key, Object value) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (value instanceof Integer) {
+            editor.putInt(key, (Integer) value);
+        } else if (value instanceof Boolean) {
+            editor.putBoolean(key, (Boolean) value);
+        } else if (value instanceof String) {
+            editor.putString(key, (String) value);
+        } else if (value instanceof Float) {
+            editor.putFloat(key, (Float) value);
+        } else if (value instanceof Long) {
+            editor.putLong(key, (Long) value);
+        }
+
+        editor.apply();
+    }
+
     public static void vibrate(Context context, long milliseconds) {
 
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        loadPreferences(context);
         boolean isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
 
         if (!isVibrationEnabled) return;
@@ -103,6 +121,7 @@ public class ActivityUtils {
             }
         }
     }
+
 
     public static void animateViewScale(View view, float startScale, float endScale,int Duration) {
         if (view != null) {

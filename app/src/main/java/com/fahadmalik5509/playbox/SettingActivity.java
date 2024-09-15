@@ -1,6 +1,7 @@
 package com.fahadmalik5509.playbox;
 
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
+import static com.fahadmalik5509.playbox.ActivityUtils.saveToSharedPreferences;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,8 +30,8 @@ public class SettingActivity extends AppCompatActivity {
 
         originActivity = getIntent().getStringExtra("origin_activity");
 
-        initializeViews();
         loadPreferences(this);
+        initializeViews();
         animateViewsPulse();
 
         isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
@@ -53,10 +54,7 @@ public class SettingActivity extends AppCompatActivity {
         changeBackgroundColor(soundButton, color);
         updateButtonState(soundButton, isSoundEnabled, "Sounds ");
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(SOUND_KEY, isSoundEnabled);
-        editor.apply();
-
+        saveToSharedPreferences(SOUND_KEY,isSoundEnabled);
     }
 
     //onclick Method
@@ -67,9 +65,7 @@ public class SettingActivity extends AppCompatActivity {
         changeBackgroundColor(vibrationButton, color);
         updateButtonState(vibrationButton, isVibrationEnabled, "Vibration ");
 
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(VIBRATION_KEY, isVibrationEnabled);
-        editor.apply();
+        saveToSharedPreferences(VIBRATION_KEY,isVibrationEnabled);
     }
 
     private void updateButtonState(Button button, boolean isEnabled, String text) {

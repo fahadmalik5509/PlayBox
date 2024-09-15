@@ -40,7 +40,7 @@ public class WordleActivity extends AppCompatActivity {
     private String targetWord;
     private boolean gameWon = false;
     private boolean gameLost = false;
-    private int currentStreak, highestStreak;
+    private int currentStreak;
     LottieAnimationView flameLottieAnimationView;
 
     private int revealGuessWord = 0;
@@ -57,9 +57,11 @@ public class WordleActivity extends AppCompatActivity {
         loadDictionary();
         loadARandomCommonWord();
 
-        currentStreakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
 
-        if((sharedPreferences.getInt(WORDLE_STREAK, 0)>=5)) {
+        currentStreak = sharedPreferences.getInt(WORDLE_STREAK,0);
+        currentStreakTextView.setText(String.valueOf(currentStreak));
+
+        if(currentStreak>=sharedPreferences.getInt(WORDLE_HIGHEST_STREAK,0) && currentStreak!=0) {
             flameLottieAnimationView.setVisibility(View.VISIBLE);
             animateViewScale(flameLottieAnimationView, 0.0f, 1.0f, 2000);
             flameLottieAnimationView.playAnimation();
@@ -165,16 +167,17 @@ public class WordleActivity extends AppCompatActivity {
                 animateViewScale(letterbox[currentRow][i], scaleDown, 1.0f, duration);
             }
 
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt(WORDLE_STREAK, ++currentStreak);
-            if(currentStreak>sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0)) editor.putInt(WORDLE_HIGHEST_STREAK,currentStreak);
-            editor.apply();
+            currentStreak++;
+            saveToSharedPreferences(WORDLE_STREAK,currentStreak);
+            if(currentStreak>sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0))
+                saveToSharedPreferences(WORDLE_HIGHEST_STREAK,currentStreak);
+
             currentStreakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
             gameWon = true;
             playSound(this, R.raw.win);
             replayImageView.setVisibility(View.VISIBLE);
 
-            if(currentStreak>=5) {
+            if(currentStreak>=sharedPreferences.getInt(WORDLE_HIGHEST_STREAK,0)) {
                 flameLottieAnimationView.setVisibility(View.VISIBLE);
                 animateViewScale(flameLottieAnimationView, 0.0f, 1.0f, 2000);
                 flameLottieAnimationView.playAnimation();
@@ -192,10 +195,7 @@ public class WordleActivity extends AppCompatActivity {
             playSound(this, R.raw.draw);
 
             currentStreak = 0;
-
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putInt(WORDLE_STREAK, currentStreak);
-            editor.apply();
+            saveToSharedPreferences(WORDLE_STREAK,currentStreak);
 
             currentStreakTextView.setText("0");
             Toast.makeText(this, "The word was: " + targetWord, Toast.LENGTH_LONG).show();
@@ -224,15 +224,15 @@ public class WordleActivity extends AppCompatActivity {
         }
     }
 
-    private void backspaceClicked() {
-
-        playSound(this,R.raw.backspace);
-
-        if(currentColumn == 0) {
+    private void backspaceClicked()
+    {
+        if(currentColumn == 0)
+        {
             jiggleRow();
             return;
         }
 
+        playSound(this,R.raw.backspace);
         currentColumn--;
         letterbox[currentRow][currentColumn].setText("");
         userGuess.deleteCharAt(currentColumn);

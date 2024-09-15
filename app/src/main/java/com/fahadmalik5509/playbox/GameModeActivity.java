@@ -29,7 +29,6 @@ public class GameModeActivity extends AppCompatActivity {
 
         initializeViews();
         animateViewsPulse();
-
     }
 
     //onclick Method
