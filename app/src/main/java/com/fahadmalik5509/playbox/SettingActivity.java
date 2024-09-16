@@ -4,15 +4,10 @@ import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import static com.fahadmalik5509.playbox.ActivityUtils.saveToSharedPreferences;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.transition.Explode;
-import android.transition.Fade;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,7 +25,7 @@ public class SettingActivity extends AppCompatActivity {
 
         originActivity = getIntent().getStringExtra("origin_activity");
 
-        loadPreferences(this);
+        loadPreference(this);
         initializeViews();
         animateViewsPulse();
 

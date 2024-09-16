@@ -69,18 +69,18 @@ public class ActivityUtils {
     public static void playSound(Context context, int soundResId) {
         if (context == null || soundPool == null) return;
 
-        loadPreferences(context);
+        loadPreference(context);
         boolean isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
 
         if (!isSoundEnabled) return;
 
-        int soundId = soundMap.get(soundResId, -1);
-        if (soundId != -1) {
-            soundPool.play(soundId, 1f, 1f, 1, 0, 1f);
+        int soundID = soundMap.get(soundResId, -1);
+        if (soundID != -1) {
+            soundPool.play(soundID, 1f, 1f, 1, 0, 1f);
         }
     }
 
-    public static void loadPreferences(Context context) {
+    public static void loadPreference(Context context) {
         sharedPreferences = context.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
     }
 
@@ -104,7 +104,7 @@ public class ActivityUtils {
 
     public static void vibrate(Context context, long milliseconds) {
 
-        loadPreferences(context);
+        loadPreference(context);
         boolean isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
 
         if (!isVibrationEnabled) return;
@@ -187,6 +187,7 @@ public class ActivityUtils {
     }
 
     public static void changeBackgroundColor(View view, int color) {
+
         if (view == null) return;
 
         Drawable background = view.getBackground();

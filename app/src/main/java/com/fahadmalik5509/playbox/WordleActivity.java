@@ -5,7 +5,7 @@ import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -26,13 +26,13 @@ import java.util.Random;
 
 public class WordleActivity extends AppCompatActivity {
 
-    private static final int ROWS = 6;
-    private static final int COLS = 5;
+    private final int ROWS = 6;
+    private final int COLS = 5;
 
     private TextView enterKey, backspaceKey, currentStreakTextView, streakTooltipTextView;
     private final TextView[] keyboard = new TextView[26];
     private ImageView replayImageView, homeImageView, settingImageView, backImageView;
-    private final TextView[][] letterbox = new TextView[ROWS][COLS];
+    private final TextView[][] letterTiles = new TextView[ROWS][COLS];
     private final List<String> commonWords = new ArrayList<>();
     private final List<String> dictionary = new ArrayList<>();
     private final StringBuilder userGuess = new StringBuilder();
@@ -52,20 +52,15 @@ public class WordleActivity extends AppCompatActivity {
 
         initializeViews();
         animateViewsPulse();
-        loadPreferences(this);
+        loadGameData();
+        updateStreak();
+    }
+
+    private void loadGameData() {
+        loadPreference(this);
         loadCommonWords();
         loadDictionary();
         loadARandomCommonWord();
-
-
-        currentStreak = sharedPreferences.getInt(WORDLE_STREAK,0);
-        currentStreakTextView.setText(String.valueOf(currentStreak));
-
-        if(currentStreak>=sharedPreferences.getInt(WORDLE_HIGHEST_STREAK,0) && currentStreak!=0) {
-            flameLottieAnimationView.setVisibility(View.VISIBLE);
-            animateViewScale(flameLottieAnimationView, 0.0f, 1.0f, 2000);
-            flameLottieAnimationView.playAnimation();
-        }
     }
 
     // OnClick Method
@@ -88,8 +83,8 @@ public class WordleActivity extends AppCompatActivity {
         }
 
         playSound(this,R.raw.key);
-        animateViewBounce(letterbox[currentRow][currentColumn]);
-        letterbox[currentRow][currentColumn].setText(alphabet);
+        animateViewBounce(letterTiles[currentRow][currentColumn]);
+        letterTiles[currentRow][currentColumn].setText(alphabet);
         userGuess.insert(currentColumn,alphabet);
         currentColumn++;
     }
@@ -97,7 +92,7 @@ public class WordleActivity extends AppCompatActivity {
     private void enterClicked() {
 
         revealGuessWord++;
-        if(revealGuessWord >= 15) {
+        if(revealGuessWord >= 5) {
             Toast.makeText(this, targetWord, Toast.LENGTH_SHORT).show();
             revealGuessWord = 0;
         }
@@ -120,8 +115,7 @@ public class WordleActivity extends AppCompatActivity {
 
     private int[] initializeTargetLetterCount() {
         int[] targetLetterCount = new int[26];
-        for (int i = 0; i < COLS; i++) {
-            char targetChar = targetWord.charAt(i);
+        for (char targetChar : targetWord.toCharArray()) {
             targetLetterCount[targetChar - 'A']++;
         }
         return targetLetterCount;
@@ -131,7 +125,7 @@ public class WordleActivity extends AppCompatActivity {
         for (int i = 0; i < COLS; i++) {
             char guessChar = userGuess.charAt(i);
             if (targetWord.charAt(i) == guessChar) {
-                changeBackgroundColor(letterbox[currentRow][i], GREEN_COLOR);
+                changeBackgroundColor(letterTiles[currentRow][i], GREEN_COLOR);
                 letterMatched[i] = true;
                 targetLetterCount[guessChar - 'A']--;
                 updateKeyboardColor(guessChar, GREEN_COLOR);
@@ -145,84 +139,99 @@ public class WordleActivity extends AppCompatActivity {
 
             char guessChar = userGuess.charAt(i);
             if (targetLetterCount[guessChar - 'A'] > 0) {
-                changeBackgroundColor(letterbox[currentRow][i], YELLOW_COLOR);
+                changeBackgroundColor(letterTiles[currentRow][i], YELLOW_COLOR);
                 targetLetterCount[guessChar - 'A']--;
                 updateKeyboardColor(guessChar, YELLOW_COLOR);
             } else {
-                changeBackgroundColor(letterbox[currentRow][i], GRAY_COLOR);
+                changeBackgroundColor(letterTiles[currentRow][i], GRAY_COLOR);
                 updateKeyboardColor(guessChar, GRAY_COLOR);
             }
         }
     }
 
-    private void handleEndOfTurn() {
-
-        if (targetWord.equals(userGuess.toString())) {
-
-            for (int i = 0; i < 5; i++) {
-                float scaleDown = 1.0f - (i * 0.1f);
-                int duration = (i + 1) * 100;
-
-                animateViewScale(letterbox[currentRow][i], 1.0f, scaleDown, duration);
-                animateViewScale(letterbox[currentRow][i], scaleDown, 1.0f, duration);
-            }
-
-            currentStreak++;
-            saveToSharedPreferences(WORDLE_STREAK,currentStreak);
-            if(currentStreak>sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0))
-                saveToSharedPreferences(WORDLE_HIGHEST_STREAK,currentStreak);
-
-            currentStreakTextView.setText(String.valueOf(sharedPreferences.getInt(WORDLE_STREAK, 0)));
-            gameWon = true;
-            playSound(this, R.raw.win);
-            replayImageView.setVisibility(View.VISIBLE);
-
-            if(currentStreak>=sharedPreferences.getInt(WORDLE_HIGHEST_STREAK,0)) {
-                flameLottieAnimationView.setVisibility(View.VISIBLE);
-                animateViewScale(flameLottieAnimationView, 0.0f, 1.0f, 2000);
-                flameLottieAnimationView.playAnimation();
-            }
-        }
-
+    private void handleEndOfTurn()
+    {
+        if (targetWord.equals(userGuess.toString())) handleWin();
         else {
             currentRow++;
             currentColumn = 0;
             userGuess.setLength(0);
-        }
-
-        if (currentRow == ROWS) {
-            gameLost = true;
-            playSound(this, R.raw.draw);
-
-            currentStreak = 0;
-            saveToSharedPreferences(WORDLE_STREAK,currentStreak);
-
-            currentStreakTextView.setText("0");
-            Toast.makeText(this, "The word was: " + targetWord, Toast.LENGTH_LONG).show();
-            replayImageView.setVisibility(View.VISIBLE);
-            flameLottieAnimationView.cancelAnimation();
-            animateViewScale(flameLottieAnimationView, 1.0f, 0.0f, 1);
-            flameLottieAnimationView.setVisibility(View.GONE);
+            if (currentRow == ROWS) handleLoss();
         }
     }
 
-    private void updateKeyboardColor(char letter, int newDrawableResId)
-    {
-        int index = letter - 'A';
+    private void handleWin() {
+        gameWon = true;
+        playSound(this, R.raw.win);
+        waveRow();
+        replayImageView.setVisibility(View.VISIBLE);
+        currentStreak++;
+        updateStreak();
+    }
 
-        if (newDrawableResId == GREEN_COLOR)
-        {
-            changeBackgroundColor(keyboard[index], GREEN_COLOR);
+    private void handleLoss() {
+        gameLost = true;
+        playSound(this, R.raw.draw);
+        Toast.makeText(this, "The word was: " + targetWord, Toast.LENGTH_LONG).show();
+        replayImageView.setVisibility(View.VISIBLE);
+        currentStreak = 0;
+        updateStreak();
+    }
+
+    private void updateStreak()
+    {
+
+        int highestStreak = sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0);
+
+        saveToSharedPreferences(WORDLE_STREAK, currentStreak);
+        currentStreakTextView.setText(String.valueOf(currentStreak));
+
+        if (currentStreak >= highestStreak) {
+
+            if (currentStreak > highestStreak) {
+                saveToSharedPreferences(WORDLE_HIGHEST_STREAK, currentStreak);
+            }
+            changeBackgroundColor(currentStreakTextView, Color.TRANSPARENT);
+            if (flameLottieAnimationView.getVisibility() != View.VISIBLE) {
+                flameLottieAnimationView.setVisibility(View.VISIBLE);
+                flameLottieAnimationView.playAnimation();
+            }
+        } else {
+
+            currentStreakTextView.setBackgroundTintList(null);
+            currentStreakTextView.setBackgroundResource(R.drawable.circle_background);
+            if (flameLottieAnimationView.getVisibility() == View.VISIBLE) {
+                flameLottieAnimationView.setVisibility(View.GONE);
+                flameLottieAnimationView.cancelAnimation();
+            }
         }
-        else if (newDrawableResId == YELLOW_COLOR && !isKeyboardKeyGreen(index))
-        {
-            changeBackgroundColor(keyboard[index], YELLOW_COLOR);
-        }
-        else if (newDrawableResId == GRAY_COLOR && !isKeyboardKeyGreen(index) && !isKeyboardKeyYellow(index))
-        {
+    }
+
+    private void updateKeyboardColor(char letter, int color) {
+        int index = letter - 'A';
+        int currentColor = getCurrentColor(keyboard[index]);
+
+        if (color == GREEN_COLOR) {
+            if (currentColor != GREEN_COLOR) {
+                changeBackgroundColor(keyboard[index], GREEN_COLOR);
+            }
+        } else if (color == YELLOW_COLOR && currentColor != GREEN_COLOR) {
+            if (currentColor != YELLOW_COLOR) {
+                changeBackgroundColor(keyboard[index], YELLOW_COLOR);
+            }
+        } else if (color == GRAY_COLOR && currentColor != GREEN_COLOR && currentColor != YELLOW_COLOR) {
             changeBackgroundColor(keyboard[index], GRAY_COLOR);
         }
     }
+
+    private int getCurrentColor(TextView view) {
+        Drawable background = view.getBackground();
+        if (background instanceof ColorDrawable) {
+            return ((ColorDrawable) background).getColor();
+        }
+        return Color.TRANSPARENT;
+    }
+
 
     private void backspaceClicked()
     {
@@ -234,8 +243,8 @@ public class WordleActivity extends AppCompatActivity {
 
         playSound(this,R.raw.backspace);
         currentColumn--;
-        letterbox[currentRow][currentColumn].setText("");
         userGuess.deleteCharAt(currentColumn);
+        letterTiles[currentRow][currentColumn].setText("");
     }
 
     // OnClick Method
@@ -250,8 +259,8 @@ public class WordleActivity extends AppCompatActivity {
 
         for(int row = 0; row < ROWS; row++) {
             for(int column = 0; column < 5; column++) {
-                letterbox[row][column].setText("");
-                changeBackgroundColor(letterbox[row][column],RED_COLOR);
+                letterTiles[row][column].setText("");
+                changeBackgroundColor(letterTiles[row][column],RED_COLOR);
             }
         }
 
@@ -279,19 +288,29 @@ public class WordleActivity extends AppCompatActivity {
     private void jiggleRow() {
         playSound(this,R.raw.click_error);
         for (int i = 0; i < COLS; i++)
-            animateViewJiggle(letterbox[currentRow][i]);
+            animateViewJiggle(letterTiles[currentRow][i]);
     }
 
-    private boolean isKeyboardKeyGreen(int index) {
-        Drawable background = keyboard[index].getBackground();
-        return background instanceof ColorDrawable && ((ColorDrawable) background).getColor() == GREEN_COLOR;
-    }
+    private void waveRow() {
+        final int duration = 150;
+        final int delayBetweenAnimations = 50;
+        final float scaleDownValue = 0.7f;
 
-    private boolean isKeyboardKeyYellow(int index) {
-        Drawable background = keyboard[index].getBackground();
-        return background instanceof ColorDrawable && ((ColorDrawable) background).getColor() == YELLOW_COLOR;
-    }
+        for (int i = 0; i < COLS; i++) {
+            final int index = i;
+            final int startDelay = i * delayBetweenAnimations;
 
+            // Scale down animation
+            letterTiles[currentRow][i].postDelayed(() -> {
+                animateViewScale(letterTiles[currentRow][index], 1.0f, scaleDownValue, duration);
+            }, startDelay);
+
+            // Scale up animation
+            letterTiles[currentRow][i].postDelayed(() -> {
+                animateViewScale(letterTiles[currentRow][index], scaleDownValue, 1.0f, duration);
+            }, startDelay + duration + delayBetweenAnimations);
+        }
+    }
 
     public void loadARandomCommonWord() {
 
@@ -372,36 +391,36 @@ public class WordleActivity extends AppCompatActivity {
         enterKey = findViewById(R.id.enterTextView);
         backspaceKey = findViewById(R.id.backspaceTextView);
 
-        letterbox[0][0] = findViewById(R.id._0_0);
-        letterbox[0][1] = findViewById(R.id._0_1);
-        letterbox[0][2] = findViewById(R.id._0_2);
-        letterbox[0][3] = findViewById(R.id._0_3);
-        letterbox[0][4] = findViewById(R.id._0_4);
-        letterbox[1][0] = findViewById(R.id._1_0);
-        letterbox[1][1] = findViewById(R.id._1_1);
-        letterbox[1][2] = findViewById(R.id._1_2);
-        letterbox[1][3] = findViewById(R.id._1_3);
-        letterbox[1][4] = findViewById(R.id._1_4);
-        letterbox[2][0] = findViewById(R.id._2_0);
-        letterbox[2][1] = findViewById(R.id._2_1);
-        letterbox[2][2] = findViewById(R.id._2_2);
-        letterbox[2][3] = findViewById(R.id._2_3);
-        letterbox[2][4] = findViewById(R.id._2_4);
-        letterbox[3][0] = findViewById(R.id._3_0);
-        letterbox[3][1] = findViewById(R.id._3_1);
-        letterbox[3][2] = findViewById(R.id._3_2);
-        letterbox[3][3] = findViewById(R.id._3_3);
-        letterbox[3][4] = findViewById(R.id._3_4);
-        letterbox[4][0] = findViewById(R.id._4_0);
-        letterbox[4][1] = findViewById(R.id._4_1);
-        letterbox[4][2] = findViewById(R.id._4_2);
-        letterbox[4][3] = findViewById(R.id._4_3);
-        letterbox[4][4] = findViewById(R.id._4_4);
-        letterbox[5][0] = findViewById(R.id._5_0);
-        letterbox[5][1] = findViewById(R.id._5_1);
-        letterbox[5][2] = findViewById(R.id._5_2);
-        letterbox[5][3] = findViewById(R.id._5_3);
-        letterbox[5][4] = findViewById(R.id._5_4);
+        letterTiles[0][0] = findViewById(R.id._0_0);
+        letterTiles[0][1] = findViewById(R.id._0_1);
+        letterTiles[0][2] = findViewById(R.id._0_2);
+        letterTiles[0][3] = findViewById(R.id._0_3);
+        letterTiles[0][4] = findViewById(R.id._0_4);
+        letterTiles[1][0] = findViewById(R.id._1_0);
+        letterTiles[1][1] = findViewById(R.id._1_1);
+        letterTiles[1][2] = findViewById(R.id._1_2);
+        letterTiles[1][3] = findViewById(R.id._1_3);
+        letterTiles[1][4] = findViewById(R.id._1_4);
+        letterTiles[2][0] = findViewById(R.id._2_0);
+        letterTiles[2][1] = findViewById(R.id._2_1);
+        letterTiles[2][2] = findViewById(R.id._2_2);
+        letterTiles[2][3] = findViewById(R.id._2_3);
+        letterTiles[2][4] = findViewById(R.id._2_4);
+        letterTiles[3][0] = findViewById(R.id._3_0);
+        letterTiles[3][1] = findViewById(R.id._3_1);
+        letterTiles[3][2] = findViewById(R.id._3_2);
+        letterTiles[3][3] = findViewById(R.id._3_3);
+        letterTiles[3][4] = findViewById(R.id._3_4);
+        letterTiles[4][0] = findViewById(R.id._4_0);
+        letterTiles[4][1] = findViewById(R.id._4_1);
+        letterTiles[4][2] = findViewById(R.id._4_2);
+        letterTiles[4][3] = findViewById(R.id._4_3);
+        letterTiles[4][4] = findViewById(R.id._4_4);
+        letterTiles[5][0] = findViewById(R.id._5_0);
+        letterTiles[5][1] = findViewById(R.id._5_1);
+        letterTiles[5][2] = findViewById(R.id._5_2);
+        letterTiles[5][3] = findViewById(R.id._5_3);
+        letterTiles[5][4] = findViewById(R.id._5_4);
 
         replayImageView = findViewById(R.id.resetImg);
         backImageView = findViewById(R.id.ivBackIcon);
@@ -410,8 +429,9 @@ public class WordleActivity extends AppCompatActivity {
         currentStreakTextView = findViewById(R.id.tvStreak);
         streakTooltipTextView = findViewById(R.id.tvStreakTooltip);
         flameLottieAnimationView = findViewById(R.id.lavFlame);
-    }
 
+        currentStreak = sharedPreferences.getInt(WORDLE_STREAK,0);
+    }
     private void animateViewsPulse() {
         for(int i=0; i<26; i++) animateViewPulse(this,keyboard[i]);
 

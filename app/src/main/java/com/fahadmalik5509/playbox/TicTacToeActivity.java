@@ -3,10 +3,7 @@ package com.fahadmalik5509.playbox;
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.transition.Explode;
-import android.transition.Fade;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,7 +34,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         setContentView(R.layout.tictactoe_layout);
 
 
-        loadPreferences(this);
+        loadPreference(this);
         initializeViews();
         difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
         gameStatusTextView.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));

@@ -34,7 +34,7 @@
 
             <Button
                 android:id="@+id/yes"
-                android:background="@drawable/rounded_button"
+                android:background="@drawable/ui_background"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginLeft="10dp"
