@@ -25,6 +25,7 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/tvPlayerOneName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -36,6 +37,7 @@
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tvPlayerOneSymbol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -45,6 +47,7 @@
                 android:textSize="40sp" />
 
             <TextView
+                android:id="@+id/tvPlayerOneScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -75,17 +78,19 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/tvPlayerTwoName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentTop="true"
-
-                android:text="Fahad"
+                android:text="Aliyan"
+                android:singleLine="true"
                 android:textAppearance="@style/custom_font"
                 android:textColor="@color/background"
                 android:textSize="15sp" />
 
             <TextView
+                android:id="@+id/tvPlayerTwoSymbol"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -95,6 +100,7 @@
                 android:textSize="40sp" />
 
             <TextView
+                android:id="@+id/tvPlayerTwoScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"

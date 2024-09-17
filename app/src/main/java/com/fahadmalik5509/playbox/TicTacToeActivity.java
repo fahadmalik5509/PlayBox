@@ -19,14 +19,15 @@ import java.util.Random;
 public class TicTacToeActivity extends AppCompatActivity {
 
     private final char[] board = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
-    private boolean gameWon = false, gameDraw = false;
-    private TextView gameStatusTextView, replayTextView, difficultyTooltipTextView;
-    private ImageView drawImageView, homeImageView, settingImageView, backImageView, difficultyImageView;
-    private int difficulty;
     private final Button[] buttons = new Button[9];
-    private boolean isX = true;
-    private RelativeLayout shadowRelativeLayout, difficultyRelativeLayout;
-    LottieAnimationView fireworkAnimationView;
+    private boolean gameWon = false, gameDraw = false, isX = true;
+    private int difficulty;
+    private ImageView drawIV, homeIV, settingIV, backIV, difficultyIV;
+    private TextView gameStatusTV, replayTV, difficultyTooltipTV,
+            playerOneNameTV,playerOneSymbolTV,playerOneScoreTV,
+            playerTwoNameTV,playerTwoSymbolTV,playerTwoScoreTV;
+    private RelativeLayout shadowRL, difficultyRL;
+    LottieAnimationView fireworkAV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +37,8 @@ public class TicTacToeActivity extends AppCompatActivity {
         loadPreference(this);
         initializeViews();
         difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
-        gameStatusTextView.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));
-        if (isVsAi) difficultyRelativeLayout.setVisibility(View.VISIBLE);
+        gameStatusTV.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));
+        if (isVsAi) difficultyRL.setVisibility(View.VISIBLE);
         animateViewsPulse();
         updateDifficultyColor();
 
@@ -73,7 +74,7 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     private void handlePlayerMove(int i, Button button) {
         char currentPlayer = getCurrentPlayer(true);
-        gameStatusTextView.setText("Turn: " + getCurrentPlayer(false));
+        gameStatusTV.setText("Turn: " + getCurrentPlayer(false));
         board[i] = currentPlayer;
         button.setText(String.valueOf(currentPlayer));
         button.setEnabled(false);
@@ -135,16 +136,16 @@ public class TicTacToeActivity extends AppCompatActivity {
         if (board[a] == board[b] && board[b] == board[c]) {
             gameWon = true;
             playSound(this, R.raw.win);
-            fireworkAnimationView.setVisibility(View.VISIBLE);
-            fireworkAnimationView.playAnimation();
+            fireworkAV.setVisibility(View.VISIBLE);
+            fireworkAV.playAnimation();
             animateWinningButtons(a, b, c);
         }
     }
 
     private void displayDraw() {
-        gameStatusTextView.setText("");
-        drawImageView.setVisibility(View.VISIBLE);
-        shadowRelativeLayout.setVisibility(View.VISIBLE);
+        gameStatusTV.setText("");
+        drawIV.setVisibility(View.VISIBLE);
+        shadowRL.setVisibility(View.VISIBLE);
         gameDraw = true;
         playSound(this, R.raw.draw);
     }
@@ -165,11 +166,11 @@ public class TicTacToeActivity extends AppCompatActivity {
     private void resetGameState() {
         gameWon = false;
         gameDraw = false;
-        gameStatusTextView.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));
-        drawImageView.setVisibility(View.GONE);
-        shadowRelativeLayout.setVisibility(View.GONE);
-        fireworkAnimationView.cancelAnimation();
-        fireworkAnimationView.setVisibility(View.GONE);
+        gameStatusTV.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));
+        drawIV.setVisibility(View.GONE);
+        shadowRL.setVisibility(View.GONE);
+        fireworkAV.cancelAnimation();
+        fireworkAV.setVisibility(View.GONE);
 
         resetBoard();
         resetButtons();
@@ -353,17 +354,17 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         saveToSharedPreferences(DIFFICULTY_KEY, difficulty);
 
-        difficultyTooltipTextView.setText("AI Difficulty\n(" + getDifficultyText() + ")");
-        difficultyTooltipTextView.setVisibility(View.VISIBLE);
-        difficultyTooltipTextView.postDelayed(() -> difficultyTooltipTextView.setVisibility(View.GONE), 2000);
+        difficultyTooltipTV.setText("AI Difficulty\n(" + getDifficultyText() + ")");
+        difficultyTooltipTV.setVisibility(View.VISIBLE);
+        difficultyTooltipTV.postDelayed(() -> difficultyTooltipTV.setVisibility(View.GONE), 2000);
         updateDifficultyColor();
         resetGame(view);
     }
 
     private void updateDifficultyColor() {
-        if (difficulty == 1) changeBackgroundColor(difficultyImageView, ActivityUtils.getColorByID(this, R.color.green));
-        if (difficulty == 2) changeBackgroundColor(difficultyImageView, ActivityUtils.getColorByID(this, R.color.yellow));
-        if (difficulty == 3) changeBackgroundColor(difficultyImageView, ActivityUtils.getColorByID(this, R.color.red));
+        if (difficulty == 1) changeBackgroundColor(difficultyIV, ActivityUtils.getColorByID(this, R.color.green));
+        if (difficulty == 2) changeBackgroundColor(difficultyIV, ActivityUtils.getColorByID(this, R.color.yellow));
+        if (difficulty == 3) changeBackgroundColor(difficultyIV, ActivityUtils.getColorByID(this, R.color.red));
     }
 
     private String getDifficultyText() {
@@ -393,25 +394,25 @@ public class TicTacToeActivity extends AppCompatActivity {
         buttons[7] = findViewById(R.id.btn7);
         buttons[8] = findViewById(R.id.btn8);
 
-        drawImageView = findViewById(R.id.ivDraw);
-        settingImageView = findViewById(R.id.ivSettingIcon);
-        homeImageView = findViewById(R.id.ivHomeIcon);
-        backImageView = findViewById(R.id.ivBackIcon);
-        difficultyImageView = findViewById(R.id.ivDifficulty);
-        gameStatusTextView = findViewById(R.id.tvEvent);
-        replayTextView = findViewById(R.id.tvReplay);
-        difficultyTooltipTextView = findViewById(R.id.tvDifficultyTooltip);
-        shadowRelativeLayout = findViewById(R.id.rlShadow);
-        difficultyRelativeLayout = findViewById(R.id.rlDifficulty);
-        fireworkAnimationView = findViewById(R.id.lavFireworks);
+        drawIV = findViewById(R.id.ivDraw);
+        settingIV = findViewById(R.id.ivSettingIcon);
+        homeIV = findViewById(R.id.ivHomeIcon);
+        backIV = findViewById(R.id.ivBackIcon);
+        difficultyIV = findViewById(R.id.ivDifficulty);
+        gameStatusTV = findViewById(R.id.tvEvent);
+        replayTV = findViewById(R.id.tvReplay);
+        difficultyTooltipTV = findViewById(R.id.tvDifficultyTooltip);
+        shadowRL = findViewById(R.id.rlShadow);
+        difficultyRL = findViewById(R.id.rlDifficulty);
+        fireworkAV = findViewById(R.id.lavFireworks);
     }
 
     private void animateViewsPulse() {
         for (Button button: buttons) animateViewPulse(this, button);
-        animateViewPulse(this, homeImageView);
-        animateViewPulse(this, settingImageView);
-        animateViewPulse(this, replayTextView);
-        animateViewPulse(this, backImageView);
-        animateViewPulse(this, difficultyImageView);
+        animateViewPulse(this, homeIV);
+        animateViewPulse(this, settingIV);
+        animateViewPulse(this, replayTV);
+        animateViewPulse(this, backIV);
+        animateViewPulse(this, difficultyIV);
     }
 }
