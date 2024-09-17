@@ -5,8 +5,108 @@
     android:id="@+id/game_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="@color/background"
     tools:context=".TicTacToeActivity">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/gridLayout"
+        android:layout_above="@+id/gridLayout"
+        android:layout_marginBottom="30dp"
+        android:layout_marginStart="70dp"
+        app:cardBackgroundColor="@color/beige"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp">
+
+        <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:text="Aliyan"
+                android:singleLine="true"
+                android:textAppearance="@style/custom_font"
+                android:textColor="@color/background"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="X"
+                android:textAppearance="@style/custom_font"
+                android:textColor="@color/background"
+                android:textSize="40sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:text="Score: 99"
+                android:textAppearance="@style/custom_font"
+                android:textColor="@color/background"
+                android:textSize="10sp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/gridLayout"
+        android:layout_above="@+id/gridLayout"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="70dp"
+        app:cardBackgroundColor="@color/beige"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp">
+
+        <RelativeLayout
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+
+                android:text="Fahad"
+                android:textAppearance="@style/custom_font"
+                android:textColor="@color/background"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="X"
+                android:textAppearance="@style/custom_font"
+                android:textColor="@color/background"
+                android:textSize="40sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:text="Score: 99"
+                android:textAppearance="@style/custom_font"
+                android:textColor="@color/background"
+                android:textSize="10sp" />
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <GridLayout
         android:id="@+id/gridLayout"
@@ -108,13 +208,14 @@
         style="@style/SettingImageView"
         android:onClick="goToSetting" />
 
+
+    <!--Turn TextView-->
     <TextView
         android:id="@+id/tvEvent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="Turn X"
         android:textSize="50sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/custom_font"/>
@@ -159,12 +260,12 @@
         <ImageView
             android:id="@+id/ivDifficulty"
             android:background="@drawable/circle_background"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/difficulty"
             android:gravity="center"
-            android:paddingHorizontal="2dp"
+            android:paddingHorizontal="3dp"
             android:onClick="difficultyClicked" />
 
         <TextView
@@ -174,7 +275,7 @@
             android:layout_below="@+id/ivDifficulty"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:background="@drawable/exit_popup_background"
+            android:background="@drawable/popup_background"
             android:gravity="center"
             android:padding="10dp"
             android:textAppearance="@style/custom_font"

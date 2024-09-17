@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/gray">
+    android:background="@color/background">
 
     <!-- LetterBox Layout -->
     <GridLayout
@@ -468,7 +468,7 @@
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
             android:textSize="12sp"
-            android:textColor="@color/gray"
+            android:textColor="@color/background"
             android:textAppearance="@style/custom_font"
             android:gravity="center"
             android:onClick="streakClicked" />
@@ -480,7 +480,7 @@
             android:layout_below="@+id/tvStreak"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:background="@drawable/exit_popup_background"
+            android:background="@drawable/popup_background"
             android:gravity="center"
             android:padding="10dp"
             android:textAppearance="@style/custom_font"

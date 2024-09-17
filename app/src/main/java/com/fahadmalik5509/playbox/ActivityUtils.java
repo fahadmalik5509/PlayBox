@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
@@ -22,14 +21,10 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.content.SharedPreferences;
 
+import androidx.core.content.ContextCompat;
+
 public class ActivityUtils {
 
-    public static final int GREEN_COLOR = Color.parseColor("#11e889");
-    public static final int YELLOW_COLOR = Color.parseColor("#ffc107");
-    public static final int RED_COLOR = Color.parseColor("#7c2e2e");
-    public static final int BACKGROUND_COLOR = Color.parseColor("#1a1a1a");
-    public static final int BEIGE_COLOR = Color.parseColor("#F5F5DC");
-    public static final int GRAY_COLOR = Color.parseColor("#2a2a2a");
     static final int ACTIVITY_TRANSITION_DELAY_MS = 50;
     public static final String PREFS_NAME = "MyAppSettings";
     public static final String SOUND_KEY = "soundEnabled";
@@ -43,7 +38,9 @@ public class ActivityUtils {
     private static final SparseIntArray soundMap = new SparseIntArray();
     public static SharedPreferences sharedPreferences;
 
-    private ActivityUtils() { throw new UnsupportedOperationException("Cannot instantiate utility class."); }
+    private ActivityUtils() {
+        throw new UnsupportedOperationException("Cannot instantiate utility class.");
+    }
 
     public static void initializeSoundPool(Context context) {
         AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -122,8 +119,7 @@ public class ActivityUtils {
         }
     }
 
-
-    public static void animateViewScale(View view, float startScale, float endScale,int Duration) {
+    public static void animateViewScale(View view, float startScale, float endScale, int Duration) {
         if (view != null) {
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", startScale, endScale);
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", startScale, endScale);
@@ -145,13 +141,13 @@ public class ActivityUtils {
         view.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    animateViewScale(view, 1f, 0.9f,100);
+                    animateViewScale(view, 1f, 0.9f, 100);
                     view.setAlpha(0.8f);
                     return false;
 
                 case MotionEvent.ACTION_UP:
-                    animateViewScale(view, 0.9f, 1f,100);
-                    vibrate(context,50);
+                    animateViewScale(view, 0.9f, 1f, 100);
+                    vibrate(context, 50);
                     view.setAlpha(1f);
                     return false;
             }
@@ -175,7 +171,7 @@ public class ActivityUtils {
         animator.start();
     }
 
-    public static void changeActivity(Activity fromActivity, Class<?> toActivity, boolean shouldFinish, boolean animate) {
+    public static void changeActivity(Activity fromActivity, Class < ? > toActivity, boolean shouldFinish, boolean animate) {
 
         Intent intent = new Intent(fromActivity, toActivity);
         fromActivity.startActivity(intent);
@@ -184,6 +180,11 @@ public class ActivityUtils {
         if (animate) fromActivity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
         if (shouldFinish) fromActivity.finish();
+    }
+
+    public static int getColorByID(Context context, int colorResId) {
+
+        return ContextCompat.getColor(context, colorResId);
     }
 
     public static void changeBackgroundColor(View view, int color) {

@@ -1,7 +1,6 @@
 package com.fahadmalik5509.playbox;
 
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
-import static com.fahadmalik5509.playbox.ActivityUtils.saveToSharedPreferences;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,8 +34,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void updateButtonStates() {
-        changeBackgroundColor(soundButton, isSoundEnabled ? GREEN_COLOR : RED_COLOR);
-        changeBackgroundColor(vibrationButton, isVibrationEnabled ? GREEN_COLOR : RED_COLOR);
+        changeBackgroundColor(soundButton, isSoundEnabled ? ActivityUtils.getColorByID(this, R.color.green) : ActivityUtils.getColorByID(this, R.color.red));
+        changeBackgroundColor(vibrationButton, isVibrationEnabled ? ActivityUtils.getColorByID(this, R.color.green) : ActivityUtils.getColorByID(this, R.color.red));
         updateButtonState(soundButton, isSoundEnabled, "Sounds ");
         updateButtonState(vibrationButton, isVibrationEnabled, "Vibration ");
     }
@@ -45,22 +44,22 @@ public class SettingActivity extends AppCompatActivity {
     public void handleSoundButtonClick(View view) {
         isSoundEnabled = !isSoundEnabled;
         playSound(this, R.raw.click_ui);
-        int color = isSoundEnabled ? GREEN_COLOR : RED_COLOR;
+        int color = isSoundEnabled ? ActivityUtils.getColorByID(this, R.color.green) : ActivityUtils.getColorByID(this, R.color.red);
         changeBackgroundColor(soundButton, color);
         updateButtonState(soundButton, isSoundEnabled, "Sounds ");
 
-        saveToSharedPreferences(SOUND_KEY,isSoundEnabled);
+        saveToSharedPreferences(SOUND_KEY, isSoundEnabled);
     }
 
     //onclick Method
     public void handleVibrationButtonClick(View view) {
         playSound(this, R.raw.click_ui);
         isVibrationEnabled = !isVibrationEnabled;
-        int color = isVibrationEnabled ? GREEN_COLOR : RED_COLOR;
+        int color = isVibrationEnabled ? ActivityUtils.getColorByID(this, R.color.green) : ActivityUtils.getColorByID(this, R.color.red);
         changeBackgroundColor(vibrationButton, color);
         updateButtonState(vibrationButton, isVibrationEnabled, "Vibration ");
 
-        saveToSharedPreferences(VIBRATION_KEY,isVibrationEnabled);
+        saveToSharedPreferences(VIBRATION_KEY, isVibrationEnabled);
     }
 
     private void updateButtonState(Button button, boolean isEnabled, String text) {
@@ -80,7 +79,7 @@ public class SettingActivity extends AppCompatActivity {
         if (originActivity != null) {
             try {
                 // Launch the originating activity
-                Class<?> clazz = Class.forName("com.yourpackage." + originActivity);
+                Class < ? > clazz = Class.forName("com.yourpackage." + originActivity);
                 Intent intent = new Intent(this, clazz);
                 startActivity(intent);
             } catch (ClassNotFoundException e) {

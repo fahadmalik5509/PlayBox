@@ -31,15 +31,19 @@ public class HomeActivity extends AppCompatActivity {
         animateViewsPulse();
     }
 
-    public void handleTicTacToeButtonClick(View view) { navigateToActivity(GameModeActivity.class); }
-    public void handleWordleButtonClick(View view) { navigateToActivity(WordleActivity.class); }
+    public void handleTicTacToeButtonClick(View view) {
+        navigateToActivity(GameModeActivity.class);
+    }
+    public void handleWordleButtonClick(View view) {
+        navigateToActivity(WordleActivity.class);
+    }
     public void handleSettingsButtonClick(View view) {
         navigateToActivity(SettingActivity.class);
     }
 
-    private void navigateToActivity(Class<?> targetActivity) {
+    private void navigateToActivity(Class < ? > targetActivity) {
         playSound(this, R.raw.click_ui);
-        new Handler().postDelayed(() -> changeActivity(this, targetActivity, false,true), ACTIVITY_TRANSITION_DELAY_MS);
+        new Handler().postDelayed(() -> changeActivity(this, targetActivity, false, true), ACTIVITY_TRANSITION_DELAY_MS);
     }
 
     @Override
@@ -119,13 +123,12 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-
     public void handlePlayBox(View view) {
         fun_openURL++;
 
-        if(fun_openURL>=5) {
+        if (fun_openURL >= 5) {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://dQw4w9WgXcQ"));
-                this.startActivity(intent);
+            this.startActivity(intent);
         }
     }
 

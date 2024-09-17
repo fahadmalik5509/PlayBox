@@ -2,7 +2,6 @@
 
     <style name="custom_font">
         <item name="android:fontFamily">@font/font</item>
-
     </style>
 
     <style name="KeyboardTextView">

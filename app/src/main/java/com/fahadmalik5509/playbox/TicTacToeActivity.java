@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class TicTacToeActivity extends AppCompatActivity {
 
-    private final char[] board = {'0', '1', '2', '3', '4', '5', '6', '7', '8'};
+    private final char[] board = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
     private boolean gameWon = false, gameDraw = false;
     private TextView gameStatusTextView, replayTextView, difficultyTooltipTextView;
     private ImageView drawImageView, homeImageView, settingImageView, backImageView, difficultyImageView;
@@ -33,12 +33,11 @@ public class TicTacToeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tictactoe_layout);
 
-
         loadPreference(this);
         initializeViews();
         difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
         gameStatusTextView.setText(isVsAi ? "You're X" : "Turn: " + getCurrentPlayer(false));
-        if(isVsAi) difficultyRelativeLayout.setVisibility(View.VISIBLE);
+        if (isVsAi) difficultyRelativeLayout.setVisibility(View.VISIBLE);
         animateViewsPulse();
         updateDifficultyColor();
 
@@ -117,13 +116,13 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     private void checkGameState() {
         for (int i = 0; i < 3; i++) {
-            checkLine(i * 3, i * 3 + 1, i * 3 + 2);// Rows
+            checkLine(i * 3, i * 3 + 1, i * 3 + 2); // Rows
             if (gameWon) return;
             checkLine(i, i + 3, i + 6); // Columns
             if (gameWon) return;
         }
 
-        checkLine(0, 4, 8);// Diagonal
+        checkLine(0, 4, 8); // Diagonal
         checkLine(2, 4, 6); // Reverse Diagonal
         if (gameWon) return;
 
@@ -150,10 +149,10 @@ public class TicTacToeActivity extends AppCompatActivity {
         playSound(this, R.raw.draw);
     }
 
-    private void animateWinningButtons(int... winBtn) {
-        for (int index : winBtn) {
-            animateViewScale(buttons[index], 1f, 1.1f,100);
-            changeBackgroundColor(buttons[index], GREEN_COLOR);
+    private void animateWinningButtons(int...winBtn) {
+        for (int index: winBtn) {
+            animateViewScale(buttons[index], 1f, 1.1f, 100);
+            changeBackgroundColor(buttons[index], ActivityUtils.getColorByID(this, R.color.green));
         }
     }
 
@@ -178,16 +177,16 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     private void resetBoard() {
         for (int i = 0; i < board.length; i++) {
-            board[i] = (char) ('0' + i);
+            board[i] = (char)('0' + i);
         }
     }
 
     private void resetButtons() {
-        for (Button button : buttons) {
+        for (Button button: buttons) {
             button.setText("");
             button.setEnabled(true);
-            animateViewScale(button, 1.1f, 1f,100);
-            changeBackgroundColor(button, RED_COLOR);
+            animateViewScale(button, 1.1f, 1f, 100);
+            changeBackgroundColor(button, ActivityUtils.getColorByID(this, R.color.red));
         }
     }
 
@@ -205,7 +204,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         // Helper function to check for a winning/blocking move in a line
         class Helper {
             int checkLineForMove(int a, int b, int c, char player) {
-                if (board[a]== player && board[b] == player && board[c] != 'X' && board[c] != 'O')
+                if (board[a] == player && board[b] == player && board[c] != 'X' && board[c] != 'O')
                     return c;
                 if (board[a] == player && board[c] == player && board[b] != 'X' && board[b] != 'O')
                     return b;
@@ -214,7 +213,7 @@ public class TicTacToeActivity extends AppCompatActivity {
                 return -1;
             }
         }
-        Helper helper= new Helper();
+        Helper helper = new Helper();
 
         // Check for winning move
         for (int i = 0; i < 3; i++) {
@@ -251,7 +250,7 @@ public class TicTacToeActivity extends AppCompatActivity {
             if (board[i] != 'X' && board[i] != 'O') {
                 board[i] = 'O';
                 int moveVal = minimax(false, Integer.MIN_VALUE, Integer.MAX_VALUE);
-                board[i] = (char) ('0' + i);
+                board[i] = (char)('0' + i);
 
                 if (moveVal > bestVal) {
                     bestMove = i;
@@ -276,7 +275,7 @@ public class TicTacToeActivity extends AppCompatActivity {
                 if (board[i] != 'X' && board[i] != 'O') {
                     board[i] = 'O';
                     best = Math.max(best, minimax(false, alpha, beta));
-                    board[i] = (char) ('0' + i);
+                    board[i] = (char)('0' + i);
                     alpha = Math.max(alpha, best);
                     if (beta <= alpha) break; // Beta cut-off
                 }
@@ -287,7 +286,7 @@ public class TicTacToeActivity extends AppCompatActivity {
                 if (board[i] != 'X' && board[i] != 'O') {
                     board[i] = 'X';
                     best = Math.min(best, minimax(true, alpha, beta));
-                    board[i] = (char) ('0' + i);
+                    board[i] = (char)('0' + i);
                     beta = Math.min(beta, best);
                     if (beta <= alpha) break; // Alpha cut-off
                 }
@@ -337,12 +336,12 @@ public class TicTacToeActivity extends AppCompatActivity {
     // OnClick Method
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, HomeActivity.class, true,false);
+        changeActivity(this, HomeActivity.class, true, false);
     }
     // OnClick Method
     public void goBack(View view) {
-        playSound(this,R.raw.click_ui);
-        changeActivity(this, GameModeActivity.class,true,false);
+        playSound(this, R.raw.click_ui);
+        changeActivity(this, GameModeActivity.class, true, false);
     }
 
     // OnClick Method
@@ -350,9 +349,9 @@ public class TicTacToeActivity extends AppCompatActivity {
         playSound(this, R.raw.click_ui);
 
         difficulty++;
-        if(difficulty>3) difficulty = 1;
+        if (difficulty > 3) difficulty = 1;
 
-        saveToSharedPreferences(DIFFICULTY_KEY,difficulty);
+        saveToSharedPreferences(DIFFICULTY_KEY, difficulty);
 
         difficultyTooltipTextView.setText("AI Difficulty\n(" + getDifficultyText() + ")");
         difficultyTooltipTextView.setVisibility(View.VISIBLE);
@@ -362,16 +361,16 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     private void updateDifficultyColor() {
-        if(difficulty == 1) changeBackgroundColor(difficultyImageView, GREEN_COLOR);
-        if(difficulty == 2) changeBackgroundColor(difficultyImageView, YELLOW_COLOR);
-        if(difficulty == 3) changeBackgroundColor(difficultyImageView, RED_COLOR);
+        if (difficulty == 1) changeBackgroundColor(difficultyImageView, ActivityUtils.getColorByID(this, R.color.green));
+        if (difficulty == 2) changeBackgroundColor(difficultyImageView, ActivityUtils.getColorByID(this, R.color.yellow));
+        if (difficulty == 3) changeBackgroundColor(difficultyImageView, ActivityUtils.getColorByID(this, R.color.red));
     }
 
     private String getDifficultyText() {
 
-        if(difficulty == 1) return "Easy";
-        if(difficulty == 2) return "Medium";
-        if(difficulty == 3) return "Hard";
+        if (difficulty == 1) return "Easy";
+        if (difficulty == 2) return "Medium";
+        if (difficulty == 3) return "Hard";
 
         return null;
     }
@@ -408,9 +407,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     private void animateViewsPulse() {
-        for (Button button : buttons) {
-            animateViewPulse(this, button);
-        }
+        for (Button button: buttons) animateViewPulse(this, button);
         animateViewPulse(this, homeImageView);
         animateViewPulse(this, settingImageView);
         animateViewPulse(this, replayTextView);
