@@ -1,118 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/game_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    tools:context=".TicTacToeActivity">
+    android:background="@color/background">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/gridLayout"
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
         android:layout_above="@+id/gridLayout"
-        android:layout_marginBottom="30dp"
-        android:layout_marginStart="70dp"
-        app:cardBackgroundColor="@color/beige"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="20dp">
+        android:layout_marginBottom="20dp"
+        android:gravity="center">
 
-        <RelativeLayout
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:padding="5dp">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvPlayerOne"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:cardBackgroundColor="@color/beige"
+            app:cardCornerRadius="20dp"
+            android:elevation="0dp">
 
-            <TextView
-                android:id="@+id/tvPlayerOneName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:text="Aliyan"
-                android:singleLine="true"
-                android:textAppearance="@style/custom_font"
-                android:textColor="@color/background"
-                android:textSize="15sp" />
+            <RelativeLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:minHeight="80dp"
+                android:minWidth="80dp"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/tvPlayerOneSymbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="X"
-                android:textAppearance="@style/custom_font"
-                android:textColor="@color/background"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/tvPlayerOneName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Player 1"
+                    android:singleLine="true"
+                    android:textAppearance="@style/custom_font"
+                    android:textColor="@color/background"
+                    android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/tvPlayerOneScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:text="Score: 99"
-                android:textAppearance="@style/custom_font"
-                android:textColor="@color/background"
-                android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/tvPlayerOneSymbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="X"
+                    android:textAppearance="@style/custom_font"
+                    android:textColor="@color/background"
+                    android:textSize="40sp" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvPlayerOneScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="Score: 0"
+                    android:textAppearance="@style/custom_font"
+                    android:textColor="@color/background"
+                    android:textSize="10sp" />
 
-    </androidx.cardview.widget.CardView>
+            </RelativeLayout>
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/gridLayout"
-        android:layout_above="@+id/gridLayout"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="70dp"
-        app:cardBackgroundColor="@color/beige"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="20dp">
+        </androidx.cardview.widget.CardView>
 
-        <RelativeLayout
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:padding="5dp">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvPlayerTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="@color/beige"
+            app:cardCornerRadius="20dp"
+            android:elevation="0dp">
 
-            <TextView
-                android:id="@+id/tvPlayerTwoName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:text="Aliyan"
-                android:singleLine="true"
-                android:textAppearance="@style/custom_font"
-                android:textColor="@color/background"
-                android:textSize="15sp" />
+            <RelativeLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:minHeight="80dp"
+                android:minWidth="80dp"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/tvPlayerTwoSymbol"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="X"
-                android:textAppearance="@style/custom_font"
-                android:textColor="@color/background"
-                android:textSize="40sp" />
+                <TextView
+                    android:id="@+id/tvPlayerTwoName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentTop="true"
+                    android:text="Player 2"
+                    android:singleLine="true"
+                    android:textAppearance="@style/custom_font"
+                    android:textColor="@color/background"
+                    android:textSize="15sp" />
 
-            <TextView
-                android:id="@+id/tvPlayerTwoScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:text="Score: 99"
-                android:textAppearance="@style/custom_font"
-                android:textColor="@color/background"
-                android:textSize="10sp" />
+                <TextView
+                    android:id="@+id/tvPlayerTwoSymbol"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="O"
+                    android:textAppearance="@style/custom_font"
+                    android:textColor="@color/background"
+                    android:textSize="40sp" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvPlayerTwoScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:text="Score: 0"
+                    android:textAppearance="@style/custom_font"
+                    android:textColor="@color/background"
+                    android:textSize="10sp" />
 
-    </androidx.cardview.widget.CardView>
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+    </RelativeLayout>
 
     <GridLayout
         android:id="@+id/gridLayout"
@@ -214,46 +223,7 @@
         style="@style/SettingImageView"
         android:onClick="goToSetting" />
 
-
-    <!--Turn TextView-->
-    <TextView
-        android:id="@+id/tvEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"
-        android:textSize="50sp"
-        android:textColor="@color/beige"
-        android:textAppearance="@style/custom_font"/>
-
-    <RelativeLayout
-        android:id="@+id/rlShadow"
-        style="@style/ShadowLayout"/>
-
-    <!--    GameDraw ImageView-->
-    <ImageView
-        android:contentDescription="@string/imageDescription"
-        android:id="@+id/ivDraw"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginHorizontal="50dp"
-        android:visibility="gone"
-        android:src="@drawable/draw"/>
-
-    <TextView
-        android:id="@+id/tvReplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        android:text="Replay"
-        android:textSize="50sp"
-        android:textColor="@color/beige"
-        android:textAppearance="@style/custom_font"
-        android:onClick="resetGame"/>
-
+    <!--Difficulty RelativeLayout-->
     <RelativeLayout
         android:id="@+id/rlDifficulty"
         android:layout_width="100dp"
@@ -261,6 +231,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="30dp"
+        android:elevation="2dp"
         android:visibility="gone">
 
         <ImageView
@@ -271,7 +242,6 @@
             android:layout_centerHorizontal="true"
             android:src="@drawable/difficulty"
             android:gravity="center"
-            android:paddingHorizontal="3dp"
             android:onClick="difficultyClicked" />
 
         <TextView
@@ -291,6 +261,30 @@
 
     </RelativeLayout>
 
+    <!--Profile ImageView-->
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="64dp"
+        android:src="@drawable/profileicon"
+        android:onClick="profileClicked" />
+
+    <!--Replay TextView-->
+    <TextView
+        android:id="@+id/tvReplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:text="Replay"
+        android:textSize="50sp"
+        android:textColor="@color/beige"
+        android:textAppearance="@style/custom_font"
+        android:onClick="resetGame"/>
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavFireworks"
         android:layout_width="wrap_content"
@@ -298,5 +292,123 @@
         android:layout_centerInParent="true"
         app:lottie_rawRes="@raw/fireworks"
         app:lottie_loop="true"/>
+
+    <!--Shadow View-->
+    <View
+        android:id="@+id/vShadow"
+        style="@style/ShadowLayout"/>
+
+    <!--GameDraw ImageView-->
+    <ImageView
+        android:contentDescription="@string/imageDescription"
+        android:id="@+id/ivDraw"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="50dp"
+        android:visibility="gone"
+        android:src="@drawable/draw"/>
+
+    <RelativeLayout
+        android:id="@+id/rlProfile"
+        android:layout_width="250dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:background="@drawable/popup_background"
+        android:visibility="gone"
+        android:elevation="101dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:gravity="center">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/playerone"
+                android:layout_marginRight="10dp"/>
+
+            <EditText
+                android:id="@+id/etPlayerOne"
+                android:background="@drawable/keyboard_keys_background"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:inputType="text"
+                android:maxLength="8"
+                android:padding="5dp"
+                android:text="Player 1"
+                android:textSize="12sp"
+                android:textColor="@color/gray"
+                android:textAppearance="@style/custom_font"
+                android:hint="(8 Letters Max)"
+                android:textColorHint="@color/hint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/playertwo"
+                android:layout_marginEnd="10dp"/>
+
+            <EditText
+                android:id="@+id/etPlayerTwo"
+                android:background="@drawable/keyboard_keys_background"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:inputType="text"
+                android:maxLength="8"
+                android:padding="5dp"
+                android:text="Player 2"
+                android:textSize="12sp"
+                android:textColor="@color/gray"
+                android:textAppearance="@style/custom_font"
+                android:hint="(8 Letters Max)"
+                android:textColorHint="@color/hint"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/bProfileExit"
+            android:tag="exit"
+            android:background="@drawable/ui_background"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:text="Exit"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/custom_font"
+            android:onClick="handleProfileButtons" />
+
+        <Button
+            android:id="@+id/bProfileSave"
+            android:tag="save"
+            android:background="@drawable/exitno"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="Save"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/custom_font"
+            android:onClick="handleProfileButtons" />
+
+
+    </RelativeLayout>
 
 </RelativeLayout>

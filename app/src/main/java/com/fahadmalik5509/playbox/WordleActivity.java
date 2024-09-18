@@ -30,7 +30,7 @@ public class WordleActivity extends AppCompatActivity {
 
     private TextView enterKey, backspaceKey, currentStreakTextView, streakTooltipTextView;
     private final TextView[] keyboard = new TextView[26];
-    private ImageView replayImageView, homeImageView, settingImageView, backImageView;
+    private ImageView replayImageView, homeImageView, settingImageView, backImageView, bombImageView;
     private final TextView[][] guessBox = new TextView[MAX_ROWS][MAX_COLS];
     private final List < String > commonWords = new ArrayList < > ();
     private final List < String > dictionary = new ArrayList < > ();
@@ -40,8 +40,9 @@ public class WordleActivity extends AppCompatActivity {
     private boolean gameWon = false;
     private boolean gameLost = false;
     private int currentStreak;
-    LottieAnimationView flameLottieAnimationView;
+    LottieAnimationView flameLottieAnimationView, blastLottieAnimationView;
     private final Map<Character, Integer> letterColorMap = new HashMap<>();
+    private final List<Character> grayedOutLetters = new ArrayList<>();
 
     private int revealGuessWord = 0;
 
@@ -179,29 +180,22 @@ public class WordleActivity extends AppCompatActivity {
 
     private void updateStreak() {
 
-        int highestStreak = sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0);
+        int highestStreak = sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0);
 
-        saveToSharedPreferences(WORDLE_STREAK, currentStreak);
+        saveToSharedPreferences(WORDLE_STREAK_KEY, currentStreak);
         currentStreakTextView.setText(String.valueOf(currentStreak));
 
-        if (currentStreak >= highestStreak) {
-
-            if (currentStreak > highestStreak) {
-                saveToSharedPreferences(WORDLE_HIGHEST_STREAK, currentStreak);
-            }
-            changeBackgroundColor(currentStreakTextView, Color.TRANSPARENT);
-            if (flameLottieAnimationView.getVisibility() != View.VISIBLE) {
+        if (currentStreak >= highestStreak && currentStreak != 0) {
+                saveToSharedPreferences(WORDLE_HIGHEST_STREAK_KEY, currentStreak);
+                changeBackgroundColor(currentStreakTextView, Color.TRANSPARENT);
                 flameLottieAnimationView.setVisibility(View.VISIBLE);
                 flameLottieAnimationView.playAnimation();
-            }
-        } else {
-
+        }
+        else {
             currentStreakTextView.setBackgroundTintList(null);
             currentStreakTextView.setBackgroundResource(R.drawable.circle_background);
-            if (flameLottieAnimationView.getVisibility() == View.VISIBLE) {
-                flameLottieAnimationView.setVisibility(View.GONE);
-                flameLottieAnimationView.cancelAnimation();
-            }
+            flameLottieAnimationView.setVisibility(View.GONE);
+            flameLottieAnimationView.cancelAnimation();
         }
     }
 
@@ -245,6 +239,7 @@ public class WordleActivity extends AppCompatActivity {
         currentColumn = 0;
         userGuess.setLength(0);
         letterColorMap.clear();
+        grayedOutLetters.clear();
         replayImageView.setVisibility(View.GONE);
         loadARandomCommonWord();
 
@@ -271,7 +266,7 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void streakClicked(View view) {
         playSound(this, R.raw.click_ui);
-        streakTooltipTextView.setText("Streak\n(Current: " + sharedPreferences.getInt(WORDLE_STREAK, 0) + ")" + "\n(Best: " + sharedPreferences.getInt(WORDLE_HIGHEST_STREAK, 0) + ")");
+        streakTooltipTextView.setText("Streak\n(Current: " + sharedPreferences.getInt(WORDLE_STREAK_KEY, 0) + ")" + "\n(Best: " + sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0) + ")");
         streakTooltipTextView.setVisibility(View.VISIBLE);
         streakTooltipTextView.postDelayed(() -> streakTooltipTextView.setVisibility(View.GONE), 2000);
     }
@@ -419,10 +414,14 @@ public class WordleActivity extends AppCompatActivity {
         settingImageView = findViewById(R.id.ivSettingIcon);
         currentStreakTextView = findViewById(R.id.tvStreak);
         streakTooltipTextView = findViewById(R.id.tvStreakTooltip);
-        flameLottieAnimationView = findViewById(R.id.lavFlame);
 
-        currentStreak = sharedPreferences.getInt(WORDLE_STREAK, 0);
+        flameLottieAnimationView = findViewById(R.id.lavFlame);
+        blastLottieAnimationView = findViewById(R.id.lavBlast);
+        bombImageView = findViewById(R.id.ivBomb);
+
+        currentStreak = sharedPreferences.getInt(WORDLE_STREAK_KEY, 0);
     }
+
     private void animateViewsPulse() {
         for (int i = 0; i < 26; i++) animateViewPulse(this, keyboard[i]);
 
@@ -434,5 +433,43 @@ public class WordleActivity extends AppCompatActivity {
         animateViewPulse(this, settingImageView);
         animateViewPulse(this, backImageView);
         animateViewPulse(this, currentStreakTextView);
+
+        animateViewPulse(this, bombImageView);
     }
+
+    public void onBombClick(View view) {
+        playSound(this, R.raw.explosion);
+
+        // Show the bomb animation
+        blastLottieAnimationView.setVisibility(View.VISIBLE);
+        blastLottieAnimationView.playAnimation();
+
+        // Get letters that are not in the target word and are not already grayed out
+        List<Character> availableToGrayOut = new ArrayList<>();
+        for (char letter = 'A'; letter <= 'Z'; letter++) {
+            if (!targetWord.contains(String.valueOf(letter)) && !grayedOutLetters.contains(letter)) {
+                availableToGrayOut.add(letter);
+            }
+        }
+
+        // Randomly pick three letters from those not in the target word and not already grayed out
+        Random random = new Random();
+        int lettersToGrayOut = 3;
+
+        for (int i = 0; i < lettersToGrayOut && !availableToGrayOut.isEmpty(); i++) {
+            int randomIndex = random.nextInt(availableToGrayOut.size());
+            char letterToGrayOut = availableToGrayOut.get(randomIndex);
+            availableToGrayOut.remove(randomIndex);  // Remove from the available pool
+
+            // Gray out the selected letter on the keyboard
+            int keyboardIndex = letterToGrayOut - 'A';
+            changeBackgroundColor(keyboard[keyboardIndex], getColorByID(this, R.color.gray));
+            updateKeyboardColor(letterToGrayOut, getColorByID(this, R.color.gray));
+
+            // Add to grayed-out list
+            grayedOutLetters.add(letterToGrayOut);
+        }
+    }
+
+
 }

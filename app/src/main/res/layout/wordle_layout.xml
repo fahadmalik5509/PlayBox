@@ -198,6 +198,7 @@
 
     <!-- Keyboard Layout -->
     <LinearLayout
+        android:id="@+id/llKeyboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -489,6 +490,29 @@
             android:visibility="gone"/>
 
     </RelativeLayout>
+
+
+    <ImageView
+        android:id="@+id/ivBomb"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:background="@drawable/ui_background"
+        android:paddingStart="4dp"
+        android:paddingBottom="1dp"
+        android:src="@drawable/bomb"
+        android:layout_above="@+id/llKeyboard"
+        android:layout_alignStart="@+id/llKeyboard"
+        android:layout_marginBottom="10dp"
+        android:onClick="onBombClick"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavBlast"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        app:lottie_rawRes="@raw/blast"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

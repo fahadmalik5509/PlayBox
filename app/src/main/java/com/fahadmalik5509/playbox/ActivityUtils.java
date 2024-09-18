@@ -30,8 +30,10 @@ public class ActivityUtils {
     public static final String SOUND_KEY = "soundEnabled";
     public static final String VIBRATION_KEY = "vibrationEnabled";
     public static final String DIFFICULTY_KEY = "difficultyLevel";
-    public static final String WORDLE_STREAK = "streakNumber";
-    public static final String WORDLE_HIGHEST_STREAK = "streakHighestNumber";
+    public static final String WORDLE_STREAK_KEY = "streakNumber";
+    public static final String WORDLE_HIGHEST_STREAK_KEY = "streakHighestNumber";
+    public static final String PLAYERONE_NAME_KEY = "playerOneName";
+    public static final String PLAYERTWO_NAME_KEY = "playerTwoName";
     public static boolean isVsAi = false;
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
@@ -61,6 +63,7 @@ public class ActivityUtils {
         soundMap.put(R.raw.key, soundPool.load(context, R.raw.key, 1));
         soundMap.put(R.raw.enter, soundPool.load(context, R.raw.enter, 1));
         soundMap.put(R.raw.backspace, soundPool.load(context, R.raw.backspace, 1));
+        soundMap.put(R.raw.explosion, soundPool.load(context, R.raw.explosion, 1));
     }
 
     public static void playSound(Context context, int soundResId) {

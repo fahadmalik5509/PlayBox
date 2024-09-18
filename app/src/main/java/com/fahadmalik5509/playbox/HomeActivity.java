@@ -127,8 +127,9 @@ public class HomeActivity extends AppCompatActivity {
         fun_openURL++;
 
         if (fun_openURL >= 5) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://dQw4w9WgXcQ"));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube://xvFZjo5PgG0"));
             this.startActivity(intent);
+            fun_openURL = 0;
         }
     }
 
@@ -136,7 +137,7 @@ public class HomeActivity extends AppCompatActivity {
         playTicTacToeBtn = findViewById(R.id.bTicTacToe);
         playWordleBtn = findViewById(R.id.bWordle);
         settingBtn = findViewById(R.id.bSettings);
-        shadowRelativeLayout = findViewById(R.id.rlShadow);
+        shadowRelativeLayout = findViewById(R.id.vShadow);
     }
     private void animateViewsPulse() {
         animateViewPulse(this, playTicTacToeBtn);

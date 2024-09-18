@@ -69,7 +69,7 @@
         android:textAppearance="@style/custom_font" />
 
     <RelativeLayout
-        android:id="@+id/rlShadow"
+        android:id="@+id/vShadow"
         style="@style/ShadowLayout"/>
 
 </RelativeLayout>
