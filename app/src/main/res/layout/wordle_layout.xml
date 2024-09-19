@@ -441,7 +441,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="70dp"
-        android:onClick="resetGame"
+        android:onClick="onResetGameClicked"
         android:visibility="gone" />
 
     <com.airbnb.lottie.LottieAnimationView
@@ -494,16 +494,27 @@
 
     <ImageView
         android:id="@+id/ivBomb"
+        android:background="@drawable/ui_background"
         android:layout_width="80dp"
         android:layout_height="30dp"
-        android:background="@drawable/ui_background"
-        android:paddingStart="4dp"
-        android:paddingBottom="1dp"
-        android:src="@drawable/bomb"
         android:layout_above="@+id/llKeyboard"
         android:layout_alignStart="@+id/llKeyboard"
         android:layout_marginBottom="10dp"
+        android:padding="1dp"
+        android:src="@drawable/bomb"
         android:onClick="onBombClick"/>
+
+    <ImageView
+        android:id="@+id/ivHint"
+        android:background="@drawable/ui_background"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_above="@+id/llKeyboard"
+        android:layout_alignEnd="@+id/llKeyboard"
+        android:layout_marginBottom="10dp"
+        android:padding="2dp"
+        android:src="@drawable/hint"
+        android:onClick="onHintClick"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavBlast"
@@ -514,5 +525,59 @@
         app:lottie_rawRes="@raw/blast"
         android:visibility="gone"/>
 
+    <TextView
+        android:id="@+id/tvHint0"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="A"
+        android:textSize="25sp"
+        android:textAppearance="@style/custom_font"
+        android:textColor="@color/green"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tvHint1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="A"
+        android:textSize="25sp"
+        android:textAppearance="@style/custom_font"
+        android:textColor="@color/green"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tvHint2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="A"
+        android:textSize="25sp"
+        android:textAppearance="@style/custom_font"
+        android:textColor="@color/green"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tvHint3"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="A"
+        android:textSize="25sp"
+        android:textAppearance="@style/custom_font"
+        android:textColor="@color/green"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tvHint4"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="A"
+        android:textSize="25sp"
+        android:textAppearance="@style/custom_font"
+        android:textColor="@color/green"
+        android:gravity="center"
+        />
 
 </RelativeLayout>

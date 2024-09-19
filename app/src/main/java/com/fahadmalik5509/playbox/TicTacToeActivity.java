@@ -179,7 +179,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     // OnClick Method
-    public void resetGame(View view) {
+    public void onResetGameClicked(View view) {
         playSound(this, R.raw.click_ui);
         resetGameState();
     }
@@ -351,7 +351,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", this.getClass().getSimpleName());
         this.startActivity(intent);
-        resetGame(view);
+        onResetGameClicked(view);
     }
     // OnClick Method
     public void goToHome(View view) {
@@ -382,7 +382,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         playerTwoScore = 0;
         playerOneScoreTV.setText("Score: " + playerOneScore);
         playerTwoScoreTV.setText("Score: " + playerTwoScore);
-        resetGame(view);
+        onResetGameClicked(view);
     }
 
     private void updateDifficultyColor() {

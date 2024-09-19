@@ -8,6 +8,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
@@ -64,6 +66,7 @@ public class ActivityUtils {
         soundMap.put(R.raw.enter, soundPool.load(context, R.raw.enter, 1));
         soundMap.put(R.raw.backspace, soundPool.load(context, R.raw.backspace, 1));
         soundMap.put(R.raw.explosion, soundPool.load(context, R.raw.explosion, 1));
+        soundMap.put(R.raw.hint, soundPool.load(context, R.raw.hint, 1));
     }
 
     public static void playSound(Context context, int soundResId) {
@@ -200,5 +203,13 @@ public class ActivityUtils {
         } else {
             view.setBackgroundTintList(ColorStateList.valueOf(color));
         }
+    }
+
+    public static int getBackgroundColor(View view) {
+        if (view.getBackground() instanceof ColorDrawable) {
+            ColorDrawable background = (ColorDrawable) view.getBackground();
+            return background.getColor();
+        }
+        return Color.TRANSPARENT; // Return transparent if the background is not a ColorDrawable
     }
 }

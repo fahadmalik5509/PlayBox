@@ -6,9 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.BufferedReader;
@@ -30,7 +34,8 @@ public class WordleActivity extends AppCompatActivity {
 
     private TextView enterKey, backspaceKey, currentStreakTextView, streakTooltipTextView;
     private final TextView[] keyboard = new TextView[26];
-    private ImageView replayImageView, homeImageView, settingImageView, backImageView, bombImageView;
+    private final TextView[] hintTextView = new TextView[5];
+    private ImageView replayImageView, homeImageView, settingImageView, backImageView, bombImageView, hintImageView;
     private final TextView[][] guessBox = new TextView[MAX_ROWS][MAX_COLS];
     private final List < String > commonWords = new ArrayList < > ();
     private final List < String > dictionary = new ArrayList < > ();
@@ -61,7 +66,7 @@ public class WordleActivity extends AppCompatActivity {
         loadPreference(this);
         loadCommonWords();
         loadDictionary();
-        loadARandomCommonWord();
+        loadRandomTargetWord();
     }
 
     // OnClick Method
@@ -70,13 +75,13 @@ public class WordleActivity extends AppCompatActivity {
         if (gameWon || gameLost) return;
         String pressedKey = (String) view.getTag();
 
-        if (pressedKey.equals("enter")) enterClicked();
-        else if (pressedKey.equals("backspace")) backspaceClicked();
-        else alphabetClicked(pressedKey);
+        if (pressedKey.equals("enter")) onEnterKeyClicked();
+        else if (pressedKey.equals("backspace")) onBackspaceKeyClicked();
+        else onLetterKeyClicked(pressedKey);
 
     }
 
-    private void alphabetClicked(String alphabet) {
+    private void onLetterKeyClicked(String alphabet) {
 
         if (currentColumn == MAX_COLS) {
             jiggleRow();
@@ -90,7 +95,7 @@ public class WordleActivity extends AppCompatActivity {
         currentColumn++;
     }
 
-    private void enterClicked() {
+    private void onEnterKeyClicked() {
         revealGuessWord++;
         if (revealGuessWord >= 5) {
             Toast.makeText(this, targetWord, Toast.LENGTH_SHORT).show();
@@ -219,7 +224,7 @@ public class WordleActivity extends AppCompatActivity {
         }
     }
 
-    private void backspaceClicked() {
+    private void onBackspaceKeyClicked() {
         if (currentColumn == 0) {
             jiggleRow();
             return;
@@ -232,7 +237,7 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     // OnClick Method
-    public void resetGame(View view) {
+    public void onResetGameClicked(View view) {
         gameWon = false;
         gameLost = false;
         currentRow = 0;
@@ -241,7 +246,7 @@ public class WordleActivity extends AppCompatActivity {
         letterColorMap.clear();
         grayedOutLetters.clear();
         replayImageView.setVisibility(View.GONE);
-        loadARandomCommonWord();
+        loadRandomTargetWord();
 
         for (int row = 0; row < MAX_ROWS; row++) {
             for (int column = 0; column < 5; column++) {
@@ -298,7 +303,7 @@ public class WordleActivity extends AppCompatActivity {
         }
     }
 
-    public void loadARandomCommonWord() {
+    public void loadRandomTargetWord() {
 
         targetWord = commonWords.get(new Random().nextInt(commonWords.size()));
     }
@@ -332,7 +337,7 @@ public class WordleActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", this.getClass().getSimpleName());
         this.startActivity(intent);
-        resetGame(view);
+        onResetGameClicked(view);
     }
     // OnClick Method
     public void goToHome(View view) {
@@ -418,6 +423,13 @@ public class WordleActivity extends AppCompatActivity {
         flameLottieAnimationView = findViewById(R.id.lavFlame);
         blastLottieAnimationView = findViewById(R.id.lavBlast);
         bombImageView = findViewById(R.id.ivBomb);
+        hintImageView = findViewById(R.id.ivHint);
+
+        hintTextView[0] = findViewById(R.id.tvHint0);
+        hintTextView[1] = findViewById(R.id.tvHint1);
+        hintTextView[2] = findViewById(R.id.tvHint2);
+        hintTextView[3] = findViewById(R.id.tvHint3);
+        hintTextView[4] = findViewById(R.id.tvHint4);
 
         currentStreak = sharedPreferences.getInt(WORDLE_STREAK_KEY, 0);
     }
@@ -435,16 +447,19 @@ public class WordleActivity extends AppCompatActivity {
         animateViewPulse(this, currentStreakTextView);
 
         animateViewPulse(this, bombImageView);
+        animateViewPulse(this, hintImageView);
     }
 
     public void onBombClick(View view) {
+        if (gameWon || gameLost) return;
+
         playSound(this, R.raw.explosion);
 
         // Show the bomb animation
         blastLottieAnimationView.setVisibility(View.VISIBLE);
         blastLottieAnimationView.playAnimation();
 
-        // Get letters that are not in the target word and are not already grayed out
+        // Filter letters not in the target word and not already grayed out
         List<Character> availableToGrayOut = new ArrayList<>();
         for (char letter = 'A'; letter <= 'Z'; letter++) {
             if (!targetWord.contains(String.valueOf(letter)) && !grayedOutLetters.contains(letter)) {
@@ -452,24 +467,27 @@ public class WordleActivity extends AppCompatActivity {
             }
         }
 
-        // Randomly pick three letters from those not in the target word and not already grayed out
         Random random = new Random();
-        int lettersToGrayOut = 3;
-
-        for (int i = 0; i < lettersToGrayOut && !availableToGrayOut.isEmpty(); i++) {
+        int lettersToGrayOut = Math.min(availableToGrayOut.size(), 3); // Ensure up to 3 letters are selected
+        for (int i = 0; i < lettersToGrayOut; i++) {
             int randomIndex = random.nextInt(availableToGrayOut.size());
-            char letterToGrayOut = availableToGrayOut.get(randomIndex);
-            availableToGrayOut.remove(randomIndex);  // Remove from the available pool
+            char letterToGrayOut = availableToGrayOut.remove(randomIndex); // Pick and remove the letter
+            int keyboardIndex = letterToGrayOut - 'A'; // Calculate keyboard index
 
-            // Gray out the selected letter on the keyboard
-            int keyboardIndex = letterToGrayOut - 'A';
+            // Gray out the letter on the keyboard
             changeBackgroundColor(keyboard[keyboardIndex], getColorByID(this, R.color.gray));
             updateKeyboardColor(letterToGrayOut, getColorByID(this, R.color.gray));
 
-            // Add to grayed-out list
+            // Add the letter to grayed-out list
             grayedOutLetters.add(letterToGrayOut);
         }
     }
 
+    public void onHintClick(View view) {
+        if (gameWon || gameLost) return;
+        playSound(this, R.raw.hint);
 
+
+
+    }
 }

@@ -283,7 +283,7 @@
         android:textSize="50sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/custom_font"
-        android:onClick="resetGame"/>
+        android:onClick="onResetGameClicked"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavFireworks"
