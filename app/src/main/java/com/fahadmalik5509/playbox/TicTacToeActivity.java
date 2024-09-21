@@ -5,7 +5,6 @@ import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -45,15 +44,19 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         loadPreference(this);
         initializeViews();
+        setupGameMode();
+        animateViewsPulse();
+    }
+
+    private void setupGameMode() {
         if (isVsAi) {
-            profileIV.setVisibility(View.GONE);
             playerOneNameTV.setText("YOU");
             playerTwoNameTV.setText("AI");
             difficultyRL.setVisibility(View.VISIBLE);
+            profileIV.setVisibility(View.GONE);
             difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
+            updateDifficultyColor();
         }
-        animateViewsPulse();
-        updateDifficultyColor();
     }
 
     // OnClick Method
@@ -129,14 +132,11 @@ public class TicTacToeActivity extends AppCompatActivity {
     private void checkGameState() {
         for (int i = 0; i < 3; i++) {
             checkLine(i * 3, i * 3 + 1, i * 3 + 2); // Rows
-            if (gameWon) return;
             checkLine(i, i + 3, i + 6); // Columns
-            if (gameWon) return;
         }
 
         checkLine(0, 4, 8); // Diagonal
         checkLine(2, 4, 6); // Reverse Diagonal
-        if (gameWon) return;
 
         if (isBoardFull()) {
             isDraw();
@@ -144,6 +144,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     private void checkLine(int a, int b, int c) {
+        if (gameWon) return;
         if (board[a] == board[b] && board[b] == board[c]) {
             isWon(a);
             animateWinningButtons(a, b, c);
@@ -351,7 +352,6 @@ public class TicTacToeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", this.getClass().getSimpleName());
         this.startActivity(intent);
-        onResetGameClicked(view);
     }
     // OnClick Method
     public void goToHome(View view) {
@@ -386,9 +386,21 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     private void updateDifficultyColor() {
-        if (difficulty == 1) changeBackgroundColor(difficultyIV, ActivityUtils.getColorByID(this, R.color.green));
-        if (difficulty == 2) changeBackgroundColor(difficultyIV, ActivityUtils.getColorByID(this, R.color.yellow));
-        if (difficulty == 3) changeBackgroundColor(difficultyIV, ActivityUtils.getColorByID(this, R.color.red));
+        int colorResId;
+        switch (difficulty) {
+            case 1:
+                colorResId = R.color.green;
+                break;
+            case 2:
+                colorResId = R.color.yellow;
+                break;
+            case 3:
+                colorResId = R.color.red;
+                break;
+            default:
+                colorResId = R.color.green;
+        }
+        changeBackgroundColor(difficultyIV, getColorByID(this, colorResId));
     }
 
     private String getDifficultyText() {
@@ -449,7 +461,6 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         animateViewScale(profileRL,1.0f,0f,200);
         shadowV.setVisibility(View.GONE);
-        new Handler().postDelayed(() -> profileRL.setVisibility(View.GONE) , 300);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }

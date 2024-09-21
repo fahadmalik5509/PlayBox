@@ -31,12 +31,6 @@
         style="@style/BackImageView"
         android:onClick="goBack" />
 
-    <!-- Home ImageView -->
-    <ImageView
-        android:id="@+id/ivHomeIcon"
-        style="@style/HomeImageView"
-        android:onClick="goToHome" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

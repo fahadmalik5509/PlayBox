@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -36,6 +35,13 @@ public class ActivityUtils {
     public static final String WORDLE_HIGHEST_STREAK_KEY = "streakHighestNumber";
     public static final String PLAYERONE_NAME_KEY = "playerOneName";
     public static final String PLAYERTWO_NAME_KEY = "playerTwoName";
+    public static final String CURRENCY_KEY = "currency";
+    public static final String BOMB_KEY = "bomb";
+    public static final String SKIP_KEY = "skip";
+    public static final String HINT_KEY = "hint";
+
+
+
     public static boolean isVsAi = false;
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
@@ -67,6 +73,11 @@ public class ActivityUtils {
         soundMap.put(R.raw.backspace, soundPool.load(context, R.raw.backspace, 1));
         soundMap.put(R.raw.explosion, soundPool.load(context, R.raw.explosion, 1));
         soundMap.put(R.raw.hint, soundPool.load(context, R.raw.hint, 1));
+        soundMap.put(R.raw.skip, soundPool.load(context, R.raw.skip, 1));
+        soundMap.put(R.raw.bought, soundPool.load(context, R.raw.bought, 1));
+        soundMap.put(R.raw.coin, soundPool.load(context, R.raw.coin, 1));
+        soundMap.put(R.raw.register, soundPool.load(context, R.raw.register, 1));
+        soundMap.put(R.raw.flamesfx, soundPool.load(context, R.raw.flamesfx, 1));
     }
 
     public static void playSound(Context context, int soundResId) {
@@ -169,12 +180,17 @@ public class ActivityUtils {
         animator.start();
     }
 
-    public static void animateViewJiggle(View view) {
+    public static void animateViewJiggle(View view, int duration) {
 
         ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationX", -10f, 10f, 0f);
-        animator.setDuration(150); // Slightly longer to account for both directions
+        animator.setDuration(duration);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.start();
+    }
+
+    public static void animateText(View view, float startAngle, float endAngle, int duration) {
+        view.setRotation(startAngle);
+        view.animate().rotation(endAngle).setDuration(duration).setListener(null);
     }
 
     public static void changeActivity(Activity fromActivity, Class < ? > toActivity, boolean shouldFinish, boolean animate) {
@@ -193,8 +209,12 @@ public class ActivityUtils {
         return ContextCompat.getColor(context, colorResId);
     }
 
-    public static void changeBackgroundColor(View view, int color) {
+    public static void toggleVisibility(View view) {
+        if(view.getVisibility() == View.VISIBLE) view.setVisibility(View.GONE);
+        else view.setVisibility(View.VISIBLE);
+    }
 
+    public static void changeBackgroundColor(View view, int color) {
         if (view == null) return;
 
         Drawable background = view.getBackground();
@@ -206,10 +226,12 @@ public class ActivityUtils {
     }
 
     public static int getBackgroundColor(View view) {
-        if (view.getBackground() instanceof ColorDrawable) {
-            ColorDrawable background = (ColorDrawable) view.getBackground();
-            return background.getColor();
+        if (view == null) return ContextCompat.getColor(view.getContext(), android.R.color.transparent);
+
+        Drawable background = view.getBackground();
+        if (background instanceof ColorDrawable) {
+            return ((ColorDrawable) background).getColor();
         }
-        return Color.TRANSPARENT; // Return transparent if the background is not a ColorDrawable
+        return ContextCompat.getColor(view.getContext(), android.R.color.transparent);
     }
 }

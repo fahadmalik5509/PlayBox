@@ -4,8 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background">
 
+    <!-- Flame AnimationView -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavFlame"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-10dp"
+        android:layout_marginEnd="50dp"
+        app:lottie_rawRes="@raw/flame"
+        app:lottie_loop="true"
+        android:visibility="gone"/>
+
     <!-- LetterBox Layout -->
     <GridLayout
+        android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:rowCount="6"
@@ -14,181 +27,181 @@
         android:layout_marginTop="80dp"
         android:useDefaultMargins="true">
 
-        <TextView
+        <EditText
             android:id="@+id/_0_0"
             android:layout_row="0"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_0_1"
             android:layout_row="0"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_0_2"
             android:layout_row="0"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_0_3"
             android:layout_row="0"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_0_4"
             android:layout_row="0"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_1_0"
             android:layout_row="1"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_1_1"
             android:layout_row="1"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_1_2"
             android:layout_row="1"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_1_3"
             android:layout_row="1"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_1_4"
             android:layout_row="1"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_2_0"
             android:layout_row="2"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_2_1"
             android:layout_row="2"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_2_2"
             android:layout_row="2"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_2_3"
             android:layout_row="2"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_2_4"
             android:layout_row="2"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_3_0"
             android:layout_row="3"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_3_1"
             android:layout_row="3"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_3_2"
             android:layout_row="3"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_3_3"
             android:layout_row="3"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_3_4"
             android:layout_row="3"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_4_0"
             android:layout_row="4"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_4_1"
             android:layout_row="4"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_4_2"
             android:layout_row="4"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_4_3"
             android:layout_row="4"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_4_4"
             android:layout_row="4"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_5_0"
             android:layout_row="5"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_5_1"
             android:layout_row="5"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_5_2"
             android:layout_row="5"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_5_3"
             android:layout_row="5"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
-        <TextView
+        <EditText
             android:id="@+id/_5_4"
             android:layout_row="5"
             android:layout_column="4"
@@ -415,6 +428,34 @@
 
     </LinearLayout>
 
+    <!-- Blast AnimationView -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavBlast"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        app:lottie_rawRes="@raw/blast"
+        android:visibility="gone"/>
+
+    <!-- Wand AnimationView -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavWand"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        app:lottie_rawRes="@raw/wand"
+        android:visibility="gone"/>
+
+    <!-- Skip AnimationView -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavSkip"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        android:layout_alignBottom="@+id/gridLayout"
+        app:lottie_rawRes="@raw/skipanimation" />
+
     <!-- Back ImageView -->
     <ImageView
         android:id="@+id/ivBackIcon"
@@ -433,28 +474,7 @@
         style="@style/SettingImageView"
         android:onClick="goToSetting" />
 
-    <ImageView
-        android:id="@+id/resetImg"
-        android:src="@drawable/replay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="70dp"
-        android:onClick="onResetGameClicked"
-        android:visibility="gone" />
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lavFlame"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="-10dp"
-        android:layout_marginEnd="50dp"
-        app:lottie_rawRes="@raw/flame"
-        app:lottie_loop="true"
-        android:visibility="gone"/>
-
+    <!-- Streak TextView -->
     <RelativeLayout
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -491,93 +511,372 @@
 
     </RelativeLayout>
 
-
-    <ImageView
-        android:id="@+id/ivBomb"
-        android:background="@drawable/ui_background"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
+    <!-- Bomb RelativeLayout -->
+    <RelativeLayout
+        android:id="@+id/rlBomb"
+        android:layout_width="82dp"
+        android:layout_height="33dp"
         android:layout_above="@+id/llKeyboard"
         android:layout_alignStart="@+id/llKeyboard"
         android:layout_marginBottom="10dp"
-        android:padding="1dp"
-        android:src="@drawable/bomb"
-        android:onClick="onBombClick"/>
+        android:onClick="onBombClick">
 
-    <ImageView
-        android:id="@+id/ivHint"
-        android:background="@drawable/ui_background"
-        android:layout_width="80dp"
-        android:layout_height="30dp"
+        <ImageView
+            android:background="@drawable/ui_background"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:padding="1dp"
+            android:src="@drawable/bomb" />
+
+        <TextView
+            android:id="@+id/tvBomb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/circle_background"
+            android:paddingHorizontal="5dp"
+            android:textSize="12sp"
+            android:textAppearance="@style/custom_font"
+            android:textColor="@color/gray"/>
+
+    </RelativeLayout>
+
+    <!-- Skip RelativeLayout -->
+    <RelativeLayout
+        android:id="@+id/rlSkip"
+        android:layout_width="82dp"
+        android:layout_height="33dp"
+        android:layout_above="@+id/llKeyboard"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:onClick="onSkipClick">
+
+        <ImageView
+            android:background="@drawable/ui_background"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:padding="3dp"
+            android:src="@drawable/skip" />
+
+        <TextView
+            android:id="@+id/tvSkip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/circle_background"
+            android:paddingHorizontal="5dp"
+            android:textSize="12sp"
+            android:textAppearance="@style/custom_font"
+            android:textColor="@color/gray"/>
+
+    </RelativeLayout>
+
+    <!-- Hint RelativeLayout -->
+    <RelativeLayout
+        android:id="@+id/rlHint"
+        android:layout_width="82dp"
+        android:layout_height="33dp"
         android:layout_above="@+id/llKeyboard"
         android:layout_alignEnd="@+id/llKeyboard"
         android:layout_marginBottom="10dp"
-        android:padding="2dp"
-        android:src="@drawable/hint"
-        android:onClick="onHintClick"/>
+        android:onClick="onHintClick">
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lavBlast"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        <ImageView
+            android:background="@drawable/ui_background"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:padding="2dp"
+            android:src="@drawable/hint" />
+
+        <TextView
+            android:id="@+id/tvHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/circle_background"
+            android:paddingHorizontal="5dp"
+            android:textSize="12sp"
+            android:textAppearance="@style/custom_font"
+            android:textColor="@color/gray"/>
+
+    </RelativeLayout>
+
+    <!-- Currency RelativeLayout -->
+    <RelativeLayout
+        android:id="@+id/rlCurrency"
+        android:layout_width="80dp"
+        android:layout_height="32dp"
+        android:layout_toEndOf="@id/ivBackIcon"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/popup_background"
+        android:onClick="onCurrencyClicked">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="5dp"
+            android:paddingVertical="2dp"
+            android:background="@drawable/circle_background"
+            android:layout_centerVertical="true"
+            android:src="@drawable/coin"/>
+
+        <TextView
+            android:id="@+id/tvCurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="7dp"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textAppearance="@style/custom_font"
+            android:textColor="@color/beige"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/plus"
+        android:layout_marginBottom="-25dp"
+        android:layout_marginStart="-10dp"
+        android:layout_toRightOf="@id/rlCurrency"
+        android:layout_above="@+id/rlCurrency"/>
+
+    <!-- Shadow View -->
+    <View
+        android:id="@+id/vShadow"
+        style="@style/ShadowLayout"/>
+
+
+    <!-- Reset ImageView -->
+    <ImageView
+        android:id="@+id/resetImg"
+        android:src="@drawable/replay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp"
-        app:lottie_rawRes="@raw/blast"
-        android:visibility="gone"/>
+        android:layout_margin="70dp"
+        android:onClick="onResetGameClicked"
+        android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/tvHint0"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="A"
-        android:textSize="25sp"
-        android:textAppearance="@style/custom_font"
-        android:textColor="@color/green"
-        android:gravity="center"
-        />
+    <!-- Mid-Game Warning RelativeLayout -->
+    <RelativeLayout
+        android:id="@+id/rlLeaveGame"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:background="@drawable/popup_background"
+        android:visibility="gone">
 
-    <TextView
-        android:id="@+id/tvHint1"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="A"
-        android:textSize="25sp"
-        android:textAppearance="@style/custom_font"
-        android:textColor="@color/green"
-        android:gravity="center"
-        />
+        <TextView
+            android:id="@+id/midGameExitTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Exit mid-game?\nStreak reset!"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/custom_font"
+            android:gravity="center" />
 
-    <TextView
-        android:id="@+id/tvHint2"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="A"
-        android:textSize="25sp"
-        android:textAppearance="@style/custom_font"
-        android:textColor="@color/green"
-        android:gravity="center"
-        />
+        <Button
+            android:id="@+id/bGameLeave"
+            android:tag="leave"
+            android:background="@drawable/ui_background"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:text="Leave"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/custom_font"
+            android:onClick="handleLeaveButtons" />
 
-    <TextView
-        android:id="@+id/tvHint3"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="A"
-        android:textSize="25sp"
-        android:textAppearance="@style/custom_font"
-        android:textColor="@color/green"
-        android:gravity="center"
-        />
+        <Button
+            android:id="@+id/bGameStay"
+            android:tag="stay"
+            android:background="@drawable/exitno"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="Stay"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/custom_font"
+            android:onClick="handleLeaveButtons" />
 
-    <TextView
-        android:id="@+id/tvHint4"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:text="A"
-        android:textSize="25sp"
-        android:textAppearance="@style/custom_font"
-        android:textColor="@color/green"
+
+    </RelativeLayout>
+
+    <!-- CurrencyBuy RelativeLayout -->
+    <LinearLayout
+        android:id="@+id/llCurrencyBuy"
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:padding="20dp"
         android:gravity="center"
-        />
+        android:background="@drawable/popup_background"
+        android:visibility="gone">
+
+        <RelativeLayout
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/ui_background">
+
+            <ImageView
+                android:id="@+id/ivBuyBomb"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/bomb"/>
+
+            <TextView
+                android:id="@+id/tvBuyBomb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:layout_alignBottom="@id/ivBuyBomb"
+                android:layout_alignEnd="@+id/ivBuyBomb"
+                android:layout_marginEnd="5dp"
+                android:paddingHorizontal="5dp"
+                android:background="@drawable/circle_background"
+                android:textAppearance="@style/custom_font"/>
+
+            <Button
+                android:id="@+id/bBuyBomb"
+                android:tag="bomb"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_centerVertical="true"
+                android:text="buy ($40)"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAppearance="@style/custom_font"
+                android:onClick="handleBuyButtons"
+                android:background="@drawable/keyboard_keys_background"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/ui_background">
+
+            <ImageView
+                android:id="@+id/ivBuySkip"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/skip"/>
+
+            <TextView
+                android:id="@+id/tvBuySkip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:layout_alignBottom="@id/ivBuySkip"
+                android:layout_alignEnd="@+id/ivBuySkip"
+                android:paddingHorizontal="5dp"
+                android:background="@drawable/circle_background"
+                android:textAppearance="@style/custom_font"/>
+
+            <Button
+                android:id="@+id/bBuySkip"
+                android:tag="skip"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_centerVertical="true"
+                android:text="buy ($200)"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAppearance="@style/custom_font"
+                android:onClick="handleBuyButtons"
+                android:background="@drawable/keyboard_keys_background"/>
+
+         </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="160dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/ui_background">
+
+            <ImageView
+                android:id="@+id/ivBuyHint"
+                android:layout_width="40dp"
+                android:layout_height="45dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="10dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/hint"/>
+
+            <TextView
+                android:id="@+id/tvBuyHint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:layout_alignBottom="@id/ivBuyHint"
+                android:layout_alignEnd="@+id/ivBuyHint"
+                android:paddingHorizontal="5dp"
+                android:background="@drawable/circle_background"
+                android:textAppearance="@style/custom_font"/>
+
+            <Button
+                android:id="@+id/bBuyHint"
+                android:tag="hint"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_centerVertical="true"
+                android:text="buy ($100)"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAppearance="@style/custom_font"
+                android:onClick="handleBuyButtons"
+                android:background="@drawable/keyboard_keys_background"/>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/bBuyClose"
+            android:tag="close"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:background="@drawable/exitno"
+            android:text="Close"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:textAppearance="@style/custom_font"
+            android:onClick="handleBuyButtons"/>
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -14,7 +14,7 @@ public class SettingActivity extends AppCompatActivity {
 
     private Button soundButton, vibrationButton;
     private boolean isSoundEnabled, isVibrationEnabled;
-    private ImageView homeImageView, backImageView;
+    private ImageView backImageView;
     private String originActivity;
 
     @Override
@@ -67,12 +67,6 @@ public class SettingActivity extends AppCompatActivity {
         button.setText(buttonText);
     }
 
-    //onclick Method
-    public void goToHome(View view) {
-        playSound(this, R.raw.click_ui);
-        changeActivity(this, HomeActivity.class, true, false);
-    }
-
     // OnClick Method
     public void goBack(View view) {
         playSound(this, R.raw.click_ui);
@@ -92,20 +86,28 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         vibrate(this, 50);
-        changeActivity(this, HomeActivity.class, true, false);
+        if (originActivity != null) {
+            try {
+                // Launch the originating activity
+                Class < ? > clazz = Class.forName("com.yourpackage." + originActivity);
+                Intent intent = new Intent(this, clazz);
+                startActivity(intent);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        finish(); // Close the settings activity
     }
 
     private void initializeViews() {
         soundButton = findViewById(R.id.bSound);
         vibrationButton = findViewById(R.id.bVibration);
-        homeImageView = findViewById(R.id.ivHomeIcon);
         backImageView = findViewById(R.id.ivBackIcon);
     }
 
     private void animateViewsPulse() {
         animateViewPulse(this, soundButton);
         animateViewPulse(this, vibrationButton);
-        animateViewPulse(this, homeImageView);
         animateViewPulse(this, backImageView);
     }
 }
