@@ -24,6 +24,7 @@ public class SettingActivity extends AppCompatActivity {
 
         originActivity = getIntent().getStringExtra("origin_activity");
 
+        loadColors(this);
         loadPreference(this);
         initializeViews();
         animateViewsPulse();
@@ -34,28 +35,28 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void updateButtonStates() {
-        changeBackgroundColor(soundButton, isSoundEnabled ? ActivityUtils.getColorByID(this, R.color.green) : ActivityUtils.getColorByID(this, R.color.red));
-        changeBackgroundColor(vibrationButton, isVibrationEnabled ? ActivityUtils.getColorByID(this, R.color.green) : ActivityUtils.getColorByID(this, R.color.red));
+        changeBackgroundColor(soundButton, isSoundEnabled ? GREEN_COLOR : RED_COLOR);
+        changeBackgroundColor(vibrationButton, isVibrationEnabled ? GREEN_COLOR : RED_COLOR);
         updateButtonState(soundButton, isSoundEnabled, "Sounds ");
         updateButtonState(vibrationButton, isVibrationEnabled, "Vibration ");
     }
 
-    //onclick Method
+    // OnClick Method
     public void handleSoundButtonClick(View view) {
         isSoundEnabled = !isSoundEnabled;
         playSound(this, R.raw.click_ui);
-        int color = isSoundEnabled ? ActivityUtils.getColorByID(this, R.color.green) : ActivityUtils.getColorByID(this, R.color.red);
+        int color = isSoundEnabled ? GREEN_COLOR : RED_COLOR;
         changeBackgroundColor(soundButton, color);
         updateButtonState(soundButton, isSoundEnabled, "Sounds ");
 
         saveToSharedPreferences(SOUND_KEY, isSoundEnabled);
     }
 
-    //onclick Method
+    // OnClick Method
     public void handleVibrationButtonClick(View view) {
         playSound(this, R.raw.click_ui);
         isVibrationEnabled = !isVibrationEnabled;
-        int color = isVibrationEnabled ? ActivityUtils.getColorByID(this, R.color.green) : ActivityUtils.getColorByID(this, R.color.red);
+        int color = isVibrationEnabled ? GREEN_COLOR : RED_COLOR;
         changeBackgroundColor(vibrationButton, color);
         updateButtonState(vibrationButton, isVibrationEnabled, "Vibration ");
 

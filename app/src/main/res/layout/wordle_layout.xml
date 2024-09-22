@@ -355,8 +355,8 @@
             android:orientation="horizontal"
             android:layout_marginTop="5dp">
 
-            <TextView
-                android:id="@+id/enterTextView"
+            <ImageView
+                android:id="@+id/enterImageView"
                 android:tag="enter"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -364,8 +364,9 @@
                 android:textSize="20sp"
                 android:gravity="center"
                 android:clickable="true"
+                android:padding="6dp"
                 android:background="@drawable/keyboard_keys_background"
-                android:drawableStart="@drawable/enter"
+                android:src="@drawable/enter"
                 android:onClick="keyboardClicked"/>
 
             <TextView
@@ -410,8 +411,8 @@
                 style="@style/KeyboardTextView"
                 android:text="M"/>
 
-            <TextView
-                android:id="@+id/backspaceTextView"
+            <ImageView
+                android:id="@+id/backspaceImageView"
                 android:tag="backspace"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -419,9 +420,10 @@
                 android:layout_marginStart="5dp"
                 android:textSize="20sp"
                 android:gravity="center"
+                android:padding="6dp"
                 android:clickable="true"
                 android:background="@drawable/keyboard_keys_background"
-                android:drawableStart="@drawable/backspace"
+                android:src="@drawable/backspace"
                 android:onClick="keyboardClicked"/>
 
         </LinearLayout>
@@ -492,7 +494,7 @@
             android:textColor="@color/background"
             android:textAppearance="@style/custom_font"
             android:gravity="center"
-            android:onClick="streakClicked" />
+            android:onClick="onStreakClick" />
 
         <TextView
             android:id="@+id/tvStreakTooltip"
@@ -616,7 +618,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
         android:background="@drawable/popup_background"
-        android:onClick="onCurrencyClicked">
+        android:onClick="onCurrencyClick">
 
         <ImageView
             android:layout_width="25dp"
@@ -653,7 +655,6 @@
     <View
         android:id="@+id/vShadow"
         style="@style/ShadowLayout"/>
-
 
     <!-- Reset ImageView -->
     <ImageView

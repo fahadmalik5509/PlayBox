@@ -22,6 +22,7 @@ public class GameModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gamemode_layout);
 
+        loadColors(this);
         initializeViews();
         animateViewsPulse();
     }

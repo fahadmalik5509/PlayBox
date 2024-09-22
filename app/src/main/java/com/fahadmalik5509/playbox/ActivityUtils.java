@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -23,6 +24,8 @@ import android.view.animation.LinearInterpolator;
 import android.content.SharedPreferences;
 
 import androidx.core.content.ContextCompat;
+
+import java.util.Random;
 
 public class ActivityUtils {
 
@@ -40,6 +43,15 @@ public class ActivityUtils {
     public static final String SKIP_KEY = "skip";
     public static final String HINT_KEY = "hint";
 
+    public static int BACKGROUND_COLOR;
+    public static int BLACK_COLOR;
+    public static int GRAY_COLOR;
+    public static int WHITE_COLOR;
+    public static int BEIGE_COLOR;
+    public static int HINT_COLOR;
+    public static int RED_COLOR;
+    public static int YELLOW_COLOR;
+    public static int GREEN_COLOR;
 
 
     public static boolean isVsAi = false;
@@ -207,6 +219,26 @@ public class ActivityUtils {
     public static int getColorByID(Context context, int colorResId) {
 
         return ContextCompat.getColor(context, colorResId);
+    }
+
+    public static void loadColors(Context context) {
+        BACKGROUND_COLOR = getColorByID(context, R.color.background);
+        BLACK_COLOR = getColorByID(context, R.color.black);
+        GRAY_COLOR = getColorByID(context, R.color.gray);
+        WHITE_COLOR = getColorByID(context, R.color.white);
+        BEIGE_COLOR = getColorByID(context, R.color.beige);
+        HINT_COLOR = getColorByID(context, R.color.hint);
+        RED_COLOR = getColorByID(context, R.color.red);
+        YELLOW_COLOR = getColorByID(context, R.color.yellow);
+        GREEN_COLOR = getColorByID(context, R.color.green);
+    }
+
+    public static int getRandomNumber(int min, int max) {
+        if (min > max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+        Random random = new Random();
+        return random.nextInt((max - min) + 1) + min;
     }
 
     public static void toggleVisibility(View view) {

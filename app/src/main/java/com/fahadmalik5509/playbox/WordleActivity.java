@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -34,8 +33,8 @@ public class WordleActivity extends AppCompatActivity {
     private final int MAX_COLS = 5;
 
     RelativeLayout leaveGameRelativeLayout, currencyRelativeLayout, bombRelativeLayout, hintRelativeLayout, skipRelativeLayout;
-    private TextView enterTV, backspaceTV, currentStreakTV, streakTooltipTV, currencyTV, bombTV, hintTV, skipTV, buyBombTV, buyHintTV, buySkipTV;
-    private ImageView replayIV, homeIV, settingIV, backIV;
+    private TextView currentStreakTV, streakTooltipTV, currencyTV, bombTV, hintTV, skipTV, buyBombTV, buyHintTV, buySkipTV;
+    private ImageView enterIV, backspaceIV, replayIV, homeIV, settingIV, backIV;
     private final TextView[] keyboard = new TextView[26];
     private final EditText[][] letterBox = new EditText[MAX_ROWS][MAX_COLS];
     Button leaveGameB, stayGameB, buyBombB, buyHintB, buySkipB, buyCloseB;
@@ -58,6 +57,7 @@ public class WordleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.wordle_layout);
 
+        loadColors(this);
         initializeViews();
         animateViewsPulse();
         loadGameData();
@@ -91,7 +91,7 @@ public class WordleActivity extends AppCompatActivity {
 
         if (currentColumn == MAX_COLS) {
             playSound(this, R.raw.click_error);
-            jiggleRow(currentRow);
+            jiggleRow();
             return;
         }
 
@@ -108,7 +108,7 @@ public class WordleActivity extends AppCompatActivity {
 
         if (!isGuessComplete() || !isValidGuess(userGuess.toString())) {
             playSound(this, R.raw.click_error);
-            jiggleRow(currentRow);
+            jiggleRow();
             return;
         }
 
@@ -135,8 +135,8 @@ public class WordleActivity extends AppCompatActivity {
         for (int i = 0; i < MAX_COLS; i++) {
             char guessChar = userGuess.charAt(i);
             if (targetWord.charAt(i) == guessChar) {
-                changeBackgroundColor(letterBox[currentRow][i], getColorByID(this, R.color.green));
-                updateKeyboardColor(guessChar, getColorByID(this, R.color.green));
+                changeBackgroundColor(letterBox[currentRow][i], GREEN_COLOR);
+                updateKeyboardColor(guessChar, GREEN_COLOR);
                 letterMatched[i] = true;
                 targetLetterCount[guessChar - 'A']--;
             }
@@ -149,12 +149,12 @@ public class WordleActivity extends AppCompatActivity {
 
             char guessChar = userGuess.charAt(i);
             if (targetLetterCount[guessChar - 'A'] > 0) {
-                changeBackgroundColor(letterBox[currentRow][i], getColorByID(this, R.color.yellow));
-                updateKeyboardColor(guessChar, getColorByID(this, R.color.yellow));
+                changeBackgroundColor(letterBox[currentRow][i], YELLOW_COLOR);
+                updateKeyboardColor(guessChar, YELLOW_COLOR);
                 targetLetterCount[guessChar - 'A']--;
             } else {
-                changeBackgroundColor(letterBox[currentRow][i], getColorByID(this, R.color.gray));
-                updateKeyboardColor(guessChar, getColorByID(this, R.color.gray));
+                changeBackgroundColor(letterBox[currentRow][i], GRAY_COLOR);
+                updateKeyboardColor(guessChar, GRAY_COLOR);
             }
         }
     }
@@ -182,13 +182,13 @@ public class WordleActivity extends AppCompatActivity {
     private void handleWin() {
         gameWon = true;
         waveRow();
+        animateText(currencyTV, 0f, 360f, 300);
+        playSound(this, R.raw.coin);
+        currentCurrency += (50 + (5 * currentStreak) + ((6 - currentRow) * 5));
+        updateCurrency();
         currentStreak++;
         updateStreak();
-        animateText(currencyTV, 0f, 360f, 300);
-        currentCurrency += (50 + (5 * currentStreak));
-        playSound(this, R.raw.coin);
-        updateCurrency();
-        new Handler().postDelayed(() -> replayIV.setVisibility(View.VISIBLE), 300);
+        new Handler().postDelayed(() -> replayIV.setVisibility(View.VISIBLE), 500);
     }
 
     private void handleLoss() {
@@ -200,38 +200,18 @@ public class WordleActivity extends AppCompatActivity {
         updateStreak();
     }
 
-    private void updateStreak() {
-
-        int highestStreak = sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0);
-
-        saveToSharedPreferences(WORDLE_STREAK_KEY, currentStreak);
-        currentStreakTV.setText(String.valueOf(currentStreak));
-
-        if (currentStreak >= highestStreak && currentStreak != 0) {
-                saveToSharedPreferences(WORDLE_HIGHEST_STREAK_KEY, currentStreak);
-                changeBackgroundColor(currentStreakTV, Color.TRANSPARENT);
-                flameAV.setVisibility(View.VISIBLE);
-                flameAV.playAnimation();
-        }
-        else {
-            currentStreakTV.setBackgroundTintList(null);
-            currentStreakTV.setBackgroundResource(R.drawable.circle_background);
-            flameAV.setVisibility(View.GONE);
-            flameAV.cancelAnimation();
-        }
-    }
 
     private void updateKeyboardColor(char letter, int color) {
         Integer existingColor = letterColorMap.get(letter);
 
         // Apply the color based on priority
-        if (color == getColorByID(this, R.color.green) ||
-                (color == getColorByID(this, R.color.yellow) && (existingColor == null || existingColor != getColorByID(this, R.color.green))) ||
-                (color == getColorByID(this, R.color.gray) && (existingColor == null || existingColor != getColorByID(this, R.color.green) && existingColor != getColorByID(this, R.color.yellow)))) {
+        if (color == GREEN_COLOR ||
+                (color == YELLOW_COLOR && (existingColor == null || existingColor != GREEN_COLOR)) ||
+                (color == GRAY_COLOR && (existingColor == null || existingColor != GREEN_COLOR && existingColor != YELLOW_COLOR))) {
             letterColorMap.put(letter, color);
 
             // Update grayedOutLetters list if the color is gray
-            if (color == getColorByID(this, R.color.gray) && !grayedOutLetters.contains(letter)) {
+            if (color == GRAY_COLOR && !grayedOutLetters.contains(letter)) {
                 grayedOutLetters.add(letter);
             }
         }
@@ -249,7 +229,7 @@ public class WordleActivity extends AppCompatActivity {
     private void onBackspaceKeyClicked() {
         if (currentColumn == 0) {
             playSound(this, R.raw.click_error);
-            jiggleRow(currentRow);
+            jiggleRow();
             return;
         }
 
@@ -277,12 +257,12 @@ public class WordleActivity extends AppCompatActivity {
             for (int column = 0; column < 5; column++) {
                 letterBox[row][column].setText("");
                 letterBox[row][column].setHint("");
-                changeBackgroundColor(letterBox[row][column], getColorByID(this, R.color.red));
+                changeBackgroundColor(letterBox[row][column], RED_COLOR);
             }
         }
 
         for (int i = 0; i < 26; i++) {
-            changeBackgroundColor(keyboard[i], getColorByID(this, R.color.beige));
+            changeBackgroundColor(keyboard[i], BEIGE_COLOR);
         }
     }
 
@@ -294,15 +274,13 @@ public class WordleActivity extends AppCompatActivity {
         return dictionary.contains(guess.toUpperCase());
     }
 
-    private void jiggleRow(int row) {
+    private void jiggleRow() {
         for (int i = 0; i < MAX_COLS; i++)
-            animateViewJiggle(letterBox[row][i], 150);
+            animateViewJiggle(letterBox[currentRow][i], 150);
     }
-
     private void waveRow() {
         final int duration = 150;
         final int delayBetweenAnimations = 50;
-        final float scaleDownValue = 0.7f;
 
         for (int i = 0; i < MAX_COLS; i++) {
             final int index = i;
@@ -310,19 +288,19 @@ public class WordleActivity extends AppCompatActivity {
 
             // Scale down animation
             letterBox[currentRow][i].postDelayed(() -> {
-                animateViewScale(letterBox[currentRow][index], 1.0f, scaleDownValue, duration);
+                animateViewScale(letterBox[currentRow][index], 1.0f, 0.7f, duration);
             }, startDelay);
 
             // Scale up animation
             letterBox[currentRow][i].postDelayed(() -> {
-                animateViewScale(letterBox[currentRow][index], scaleDownValue, 1.0f, duration);
+                animateViewScale(letterBox[currentRow][index], 0.7f, 1.0f, duration);
             }, startDelay + duration + delayBetweenAnimations);
         }
     }
 
     public void loadRandomTargetWord() {
 
-        targetWord = commonWords.get(new Random().nextInt(commonWords.size()));
+        targetWord = commonWords.get(getRandomNumber(0,commonWords.size() - 1));
     }
 
     private void loadDictionary() {
@@ -349,7 +327,7 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     // OnClick Method
-    public void onCurrencyClicked(View view) {
+    public void onCurrencyClick(View view) {
         playSound(this, R.raw.register);
         shadowView.setVisibility(View.VISIBLE);
         currencyBuyLinearLayout.setVisibility(View.VISIBLE);
@@ -357,7 +335,6 @@ public class WordleActivity extends AppCompatActivity {
         buyHintTV.setText(String.valueOf(currentHint));
         buySkipTV.setText(String.valueOf(currentSkip));
     }
-
     private void updateCurrency() {
 
         saveToSharedPreferences(CURRENCY_KEY, currentCurrency);
@@ -365,12 +342,32 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     // OnClick Method
-    public void streakClicked(View view) {
+    public void onStreakClick(View view) {
         if(flameAV.isAnimating()) playSound(this, R.raw.flamesfx);
         else playSound(this, R.raw.click_ui);
         streakTooltipTV.setText("Streak\n(Current: " + sharedPreferences.getInt(WORDLE_STREAK_KEY, 0) + ")" + "\n(Best: " + sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0) + ")");
         streakTooltipTV.setVisibility(View.VISIBLE);
         streakTooltipTV.postDelayed(() -> streakTooltipTV.setVisibility(View.GONE), 2000);
+    }
+    private void updateStreak() {
+
+        int highestStreak = sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0);
+
+        saveToSharedPreferences(WORDLE_STREAK_KEY, currentStreak);
+        currentStreakTV.setText(String.valueOf(currentStreak));
+
+        if (currentStreak >= highestStreak && currentStreak != 0) {
+            saveToSharedPreferences(WORDLE_HIGHEST_STREAK_KEY, currentStreak);
+            changeBackgroundColor(currentStreakTV, Color.TRANSPARENT);
+            flameAV.setVisibility(View.VISIBLE);
+            flameAV.playAnimation();
+        }
+        else {
+            currentStreakTV.setBackgroundTintList(null);
+            currentStreakTV.setBackgroundResource(R.drawable.circle_background);
+            flameAV.setVisibility(View.GONE);
+            flameAV.cancelAnimation();
+        }
     }
 
     // OnClick Method
@@ -387,8 +384,8 @@ public class WordleActivity extends AppCompatActivity {
             if (!targetWord.contains(String.valueOf(letter)) && !grayedOutLetters.contains(letter)) {
                 // Gray out the letter on the keyboard
                 int keyboardIndex = letter - 'A';
-                changeBackgroundColor(keyboard[keyboardIndex], getColorByID(this, R.color.gray));
-                updateKeyboardColor(letter, getColorByID(this, R.color.gray));
+                changeBackgroundColor(keyboard[keyboardIndex], GRAY_COLOR);
+                updateKeyboardColor(letter, GREEN_COLOR);
 
                 // Add the letter to grayed-out list
                 grayedOutLetters.add(letter);
@@ -439,16 +436,20 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void onHintClick(View view) {
-        if (gameWon || gameLost || hintUsed >= 2) return;
+        int HINTS_PER_ROUND = 2;
 
-        int greenColor = getColorByID(this, R.color.green);
+        if (gameWon || gameLost || hintUsed >= HINTS_PER_ROUND) {
+            playSound(this, R.raw.click_error);
+            return;
+        }
+
         List<Integer> unrevealedPositions = new ArrayList<>();
 
         for (int i = 0; i < MAX_COLS; i++) {
             char targetChar = targetWord.charAt(i);
             Integer keyboardColor = letterColorMap.get(targetChar);
 
-            if (keyboardColor == null || keyboardColor != greenColor) {
+            if (keyboardColor == null || keyboardColor != GREEN_COLOR) {
                 unrevealedPositions.add(i);
             }
         }
@@ -460,8 +461,7 @@ public class WordleActivity extends AppCompatActivity {
 
         playSound(this, R.raw.hint);
 
-        Random random = new Random();
-        int randomIndex = random.nextInt(unrevealedPositions.size());
+        int randomIndex = getRandomNumber(0, unrevealedPositions.size() - 1);
         int positionToReveal = unrevealedPositions.get(randomIndex);
 
         char correctLetter = targetWord.charAt(positionToReveal);
@@ -471,7 +471,7 @@ public class WordleActivity extends AppCompatActivity {
         // Store the revealed hint
         revealedHints.put(positionToReveal, correctLetter);
 
-        updateKeyboardColor(correctLetter, greenColor);
+        updateKeyboardColor(correctLetter, GREEN_COLOR);
         applyKeyboardColors();
 
         hintUsed++;
@@ -596,8 +596,8 @@ public class WordleActivity extends AppCompatActivity {
         keyboard[23] = findViewById(R.id.xTextView);
         keyboard[24] = findViewById(R.id.yTextView);
         keyboard[25] = findViewById(R.id.zTextView);
-        enterTV = findViewById(R.id.enterTextView);
-        backspaceTV = findViewById(R.id.backspaceTextView);
+        enterIV = findViewById(R.id.enterImageView);
+        backspaceIV = findViewById(R.id.backspaceImageView);
 
         letterBox[0][0] = findViewById(R.id._0_0);
         letterBox[0][1] = findViewById(R.id._0_1);
@@ -678,8 +678,8 @@ public class WordleActivity extends AppCompatActivity {
     private void animateViewsPulse() {
         for (int i = 0; i < 26; i++) animateViewPulse(this, keyboard[i]);
 
-        animateViewPulse(this, enterTV);
-        animateViewPulse(this, backspaceTV);
+        animateViewPulse(this, enterIV);
+        animateViewPulse(this, backspaceIV);
 
         animateViewPulse(this, replayIV);
         animateViewPulse(this, homeIV);
@@ -702,8 +702,8 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     private void cheat() {
-        currentCurrency = 99999;
-        updateCurrency();
+        //currentCurrency = 99999;
+        //updateCurrency();
         Toast.makeText(this, targetWord, Toast.LENGTH_SHORT).show();
     }
 }

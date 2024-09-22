@@ -18,8 +18,6 @@ import androidx.cardview.widget.CardView;
 
 import com.airbnb.lottie.LottieAnimationView;
 
-import java.util.Random;
-
 public class TicTacToeActivity extends AppCompatActivity {
 
     private final char[] board = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
@@ -42,6 +40,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tictactoe_layout);
 
+        loadColors(this);
         loadPreference(this);
         initializeViews();
         setupGameMode();
@@ -175,7 +174,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     private void animateWinningButtons(int...winBtn) {
         for (int index: winBtn) {
             animateViewScale(buttons[index], 1f, 1.1f, 100);
-            changeBackgroundColor(buttons[index], ActivityUtils.getColorByID(this, R.color.green));
+            changeBackgroundColor(buttons[index], GREEN_COLOR);
         }
     }
 
@@ -207,14 +206,14 @@ public class TicTacToeActivity extends AppCompatActivity {
             button.setText("");
             button.setEnabled(true);
             animateViewScale(button, 1.1f, 1f, 100);
-            changeBackgroundColor(button, ActivityUtils.getColorByID(this, R.color.red));
+            changeBackgroundColor(button, RED_COLOR);
         }
     }
 
     private int getEasyMove() {
         int randomNum;
         do {
-            randomNum = new Random().nextInt(9);
+            randomNum = getRandomNumber(0, 8);
         } while (board[randomNum] == 'X' || board[randomNum] == 'O');
         return randomNum;
     }
@@ -386,21 +385,21 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     private void updateDifficultyColor() {
-        int colorResId;
+        int setCurrentColor;
         switch (difficulty) {
             case 1:
-                colorResId = R.color.green;
+                setCurrentColor = GREEN_COLOR;
                 break;
             case 2:
-                colorResId = R.color.yellow;
+                setCurrentColor = YELLOW_COLOR;
                 break;
             case 3:
-                colorResId = R.color.red;
+                setCurrentColor = RED_COLOR;
                 break;
             default:
-                colorResId = R.color.green;
+                setCurrentColor = GREEN_COLOR;
         }
-        changeBackgroundColor(difficultyIV, getColorByID(this, colorResId));
+        changeBackgroundColor(difficultyIV, setCurrentColor);
     }
 
     private String getDifficultyText() {
