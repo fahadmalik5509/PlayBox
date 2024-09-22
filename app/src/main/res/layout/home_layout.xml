@@ -26,19 +26,19 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/bTicTacToe"
+            android:id="@+id/ticTacToeB"
             android:text="TIC TAC TOE"
             style="@style/NavigationButton"
             android:onClick="handleTicTacToeButtonClick" />
 
         <Button
-            android:id="@+id/bWordle"
+            android:id="@+id/wordleB"
             android:text="WORDLE"
             style="@style/NavigationButton"
             android:onClick="handleWordleButtonClick" />
 
         <Button
-            android:id="@+id/bSettings"
+            android:id="@+id/settingsB"
             android:text="SETTINGS"
             style="@style/NavigationButton"
             android:onClick="handleSettingsButtonClick" />
@@ -68,8 +68,62 @@
         android:textColor="@color/beige"
         android:textAppearance="@style/custom_font" />
 
-    <RelativeLayout
-        android:id="@+id/vShadow"
+    <View
+        android:id="@+id/shadowV"
         style="@style/ShadowLayout"/>
+
+    <RelativeLayout
+        android:id="@+id/exitRL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="15dp"
+        android:background="@drawable/popup_background"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Confirm exit?"
+            android:textSize="30sp"
+            android:textAppearance="@style/custom_font"
+            android:textColor="@color/beige" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="45dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/noExitB"
+                android:tag="no"
+                android:background="@drawable/exitno"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="NO"
+                android:textSize="25sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/custom_font"
+                android:onClick="handleExitButtons" />
+
+            <Button
+                android:id="@+id/yesExitB"
+                android:tag="yes"
+                android:background="@drawable/ui_background"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:text="YES"
+                android:textSize="25sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/custom_font"
+                android:onClick="handleExitButtons" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>

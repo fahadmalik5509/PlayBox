@@ -14,12 +14,12 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/bSound"
+            android:id="@+id/soundB"
             style="@style/NavigationButton"
             android:onClick="handleSoundButtonClick" />
 
         <Button
-            android:id="@+id/bVibration"
+            android:id="@+id/vibrationB"
             style="@style/NavigationButton"
             android:onClick="handleVibrationButtonClick" />
 
@@ -27,7 +27,7 @@
 
     <!-- Back ImageView -->
     <ImageView
-        android:id="@+id/ivBackIcon"
+        android:id="@+id/backIconIV"
         style="@style/BackImageView"
         android:onClick="goBack" />
 

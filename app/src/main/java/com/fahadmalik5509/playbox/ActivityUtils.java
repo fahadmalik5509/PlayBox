@@ -241,9 +241,14 @@ public class ActivityUtils {
         return random.nextInt((max - min) + 1) + min;
     }
 
-    public static void toggleVisibility(View view) {
-        if(view.getVisibility() == View.VISIBLE) view.setVisibility(View.GONE);
-        else view.setVisibility(View.VISIBLE);
+    public static void toggleVisibility(View... views) {
+        for (View view : views) {
+            if (view.getVisibility() == View.VISIBLE) {
+                view.setVisibility(View.GONE);
+            } else {
+                view.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     public static void changeBackgroundColor(View view, int color) {

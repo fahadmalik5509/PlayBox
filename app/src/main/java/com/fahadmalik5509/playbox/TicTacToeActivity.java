@@ -8,37 +8,26 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
-import com.airbnb.lottie.LottieAnimationView;
+import com.fahadmalik5509.playbox.databinding.TictactoeLayoutBinding;
 
 public class TicTacToeActivity extends AppCompatActivity {
 
+    TictactoeLayoutBinding wb;
+
     private final char[] board = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
     private boolean gameWon = false, gameDraw = false, isX = true;
-    private int difficulty, playerOneScore = 0,playerTwoScore = 0;
-    private ImageView drawIV, homeIV, settingIV, backIV, difficultyIV, profileIV;
-    private TextView replayTV, difficultyTooltipTV,
-            playerOneNameTV,playerOneScoreTV,
-            playerTwoNameTV,playerTwoScoreTV;
-    private EditText playerOneET, playerTwoET;
-    private final Button[] buttons = new Button[9];
-    private Button profileSaveB, profileExitB;
-    private RelativeLayout difficultyRL, profileRL;
-    private View shadowV;
-    private CardView playerOneCV, playerTwoCV;
-    LottieAnimationView fireworkAV;
+    private int difficulty, playerOneScore = 0, playerTwoScore = 0;
+
+    private Button[] buttons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tictactoe_layout);
+        wb = TictactoeLayoutBinding.inflate(getLayoutInflater());
+        setContentView(wb.getRoot());
 
         loadColors(this);
         loadPreference(this);
@@ -49,10 +38,10 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     private void setupGameMode() {
         if (isVsAi) {
-            playerOneNameTV.setText("YOU");
-            playerTwoNameTV.setText("AI");
-            difficultyRL.setVisibility(View.VISIBLE);
-            profileIV.setVisibility(View.GONE);
+            wb.playerOneNameTV.setText("YOU");
+            wb.playerTwoNameTV.setText("AI");
+            wb.difficultyRL.setVisibility(View.VISIBLE);
+            wb.profileIV.setVisibility(View.GONE);
             difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
             updateDifficultyColor();
         }
@@ -157,16 +146,16 @@ public class TicTacToeActivity extends AppCompatActivity {
         if(board[a] == 'X') playerOneScore++;
         else playerTwoScore++;
 
-        playerOneScoreTV.setText("Score: " + playerOneScore);
-        playerTwoScoreTV.setText("Score: " + playerTwoScore);
+        wb.playerOneScoreTV.setText("Score: " + playerOneScore);
+        wb.playerTwoScoreTV.setText("Score: " + playerTwoScore);
 
-        fireworkAV.setVisibility(View.VISIBLE);
-        fireworkAV.playAnimation();
+        wb.fireworksLAV.setVisibility(View.VISIBLE);
+        wb.fireworksLAV.playAnimation();
     }
 
     private void isDraw() {
 
-        drawIV.setVisibility(View.VISIBLE);
+        wb.drawIV.setVisibility(View.VISIBLE);
         gameDraw = true;
         playSound(this, R.raw.draw);
     }
@@ -187,9 +176,9 @@ public class TicTacToeActivity extends AppCompatActivity {
     private void resetGameState() {
         gameWon = false;
         gameDraw = false;
-        drawIV.setVisibility(View.GONE);
-        fireworkAV.cancelAnimation();
-        fireworkAV.setVisibility(View.GONE);
+        wb.drawIV.setVisibility(View.GONE);
+        wb.fireworksLAV.cancelAnimation();
+        wb.fireworksLAV.setVisibility(View.GONE);
 
         resetBoard();
         resetButtons();
@@ -372,15 +361,15 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         saveToSharedPreferences(DIFFICULTY_KEY, difficulty);
 
-        difficultyTooltipTV.setText("AI Difficulty\n(" + getDifficultyText() + ")");
-        difficultyTooltipTV.setVisibility(View.VISIBLE);
-        difficultyTooltipTV.postDelayed(() -> difficultyTooltipTV.setVisibility(View.GONE), 2000);
+        wb.difficultyTooltipTV.setText("AI Difficulty\n(" + getDifficultyText() + ")");
+        wb.difficultyTooltipTV.setVisibility(View.VISIBLE);
+        wb.difficultyTooltipTV.postDelayed(() -> wb.difficultyTooltipTV.setVisibility(View.GONE), 2000);
         updateDifficultyColor();
 
         playerOneScore = 0;
         playerTwoScore = 0;
-        playerOneScoreTV.setText("Score: " + playerOneScore);
-        playerTwoScoreTV.setText("Score: " + playerTwoScore);
+        wb.playerOneScoreTV.setText("Score: " + playerOneScore);
+        wb.playerTwoScoreTV.setText("Score: " + playerTwoScore);
         onResetGameClicked(view);
     }
 
@@ -393,13 +382,10 @@ public class TicTacToeActivity extends AppCompatActivity {
             case 2:
                 setCurrentColor = YELLOW_COLOR;
                 break;
-            case 3:
-                setCurrentColor = RED_COLOR;
-                break;
             default:
-                setCurrentColor = GREEN_COLOR;
+                setCurrentColor = RED_COLOR;
         }
-        changeBackgroundColor(difficultyIV, setCurrentColor);
+        changeBackgroundColor(wb.difficultyIV, setCurrentColor);
     }
 
     private String getDifficultyText() {
@@ -420,36 +406,36 @@ public class TicTacToeActivity extends AppCompatActivity {
     //OnClick Method
     public void profileClicked(View view) {
             playSound(this,R.raw.click_ui);
-            animateViewScale(profileRL,0f,1.0f,200);
-            profileRL.setVisibility(View.VISIBLE);
-            shadowV.setVisibility(View.VISIBLE);
-            playerOneET.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
-            playerTwoET.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
+            animateViewScale(wb.profileRL,0f,1.0f,200);
+            wb.profileRL.setVisibility(View.VISIBLE);
+            wb.shadowV.setVisibility(View.VISIBLE);
+            wb.playerOneET.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
+            wb.playerTwoET.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
     }
 
     private void updateProfiles() {
 
-        if(playerOneET.getText().toString().trim().isEmpty()) playerOneET.setText("Player⠀1");
-        if(playerTwoET.getText().toString().trim().isEmpty()) playerTwoET.setText("Player⠀2");
+        if(wb.playerOneET.getText().toString().trim().isEmpty()) wb.playerOneET.setText("Player⠀1");
+        if(wb.playerTwoET.getText().toString().trim().isEmpty()) wb.playerTwoET.setText("Player⠀2");
 
-        saveToSharedPreferences(PLAYERONE_NAME_KEY,playerOneET.getText().toString().trim().replaceAll("\\s", ""));
-        saveToSharedPreferences(PLAYERTWO_NAME_KEY,playerTwoET.getText().toString().trim().replaceAll("\\s", ""));
-        playerOneNameTV.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
-        playerTwoNameTV.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
+        saveToSharedPreferences(PLAYERONE_NAME_KEY,wb.playerOneET.getText().toString().trim().replaceAll("\\s", ""));
+        saveToSharedPreferences(PLAYERTWO_NAME_KEY,wb.playerTwoET.getText().toString().trim().replaceAll("\\s", ""));
+        wb.playerOneNameTV.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
+        wb.playerTwoNameTV.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
     }
 
     private void updateCardView() {
         if(isX) {
-            playerOneCV.setAlpha(1f);
-            playerTwoCV.setAlpha(0.8f);
-            animateViewScale(playerOneCV, 1f, 1.1f, 200);
-            animateViewScale(playerTwoCV, 1.1f, 1f, 200);
+            wb.playerOneCV.setAlpha(1f);
+            wb.playerTwoCV.setAlpha(0.8f);
+            animateViewScale(wb.playerOneCV, 1f, 1.1f, 200);
+            animateViewScale(wb.playerTwoCV, 1.1f, 1f, 200);
         }
         else {
-            playerOneCV.setAlpha(0.8f);
-            playerTwoCV.setAlpha(1f);
-            animateViewScale(playerOneCV,1.1f,1f,200);
-            animateViewScale(playerTwoCV, 1f, 1.1f, 200);
+            wb.playerOneCV.setAlpha(0.8f);
+            wb.playerTwoCV.setAlpha(1f);
+            animateViewScale(wb.playerOneCV,1.1f,1f,200);
+            animateViewScale(wb.playerTwoCV, 1f, 1.1f, 200);
         }
     }
 
@@ -458,67 +444,32 @@ public class TicTacToeActivity extends AppCompatActivity {
         playSound(this,R.raw.click_ui);
         if(view.getTag().equals("save")) updateProfiles();
 
-        animateViewScale(profileRL,1.0f,0f,200);
-        shadowV.setVisibility(View.GONE);
+        animateViewScale(wb.profileRL,1.0f,0f,200);
+        wb.shadowV.setVisibility(View.GONE);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private void initializeViews() {
+        buttons = new Button[] {
+                wb.gameBoard0B, wb.gameBoard1B, wb.gameBoard2B,
+                wb.gameBoard3B, wb.gameBoard4B, wb.gameBoard5B,
+                wb.gameBoard6B, wb.gameBoard7B, wb.gameBoard8B
+        };
 
-        buttons[0] = findViewById(R.id.btn0);
-        buttons[1] = findViewById(R.id.btn1);
-        buttons[2] = findViewById(R.id.btn2);
-        buttons[3] = findViewById(R.id.btn3);
-        buttons[4] = findViewById(R.id.btn4);
-        buttons[5] = findViewById(R.id.btn5);
-        buttons[6] = findViewById(R.id.btn6);
-        buttons[7] = findViewById(R.id.btn7);
-        buttons[8] = findViewById(R.id.btn8);
-
-        drawIV = findViewById(R.id.ivDraw);
-        settingIV = findViewById(R.id.ivSettingIcon);
-        homeIV = findViewById(R.id.ivHomeIcon);
-        backIV = findViewById(R.id.ivBackIcon);
-        difficultyIV = findViewById(R.id.ivDifficulty);
-        replayTV = findViewById(R.id.tvReplay);
-        difficultyTooltipTV = findViewById(R.id.tvDifficultyTooltip);
-        shadowV = findViewById(R.id.vShadow);
-        difficultyRL = findViewById(R.id.rlDifficulty);
-        fireworkAV = findViewById(R.id.lavFireworks);
-
-
-        playerOneNameTV = findViewById(R.id.tvPlayerOneName);
-        playerOneScoreTV = findViewById(R.id.tvPlayerOneScore);
-        playerTwoNameTV = findViewById(R.id.tvPlayerTwoName);
-        playerTwoScoreTV = findViewById(R.id.tvPlayerTwoScore);
-
-        playerOneET = findViewById(R.id.etPlayerOne);
-        playerTwoET = findViewById(R.id.etPlayerTwo);
-
-        profileIV = findViewById(R.id.ivProfile);
-        profileRL = findViewById(R.id.rlProfile);
-
-        profileSaveB = findViewById(R.id.bProfileSave);
-        profileExitB = findViewById(R.id.bProfileExit);
-
-        playerOneCV = findViewById(R.id.cvPlayerOne);
-        playerTwoCV = findViewById(R.id.cvPlayerTwo);
-
-        playerOneNameTV.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
-        playerTwoNameTV.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
+        wb.playerOneNameTV.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
+        wb.playerTwoNameTV.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
     }
 
     private void animateViewsPulse() {
         for (Button button: buttons) animateViewPulse(this, button);
-        animateViewPulse(this, homeIV);
-        animateViewPulse(this, settingIV);
-        animateViewPulse(this, replayTV);
-        animateViewPulse(this, backIV);
-        animateViewPulse(this, difficultyIV);
-        animateViewPulse(this, profileIV);
-        animateViewPulse(this, profileSaveB);
-        animateViewPulse(this, profileExitB);
+        animateViewPulse(this, wb.homeIconIV);
+        animateViewPulse(this, wb.settingIconIV);
+        animateViewPulse(this, wb.replayTV);
+        animateViewPulse(this, wb.backIconIV);
+        animateViewPulse(this, wb.difficultyIV);
+        animateViewPulse(this, wb.profileIV);
+        animateViewPulse(this, wb.profileSaveB);
+        animateViewPulse(this, wb.profileExitB);
     }
-
 }

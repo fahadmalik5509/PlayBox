@@ -14,13 +14,15 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/bPlayerVsPlayer"
+            android:id="@+id/playerVsPlayerB"
+            android:tag="pvp"
             android:text="@string/pvp"
             style="@style/NavigationButton"
             android:onClick="handleGameModeClick" />
 
         <Button
-            android:id="@+id/PlayerVsAI"
+            android:id="@+id/playerVsAIB"
+            android:tag="pva"
             android:text="@string/pvAI"
             style="@style/NavigationButton"
             android:onClick="handleGameModeClick" />
@@ -29,19 +31,19 @@
 
     <!-- Back ImageView -->
     <ImageView
-        android:id="@+id/ivBackIcon"
+        android:id="@+id/backIconIV"
         style="@style/BackImageView"
         android:onClick="goToHome" />
 
     <!-- Home ImageView -->
     <ImageView
-        android:id="@+id/ivHomeIcon"
+        android:id="@+id/homeIconIV"
         style="@style/HomeImageView"
         android:onClick="goToHome" />
 
     <!-- Setting ImageView -->
     <ImageView
-        android:id="@+id/ivSettingIcon"
+        android:id="@+id/settingIconIV"
         style="@style/SettingImageView"
         android:onClick="goToSetting" />
 

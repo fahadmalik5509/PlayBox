@@ -6,30 +6,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fahadmalik5509.playbox.databinding.GamemodeLayoutBinding;
+
 public class GameModeActivity extends AppCompatActivity {
 
-    Button playerVsPlayerBtn;
-    Button playerVsAIBtn;
-    private ImageView homeImageView, settingImageView, backImageView;
+    GamemodeLayoutBinding wb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.gamemode_layout);
+        wb = GamemodeLayoutBinding.inflate(getLayoutInflater());
+        setContentView(wb.getRoot());
 
         loadColors(this);
-        initializeViews();
         animateViewsPulse();
     }
 
     //onclick Method
     public void handleGameModeClick(View view) {
-        isVsAi = view.getId() == R.id.PlayerVsAI;
+        if(view.getTag().equals("pva")) isVsAi = true;
         playSound(this, R.raw.click_ui);
         new Handler().postDelayed(() -> changeActivity(this, TicTacToeActivity.class, false, true), ACTIVITY_TRANSITION_DELAY_MS);
     }
@@ -54,19 +52,11 @@ public class GameModeActivity extends AppCompatActivity {
         changeActivity(this, HomeActivity.class, true, false);
     }
 
-    private void initializeViews() {
-        playerVsPlayerBtn = findViewById(R.id.bPlayerVsPlayer);
-        playerVsAIBtn = findViewById(R.id.PlayerVsAI);
-        settingImageView = findViewById(R.id.ivSettingIcon);
-        homeImageView = findViewById(R.id.ivHomeIcon);
-        backImageView = findViewById(R.id.ivBackIcon);
-    }
-
     private void animateViewsPulse() {
-        animateViewPulse(this, playerVsPlayerBtn);
-        animateViewPulse(this, playerVsAIBtn);
-        animateViewPulse(this, homeImageView);
-        animateViewPulse(this, settingImageView);
-        animateViewPulse(this, backImageView);
+        animateViewPulse(this, wb.playerVsPlayerB);
+        animateViewPulse(this, wb.playerVsAIB);
+        animateViewPulse(this, wb.homeIconIV);
+        animateViewPulse(this, wb.settingIconIV);
+        animateViewPulse(this, wb.backIconIV);
     }
 }

@@ -14,7 +14,7 @@
         android:gravity="center">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cvPlayerOne"
+            android:id="@+id/playerOneCV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -30,7 +30,7 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/tvPlayerOneName"
+                    android:id="@+id/playerOneNameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -52,7 +52,7 @@
                     android:textSize="40sp" />
 
                 <TextView
-                    android:id="@+id/tvPlayerOneScore"
+                    android:id="@+id/playerOneScoreTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -67,7 +67,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/cvPlayerTwo"
+            android:id="@+id/playerTwoCV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -84,7 +84,7 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/tvPlayerTwoName"
+                    android:id="@+id/playerTwoNameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -106,7 +106,7 @@
                     android:textSize="40sp" />
 
                 <TextView
-                    android:id="@+id/tvPlayerTwoScore"
+                    android:id="@+id/playerTwoScoreTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
@@ -132,7 +132,7 @@
         android:rowCount="3" >
 
         <Button
-            android:id="@+id/btn0"
+            android:id="@+id/gameBoard0B"
             android:tag="0"
             android:layout_row="0"
             android:layout_column="0"
@@ -140,7 +140,7 @@
             android:onClick="handleBoardClick" />
 
         <Button
-            android:id="@+id/btn1"
+            android:id="@+id/gameBoard1B"
             android:tag="1"
             android:layout_row="0"
             android:layout_column="1"
@@ -148,7 +148,7 @@
             android:onClick="handleBoardClick" />
 
         <Button
-            android:id="@+id/btn2"
+            android:id="@+id/gameBoard2B"
             android:tag="2"
             android:layout_row="0"
             android:layout_column="2"
@@ -156,7 +156,7 @@
             android:onClick="handleBoardClick" />
 
         <Button
-            android:id="@+id/btn3"
+            android:id="@+id/gameBoard3B"
             android:tag="3"
             android:layout_row="1"
             android:layout_column="0"
@@ -164,7 +164,7 @@
             android:onClick="handleBoardClick" />
 
         <Button
-            android:id="@+id/btn4"
+            android:id="@+id/gameBoard4B"
             android:tag="4"
             android:layout_row="1"
             android:layout_column="1"
@@ -172,7 +172,7 @@
             android:onClick="handleBoardClick" />
 
         <Button
-            android:id="@+id/btn5"
+            android:id="@+id/gameBoard5B"
             android:tag="5"
             android:layout_row="1"
             android:layout_column="2"
@@ -180,7 +180,7 @@
             android:onClick="handleBoardClick" />
 
         <Button
-            android:id="@+id/btn6"
+            android:id="@+id/gameBoard6B"
             android:tag="6"
             android:layout_row="2"
             android:layout_column="0"
@@ -188,7 +188,7 @@
             android:onClick="handleBoardClick" />
 
         <Button
-            android:id="@+id/btn7"
+            android:id="@+id/gameBoard7B"
             android:tag="7"
             android:layout_row="2"
             android:layout_column="1"
@@ -196,7 +196,7 @@
             android:onClick="handleBoardClick" />
 
         <Button
-            android:id="@+id/btn8"
+            android:id="@+id/gameBoard8B"
             android:tag="8"
             android:layout_row="2"
             android:layout_column="2"
@@ -207,25 +207,25 @@
 
     <!-- Back ImageView -->
     <ImageView
-        android:id="@+id/ivBackIcon"
+        android:id="@+id/backIconIV"
         style="@style/BackImageView"
         android:onClick="goToHome" />
 
     <!-- Home ImageView -->
     <ImageView
-        android:id="@+id/ivHomeIcon"
+        android:id="@+id/homeIconIV"
         style="@style/HomeImageView"
         android:onClick="goToHome" />
 
     <!-- Setting ImageView -->
     <ImageView
-        android:id="@+id/ivSettingIcon"
+        android:id="@+id/settingIconIV"
         style="@style/SettingImageView"
         android:onClick="goToSetting" />
 
     <!--Difficulty RelativeLayout-->
     <RelativeLayout
-        android:id="@+id/rlDifficulty"
+        android:id="@+id/difficultyRL"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -235,7 +235,7 @@
         android:visibility="gone">
 
         <ImageView
-            android:id="@+id/ivDifficulty"
+            android:id="@+id/difficultyIV"
             android:background="@drawable/circle_background"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -245,10 +245,10 @@
             android:onClick="difficultyClicked" />
 
         <TextView
-            android:id="@+id/tvDifficultyTooltip"
+            android:id="@+id/difficultyTooltipTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ivDifficulty"
+            android:layout_below="@+id/difficultyIV"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:background="@drawable/popup_background"
@@ -263,7 +263,7 @@
 
     <!--Profile ImageView-->
     <ImageView
-        android:id="@+id/ivProfile"
+        android:id="@+id/profileIV"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="15dp"
@@ -273,7 +273,7 @@
 
     <!--Replay TextView-->
     <TextView
-        android:id="@+id/tvReplay"
+        android:id="@+id/replayTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -286,7 +286,7 @@
         android:onClick="onResetGameClicked"/>
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lavFireworks"
+        android:id="@+id/fireworksLAV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -295,13 +295,13 @@
 
     <!--Shadow View-->
     <View
-        android:id="@+id/vShadow"
+        android:id="@+id/shadowV"
         style="@style/ShadowLayout"/>
 
     <!--GameDraw ImageView-->
     <ImageView
         android:contentDescription="@string/imageDescription"
-        android:id="@+id/ivDraw"
+        android:id="@+id/drawIV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -310,7 +310,7 @@
         android:src="@drawable/draw"/>
 
     <RelativeLayout
-        android:id="@+id/rlProfile"
+        android:id="@+id/profileRL"
         android:layout_width="250dp"
         android:layout_height="180dp"
         android:layout_centerInParent="true"
@@ -334,7 +334,7 @@
                 android:layout_marginRight="10dp"/>
 
             <EditText
-                android:id="@+id/etPlayerOne"
+                android:id="@+id/playerOneET"
                 android:background="@drawable/keyboard_keys_background"
                 android:layout_width="150dp"
                 android:layout_height="30dp"
@@ -365,7 +365,7 @@
                 android:layout_marginEnd="10dp"/>
 
             <EditText
-                android:id="@+id/etPlayerTwo"
+                android:id="@+id/playerTwoET"
                 android:background="@drawable/keyboard_keys_background"
                 android:layout_width="150dp"
                 android:layout_height="30dp"
@@ -382,7 +382,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/bProfileExit"
+            android:id="@+id/profileExitB"
             android:tag="exit"
             android:background="@drawable/ui_background"
             android:layout_width="100dp"
@@ -395,7 +395,7 @@
             android:onClick="handleProfileButtons" />
 
         <Button
-            android:id="@+id/bProfileSave"
+            android:id="@+id/profileSaveB"
             android:tag="save"
             android:background="@drawable/exitno"
             android:layout_width="100dp"

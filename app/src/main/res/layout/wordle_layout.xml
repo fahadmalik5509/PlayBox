@@ -6,7 +6,7 @@
 
     <!-- Flame AnimationView -->
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lavFlame"
+        android:id="@+id/flameLAV"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentEnd="true"
@@ -28,181 +28,181 @@
         android:useDefaultMargins="true">
 
         <EditText
-            android:id="@+id/_0_0"
+            android:id="@+id/letterBoxR0C0EV"
             android:layout_row="0"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_0_1"
+            android:id="@+id/letterBoxR0C1EV"
             android:layout_row="0"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_0_2"
+            android:id="@+id/letterBoxR0C2EV"
             android:layout_row="0"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_0_3"
+            android:id="@+id/letterBoxR0C3EV"
             android:layout_row="0"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_0_4"
+            android:id="@+id/letterBoxR0C4EV"
             android:layout_row="0"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_1_0"
+            android:id="@+id/letterBoxR1C0EV"
             android:layout_row="1"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_1_1"
+            android:id="@+id/letterBoxR1C1EV"
             android:layout_row="1"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_1_2"
+            android:id="@+id/letterBoxR1C2EV"
             android:layout_row="1"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_1_3"
+            android:id="@+id/letterBoxR1C3EV"
             android:layout_row="1"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_1_4"
+            android:id="@+id/letterBoxR1C4EV"
             android:layout_row="1"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_2_0"
+            android:id="@+id/letterBoxR2C0EV"
             android:layout_row="2"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_2_1"
+            android:id="@+id/letterBoxR2C1EV"
             android:layout_row="2"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_2_2"
+            android:id="@+id/letterBoxR2C2EV"
             android:layout_row="2"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_2_3"
+            android:id="@+id/letterBoxR2C3EV"
             android:layout_row="2"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_2_4"
+            android:id="@+id/letterBoxR2C4EV"
             android:layout_row="2"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_3_0"
+            android:id="@+id/letterBoxR3C0EV"
             android:layout_row="3"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_3_1"
+            android:id="@+id/letterBoxR3C1EV"
             android:layout_row="3"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_3_2"
+            android:id="@+id/letterBoxR3C2EV"
             android:layout_row="3"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_3_3"
+            android:id="@+id/letterBoxR3C3EV"
             android:layout_row="3"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_3_4"
+            android:id="@+id/letterBoxR3C4EV"
             android:layout_row="3"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_4_0"
+            android:id="@+id/letterBoxR4C0EV"
             android:layout_row="4"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_4_1"
+            android:id="@+id/letterBoxR4C1EV"
             android:layout_row="4"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_4_2"
+            android:id="@+id/letterBoxR4C2EV"
             android:layout_row="4"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_4_3"
+            android:id="@+id/letterBoxR4C3EV"
             android:layout_row="4"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_4_4"
+            android:id="@+id/letterBoxR4C4EV"
             android:layout_row="4"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_5_0"
+            android:id="@+id/letterBoxR5C0EV"
             android:layout_row="5"
             android:layout_column="0"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_5_1"
+            android:id="@+id/letterBoxR5C1EV"
             android:layout_row="5"
             android:layout_column="1"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_5_2"
+            android:id="@+id/letterBoxR5C2EV"
             android:layout_row="5"
             android:layout_column="2"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_5_3"
+            android:id="@+id/letterBoxR5C3EV"
             android:layout_row="5"
             android:layout_column="3"
             style="@style/letterBoxTextView"/>
 
         <EditText
-            android:id="@+id/_5_4"
+            android:id="@+id/letterBoxR5C4EV"
             android:layout_row="5"
             android:layout_column="4"
             style="@style/letterBoxTextView"/>
@@ -356,7 +356,7 @@
             android:layout_marginTop="5dp">
 
             <ImageView
-                android:id="@+id/enterImageView"
+                android:id="@+id/enterIV"
                 android:tag="enter"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -412,7 +412,7 @@
                 android:text="M"/>
 
             <ImageView
-                android:id="@+id/backspaceImageView"
+                android:id="@+id/backspaceIV"
                 android:tag="backspace"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
@@ -432,7 +432,7 @@
 
     <!-- Blast AnimationView -->
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lavBlast"
+        android:id="@+id/blastLAV"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
@@ -452,7 +452,7 @@
 
     <!-- Skip AnimationView -->
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lavSkip"
+        android:id="@+id/skipLAV"
         android:layout_width="match_parent"
         android:layout_height="340dp"
         android:layout_alignBottom="@+id/gridLayout"
@@ -460,19 +460,19 @@
 
     <!-- Back ImageView -->
     <ImageView
-        android:id="@+id/ivBackIcon"
+        android:id="@+id/backIconIV"
         style="@style/BackImageView"
         android:onClick="goToHome" />
 
     <!-- Home ImageView -->
     <ImageView
-        android:id="@+id/ivHomeIcon"
+        android:id="@+id/homeIconIV"
         style="@style/HomeImageView"
         android:onClick="goToHome" />
 
     <!-- Setting ImageView -->
     <ImageView
-        android:id="@+id/ivSettingIcon"
+        android:id="@+id/settingIconIV"
         style="@style/SettingImageView"
         android:onClick="goToSetting" />
 
@@ -485,7 +485,7 @@
         android:layout_marginEnd="30dp" >
 
         <TextView
-            android:id="@+id/tvStreak"
+            android:id="@+id/currentStreakTV"
             android:background="@drawable/circle_background"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -497,10 +497,10 @@
             android:onClick="onStreakClick" />
 
         <TextView
-            android:id="@+id/tvStreakTooltip"
+            android:id="@+id/streakTooltipTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvStreak"
+            android:layout_below="@+id/currentStreakTV"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:background="@drawable/popup_background"
@@ -515,7 +515,7 @@
 
     <!-- Bomb RelativeLayout -->
     <RelativeLayout
-        android:id="@+id/rlBomb"
+        android:id="@+id/bombRL"
         android:layout_width="82dp"
         android:layout_height="33dp"
         android:layout_above="@+id/llKeyboard"
@@ -532,7 +532,7 @@
             android:src="@drawable/bomb" />
 
         <TextView
-            android:id="@+id/tvBomb"
+            android:id="@+id/bombTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -547,7 +547,7 @@
 
     <!-- Skip RelativeLayout -->
     <RelativeLayout
-        android:id="@+id/rlSkip"
+        android:id="@+id/skipRL"
         android:layout_width="82dp"
         android:layout_height="33dp"
         android:layout_above="@+id/llKeyboard"
@@ -564,7 +564,7 @@
             android:src="@drawable/skip" />
 
         <TextView
-            android:id="@+id/tvSkip"
+            android:id="@+id/skipCountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -579,7 +579,7 @@
 
     <!-- Hint RelativeLayout -->
     <RelativeLayout
-        android:id="@+id/rlHint"
+        android:id="@+id/hintRL"
         android:layout_width="82dp"
         android:layout_height="33dp"
         android:layout_above="@+id/llKeyboard"
@@ -596,7 +596,7 @@
             android:src="@drawable/hint" />
 
         <TextView
-            android:id="@+id/tvHint"
+            android:id="@+id/hintCountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -611,10 +611,10 @@
 
     <!-- Currency RelativeLayout -->
     <RelativeLayout
-        android:id="@+id/rlCurrency"
+        android:id="@+id/currencyRL"
         android:layout_width="80dp"
         android:layout_height="32dp"
-        android:layout_toEndOf="@id/ivBackIcon"
+        android:layout_toEndOf="@id/backIconIV"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
         android:background="@drawable/popup_background"
@@ -630,7 +630,7 @@
             android:src="@drawable/coin"/>
 
         <TextView
-            android:id="@+id/tvCurrency"
+            android:id="@+id/currencyCountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -648,17 +648,17 @@
         android:src="@drawable/plus"
         android:layout_marginBottom="-25dp"
         android:layout_marginStart="-10dp"
-        android:layout_toRightOf="@id/rlCurrency"
-        android:layout_above="@+id/rlCurrency"/>
+        android:layout_toRightOf="@id/currencyRL"
+        android:layout_above="@+id/currencyRL"/>
 
     <!-- Shadow View -->
     <View
-        android:id="@+id/vShadow"
+        android:id="@+id/shadowV"
         style="@style/ShadowLayout"/>
 
     <!-- Reset ImageView -->
     <ImageView
-        android:id="@+id/resetImg"
+        android:id="@+id/resetIV"
         android:src="@drawable/replay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -670,7 +670,7 @@
 
     <!-- Mid-Game Warning RelativeLayout -->
     <RelativeLayout
-        android:id="@+id/rlLeaveGame"
+        android:id="@+id/leaveGameRL"
         android:layout_width="250dp"
         android:layout_height="150dp"
         android:layout_centerInParent="true"
@@ -690,7 +690,7 @@
             android:gravity="center" />
 
         <Button
-            android:id="@+id/bGameLeave"
+            android:id="@+id/popupLeaveB"
             android:tag="leave"
             android:background="@drawable/ui_background"
             android:layout_width="100dp"
@@ -703,7 +703,7 @@
             android:onClick="handleLeaveButtons" />
 
         <Button
-            android:id="@+id/bGameStay"
+            android:id="@+id/popupStayB"
             android:tag="stay"
             android:background="@drawable/exitno"
             android:layout_width="100dp"
@@ -721,7 +721,7 @@
 
     <!-- CurrencyBuy RelativeLayout -->
     <LinearLayout
-        android:id="@+id/llCurrencyBuy"
+        android:id="@+id/shopLL"
         android:layout_width="200dp"
         android:layout_height="300dp"
         android:layout_centerInParent="true"
@@ -747,7 +747,7 @@
                 android:src="@drawable/bomb"/>
 
             <TextView
-                android:id="@+id/tvBuyBomb"
+                android:id="@+id/shopBombCountTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="5dp"
@@ -761,7 +761,7 @@
                 android:textAppearance="@style/custom_font"/>
 
             <Button
-                android:id="@+id/bBuyBomb"
+                android:id="@+id/shopBombBuyB"
                 android:tag="bomb"
                 android:layout_width="80dp"
                 android:layout_height="30dp"
@@ -772,7 +772,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/black"
                 android:textAppearance="@style/custom_font"
-                android:onClick="handleBuyButtons"
+                android:onClick="handleStopButtons"
                 android:background="@drawable/keyboard_keys_background"/>
         </RelativeLayout>
 
@@ -792,7 +792,7 @@
                 android:src="@drawable/skip"/>
 
             <TextView
-                android:id="@+id/tvBuySkip"
+                android:id="@+id/shopSkipCountTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="5dp"
@@ -805,7 +805,7 @@
                 android:textAppearance="@style/custom_font"/>
 
             <Button
-                android:id="@+id/bBuySkip"
+                android:id="@+id/shopSkipBuyB"
                 android:tag="skip"
                 android:layout_width="80dp"
                 android:layout_height="30dp"
@@ -816,7 +816,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/black"
                 android:textAppearance="@style/custom_font"
-                android:onClick="handleBuyButtons"
+                android:onClick="handleStopButtons"
                 android:background="@drawable/keyboard_keys_background"/>
 
          </RelativeLayout>
@@ -837,7 +837,7 @@
                 android:src="@drawable/hint"/>
 
             <TextView
-                android:id="@+id/tvBuyHint"
+                android:id="@+id/shopHintCountTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:minWidth="5dp"
@@ -850,7 +850,7 @@
                 android:textAppearance="@style/custom_font"/>
 
             <Button
-                android:id="@+id/bBuyHint"
+                android:id="@+id/shopHintBuyB"
                 android:tag="hint"
                 android:layout_width="80dp"
                 android:layout_height="30dp"
@@ -861,13 +861,13 @@
                 android:textSize="12sp"
                 android:textColor="@color/black"
                 android:textAppearance="@style/custom_font"
-                android:onClick="handleBuyButtons"
+                android:onClick="handleStopButtons"
                 android:background="@drawable/keyboard_keys_background"/>
 
         </RelativeLayout>
 
         <Button
-            android:id="@+id/bBuyClose"
+            android:id="@+id/shopCloseBuyB"
             android:tag="close"
             android:layout_width="100dp"
             android:layout_height="40dp"
@@ -876,7 +876,7 @@
             android:textSize="15sp"
             android:textColor="@color/black"
             android:textAppearance="@style/custom_font"
-            android:onClick="handleBuyButtons"/>
+            android:onClick="handleStopButtons"/>
 
     </LinearLayout>
 

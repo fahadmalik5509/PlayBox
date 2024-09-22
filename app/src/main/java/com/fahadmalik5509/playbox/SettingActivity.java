@@ -6,39 +6,39 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fahadmalik5509.playbox.databinding.SettingLayoutBinding;
+
 public class SettingActivity extends AppCompatActivity {
 
-    private Button soundButton, vibrationButton;
+    SettingLayoutBinding wb;
+
     private boolean isSoundEnabled, isVibrationEnabled;
-    private ImageView backImageView;
     private String originActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.setting_layout);
+        wb = SettingLayoutBinding.inflate(getLayoutInflater());
+        setContentView(wb.getRoot());
 
         originActivity = getIntent().getStringExtra("origin_activity");
 
         loadColors(this);
         loadPreference(this);
-        initializeViews();
         animateViewsPulse();
-
         isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
         isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
         updateButtonStates();
     }
 
     private void updateButtonStates() {
-        changeBackgroundColor(soundButton, isSoundEnabled ? GREEN_COLOR : RED_COLOR);
-        changeBackgroundColor(vibrationButton, isVibrationEnabled ? GREEN_COLOR : RED_COLOR);
-        updateButtonState(soundButton, isSoundEnabled, "Sounds ");
-        updateButtonState(vibrationButton, isVibrationEnabled, "Vibration ");
+        changeBackgroundColor(wb.soundB, isSoundEnabled ? GREEN_COLOR : RED_COLOR);
+        changeBackgroundColor(wb.vibrationB, isVibrationEnabled ? GREEN_COLOR : RED_COLOR);
+        updateButtonState(wb.soundB, isSoundEnabled, "Sounds ");
+        updateButtonState(wb.vibrationB, isVibrationEnabled, "Vibration ");
     }
 
     // OnClick Method
@@ -46,8 +46,8 @@ public class SettingActivity extends AppCompatActivity {
         isSoundEnabled = !isSoundEnabled;
         playSound(this, R.raw.click_ui);
         int color = isSoundEnabled ? GREEN_COLOR : RED_COLOR;
-        changeBackgroundColor(soundButton, color);
-        updateButtonState(soundButton, isSoundEnabled, "Sounds ");
+        changeBackgroundColor(wb.soundB, color);
+        updateButtonState(wb.soundB, isSoundEnabled, "Sounds ");
 
         saveToSharedPreferences(SOUND_KEY, isSoundEnabled);
     }
@@ -57,8 +57,8 @@ public class SettingActivity extends AppCompatActivity {
         playSound(this, R.raw.click_ui);
         isVibrationEnabled = !isVibrationEnabled;
         int color = isVibrationEnabled ? GREEN_COLOR : RED_COLOR;
-        changeBackgroundColor(vibrationButton, color);
-        updateButtonState(vibrationButton, isVibrationEnabled, "Vibration ");
+        changeBackgroundColor(wb.vibrationB, color);
+        updateButtonState(wb.vibrationB, isVibrationEnabled, "Vibration ");
 
         saveToSharedPreferences(VIBRATION_KEY, isVibrationEnabled);
     }
@@ -100,15 +100,9 @@ public class SettingActivity extends AppCompatActivity {
         finish(); // Close the settings activity
     }
 
-    private void initializeViews() {
-        soundButton = findViewById(R.id.bSound);
-        vibrationButton = findViewById(R.id.bVibration);
-        backImageView = findViewById(R.id.ivBackIcon);
-    }
-
     private void animateViewsPulse() {
-        animateViewPulse(this, soundButton);
-        animateViewPulse(this, vibrationButton);
-        animateViewPulse(this, backImageView);
+        animateViewPulse(this, wb.soundB);
+        animateViewPulse(this, wb.vibrationB);
+        animateViewPulse(this, wb.backIconIV);
     }
 }
