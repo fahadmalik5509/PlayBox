@@ -12,5 +12,12 @@
     <string name="easy">EASY</string>
     <string name="medium">MEDIUM</string>
     <string name="hard">HARD</string>
+    <string name="streak_tooltip">Streak\n(Current: %1$d)\n(Best: %2$d)</string>
+    <string name="player_one">Player⠀1</string>
+    <string name="player_two">Player⠀2</string>
+    <string name="score">Score: %1$d</string>
+    <string name="difficulty_tooltip">AI Difficulty\n(%1$s)</string>
+    <string name="you">YOU</string>
+    <string name="ai">AI</string>
 
 </resources>

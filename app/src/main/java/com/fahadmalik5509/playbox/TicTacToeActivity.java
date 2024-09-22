@@ -1,6 +1,9 @@
 package com.fahadmalik5509.playbox;
 
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
+import com.fahadmalik5509.playbox.databinding.TictactoeLayoutBinding;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,15 +12,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.fahadmalik5509.playbox.databinding.TictactoeLayoutBinding;
-
 public class TicTacToeActivity extends AppCompatActivity {
 
-    TictactoeLayoutBinding wb;
+    TictactoeLayoutBinding vb;
 
-    private final char[] board = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
+    private final char[] gameBoard = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
     private boolean gameWon = false, gameDraw = false, isX = true;
     private int difficulty, playerOneScore = 0, playerTwoScore = 0;
 
@@ -26,8 +25,8 @@ public class TicTacToeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        wb = TictactoeLayoutBinding.inflate(getLayoutInflater());
-        setContentView(wb.getRoot());
+        vb = TictactoeLayoutBinding.inflate(getLayoutInflater());
+        setContentView(vb.getRoot());
 
         loadColors(this);
         loadPreference(this);
@@ -38,10 +37,10 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     private void setupGameMode() {
         if (isVsAi) {
-            wb.playerOneNameTV.setText("YOU");
-            wb.playerTwoNameTV.setText("AI");
-            wb.difficultyRL.setVisibility(View.VISIBLE);
-            wb.profileIV.setVisibility(View.GONE);
+            vb.playerOneNameTV.setText(getString(R.string.you));
+            vb.playerTwoNameTV.setText(getString(R.string.ai));
+            vb.difficultyRL.setVisibility(View.VISIBLE);
+            vb.profileIV.setVisibility(View.GONE);
             difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
             updateDifficultyColor();
         }
@@ -69,7 +68,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     private void handlePlayerMove(int i, Button button) {
         char currentPlayer = toggleAndGetCurrentPlayer();
         updateCardView();
-        board[i] = currentPlayer;
+        gameBoard[i] = currentPlayer;
         button.setText(String.valueOf(currentPlayer));
         button.setEnabled(false);
         checkGameState();
@@ -84,7 +83,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     private void handleAIMove(int i, Button button) {
-        board[i] = 'X';
+        gameBoard[i] = 'X';
         button.setText("X");
         button.setEnabled(false);
         checkGameState();
@@ -97,7 +96,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     private void makeAIMove() {
         int aiMove = getAIMoveBasedOnDifficulty();
 
-        board[aiMove] = 'O';
+        gameBoard[aiMove] = 'O';
         buttons[aiMove].setText("O");
         buttons[aiMove].setEnabled(false);
 
@@ -118,44 +117,48 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     private void checkGameState() {
-        for (int i = 0; i < 3; i++) {
-            checkLine(i * 3, i * 3 + 1, i * 3 + 2); // Rows
-            checkLine(i, i + 3, i + 6); // Columns
-        }
-
-        checkLine(0, 4, 8); // Diagonal
-        checkLine(2, 4, 6); // Reverse Diagonal
+        if (checkAllLines()) return;
 
         if (isBoardFull()) {
             isDraw();
         }
     }
 
-    private void checkLine(int a, int b, int c) {
-        if (gameWon) return;
-        if (board[a] == board[b] && board[b] == board[c]) {
+    private boolean checkAllLines() {
+        for (int i = 0; i < 3; i++) {
+            if (checkLine(i * 3, i * 3 + 1, i * 3 + 2)) return true; // Rows
+            if (checkLine(i, i + 3, i + 6)) return true; // Columns
+        }
+        return checkLine(0, 4, 8) || checkLine(2, 4, 6); // Diagonals
+    }
+
+    private boolean checkLine(int a, int b, int c) {
+        if (gameWon) return false;
+        if (gameBoard[a] == gameBoard[b] && gameBoard[b] == gameBoard[c]) {
             isWon(a);
             animateWinningButtons(a, b, c);
+            return true;
         }
+        return false;
     }
 
     private void isWon(int a) {
         gameWon = true;
         playSound(this, R.raw.win);
 
-        if(board[a] == 'X') playerOneScore++;
+        if(gameBoard[a] == 'X') playerOneScore++;
         else playerTwoScore++;
 
-        wb.playerOneScoreTV.setText("Score: " + playerOneScore);
-        wb.playerTwoScoreTV.setText("Score: " + playerTwoScore);
+        vb.playerOneScoreTV.setText(getString(R.string.score, playerOneScore));
+        vb.playerTwoScoreTV.setText(getString(R.string.score, playerTwoScore));
 
-        wb.fireworksLAV.setVisibility(View.VISIBLE);
-        wb.fireworksLAV.playAnimation();
+        vb.fireworksLAV.setVisibility(View.VISIBLE);
+        vb.fireworksLAV.playAnimation();
     }
 
     private void isDraw() {
 
-        wb.drawIV.setVisibility(View.VISIBLE);
+        vb.drawIV.setVisibility(View.VISIBLE);
         gameDraw = true;
         playSound(this, R.raw.draw);
     }
@@ -176,17 +179,17 @@ public class TicTacToeActivity extends AppCompatActivity {
     private void resetGameState() {
         gameWon = false;
         gameDraw = false;
-        wb.drawIV.setVisibility(View.GONE);
-        wb.fireworksLAV.cancelAnimation();
-        wb.fireworksLAV.setVisibility(View.GONE);
+        vb.drawIV.setVisibility(View.GONE);
+        vb.fireworksLAV.cancelAnimation();
+        vb.fireworksLAV.setVisibility(View.GONE);
 
         resetBoard();
         resetButtons();
     }
 
     private void resetBoard() {
-        for (int i = 0; i < board.length; i++) {
-            board[i] = (char)('0' + i);
+        for (int i = 0; i < gameBoard.length; i++) {
+            gameBoard[i] = (char)('0' + i);
         }
     }
 
@@ -203,7 +206,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         int randomNum;
         do {
             randomNum = getRandomNumber(0, 8);
-        } while (board[randomNum] == 'X' || board[randomNum] == 'O');
+        } while (gameBoard[randomNum] == 'X' || gameBoard[randomNum] == 'O');
         return randomNum;
     }
 
@@ -213,11 +216,11 @@ public class TicTacToeActivity extends AppCompatActivity {
         // Helper function to check for a winning/blocking move in a line
         class Helper {
             int checkLineForMove(int a, int b, int c, char player) {
-                if (board[a] == player && board[b] == player && board[c] != 'X' && board[c] != 'O')
+                if (gameBoard[a] == player && gameBoard[b] == player && gameBoard[c] != 'X' && gameBoard[c] != 'O')
                     return c;
-                if (board[a] == player && board[c] == player && board[b] != 'X' && board[b] != 'O')
+                if (gameBoard[a] == player && gameBoard[c] == player && gameBoard[b] != 'X' && gameBoard[b] != 'O')
                     return b;
-                if (board[b] == player && board[c] == player && board[a] != 'X' && board[a] != 'O')
+                if (gameBoard[b] == player && gameBoard[c] == player && gameBoard[a] != 'X' && gameBoard[a] != 'O')
                     return a;
                 return -1;
             }
@@ -256,10 +259,10 @@ public class TicTacToeActivity extends AppCompatActivity {
         int bestMove = -1;
 
         for (int i = 0; i < 9; i++) {
-            if (board[i] != 'X' && board[i] != 'O') {
-                board[i] = 'O';
+            if (gameBoard[i] != 'X' && gameBoard[i] != 'O') {
+                gameBoard[i] = 'O';
                 int moveVal = minimax(false, Integer.MIN_VALUE, Integer.MAX_VALUE);
-                board[i] = (char)('0' + i);
+                gameBoard[i] = (char)('0' + i);
 
                 if (moveVal > bestVal) {
                     bestMove = i;
@@ -281,10 +284,10 @@ public class TicTacToeActivity extends AppCompatActivity {
         if (isMax) {
             best = Integer.MIN_VALUE;
             for (int i = 0; i < 9; i++) {
-                if (board[i] != 'X' && board[i] != 'O') {
-                    board[i] = 'O';
+                if (gameBoard[i] != 'X' && gameBoard[i] != 'O') {
+                    gameBoard[i] = 'O';
                     best = Math.max(best, minimax(false, alpha, beta));
-                    board[i] = (char)('0' + i);
+                    gameBoard[i] = (char)('0' + i);
                     alpha = Math.max(alpha, best);
                     if (beta <= alpha) break; // Beta cut-off
                 }
@@ -292,10 +295,10 @@ public class TicTacToeActivity extends AppCompatActivity {
         } else {
             best = Integer.MAX_VALUE;
             for (int i = 0; i < 9; i++) {
-                if (board[i] != 'X' && board[i] != 'O') {
-                    board[i] = 'X';
+                if (gameBoard[i] != 'X' && gameBoard[i] != 'O') {
+                    gameBoard[i] = 'X';
                     best = Math.min(best, minimax(true, alpha, beta));
-                    board[i] = (char)('0' + i);
+                    gameBoard[i] = (char)('0' + i);
                     beta = Math.min(beta, best);
                     if (beta <= alpha) break; // Alpha cut-off
                 }
@@ -307,29 +310,29 @@ public class TicTacToeActivity extends AppCompatActivity {
     private int evaluate() {
         // Check rows, columns and diagonals for win conditions
         for (int i = 0; i < 3; i++) {
-            if (board[i * 3] == board[i * 3 + 1] && board[i * 3 + 1] == board[i * 3 + 2]) {
-                if (board[i * 3] == 'O') return 10;
-                if (board[i * 3] == 'X') return -10;
+            if (gameBoard[i * 3] == gameBoard[i * 3 + 1] && gameBoard[i * 3 + 1] == gameBoard[i * 3 + 2]) {
+                if (gameBoard[i * 3] == 'O') return 10;
+                if (gameBoard[i * 3] == 'X') return -10;
             }
-            if (board[i] == board[i + 3] && board[i + 3] == board[i + 6]) {
-                if (board[i] == 'O') return 10;
-                if (board[i] == 'X') return -10;
+            if (gameBoard[i] == gameBoard[i + 3] && gameBoard[i + 3] == gameBoard[i + 6]) {
+                if (gameBoard[i] == 'O') return 10;
+                if (gameBoard[i] == 'X') return -10;
             }
         }
-        if (board[0] == board[4] && board[4] == board[8]) {
-            if (board[0] == 'O') return 10;
-            if (board[0] == 'X') return -10;
+        if (gameBoard[0] == gameBoard[4] && gameBoard[4] == gameBoard[8]) {
+            if (gameBoard[0] == 'O') return 10;
+            if (gameBoard[0] == 'X') return -10;
         }
-        if (board[2] == board[4] && board[4] == board[6]) {
-            if (board[2] == 'O') return 10;
-            if (board[2] == 'X') return -10;
+        if (gameBoard[2] == gameBoard[4] && gameBoard[4] == gameBoard[6]) {
+            if (gameBoard[2] == 'O') return 10;
+            if (gameBoard[2] == 'X') return -10;
         }
         return 0;
     }
 
     private boolean isBoardFull() {
         for (int i = 0; i < 9; i++) {
-            if (board[i] != 'X' && board[i] != 'O') return false;
+            if (gameBoard[i] != 'X' && gameBoard[i] != 'O') return false;
         }
         return true;
     }
@@ -361,15 +364,15 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         saveToSharedPreferences(DIFFICULTY_KEY, difficulty);
 
-        wb.difficultyTooltipTV.setText("AI Difficulty\n(" + getDifficultyText() + ")");
-        wb.difficultyTooltipTV.setVisibility(View.VISIBLE);
-        wb.difficultyTooltipTV.postDelayed(() -> wb.difficultyTooltipTV.setVisibility(View.GONE), 2000);
+        vb.difficultyTooltipTV.setText(getString(R.string.difficulty_tooltip, getDifficultyText()));
+        vb.difficultyTooltipTV.setVisibility(View.VISIBLE);
+        vb.difficultyTooltipTV.postDelayed(() -> vb.difficultyTooltipTV.setVisibility(View.GONE), 2000);
         updateDifficultyColor();
 
         playerOneScore = 0;
         playerTwoScore = 0;
-        wb.playerOneScoreTV.setText("Score: " + playerOneScore);
-        wb.playerTwoScoreTV.setText("Score: " + playerTwoScore);
+        vb.playerOneScoreTV.setText(getString(R.string.score, playerOneScore));
+        vb.playerTwoScoreTV.setText(getString(R.string.score, playerTwoScore));
         onResetGameClicked(view);
     }
 
@@ -385,20 +388,21 @@ public class TicTacToeActivity extends AppCompatActivity {
             default:
                 setCurrentColor = RED_COLOR;
         }
-        changeBackgroundColor(wb.difficultyIV, setCurrentColor);
+        changeBackgroundColor(vb.difficultyIV, setCurrentColor);
     }
 
     private String getDifficultyText() {
 
-        if (difficulty == 1) return "Easy";
-        if (difficulty == 2) return "Medium";
-        if (difficulty == 3) return "Hard";
+        if (difficulty == 1) return getString(R.string.easy);
+        if (difficulty == 2) return getString(R.string.medium);
+        if (difficulty == 3) return getString(R.string.hard);
 
         return null;
     }
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         vibrate(this, 50);
         changeActivity(this, GameModeActivity.class, true, false);
     }
@@ -406,36 +410,36 @@ public class TicTacToeActivity extends AppCompatActivity {
     //OnClick Method
     public void profileClicked(View view) {
             playSound(this,R.raw.click_ui);
-            animateViewScale(wb.profileRL,0f,1.0f,200);
-            wb.profileRL.setVisibility(View.VISIBLE);
-            wb.shadowV.setVisibility(View.VISIBLE);
-            wb.playerOneET.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
-            wb.playerTwoET.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
+            animateViewScale(vb.profileRL,0f,1.0f,200);
+            vb.profileRL.setVisibility(View.VISIBLE);
+            vb.shadowV.setVisibility(View.VISIBLE);
+            vb.playerOneET.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
+            vb.playerTwoET.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
     }
 
     private void updateProfiles() {
 
-        if(wb.playerOneET.getText().toString().trim().isEmpty()) wb.playerOneET.setText("Player⠀1");
-        if(wb.playerTwoET.getText().toString().trim().isEmpty()) wb.playerTwoET.setText("Player⠀2");
+        if(vb.playerOneET.getText().toString().trim().isEmpty()) vb.playerOneET.setText(getString(R.string.player_one));
+        if(vb.playerTwoET.getText().toString().trim().isEmpty()) vb.playerTwoET.setText(getString(R.string.player_two));
 
-        saveToSharedPreferences(PLAYERONE_NAME_KEY,wb.playerOneET.getText().toString().trim().replaceAll("\\s", ""));
-        saveToSharedPreferences(PLAYERTWO_NAME_KEY,wb.playerTwoET.getText().toString().trim().replaceAll("\\s", ""));
-        wb.playerOneNameTV.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
-        wb.playerTwoNameTV.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
+        saveToSharedPreferences(PLAYERONE_NAME_KEY, vb.playerOneET.getText().toString().trim().replaceAll("\\s", ""));
+        saveToSharedPreferences(PLAYERTWO_NAME_KEY, vb.playerTwoET.getText().toString().trim().replaceAll("\\s", ""));
+        vb.playerOneNameTV.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
+        vb.playerTwoNameTV.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
     }
 
     private void updateCardView() {
         if(isX) {
-            wb.playerOneCV.setAlpha(1f);
-            wb.playerTwoCV.setAlpha(0.8f);
-            animateViewScale(wb.playerOneCV, 1f, 1.1f, 200);
-            animateViewScale(wb.playerTwoCV, 1.1f, 1f, 200);
+            vb.playerOneCV.setAlpha(1f);
+            vb.playerTwoCV.setAlpha(0.8f);
+            animateViewScale(vb.playerOneCV, 1f, 1.1f, 200);
+            animateViewScale(vb.playerTwoCV, 1.1f, 1f, 200);
         }
         else {
-            wb.playerOneCV.setAlpha(0.8f);
-            wb.playerTwoCV.setAlpha(1f);
-            animateViewScale(wb.playerOneCV,1.1f,1f,200);
-            animateViewScale(wb.playerTwoCV, 1f, 1.1f, 200);
+            vb.playerOneCV.setAlpha(0.8f);
+            vb.playerTwoCV.setAlpha(1f);
+            animateViewScale(vb.playerOneCV,1.1f,1f,200);
+            animateViewScale(vb.playerTwoCV, 1f, 1.1f, 200);
         }
     }
 
@@ -444,32 +448,32 @@ public class TicTacToeActivity extends AppCompatActivity {
         playSound(this,R.raw.click_ui);
         if(view.getTag().equals("save")) updateProfiles();
 
-        animateViewScale(wb.profileRL,1.0f,0f,200);
-        wb.shadowV.setVisibility(View.GONE);
+        animateViewScale(vb.profileRL,1.0f,0f,200);
+        vb.shadowV.setVisibility(View.GONE);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private void initializeViews() {
         buttons = new Button[] {
-                wb.gameBoard0B, wb.gameBoard1B, wb.gameBoard2B,
-                wb.gameBoard3B, wb.gameBoard4B, wb.gameBoard5B,
-                wb.gameBoard6B, wb.gameBoard7B, wb.gameBoard8B
+                vb.gameBoard0B, vb.gameBoard1B, vb.gameBoard2B,
+                vb.gameBoard3B, vb.gameBoard4B, vb.gameBoard5B,
+                vb.gameBoard6B, vb.gameBoard7B, vb.gameBoard8B
         };
 
-        wb.playerOneNameTV.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
-        wb.playerTwoNameTV.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
+        vb.playerOneNameTV.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
+        vb.playerTwoNameTV.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
     }
 
     private void animateViewsPulse() {
         for (Button button: buttons) animateViewPulse(this, button);
-        animateViewPulse(this, wb.homeIconIV);
-        animateViewPulse(this, wb.settingIconIV);
-        animateViewPulse(this, wb.replayTV);
-        animateViewPulse(this, wb.backIconIV);
-        animateViewPulse(this, wb.difficultyIV);
-        animateViewPulse(this, wb.profileIV);
-        animateViewPulse(this, wb.profileSaveB);
-        animateViewPulse(this, wb.profileExitB);
+        animateViewPulse(this, vb.homeIconIV);
+        animateViewPulse(this, vb.settingIconIV);
+        animateViewPulse(this, vb.replayTV);
+        animateViewPulse(this, vb.backIconIV);
+        animateViewPulse(this, vb.difficultyIV);
+        animateViewPulse(this, vb.profileIV);
+        animateViewPulse(this, vb.profileSaveB);
+        animateViewPulse(this, vb.profileExitB);
     }
 }

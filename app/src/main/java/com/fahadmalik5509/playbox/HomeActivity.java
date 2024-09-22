@@ -1,25 +1,25 @@
 package com.fahadmalik5509.playbox;
 
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
+import com.fahadmalik5509.playbox.databinding.HomeLayoutBinding;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.fahadmalik5509.playbox.databinding.HomeLayoutBinding;
 
 public class HomeActivity extends AppCompatActivity {
 
-    HomeLayoutBinding wb;
+    HomeLayoutBinding vb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        wb = HomeLayoutBinding.inflate(getLayoutInflater());
-        setContentView(wb.getRoot());
+        vb = HomeLayoutBinding.inflate(getLayoutInflater());
+        setContentView(vb.getRoot());
 
         loadColors(this);
         initializeSoundPool(this);
@@ -41,8 +41,9 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         vibrate(this, 50);
-        toggleVisibility(wb.exitRL, wb.shadowV);
+        toggleVisibility(vb.exitRL, vb.shadowV);
     }
 
     // Onclick Method
@@ -53,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
         if(view.getTag().equals("yes")) {
             finishAffinity();
         } else {
-            toggleVisibility(wb.exitRL, wb.shadowV);
+            toggleVisibility(vb.exitRL, vb.shadowV);
         }
     }
 
@@ -68,11 +69,11 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void animateViewsPulse() {
-        animateViewPulse(this, wb.ticTacToeB);
-        animateViewPulse(this, wb.wordleB);
-        animateViewPulse(this, wb.settingsB);
-        animateViewPulse(this, wb.yesExitB);
-        animateViewPulse(this, wb.noExitB);
+        animateViewPulse(this, vb.ticTacToeB);
+        animateViewPulse(this, vb.wordleB);
+        animateViewPulse(this, vb.settingsB);
+        animateViewPulse(this, vb.yesExitB);
+        animateViewPulse(this, vb.noExitB);
 
     }
 }

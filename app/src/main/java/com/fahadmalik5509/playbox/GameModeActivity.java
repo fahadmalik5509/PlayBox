@@ -1,25 +1,24 @@
 package com.fahadmalik5509.playbox;
 
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
+import com.fahadmalik5509.playbox.databinding.GamemodeLayoutBinding;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.fahadmalik5509.playbox.databinding.GamemodeLayoutBinding;
-
 public class GameModeActivity extends AppCompatActivity {
 
-    GamemodeLayoutBinding wb;
+    GamemodeLayoutBinding vb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        wb = GamemodeLayoutBinding.inflate(getLayoutInflater());
-        setContentView(wb.getRoot());
+        vb = GamemodeLayoutBinding.inflate(getLayoutInflater());
+        setContentView(vb.getRoot());
 
         loadColors(this);
         animateViewsPulse();
@@ -34,6 +33,7 @@ public class GameModeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         vibrate(this, 50);
         changeActivity(this, HomeActivity.class, true, false);
     }
@@ -53,10 +53,10 @@ public class GameModeActivity extends AppCompatActivity {
     }
 
     private void animateViewsPulse() {
-        animateViewPulse(this, wb.playerVsPlayerB);
-        animateViewPulse(this, wb.playerVsAIB);
-        animateViewPulse(this, wb.homeIconIV);
-        animateViewPulse(this, wb.settingIconIV);
-        animateViewPulse(this, wb.backIconIV);
+        animateViewPulse(this, vb.playerVsPlayerB);
+        animateViewPulse(this, vb.playerVsAIB);
+        animateViewPulse(this, vb.homeIconIV);
+        animateViewPulse(this, vb.settingIconIV);
+        animateViewPulse(this, vb.backIconIV);
     }
 }

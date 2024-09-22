@@ -22,11 +22,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 public class WordleActivity extends AppCompatActivity {
 
-    WordleLayoutBinding wb;
+    WordleLayoutBinding vb;
 
     private final int MAX_ROWS = 6;
     private final int MAX_COLS = 5;
@@ -48,8 +46,8 @@ public class WordleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        wb = WordleLayoutBinding.inflate(getLayoutInflater());
-        setContentView(wb.getRoot());
+        vb = WordleLayoutBinding.inflate(getLayoutInflater());
+        setContentView(vb.getRoot());
 
         initializeViews();
         animateViewsPulse();
@@ -182,20 +180,20 @@ public class WordleActivity extends AppCompatActivity {
     private void handleWin() {
         gameWon = true;
         waveRow();
-        animateText(wb.currencyCountTV, 0f, 360f, 300);
+        animateText(vb.currencyCountTV, 0f, 360f, 300);
         playSound(this, R.raw.coin);
         currentCurrencyCount += (50 + (5 * currentStreakCount) + ((6 - currentRow) * 5));
         updateCurrency();
         currentStreakCount++;
         updateStreak();
-        new Handler().postDelayed(() -> toggleVisibility(wb.resetIV), 500);
+        new Handler().postDelayed(() -> toggleVisibility(vb.resetIV), 500);
     }
 
     private void handleLoss() {
         gameLost = true;
         playSound(this, R.raw.draw);
         Toast.makeText(this, "The word was: " + targetWord, Toast.LENGTH_LONG).show();
-        toggleVisibility(wb.resetIV);
+        toggleVisibility(vb.resetIV);
         currentStreakCount = 0;
         updateStreak();
     }
@@ -250,7 +248,7 @@ public class WordleActivity extends AppCompatActivity {
         letterColorMap.clear();
         grayedOutLetters.clear();
         revealedHints.clear();
-        toggleVisibility(wb.resetIV);
+        toggleVisibility(vb.resetIV);
         loadRandomTargetWord();
 
         for (int row = 0; row < MAX_ROWS; row++) {
@@ -320,44 +318,44 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void onCurrencyClick(View view) {
         playSound(this, R.raw.register);
-        toggleVisibility(wb.shadowV, wb.shopLL);
+        toggleVisibility(vb.shadowV, vb.shopLL);
 
-        wb.shopBombCountTV.setText(String.valueOf(currentBombCount));
-        wb.shopHintCountTV.setText(String.valueOf(currentHintCount));
-        wb.shopSkipCountTV.setText(String.valueOf(currentSkipCount));
+        vb.shopBombCountTV.setText(String.valueOf(currentBombCount));
+        vb.shopHintCountTV.setText(String.valueOf(currentHintCount));
+        vb.shopSkipCountTV.setText(String.valueOf(currentSkipCount));
     }
     private void updateCurrency() {
 
         saveToSharedPreferences(CURRENCY_KEY, currentCurrencyCount);
-        wb.currencyCountTV.setText(String.valueOf(currentCurrencyCount));
+        vb.currencyCountTV.setText(String.valueOf(currentCurrencyCount));
     }
 
     // OnClick Method
     public void onStreakClick(View view) {
-        if(wb.flameLAV.isAnimating()) playSound(this, R.raw.flamesfx);
+        if(vb.flameLAV.isAnimating()) playSound(this, R.raw.flamesfx);
         else playSound(this, R.raw.click_ui);
-        wb.streakTooltipTV.setText("Streak\n(Current: " + sharedPreferences.getInt(WORDLE_STREAK_KEY, 0) + ")" + "\n(Best: " + sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0) + ")");
-        toggleVisibility(wb.streakTooltipTV);
-        wb.streakTooltipTV.postDelayed(() -> toggleVisibility(wb.streakTooltipTV), 2000);
+        vb.streakTooltipTV.setText(getString(R.string.streak_tooltip, sharedPreferences.getInt(WORDLE_STREAK_KEY, 0), sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0)));
+        toggleVisibility(vb.streakTooltipTV);
+        vb.streakTooltipTV.postDelayed(() -> toggleVisibility(vb.streakTooltipTV), 2000);
     }
     private void updateStreak() {
 
         int bestStreakCount = sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0);
 
         saveToSharedPreferences(WORDLE_STREAK_KEY, currentStreakCount);
-        wb.currentStreakTV.setText(String.valueOf(currentStreakCount));
+        vb.currentStreakTV.setText(String.valueOf(currentStreakCount));
 
         if (currentStreakCount >= bestStreakCount && currentStreakCount != 0) {
             saveToSharedPreferences(WORDLE_HIGHEST_STREAK_KEY, currentStreakCount);
-            changeBackgroundColor(wb.currentStreakTV, Color.TRANSPARENT);
-            wb.flameLAV.setVisibility(View.VISIBLE);
-            wb.flameLAV.playAnimation();
+            changeBackgroundColor(vb.currentStreakTV, Color.TRANSPARENT);
+            vb.flameLAV.setVisibility(View.VISIBLE);
+            vb.flameLAV.playAnimation();
         }
         else {
-            wb.currentStreakTV.setBackgroundTintList(null);
-            wb.currentStreakTV.setBackgroundResource(R.drawable.circle_background);
-            wb.flameLAV.setVisibility(View.GONE);
-            wb.flameLAV.cancelAnimation();
+            vb.currentStreakTV.setBackgroundTintList(null);
+            vb.currentStreakTV.setBackgroundResource(R.drawable.circle_background);
+            vb.flameLAV.setVisibility(View.GONE);
+            vb.flameLAV.cancelAnimation();
         }
     }
 
@@ -391,16 +389,16 @@ public class WordleActivity extends AppCompatActivity {
         }
 
         playSound(this, R.raw.explosion);
-        wb.blastLAV.setVisibility(View.VISIBLE);
-        wb.blastLAV.playAnimation();
+        vb.blastLAV.setVisibility(View.VISIBLE);
+        vb.blastLAV.playAnimation();
 
         currentBombCount--;
         updateBomb();
     }
     private void updateBomb() {
         saveToSharedPreferences(BOMB_KEY, currentBombCount);
-        wb.bombTV.setText(String.valueOf(currentBombCount));
-        wb.shopBombCountTV.setText(String.valueOf(currentBombCount));
+        vb.bombTV.setText(String.valueOf(currentBombCount));
+        vb.shopBombCountTV.setText(String.valueOf(currentBombCount));
     }
 
     // OnClick Method
@@ -414,14 +412,14 @@ public class WordleActivity extends AppCompatActivity {
         updateSkip();
 
         playSound(this, R.raw.skip);
-        wb.skipLAV.setMinFrame(10);
-        wb.skipLAV.playAnimation();
+        vb.skipLAV.setMinFrame(10);
+        vb.skipLAV.playAnimation();
         onResetGameClicked(view);
     }
     private void updateSkip() {
         saveToSharedPreferences(SKIP_KEY, currentSkipCount);
-        wb.skipCountTV.setText(String.valueOf(currentSkipCount));
-        wb.shopSkipCountTV.setText(String.valueOf(currentSkipCount));
+        vb.skipCountTV.setText(String.valueOf(currentSkipCount));
+        vb.shopSkipCountTV.setText(String.valueOf(currentSkipCount));
     }
 
     // OnClick Method
@@ -467,8 +465,8 @@ public class WordleActivity extends AppCompatActivity {
     }
     private void updateHint() {
         saveToSharedPreferences(HINT_KEY, currentHintCount);
-        wb.hintCountTV.setText(String.valueOf(currentHintCount));
-        wb.shopHintCountTV.setText(String.valueOf(currentHintCount));
+        vb.hintCountTV.setText(String.valueOf(currentHintCount));
+        vb.shopHintCountTV.setText(String.valueOf(currentHintCount));
     }
 
     // OnClick Method
@@ -479,7 +477,7 @@ public class WordleActivity extends AppCompatActivity {
             changeActivity(this, HomeActivity.class, true, false);
 
         } else {
-            toggleVisibility(wb.shadowV, wb.leaveGameRL);
+            toggleVisibility(vb.shadowV, vb.leaveGameRL);
         }
     }
 
@@ -515,7 +513,7 @@ public class WordleActivity extends AppCompatActivity {
             else { playSound(this, R.raw.click_error); }
         } else {
             playSound(this, R.raw.click_ui);
-            toggleVisibility(wb.shadowV, wb.shopLL);
+            toggleVisibility(vb.shadowV, vb.shopLL);
         }
     }
 
@@ -531,7 +529,7 @@ public class WordleActivity extends AppCompatActivity {
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
         if(currentRow>0) {
-            toggleVisibility(wb.shadowV, wb.leaveGameRL);
+            toggleVisibility(vb.shadowV, vb.leaveGameRL);
         }
         else {
             changeActivity(this, HomeActivity.class, true, false);
@@ -540,9 +538,10 @@ public class WordleActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         vibrate(this, 50);
         if(currentRow>0) {
-            toggleVisibility(wb.shadowV, wb.leaveGameRL);
+            toggleVisibility(vb.shadowV, vb.leaveGameRL);
         }
         else {
             changeActivity(this, HomeActivity.class, true, false);
@@ -552,20 +551,20 @@ public class WordleActivity extends AppCompatActivity {
     private void initializeViews() {
 
         keyboard = new TextView[] {
-                wb.aTextView, wb.bTextView, wb.cTextView, wb.dTextView, wb.eTextView, wb.fTextView,
-                wb.gTextView, wb.hTextView, wb.iTextView, wb.jTextView, wb.kTextView, wb.lTextView,
-                wb.mTextView, wb.nTextView, wb.oTextView, wb.pTextView, wb.qTextView, wb.rTextView,
-                wb.sTextView, wb.tTextView, wb.uTextView, wb.vTextView, wb.wTextView, wb.xTextView,
-                wb.yTextView, wb.zTextView
+                vb.aTextView, vb.bTextView, vb.cTextView, vb.dTextView, vb.eTextView, vb.fTextView,
+                vb.gTextView, vb.hTextView, vb.iTextView, vb.jTextView, vb.kTextView, vb.lTextView,
+                vb.mTextView, vb.nTextView, vb.oTextView, vb.pTextView, vb.qTextView, vb.rTextView,
+                vb.sTextView, vb.tTextView, vb.uTextView, vb.vTextView, vb.wTextView, vb.xTextView,
+                vb.yTextView, vb.zTextView
         };
 
         letterBox = new EditText[][] {
-                {wb.letterBoxR0C0EV, wb.letterBoxR0C1EV, wb.letterBoxR0C2EV, wb.letterBoxR0C3EV, wb.letterBoxR0C4EV},
-                {wb.letterBoxR1C0EV, wb.letterBoxR1C1EV, wb.letterBoxR1C2EV, wb.letterBoxR1C3EV, wb.letterBoxR1C4EV},
-                {wb.letterBoxR2C0EV, wb.letterBoxR2C1EV, wb.letterBoxR2C2EV, wb.letterBoxR2C3EV, wb.letterBoxR2C4EV},
-                {wb.letterBoxR3C0EV, wb.letterBoxR3C1EV, wb.letterBoxR3C2EV, wb.letterBoxR3C3EV, wb.letterBoxR3C4EV},
-                {wb.letterBoxR4C0EV, wb.letterBoxR4C1EV, wb.letterBoxR4C2EV, wb.letterBoxR4C3EV, wb.letterBoxR4C4EV},
-                {wb.letterBoxR5C0EV, wb.letterBoxR5C1EV, wb.letterBoxR5C2EV, wb.letterBoxR5C3EV, wb.letterBoxR5C4EV}
+                {vb.letterBoxR0C0EV, vb.letterBoxR0C1EV, vb.letterBoxR0C2EV, vb.letterBoxR0C3EV, vb.letterBoxR0C4EV},
+                {vb.letterBoxR1C0EV, vb.letterBoxR1C1EV, vb.letterBoxR1C2EV, vb.letterBoxR1C3EV, vb.letterBoxR1C4EV},
+                {vb.letterBoxR2C0EV, vb.letterBoxR2C1EV, vb.letterBoxR2C2EV, vb.letterBoxR2C3EV, vb.letterBoxR2C4EV},
+                {vb.letterBoxR3C0EV, vb.letterBoxR3C1EV, vb.letterBoxR3C2EV, vb.letterBoxR3C3EV, vb.letterBoxR3C4EV},
+                {vb.letterBoxR4C0EV, vb.letterBoxR4C1EV, vb.letterBoxR4C2EV, vb.letterBoxR4C3EV, vb.letterBoxR4C4EV},
+                {vb.letterBoxR5C0EV, vb.letterBoxR5C1EV, vb.letterBoxR5C2EV, vb.letterBoxR5C3EV, vb.letterBoxR5C4EV}
         };
 
         currentStreakCount = sharedPreferences.getInt(WORDLE_STREAK_KEY, 0);
@@ -578,27 +577,27 @@ public class WordleActivity extends AppCompatActivity {
     private void animateViewsPulse() {
         for (int i = 0; i < 26; i++) animateViewPulse(this, keyboard[i]);
 
-        animateViewPulse(this, wb.enterIV);
-        animateViewPulse(this, wb.backspaceIV);
+        animateViewPulse(this, vb.enterIV);
+        animateViewPulse(this, vb.backspaceIV);
 
-        animateViewPulse(this, wb.resetIV);
-        animateViewPulse(this, wb.homeIconIV);
-        animateViewPulse(this, wb.settingIconIV);
-        animateViewPulse(this, wb.backIconIV);
-        animateViewPulse(this, wb.currentStreakTV);
+        animateViewPulse(this, vb.resetIV);
+        animateViewPulse(this, vb.homeIconIV);
+        animateViewPulse(this, vb.settingIconIV);
+        animateViewPulse(this, vb.backIconIV);
+        animateViewPulse(this, vb.currentStreakTV);
 
-        animateViewPulse(this, wb.bombRL);
-        animateViewPulse(this, wb.skipRL);
-        animateViewPulse(this, wb.hintRL);
-        animateViewPulse(this, wb.currencyRL);
+        animateViewPulse(this, vb.bombRL);
+        animateViewPulse(this, vb.skipRL);
+        animateViewPulse(this, vb.hintRL);
+        animateViewPulse(this, vb.currencyRL);
 
-        animateViewPulse(this, wb.popupLeaveB);
-        animateViewPulse(this, wb.popupStayB);
+        animateViewPulse(this, vb.popupLeaveB);
+        animateViewPulse(this, vb.popupStayB);
 
-        animateViewPulse(this, wb.shopBombBuyB);
-        animateViewPulse(this, wb.shopHintBuyB);
-        animateViewPulse(this, wb.shopSkipBuyB);
-        animateViewPulse(this, wb.shopCloseBuyB);
+        animateViewPulse(this, vb.shopBombBuyB);
+        animateViewPulse(this, vb.shopHintBuyB);
+        animateViewPulse(this, vb.shopSkipBuyB);
+        animateViewPulse(this, vb.shopCloseBuyB);
     }
 
     private void cheat() {
