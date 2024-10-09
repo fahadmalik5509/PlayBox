@@ -19,6 +19,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     private final char[] gameBoard = { '0', '1', '2', '3', '4', '5', '6', '7', '8' };
     private boolean gameWon = false, gameDraw = false, isX = true;
     private int difficulty, playerOneScore = 0, playerTwoScore = 0;
+    String playerOneSymbol = "", playerTwoSymbol = "";
 
     private Button[] buttons;
 
@@ -37,9 +38,9 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     private void setupGameMode() {
         if (isVsAi) {
+            toggleVisibility(true, vb.symbolRL, vb.difficultyRL, vb.shadowV, vb.symbolSwitchIV);
             vb.playerOneNameTV.setText(getString(R.string.you));
             vb.playerTwoNameTV.setText(getString(R.string.ai));
-            vb.difficultyRL.setVisibility(View.VISIBLE);
             vb.profileIV.setVisibility(View.GONE);
             difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
             updateDifficultyColor();
@@ -83,8 +84,8 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     private void handleAIMove(int i, Button button) {
-        gameBoard[i] = 'X';
-        button.setText("X");
+        gameBoard[i] = playerOneSymbol.charAt(0);
+        button.setText(playerOneSymbol);
         button.setEnabled(false);
         checkGameState();
 
@@ -96,8 +97,8 @@ public class TicTacToeActivity extends AppCompatActivity {
     private void makeAIMove() {
         int aiMove = getAIMoveBasedOnDifficulty();
 
-        gameBoard[aiMove] = 'O';
-        buttons[aiMove].setText("O");
+        gameBoard[aiMove] = playerTwoSymbol.charAt(0);
+        buttons[aiMove].setText(playerTwoSymbol);
         buttons[aiMove].setEnabled(false);
 
         checkGameState();
@@ -185,6 +186,7 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         resetBoard();
         resetButtons();
+        if(isVsAi && playerTwoSymbol.equals("X")) makeAIMove();
     }
 
     private void resetBoard() {
@@ -373,7 +375,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         playerTwoScore = 0;
         vb.playerOneScoreTV.setText(getString(R.string.score, playerOneScore));
         vb.playerTwoScoreTV.setText(getString(R.string.score, playerTwoScore));
-        onResetGameClicked(view);
+        resetGameState();
     }
 
     private void updateDifficultyColor() {
@@ -402,7 +404,6 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         vibrate(this, 50);
         changeActivity(this, GameModeActivity.class, true, false);
     }
@@ -415,6 +416,17 @@ public class TicTacToeActivity extends AppCompatActivity {
             vb.shadowV.setVisibility(View.VISIBLE);
             vb.playerOneET.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY,"Player 1"));
             vb.playerTwoET.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY,"Player 2"));
+    }
+    //OnClick Method
+    public void handleProfileButtons(View view){
+        playSound(this,R.raw.click_ui);
+        if(view.getTag().equals("save")) updateProfiles();
+
+        animateViewScale(vb.profileRL,1.0f,0f,200);
+        vb.shadowV.setVisibility(View.GONE);
+        vb.profileRL.setVisibility(View.GONE);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
     private void updateProfiles() {
@@ -443,15 +455,30 @@ public class TicTacToeActivity extends AppCompatActivity {
         }
     }
 
-    //OnClick Method
-    public void handleProfileButtons(View view){
-        playSound(this,R.raw.click_ui);
-        if(view.getTag().equals("save")) updateProfiles();
+    // Onclick Method
+    public void handleSymbolClick(View view) {
+        playSound(this, R.raw.click_ui);
+        if (view.getTag().equals("X")) {
+            playerOneSymbol = "X";
+            playerTwoSymbol = "O";
+        } else {
+            playerOneSymbol = "O";
+            playerTwoSymbol = "X";
+            makeAIMove();
+        }
+        handleSymbol();
+        resetGameState();
+        toggleVisibility(false, vb.symbolRL, vb.shadowV);
+    }
 
-        animateViewScale(vb.profileRL,1.0f,0f,200);
-        vb.shadowV.setVisibility(View.GONE);
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    private void handleSymbol() {
+        vb.playerOneSymbolTV.setText(playerOneSymbol);
+        vb.playerTwoSymbolTV.setText(playerTwoSymbol);
+    }
+
+    public void handleSwitchClick(View view) {
+        playSound(this, R.raw.click_ui);
+        toggleVisibility(true, vb.symbolRL, vb.shadowV);
     }
 
     private void initializeViews() {
@@ -475,5 +502,8 @@ public class TicTacToeActivity extends AppCompatActivity {
         animateViewPulse(this, vb.profileIV);
         animateViewPulse(this, vb.profileSaveB);
         animateViewPulse(this, vb.profileExitB);
+        animateViewPulse(this, vb.aiSymbolXTV);
+        animateViewPulse(this, vb.aiSymbolOTV);
+        animateViewPulse(this, vb.symbolSwitchIV);
     }
 }

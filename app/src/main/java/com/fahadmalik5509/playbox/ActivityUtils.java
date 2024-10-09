@@ -53,7 +53,6 @@ public class ActivityUtils {
     public static int YELLOW_COLOR;
     public static int GREEN_COLOR;
 
-
     public static boolean isVsAi = false;
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
@@ -186,7 +185,7 @@ public class ActivityUtils {
 
     public static void animateViewBounce(View view) {
 
-        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationY", -10f, 0f);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationY", -15f, 0f);
         animator.setDuration(150);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
         animator.start();
@@ -241,12 +240,12 @@ public class ActivityUtils {
         return random.nextInt((max - min) + 1) + min;
     }
 
-    public static void toggleVisibility(View... views) {
+    public static void toggleVisibility(boolean visible, View... views) {
         for (View view : views) {
-            if (view.getVisibility() == View.VISIBLE) {
-                view.setVisibility(View.GONE);
-            } else {
+            if (visible) {
                 view.setVisibility(View.VISIBLE);
+            } else {
+                view.setVisibility(View.GONE);
             }
         }
     }

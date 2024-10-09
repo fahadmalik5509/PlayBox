@@ -19,5 +19,12 @@
     <string name="difficulty_tooltip">AI Difficulty\n(%1$s)</string>
     <string name="you">YOU</string>
     <string name="ai">AI</string>
+    <string name="pick_your_side">Pick Your Side:</string>
+    <string name="X">X</string>
+    <string name="O">O</string>
+    <string name="first">(First Move: X)</string>
+    <string name="TicTacToe">Tic Tac Toe</string>
+
+
 
 </resources>

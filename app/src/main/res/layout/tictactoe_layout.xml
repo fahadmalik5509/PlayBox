@@ -10,7 +10,7 @@
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/gridLayout"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center">
 
         <androidx.cardview.widget.CardView
@@ -19,51 +19,49 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             app:cardBackgroundColor="@color/beige"
-            app:cardCornerRadius="20dp"
-            android:elevation="0dp">
+            app:cardCornerRadius="20dp">
 
             <RelativeLayout
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:minHeight="80dp"
-                android:minWidth="80dp"
-                android:padding="5dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="21dp">
 
                 <TextView
                     android:id="@+id/playerOneNameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_alignParentTop="true"
                     android:text="Player 1"
-                    android:singleLine="true"
-                    android:textAppearance="@style/custom_font"
+                    android:textSize="12dp"
                     android:textColor="@color/background"
-                    android:textSize="15sp" />
+                    android:textAppearance="@style/custom_font"/>
 
                 <TextView
-                    android:id="@+id/tvPlayerOneSymbol"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:id="@+id/playerOneSymbolTV"
+                    android:layout_width="30dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/playerOneNameTV"
                     android:text="X"
-                    android:textAppearance="@style/custom_font"
+                    android:textSize="35sp"
                     android:textColor="@color/background"
-                    android:textSize="40sp" />
+                    android:gravity="center"
+                    android:textAppearance="@style/custom_font"/>
 
                 <TextView
                     android:id="@+id/playerOneScoreTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/playerOneSymbolTV"
                     android:text="Score: 0"
-                    android:textAppearance="@style/custom_font"
+                    android:textSize="12dp"
                     android:textColor="@color/background"
-                    android:textSize="10sp" />
+                    android:textAppearance="@style/custom_font"/>
+
 
             </RelativeLayout>
-
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -77,51 +75,52 @@
             android:elevation="0dp">
 
             <RelativeLayout
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:minHeight="80dp"
-                android:minWidth="80dp"
-                android:padding="5dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="20dp">
 
                 <TextView
                     android:id="@+id/playerTwoNameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_alignParentTop="true"
                     android:text="Player 2"
-                    android:singleLine="true"
-                    android:textAppearance="@style/custom_font"
+                    android:textSize="12dp"
                     android:textColor="@color/background"
-                    android:textSize="15sp" />
+                    android:textAppearance="@style/custom_font"/>
 
                 <TextView
-                    android:id="@+id/tvPlayerTwoSymbol"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:id="@+id/playerTwoSymbolTV"
+                    android:layout_width="30dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/playerTwoNameTV"
                     android:text="O"
-                    android:textAppearance="@style/custom_font"
+                    android:textSize="35sp"
                     android:textColor="@color/background"
-                    android:textSize="40sp" />
+                    android:gravity="center"
+                    android:textAppearance="@style/custom_font"/>
 
                 <TextView
                     android:id="@+id/playerTwoScoreTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/playerTwoSymbolTV"
                     android:text="Score: 0"
-                    android:textAppearance="@style/custom_font"
+                    android:textSize="12dp"
                     android:textColor="@color/background"
-                    android:textSize="10sp" />
+                    android:textAppearance="@style/custom_font"/>
+
 
             </RelativeLayout>
-
         </androidx.cardview.widget.CardView>
 
-
     </RelativeLayout>
+
+
+
 
     <GridLayout
         android:id="@+id/gridLayout"
@@ -271,6 +270,17 @@
         android:src="@drawable/profileicon"
         android:onClick="profileClicked" />
 
+    <!--Switch ImageView-->
+    <ImageView
+        android:id="@+id/symbolSwitchIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="64dp"
+        android:src="@drawable/switchicon"
+        android:onClick="handleSwitchClick"
+        android:visibility="gone"/>
+
     <!--Replay TextView-->
     <TextView
         android:id="@+id/replayTV"
@@ -309,6 +319,7 @@
         android:visibility="gone"
         android:src="@drawable/draw"/>
 
+    <!--Profile RelativeLayout-->
     <RelativeLayout
         android:id="@+id/profileRL"
         android:layout_width="250dp"
@@ -408,6 +419,77 @@
             android:textAppearance="@style/custom_font"
             android:onClick="handleProfileButtons" />
 
+
+    </RelativeLayout>
+
+    <!--Symbol RelativeLayout-->
+    <RelativeLayout
+        android:id="@+id/symbolRL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:background="@drawable/popup_background"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/pick_your_side"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/pick_your_side"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/custom_font"/>
+
+        <TextView
+            android:id="@+id/first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/first"
+            android:layout_below="@id/pick_your_side"
+            android:layout_marginTop="35dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/custom_font"/>
+
+        <TextView
+            android:id="@+id/aiSymbolXTV"
+            android:tag="X"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/first"
+            android:layout_alignStart="@+id/pick_your_side"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="15dp"
+            android:paddingHorizontal="27dp"
+            android:text="@string/X"
+            android:textSize="60sp"
+            android:textColor="@color/black"
+            android:textAppearance="@style/custom_font"
+            android:background="@drawable/keyboard_keys_background"
+            android:onClick="handleSymbolClick"/>
+
+        <TextView
+            android:id="@+id/aiSymbolOTV"
+            android:tag="O"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/first"
+            android:layout_alignEnd="@+id/pick_your_side"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:paddingHorizontal="20dp"
+            android:text="@string/O"
+            android:textSize="60sp"
+            android:textColor="@color/black"
+            android:textAppearance="@style/custom_font"
+            android:background="@drawable/keyboard_keys_background"
+            android:onClick="handleSymbolClick"/>
 
     </RelativeLayout>
 

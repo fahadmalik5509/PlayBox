@@ -181,19 +181,21 @@ public class WordleActivity extends AppCompatActivity {
         gameWon = true;
         waveRow();
         animateText(vb.currencyCountTV, 0f, 360f, 300);
+        vb.coinblastLAV.setVisibility(View.VISIBLE);
+        vb.coinblastLAV.playAnimation();
         playSound(this, R.raw.coin);
         currentCurrencyCount += (50 + (5 * currentStreakCount) + ((6 - currentRow) * 5));
         updateCurrency();
         currentStreakCount++;
         updateStreak();
-        new Handler().postDelayed(() -> toggleVisibility(vb.resetIV), 500);
+        new Handler().postDelayed(() -> toggleVisibility(true, vb.resetIV), 500);
     }
 
     private void handleLoss() {
         gameLost = true;
         playSound(this, R.raw.draw);
         Toast.makeText(this, "The word was: " + targetWord, Toast.LENGTH_LONG).show();
-        toggleVisibility(vb.resetIV);
+        toggleVisibility(true, vb.resetIV);
         currentStreakCount = 0;
         updateStreak();
     }
@@ -248,7 +250,7 @@ public class WordleActivity extends AppCompatActivity {
         letterColorMap.clear();
         grayedOutLetters.clear();
         revealedHints.clear();
-        toggleVisibility(vb.resetIV);
+        vb.resetIV.setVisibility(View.GONE);
         loadRandomTargetWord();
 
         for (int row = 0; row < MAX_ROWS; row++) {
@@ -318,7 +320,8 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void onCurrencyClick(View view) {
         playSound(this, R.raw.register);
-        toggleVisibility(vb.shadowV, vb.shopLL);
+        animateViewScale(vb.shopLL,0f,1.0f,200);
+        toggleVisibility(true, vb.shadowV, vb.shopLL);
 
         vb.shopBombCountTV.setText(String.valueOf(currentBombCount));
         vb.shopHintCountTV.setText(String.valueOf(currentHintCount));
@@ -335,8 +338,8 @@ public class WordleActivity extends AppCompatActivity {
         if(vb.flameLAV.isAnimating()) playSound(this, R.raw.flamesfx);
         else playSound(this, R.raw.click_ui);
         vb.streakTooltipTV.setText(getString(R.string.streak_tooltip, sharedPreferences.getInt(WORDLE_STREAK_KEY, 0), sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0)));
-        toggleVisibility(vb.streakTooltipTV);
-        vb.streakTooltipTV.postDelayed(() -> toggleVisibility(vb.streakTooltipTV), 2000);
+        toggleVisibility(true, vb.streakTooltipTV);
+        vb.streakTooltipTV.postDelayed(() -> toggleVisibility(false, vb.streakTooltipTV), 2000);
     }
     private void updateStreak() {
 
@@ -477,7 +480,7 @@ public class WordleActivity extends AppCompatActivity {
             changeActivity(this, HomeActivity.class, true, false);
 
         } else {
-            toggleVisibility(vb.shadowV, vb.leaveGameRL);
+            toggleVisibility(false, vb.shadowV, vb.leaveGameRL);
         }
     }
 
@@ -513,7 +516,7 @@ public class WordleActivity extends AppCompatActivity {
             else { playSound(this, R.raw.click_error); }
         } else {
             playSound(this, R.raw.click_ui);
-            toggleVisibility(vb.shadowV, vb.shopLL);
+            toggleVisibility(false, vb.shadowV, vb.shopLL);
         }
     }
 
@@ -529,7 +532,7 @@ public class WordleActivity extends AppCompatActivity {
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
         if(currentRow>0) {
-            toggleVisibility(vb.shadowV, vb.leaveGameRL);
+            toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
         }
         else {
             changeActivity(this, HomeActivity.class, true, false);
@@ -538,10 +541,9 @@ public class WordleActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         vibrate(this, 50);
         if(currentRow>0) {
-            toggleVisibility(vb.shadowV, vb.leaveGameRL);
+            toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
         }
         else {
             changeActivity(this, HomeActivity.class, true, false);

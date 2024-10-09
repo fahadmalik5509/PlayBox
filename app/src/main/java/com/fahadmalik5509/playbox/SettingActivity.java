@@ -85,7 +85,6 @@ public class SettingActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         vibrate(this, 50);
         if (originActivity != null) {
             try {

@@ -2,6 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:background="@color/background">
 
     <!-- Flame AnimationView -->
@@ -458,6 +460,15 @@
         android:layout_alignBottom="@+id/gridLayout"
         app:lottie_rawRes="@raw/skipanimation" />
 
+    <!-- Coin Blast AnimationView -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/coinblastLAV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:lottie_rawRes="@raw/coin_blast_animation"
+        android:visibility="gone"/>
+
     <!-- Back ImageView -->
     <ImageView
         android:id="@+id/backIconIV"
@@ -613,43 +624,44 @@
     <RelativeLayout
         android:id="@+id/currencyRL"
         android:layout_width="80dp"
-        android:layout_height="32dp"
+        android:layout_height="30dp"
         android:layout_toEndOf="@id/backIconIV"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="20dp"
-        android:background="@drawable/popup_background"
-        android:onClick="onCurrencyClick">
+        android:layout_marginStart="30dp"
+        android:onClick="onCurrencyClick"
+        android:background="@drawable/border_background">
+
 
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="5dp"
-            android:paddingVertical="2dp"
-            android:background="@drawable/circle_background"
-            android:layout_centerVertical="true"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="-15dp"
+            android:padding="4dp"
+            android:background="@drawable/border_beige_background"
+
             android:src="@drawable/coin"/>
 
         <TextView
             android:id="@+id/currencyCountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="7dp"
-            android:gravity="center"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
             android:textSize="15sp"
-            android:textAppearance="@style/custom_font"
-            android:textColor="@color/beige"/>
-    </RelativeLayout>
+            android:textColor="@color/beige"
+            android:textAppearance="@style/custom_font"/>
 
-    <ImageView
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:src="@drawable/plus"
-        android:layout_marginBottom="-25dp"
-        android:layout_marginStart="-10dp"
-        android:layout_toRightOf="@id/currencyRL"
-        android:layout_above="@+id/currencyRL"/>
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/plus"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="-5dp"
+            android:layout_marginEnd="-5dp"/>
+
+    </RelativeLayout>
 
     <!-- Shadow View -->
     <View

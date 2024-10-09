@@ -26,13 +26,11 @@ public class HomeActivity extends AppCompatActivity {
         animateViewsPulse();
     }
 
-    public void handleTicTacToeButtonClick(View view) {navigateToActivity(GameModeActivity.class); }
+    public void handleTicTacToeButtonClick(View view) { navigateToActivity(GameModeActivity.class); }
     public void handleWordleButtonClick(View view) {
         navigateToActivity(WordleActivity.class);
     }
-    public void handleSettingsButtonClick(View view) {
-        navigateToActivity(SettingActivity.class);
-    }
+    public void handleSettingsButtonClick(View view) { navigateToActivity(SettingActivity.class); }
 
     private void navigateToActivity(Class < ? > targetActivity) {
         playSound(this, R.raw.click_ui);
@@ -41,9 +39,9 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         vibrate(this, 50);
-        toggleVisibility(vb.exitRL, vb.shadowV);
+        animateViewScale(vb.exitRL,0f,1.0f,200);
+        toggleVisibility(true, vb.exitRL, vb.shadowV);
     }
 
     // Onclick Method
@@ -54,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         if(view.getTag().equals("yes")) {
             finishAffinity();
         } else {
-            toggleVisibility(vb.exitRL, vb.shadowV);
+            toggleVisibility(false, vb.exitRL, vb.shadowV);
         }
     }
 

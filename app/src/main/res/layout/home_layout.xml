@@ -27,9 +27,9 @@
 
         <Button
             android:id="@+id/ticTacToeB"
-            android:text="TIC TAC TOE"
             style="@style/NavigationButton"
-            android:onClick="handleTicTacToeButtonClick" />
+            android:onClick="handleTicTacToeButtonClick"
+            android:text="@string/TicTacToe" />
 
         <Button
             android:id="@+id/wordleB"

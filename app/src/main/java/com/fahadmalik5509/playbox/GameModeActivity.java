@@ -26,14 +26,13 @@ public class GameModeActivity extends AppCompatActivity {
 
     //onclick Method
     public void handleGameModeClick(View view) {
-        if(view.getTag().equals("pva")) isVsAi = true;
+        isVsAi = view.getTag().equals("pva");
         playSound(this, R.raw.click_ui);
         new Handler().postDelayed(() -> changeActivity(this, TicTacToeActivity.class, false, true), ACTIVITY_TRANSITION_DELAY_MS);
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         vibrate(this, 50);
         changeActivity(this, HomeActivity.class, true, false);
     }
