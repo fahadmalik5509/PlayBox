@@ -55,6 +55,6 @@
         android:text="Select Gamemode"
         android:textSize="30sp"
         android:textColor="@color/beige"
-        android:textAppearance="@style/custom_font"/>
+        android:textAppearance="@style/default_font"/>
 
 </RelativeLayout>

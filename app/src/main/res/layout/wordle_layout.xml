@@ -503,7 +503,7 @@
             android:layout_centerHorizontal="true"
             android:textSize="12sp"
             android:textColor="@color/background"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:gravity="center"
             android:onClick="onStreakClick" />
 
@@ -517,7 +517,7 @@
             android:background="@drawable/popup_background"
             android:gravity="center"
             android:padding="10dp"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:textColor="@color/beige"
             android:textSize="10sp"
             android:visibility="gone"/>
@@ -551,7 +551,7 @@
             android:background="@drawable/circle_background"
             android:paddingHorizontal="5dp"
             android:textSize="12sp"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:textColor="@color/gray"/>
 
     </RelativeLayout>
@@ -583,7 +583,7 @@
             android:background="@drawable/circle_background"
             android:paddingHorizontal="5dp"
             android:textSize="12sp"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:textColor="@color/gray"/>
 
     </RelativeLayout>
@@ -615,7 +615,7 @@
             android:background="@drawable/circle_background"
             android:paddingHorizontal="5dp"
             android:textSize="12sp"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:textColor="@color/gray"/>
 
     </RelativeLayout>
@@ -650,7 +650,7 @@
             android:layout_marginEnd="10dp"
             android:textSize="15sp"
             android:textColor="@color/beige"
-            android:textAppearance="@style/custom_font"/>
+            android:textAppearance="@style/default_font"/>
 
         <ImageView
             android:layout_width="18dp"
@@ -698,7 +698,7 @@
             android:text="Exit mid-game?\nStreak reset!"
             android:textSize="20sp"
             android:textColor="@color/beige"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:gravity="center" />
 
         <Button
@@ -711,7 +711,7 @@
             android:text="Leave"
             android:textSize="20sp"
             android:textColor="@color/beige"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:onClick="handleLeaveButtons" />
 
         <Button
@@ -725,7 +725,7 @@
             android:text="Stay"
             android:textSize="20sp"
             android:textColor="@color/beige"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:onClick="handleLeaveButtons" />
 
 
@@ -770,7 +770,7 @@
                 android:layout_marginEnd="5dp"
                 android:paddingHorizontal="5dp"
                 android:background="@drawable/circle_background"
-                android:textAppearance="@style/custom_font"/>
+                android:textAppearance="@style/default_font"/>
 
             <Button
                 android:id="@+id/shopBombBuyB"
@@ -783,7 +783,7 @@
                 android:text="buy ($40)"
                 android:textSize="12sp"
                 android:textColor="@color/black"
-                android:textAppearance="@style/custom_font"
+                android:textAppearance="@style/default_font"
                 android:onClick="handleStopButtons"
                 android:background="@drawable/keyboard_keys_background"/>
         </RelativeLayout>
@@ -814,7 +814,7 @@
                 android:layout_alignEnd="@+id/ivBuySkip"
                 android:paddingHorizontal="5dp"
                 android:background="@drawable/circle_background"
-                android:textAppearance="@style/custom_font"/>
+                android:textAppearance="@style/default_font"/>
 
             <Button
                 android:id="@+id/shopSkipBuyB"
@@ -827,7 +827,7 @@
                 android:text="buy ($200)"
                 android:textSize="12sp"
                 android:textColor="@color/black"
-                android:textAppearance="@style/custom_font"
+                android:textAppearance="@style/default_font"
                 android:onClick="handleStopButtons"
                 android:background="@drawable/keyboard_keys_background"/>
 
@@ -859,7 +859,7 @@
                 android:layout_alignEnd="@+id/ivBuyHint"
                 android:paddingHorizontal="5dp"
                 android:background="@drawable/circle_background"
-                android:textAppearance="@style/custom_font"/>
+                android:textAppearance="@style/default_font"/>
 
             <Button
                 android:id="@+id/shopHintBuyB"
@@ -872,7 +872,7 @@
                 android:text="buy ($100)"
                 android:textSize="12sp"
                 android:textColor="@color/black"
-                android:textAppearance="@style/custom_font"
+                android:textAppearance="@style/default_font"
                 android:onClick="handleStopButtons"
                 android:background="@drawable/keyboard_keys_background"/>
 
@@ -887,7 +887,7 @@
             android:text="Close"
             android:textSize="15sp"
             android:textColor="@color/black"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:onClick="handleStopButtons"/>
 
     </LinearLayout>

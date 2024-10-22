@@ -35,7 +35,7 @@
                     android:text="Player 1"
                     android:textSize="12dp"
                     android:textColor="@color/background"
-                    android:textAppearance="@style/custom_font"/>
+                    android:textAppearance="@style/default_font"/>
 
                 <TextView
                     android:id="@+id/playerOneSymbolTV"
@@ -47,7 +47,7 @@
                     android:textSize="35sp"
                     android:textColor="@color/background"
                     android:gravity="center"
-                    android:textAppearance="@style/custom_font"/>
+                    android:textAppearance="@style/default_font"/>
 
                 <TextView
                     android:id="@+id/playerOneScoreTV"
@@ -58,7 +58,7 @@
                     android:text="Score: 0"
                     android:textSize="12dp"
                     android:textColor="@color/background"
-                    android:textAppearance="@style/custom_font"/>
+                    android:textAppearance="@style/default_font"/>
 
 
             </RelativeLayout>
@@ -88,7 +88,7 @@
                     android:text="Player 2"
                     android:textSize="12dp"
                     android:textColor="@color/background"
-                    android:textAppearance="@style/custom_font"/>
+                    android:textAppearance="@style/default_font"/>
 
                 <TextView
                     android:id="@+id/playerTwoSymbolTV"
@@ -100,7 +100,7 @@
                     android:textSize="35sp"
                     android:textColor="@color/background"
                     android:gravity="center"
-                    android:textAppearance="@style/custom_font"/>
+                    android:textAppearance="@style/default_font"/>
 
                 <TextView
                     android:id="@+id/playerTwoScoreTV"
@@ -111,7 +111,7 @@
                     android:text="Score: 0"
                     android:textSize="12dp"
                     android:textColor="@color/background"
-                    android:textAppearance="@style/custom_font"/>
+                    android:textAppearance="@style/default_font"/>
 
 
             </RelativeLayout>
@@ -253,7 +253,7 @@
             android:background="@drawable/popup_background"
             android:gravity="center"
             android:padding="10dp"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:textColor="@color/beige"
             android:textSize="10sp"
             android:visibility="gone"/>
@@ -292,7 +292,7 @@
         android:text="Replay"
         android:textSize="50sp"
         android:textColor="@color/beige"
-        android:textAppearance="@style/custom_font"
+        android:textAppearance="@style/default_font"
         android:onClick="onResetGameClicked"/>
 
     <com.airbnb.lottie.LottieAnimationView
@@ -355,7 +355,7 @@
                 android:text="Player 1"
                 android:textSize="12sp"
                 android:textColor="@color/gray"
-                android:textAppearance="@style/custom_font"
+                android:textAppearance="@style/default_font"
                 android:hint="(8 Letters Max)"
                 android:textColorHint="@color/hint"/>
 
@@ -386,7 +386,7 @@
                 android:text="Player 2"
                 android:textSize="12sp"
                 android:textColor="@color/gray"
-                android:textAppearance="@style/custom_font"
+                android:textAppearance="@style/default_font"
                 android:hint="(8 Letters Max)"
                 android:textColorHint="@color/hint"/>
 
@@ -402,7 +402,7 @@
             android:text="Exit"
             android:textSize="20sp"
             android:textColor="@color/beige"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:onClick="handleProfileButtons" />
 
         <Button
@@ -416,7 +416,7 @@
             android:text="Save"
             android:textSize="20sp"
             android:textColor="@color/beige"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:onClick="handleProfileButtons" />
 
 
@@ -441,7 +441,7 @@
             android:textSize="30sp"
             android:gravity="center"
             android:textColor="@color/beige"
-            android:textAppearance="@style/custom_font"/>
+            android:textAppearance="@style/default_font"/>
 
         <TextView
             android:id="@+id/first"
@@ -455,7 +455,7 @@
             android:textSize="15sp"
             android:gravity="center"
             android:textColor="@color/beige"
-            android:textAppearance="@style/custom_font"/>
+            android:textAppearance="@style/default_font"/>
 
         <TextView
             android:id="@+id/aiSymbolXTV"
@@ -470,7 +470,7 @@
             android:text="@string/X"
             android:textSize="60sp"
             android:textColor="@color/black"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:background="@drawable/keyboard_keys_background"
             android:onClick="handleSymbolClick"/>
 
@@ -487,7 +487,7 @@
             android:text="@string/O"
             android:textSize="60sp"
             android:textColor="@color/black"
-            android:textAppearance="@style/custom_font"
+            android:textAppearance="@style/default_font"
             android:background="@drawable/keyboard_keys_background"
             android:onClick="handleSymbolClick"/>
 

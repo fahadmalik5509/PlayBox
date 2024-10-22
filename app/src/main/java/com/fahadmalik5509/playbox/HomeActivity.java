@@ -23,17 +23,16 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
     private SensorManager sensorManager;
     private Sensor accelerometer;
-    private static final float SHAKE_THRESHOLD = 25.0f;
-    private static final long SHAKE_COOLDOWN_MS = 4000;  // Cooldown time after a shake detected
-    private long lastShakeTime = 0;  // Track the last time a shake was detected
-
+    private long lastShakeTime = 0;
+    private boolean isCoinFlipping = false;
+    private static final float SHAKE_THRESHOLD = 20.0f;
+    private static final long SHAKE_COOLDOWN_MS = 3500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         vb = HomeLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
-
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -111,8 +110,8 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
 
             if (acceleration > SHAKE_THRESHOLD && (currentTime - lastShakeTime > SHAKE_COOLDOWN_MS)) {
-                onShakeDetected();  // Trigger shake detected immediately
-                lastShakeTime = currentTime;  // Update last shake time
+                onShakeDetected();
+                lastShakeTime = currentTime;
             }
         }
     }
@@ -126,32 +125,32 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         handleCoinFlip();
     }
 
-    private boolean isCoinFlipping = false; // Flag to track coin flipping state
-
     private void handleCoinFlip() {
-        if (isCoinFlipping) return; // Prevent multiple executions
+        if (isCoinFlipping) return;
+        isCoinFlipping = true;
 
-        isCoinFlipping = true; // Set flag to true
         playSound(this, R.raw.acoinflip);
+        vibrate(this, 300);
         vb.lavCoinFlip.setVisibility(View.VISIBLE);
         vb.lavCoinFlip.playAnimation();
-        vibrate(this, 300);
 
-        // Hide the coin flip animation and show the result after 1.5 seconds
         vb.lavCoinFlip.postDelayed(() -> {
+
             vb.lavCoinFlip.setVisibility(View.GONE);
             playSound(this, R.raw.acoinreveal);
+
             vb.tvCoinFlip.setText(getCoinFlipResult());
-            vb.lavCoinSplash.playAnimation();
             vb.tvCoinFlip.setVisibility(View.VISIBLE);
+            vb.lavCoinSplash.setVisibility(View.VISIBLE);
             animateViewScale(vb.tvCoinFlip, 0f, 1.0f, 200);
+            vb.lavCoinSplash.playAnimation();
         }, 1500);
 
         // Hide the result TextView after an additional 3 seconds (4500 total)
         vb.tvCoinFlip.postDelayed(() -> {
+            vb.lavCoinSplash.setVisibility(View.GONE);
             vb.tvCoinFlip.setVisibility(View.GONE);
             vb.lavCoinSplash.cancelAnimation();
-            vb.lavCoinSplash.setProgress(0);
             isCoinFlipping = false;
         }, 3000);
     }
