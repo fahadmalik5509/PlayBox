@@ -24,7 +24,8 @@
     <string name="O">O</string>
     <string name="first">(First Move: X)</string>
     <string name="TicTacToe">Tic Tac Toe</string>
-
+    <string name="Heads">Heads</string>
+    <string name="Tails">Tails</string>
 
 
 </resources>

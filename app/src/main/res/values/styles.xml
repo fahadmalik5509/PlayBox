@@ -4,6 +4,10 @@
         <item name="android:fontFamily">@font/font</item>
     </style>
 
+    <style name="funky_font">
+        <item name="android:fontFamily">@font/funkyfont</item>
+    </style>
+
     <style name="KeyboardTextView">
         <item name="android:background">@drawable/keyboard_keys_background</item>
         <item name="android:layout_width">30dp</item>

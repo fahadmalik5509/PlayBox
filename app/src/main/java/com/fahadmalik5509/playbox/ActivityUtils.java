@@ -89,6 +89,8 @@ public class ActivityUtils {
         soundMap.put(R.raw.coin, soundPool.load(context, R.raw.coin, 1));
         soundMap.put(R.raw.register, soundPool.load(context, R.raw.register, 1));
         soundMap.put(R.raw.flamesfx, soundPool.load(context, R.raw.flamesfx, 1));
+        soundMap.put(R.raw.acoinflip, soundPool.load(context, R.raw.acoinflip, 1));
+        soundMap.put(R.raw.acoinreveal, soundPool.load(context, R.raw.acoinreveal, 1));
     }
 
     public static void playSound(Context context, int soundResId) {

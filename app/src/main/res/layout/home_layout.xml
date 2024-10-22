@@ -5,17 +5,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background">
 
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/lavGhost"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        app:lottie_asyncUpdates="enabled"-->
+<!--        app:lottie_cacheComposition="true"-->
+<!--        app:lottie_rawRes="@raw/ghost"-->
+<!--        app:lottie_autoPlay="true"-->
+<!--        app:lottie_loop="true"-->
+<!--        android:alpha="0.3"/>-->
+
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lavGhost"
+        android:id="@+id/lavCoinSplash"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:lottie_rawRes="@raw/coinsplash"
+        app:lottie_asyncUpdates="enabled"
+        app:lottie_cacheComposition="true"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavCoinFlip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         app:lottie_asyncUpdates="enabled"
         app:lottie_cacheComposition="true"
-        app:lottie_rawRes="@raw/ghost"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        android:alpha="0.3"/>
+        app:lottie_rawRes="@raw/coinflip"
+        android:visibility="gone"/>
+
+    <TextView
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp"
+        android:id="@+id/tvCoinFlip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:letterSpacing="0.1"
+        android:textSize="70sp"
+        android:textColor="@color/yellow"
+        android:textAppearance="@style/funky_font"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
