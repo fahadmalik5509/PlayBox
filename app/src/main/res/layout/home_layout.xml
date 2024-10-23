@@ -15,7 +15,8 @@
         app:lottie_asyncUpdates="enabled"
         app:lottie_cacheComposition="true"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"/>
+        app:lottie_loop="true"
+        app:lottie_speed="2"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavCoinSplash"

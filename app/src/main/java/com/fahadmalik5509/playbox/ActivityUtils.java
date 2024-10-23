@@ -38,6 +38,7 @@ public class ActivityUtils {
     public static final String WORDLE_HIGHEST_STREAK_KEY = "streakHighestNumber";
     public static final String PLAYERONE_NAME_KEY = "playerOneName";
     public static final String PLAYERTWO_NAME_KEY = "playerTwoName";
+    public static final String EXPLOSION_KEY = "boomKey";
     public static final String CURRENCY_KEY = "currency";
     public static final String BOMB_KEY = "bomb";
     public static final String SKIP_KEY = "skip";
@@ -83,6 +84,7 @@ public class ActivityUtils {
         soundMap.put(R.raw.enter, soundPool.load(context, R.raw.enter, 1));
         soundMap.put(R.raw.backspace, soundPool.load(context, R.raw.backspace, 1));
         soundMap.put(R.raw.explosion, soundPool.load(context, R.raw.explosion, 1));
+        soundMap.put(R.raw.explosion2, soundPool.load(context, R.raw.explosion2, 1));
         soundMap.put(R.raw.hint, soundPool.load(context, R.raw.hint, 1));
         soundMap.put(R.raw.skip, soundPool.load(context, R.raw.skip, 1));
         soundMap.put(R.raw.bought, soundPool.load(context, R.raw.bought, 1));

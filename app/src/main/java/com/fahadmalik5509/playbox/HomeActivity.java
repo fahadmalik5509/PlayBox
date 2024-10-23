@@ -14,8 +14,8 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
-import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -85,11 +85,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
-        if (accelerometer != null) {
-            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        } else {
-            Toast.makeText(this, "Accelerometer sensor not available", Toast.LENGTH_SHORT).show();
-        }
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
 
@@ -110,7 +106,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
 
             if (acceleration > SHAKE_THRESHOLD && (currentTime - lastShakeTime > SHAKE_COOLDOWN_MS)) {
-                onShakeDetected();
+                handleCoinFlip();
                 lastShakeTime = currentTime;
             }
         }
@@ -119,10 +115,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Not used
-    }
-
-    private void onShakeDetected() {
-        handleCoinFlip();
     }
 
     private void handleCoinFlip() {
@@ -134,8 +126,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         vb.lavCoinFlip.setVisibility(View.VISIBLE);
         vb.lavCoinFlip.playAnimation();
 
-        vb.lavCoinFlip.postDelayed(() -> {
-
+        new Handler(Looper.getMainLooper()).postDelayed(() -> {
             vb.lavCoinFlip.setVisibility(View.GONE);
             playSound(this, R.raw.acoinreveal);
 
@@ -144,15 +135,15 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             vb.lavCoinSplash.setVisibility(View.VISIBLE);
             animateViewScale(vb.tvCoinFlip, 0f, 1.0f, 200);
             vb.lavCoinSplash.playAnimation();
+
+            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                vb.lavCoinSplash.setVisibility(View.GONE);
+                vb.tvCoinFlip.setVisibility(View.GONE);
+                isCoinFlipping = false;
+            }, 1500);
+
         }, 1500);
 
-        // Hide the result TextView after an additional 3 seconds (4500 total)
-        vb.tvCoinFlip.postDelayed(() -> {
-            vb.lavCoinSplash.setVisibility(View.GONE);
-            vb.tvCoinFlip.setVisibility(View.GONE);
-            vb.lavCoinSplash.cancelAnimation();
-            isCoinFlipping = false;
-        }, 3000);
     }
 
     private String getCoinFlipResult() {

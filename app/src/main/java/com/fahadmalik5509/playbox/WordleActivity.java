@@ -100,6 +100,7 @@ public class WordleActivity extends AppCompatActivity {
     private void onEnterKeyClicked() {
 
         if(userGuess.toString().equals("FAHAD")) cheat();
+        if(userGuess.toString().equals("NIGGA"))  unCheat();
 
         if (!isValidGuess()) {
             playSound(this, R.raw.click_error);
@@ -391,7 +392,9 @@ public class WordleActivity extends AppCompatActivity {
             return;
         }
 
-        playSound(this, R.raw.explosion);
+        if(sharedPreferences.getInt(EXPLOSION_KEY, 0) == 1)  playSound(this, R.raw.explosion2);
+        else playSound(this, R.raw.explosion);
+
         vb.blastLAV.setVisibility(View.VISIBLE);
         vb.blastLAV.playAnimation();
 
@@ -605,6 +608,14 @@ public class WordleActivity extends AppCompatActivity {
     private void cheat() {
         currentCurrencyCount = 99999;
         updateCurrency();
+        saveToSharedPreferences(EXPLOSION_KEY, 1);
         Toast.makeText(this, targetWord, Toast.LENGTH_SHORT).show();
+    }
+
+    private  void unCheat() {
+        saveToSharedPreferences(EXPLOSION_KEY, 0);
+        currentCurrencyCount = 300;
+        updateCurrency();
+        Toast.makeText(this, "Cheat Disabled Nigga", Toast.LENGTH_SHORT).show();
     }
 }
