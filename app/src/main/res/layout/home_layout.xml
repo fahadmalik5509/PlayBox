@@ -87,20 +87,21 @@
         android:layout_marginTop="80dp"
         android:text="@string/title_name"
         android:textSize="55sp"
-        android:letterSpacing="0.2"
+        android:letterSpacing="0.1"
         android:textColor="@color/beige"
         android:textAppearance="@style/funky_font"
         android:onClick="handlePlayBox" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tvPlayBox"
-        android:layout_marginTop="55dp"
-        android:text=" FAHAD's"
+        android:layout_below="@+id/tvPlayBox"
+        android:layout_alignEnd="@+id/tvPlayBox"
+        android:text="By FAHAD"
         android:textSize="20sp"
+        android:letterSpacing="0.1"
         android:textColor="@color/yellow"
-        android:textAppearance="@style/spooky_font" />
+        android:textAppearance="@style/funky_font" />
 
 
     <View

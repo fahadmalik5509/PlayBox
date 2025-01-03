@@ -358,17 +358,17 @@
             android:layout_marginTop="5dp">
 
             <ImageView
-                android:id="@+id/enterIV"
-                android:tag="enter"
+                android:id="@+id/backspaceIV"
+                android:tag="backspace"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_weight="1"
                 android:textSize="20sp"
                 android:gravity="center"
-                android:clickable="true"
                 android:padding="6dp"
+                android:clickable="true"
                 android:background="@drawable/keyboard_keys_background"
-                android:src="@drawable/enter"
+                android:src="@drawable/backspace"
                 android:onClick="keyboardClicked"/>
 
             <TextView
@@ -414,18 +414,18 @@
                 android:text="M"/>
 
             <ImageView
-                android:id="@+id/backspaceIV"
-                android:tag="backspace"
+                android:id="@+id/enterIV"
+                android:tag="enter"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_weight="1"
-                android:layout_marginStart="5dp"
                 android:textSize="20sp"
                 android:gravity="center"
-                android:padding="6dp"
+                android:layout_marginStart="5dp"
                 android:clickable="true"
+                android:padding="6dp"
                 android:background="@drawable/keyboard_keys_background"
-                android:src="@drawable/backspace"
+                android:src="@drawable/enter"
                 android:onClick="keyboardClicked"/>
 
         </LinearLayout>
@@ -637,8 +637,7 @@
             android:layout_height="32dp"
             android:layout_marginStart="-15dp"
             android:padding="4dp"
-            android:background="@drawable/border_beige_background"
-
+            android:background="@drawable/border_background"
             android:src="@drawable/coin"/>
 
         <TextView
@@ -662,6 +661,21 @@
             android:layout_marginEnd="-5dp"/>
 
     </RelativeLayout>
+
+    <!-- TargetWord TextView -->
+    <TextView
+        android:id="@+id/targetWordTV"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/gridLayout"
+        android:layout_above="@+id/skipRL"
+        android:text="The Word Was: FRAME"
+        android:textSize="30sp"
+        android:textAppearance="@style/default_font"
+        android:textColor="@color/beige"
+        android:background="@drawable/border_background"
+        android:gravity="center" />
 
     <!-- Shadow View -->
     <View

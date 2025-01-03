@@ -195,7 +195,7 @@ public class WordleActivity extends AppCompatActivity {
     private void handleLoss() {
         gameLost = true;
         playSound(this, R.raw.draw);
-        Toast.makeText(this, "The word was: " + targetWord, Toast.LENGTH_LONG).show();
+        displayTargetWord();
         toggleVisibility(true, vb.resetIV);
         currentStreakCount = 0;
         updateStreak();
@@ -414,6 +414,7 @@ public class WordleActivity extends AppCompatActivity {
             return;
         }
 
+        displayTargetWord();
         currentSkipCount--;
         updateSkip();
 
@@ -521,6 +522,12 @@ public class WordleActivity extends AppCompatActivity {
             playSound(this, R.raw.click_ui);
             toggleVisibility(false, vb.shadowV, vb.shopLL);
         }
+    }
+
+    private void displayTargetWord() {
+        vb.targetWordTV.setVisibility(View.VISIBLE);
+        vb.targetWordTV.setText("The word was: " + targetWord);
+        new Handler().postDelayed(() -> vb.targetWordTV.setVisibility(View.GONE), 3000);
     }
 
     // OnClick Method

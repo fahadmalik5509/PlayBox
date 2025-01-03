@@ -127,7 +127,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         vb.lavCoinFlip.playAnimation();
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            vb.lavCoinFlip.setVisibility(View.GONE);
+                vb.lavCoinFlip.setVisibility(View.GONE);
             playSound(this, R.raw.acoinreveal);
 
             vb.tvCoinFlip.setText(getCoinFlipResult());
@@ -143,7 +143,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             }, 1500);
 
         }, 1500);
-
     }
 
     private String getCoinFlipResult() {
