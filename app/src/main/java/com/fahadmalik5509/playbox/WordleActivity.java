@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -526,8 +527,8 @@ public class WordleActivity extends AppCompatActivity {
 
     private void displayTargetWord() {
         vb.targetWordTV.setVisibility(View.VISIBLE);
-        vb.targetWordTV.setText("The word was: " + targetWord);
-        new Handler().postDelayed(() -> vb.targetWordTV.setVisibility(View.GONE), 3000);
+        vb.targetWordTV.setText(Html.fromHtml("Word was: <font color='#FFFF00'>" + targetWord + "</font>"));
+        new Handler().postDelayed(() -> vb.targetWordTV.setVisibility(View.GONE), 2000);
     }
 
     // OnClick Method
@@ -616,7 +617,7 @@ public class WordleActivity extends AppCompatActivity {
         currentCurrencyCount = 99999;
         updateCurrency();
         saveToSharedPreferences(EXPLOSION_KEY, 1);
-        Toast.makeText(this, targetWord, Toast.LENGTH_SHORT).show();
+        displayTargetWord();
     }
 
     private  void unCheat() {

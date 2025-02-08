@@ -47,6 +47,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         navigateToActivity(WordleActivity.class);
     }
     public void handleSettingsButtonClick(View view) { navigateToActivity(SettingActivity.class); }
+    public void handleColorPuzzleButtonClick(View view) { navigateToActivity(ColorPuzzleActivity.class); }
 
     private void navigateToActivity(Class < ? > targetActivity) {
         playSound(this, R.raw.click_ui);
@@ -80,6 +81,11 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             this.startActivity(intent);
             fun_openURL = 0;
         }
+    }
+
+    public void handleGitHub(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/fahadmalik5509"));
+        this.startActivity(intent);
     }
 
     @Override

@@ -665,17 +665,17 @@
     <!-- TargetWord TextView -->
     <TextView
         android:id="@+id/targetWordTV"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/gridLayout"
         android:layout_above="@+id/skipRL"
-        android:text="The Word Was: FRAME"
-        android:textSize="30sp"
+        android:layout_marginBottom="20dp"
+        android:textSize="20sp"
         android:textAppearance="@style/default_font"
         android:textColor="@color/beige"
         android:background="@drawable/border_background"
-        android:gravity="center" />
+        android:visibility="gone"/>
 
     <!-- Shadow View -->
     <View

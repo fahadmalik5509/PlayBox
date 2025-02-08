@@ -19,6 +19,79 @@
         app:lottie_speed="2"/>
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lavGitHub"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_asyncUpdates="enabled"
+        app:lottie_cacheComposition="true"
+        app:lottie_rawRes="@raw/github"
+        android:onClick="handleGitHub"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/ticTacToeB"
+            android:text="@string/TicTacToe"
+            style="@style/NavigationButton"
+            android:onClick="handleTicTacToeButtonClick" />
+
+        <Button
+            android:id="@+id/wordleB"
+            android:text="WORDLE"
+            style="@style/NavigationButton"
+            android:onClick="handleWordleButtonClick" />
+
+        <Button
+            android:id="@+id/colorPuzzleB"
+            style="@style/NavigationButton"
+            android:onClick="handleColorPuzzleButtonClick"
+            android:text="Color Puzzle" />
+
+        <Button
+            android:id="@+id/settingsB"
+            android:text="SETTINGS"
+            style="@style/NavigationButton"
+            android:onClick="handleSettingsButtonClick" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvPlayBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="@string/title_name"
+        android:textSize="55sp"
+        android:letterSpacing="0.1"
+        android:textColor="@color/beige"
+        android:textAppearance="@style/funky_font"
+        android:onClick="handlePlayBox" />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPlayBox"
+        android:layout_alignEnd="@+id/tvPlayBox"
+        android:text="By FAHAD"
+        android:textSize="20sp"
+        android:letterSpacing="0.1"
+        android:textColor="@color/yellow"
+        android:textAppearance="@style/funky_font" />
+
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavCoinSplash"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -49,60 +122,6 @@
         android:textColor="@color/yellow"
         android:textAppearance="@style/funky_font"
         android:visibility="gone"/>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="100dp"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/ticTacToeB"
-            style="@style/NavigationButton"
-            android:onClick="handleTicTacToeButtonClick"
-            android:text="@string/TicTacToe" />
-
-        <Button
-            android:id="@+id/wordleB"
-            android:text="WORDLE"
-            style="@style/NavigationButton"
-            android:onClick="handleWordleButtonClick" />
-
-        <Button
-            android:id="@+id/settingsB"
-            android:text="SETTINGS"
-            style="@style/NavigationButton"
-            android:onClick="handleSettingsButtonClick" />
-
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/tvPlayBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:text="@string/title_name"
-        android:textSize="55sp"
-        android:letterSpacing="0.1"
-        android:textColor="@color/beige"
-        android:textAppearance="@style/funky_font"
-        android:onClick="handlePlayBox" />
-
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPlayBox"
-        android:layout_alignEnd="@+id/tvPlayBox"
-        android:text="By FAHAD"
-        android:textSize="20sp"
-        android:letterSpacing="0.1"
-        android:textColor="@color/yellow"
-        android:textAppearance="@style/funky_font" />
-
 
     <View
         android:id="@+id/shadowV"

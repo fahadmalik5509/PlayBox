@@ -38,6 +38,12 @@
             android:exported="true"
             android:screenOrientation="portrait"/>
 
+        <!-- ColorPuzzleActivity -->
+        <activity
+            android:name=".ColorPuzzleActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+
         <!-- GameModeActivity -->
         <activity
             android:name=".GameModeActivity"
