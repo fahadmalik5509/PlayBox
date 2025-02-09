@@ -259,10 +259,11 @@ public class TicTacToeActivity extends AppCompatActivity {
     private int getHardMove() {
         int bestVal = Integer.MIN_VALUE;
         int bestMove = -1;
+        char aiSymbol = playerTwoSymbol.charAt(0); // Get AI's symbol
 
         for (int i = 0; i < 9; i++) {
             if (gameBoard[i] != 'X' && gameBoard[i] != 'O') {
-                gameBoard[i] = 'O';
+                gameBoard[i] = aiSymbol; // Use AI's symbol here
                 int moveVal = minimax(false, Integer.MIN_VALUE, Integer.MAX_VALUE);
                 gameBoard[i] = (char)('0' + i);
 
@@ -277,6 +278,8 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     private int minimax(boolean isMax, int alpha, int beta) {
         int score = evaluate();
+        char aiSymbol = playerTwoSymbol.charAt(0);
+        char playerSymbol = playerOneSymbol.charAt(0);
 
         if (score == 10) return score;
         if (score == -10) return score;
@@ -287,22 +290,22 @@ public class TicTacToeActivity extends AppCompatActivity {
             best = Integer.MIN_VALUE;
             for (int i = 0; i < 9; i++) {
                 if (gameBoard[i] != 'X' && gameBoard[i] != 'O') {
-                    gameBoard[i] = 'O';
+                    gameBoard[i] = aiSymbol; // AI's move
                     best = Math.max(best, minimax(false, alpha, beta));
                     gameBoard[i] = (char)('0' + i);
                     alpha = Math.max(alpha, best);
-                    if (beta <= alpha) break; // Beta cut-off
+                    if (beta <= alpha) break;
                 }
             }
         } else {
             best = Integer.MAX_VALUE;
             for (int i = 0; i < 9; i++) {
                 if (gameBoard[i] != 'X' && gameBoard[i] != 'O') {
-                    gameBoard[i] = 'X';
+                    gameBoard[i] = playerSymbol; // Player's move
                     best = Math.min(best, minimax(true, alpha, beta));
                     gameBoard[i] = (char)('0' + i);
                     beta = Math.min(beta, best);
-                    if (beta <= alpha) break; // Alpha cut-off
+                    if (beta <= alpha) break;
                 }
             }
         }
@@ -310,26 +313,25 @@ public class TicTacToeActivity extends AppCompatActivity {
     }
 
     private int evaluate() {
-        // Check rows, columns and diagonals for win conditions
+        char aiSymbol = playerTwoSymbol.charAt(0);
+        char playerSymbol = playerOneSymbol.charAt(0);
+
+        // Check all lines for wins
         for (int i = 0; i < 3; i++) {
-            if (gameBoard[i * 3] == gameBoard[i * 3 + 1] && gameBoard[i * 3 + 1] == gameBoard[i * 3 + 2]) {
-                if (gameBoard[i * 3] == 'O') return 10;
-                if (gameBoard[i * 3] == 'X') return -10;
-            }
-            if (gameBoard[i] == gameBoard[i + 3] && gameBoard[i + 3] == gameBoard[i + 6]) {
-                if (gameBoard[i] == 'O') return 10;
-                if (gameBoard[i] == 'X') return -10;
-            }
+            if (checkLine(i * 3, i * 3 + 1, i * 3 + 2, aiSymbol)) return 10;
+            if (checkLine(i * 3, i * 3 + 1, i * 3 + 2, playerSymbol)) return -10;
+            if (checkLine(i, i + 3, i + 6, aiSymbol)) return 10;
+            if (checkLine(i, i + 3, i + 6, playerSymbol)) return -10;
         }
-        if (gameBoard[0] == gameBoard[4] && gameBoard[4] == gameBoard[8]) {
-            if (gameBoard[0] == 'O') return 10;
-            if (gameBoard[0] == 'X') return -10;
-        }
-        if (gameBoard[2] == gameBoard[4] && gameBoard[4] == gameBoard[6]) {
-            if (gameBoard[2] == 'O') return 10;
-            if (gameBoard[2] == 'X') return -10;
-        }
+        if (checkLine(0, 4, 8, aiSymbol)) return 10;
+        if (checkLine(0, 4, 8, playerSymbol)) return -10;
+        if (checkLine(2, 4, 6, aiSymbol)) return 10;
+        if (checkLine(2, 4, 6, playerSymbol)) return -10;
         return 0;
+    }
+
+    private boolean checkLine(int a, int b, int c, char symbol) {
+        return gameBoard[a] == symbol && gameBoard[b] == symbol && gameBoard[c] == symbol;
     }
 
     private boolean isBoardFull() {

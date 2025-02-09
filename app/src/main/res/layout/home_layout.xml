@@ -81,15 +81,15 @@
         android:onClick="handlePlayBox" />
 
     <TextView
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvPlayBox"
         android:layout_alignEnd="@+id/tvPlayBox"
         android:text="By FAHAD"
-        android:textSize="20sp"
+        android:textSize="12sp"
         android:letterSpacing="0.1"
         android:textColor="@color/yellow"
-        android:textAppearance="@style/funky_font" />
+        android:textAppearance="@style/default_font" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavCoinSplash"
