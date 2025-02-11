@@ -322,8 +322,8 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void onCurrencyClick(View view) {
         playSound(this, R.raw.register);
-        animateViewScale(vb.shopLL,0f,1.0f,200);
-        toggleVisibility(true, vb.shadowV, vb.shopLL);
+        animateViewScale(vb.shopRL,0f,1.0f,200);
+        toggleVisibility(true, vb.shadowV, vb.shopRL);
 
         vb.shopBombCountTV.setText(String.valueOf(currentBombCount));
         vb.shopHintCountTV.setText(String.valueOf(currentHintCount));
@@ -521,7 +521,7 @@ public class WordleActivity extends AppCompatActivity {
             else { playSound(this, R.raw.click_error); }
         } else {
             playSound(this, R.raw.click_ui);
-            toggleVisibility(false, vb.shadowV, vb.shopLL);
+            toggleVisibility(false, vb.shadowV, vb.shopRL);
         }
     }
 
