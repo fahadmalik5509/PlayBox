@@ -26,9 +26,15 @@
             </intent-filter>
         </activity>
 
-        <!-- TicTacToeActivity -->
+        <!-- TicTacToeVsActivity -->
         <activity
-            android:name=".TicTacToeActivity"
+            android:name=".TicTacToeVsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+
+        <!-- TicTacToeAIActivity -->
+        <activity
+            android:name=".TicTacToeAIActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
 

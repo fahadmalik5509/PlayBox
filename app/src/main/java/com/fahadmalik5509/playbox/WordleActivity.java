@@ -50,7 +50,7 @@ public class WordleActivity extends AppCompatActivity {
         vb = WordleLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
-        initializeViews();
+        initialize();
         animateViewsPulse();
         loadGameData();
         updateUI();
@@ -561,7 +561,7 @@ public class WordleActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeViews() {
+    private void initialize() {
 
         keyboard = new TextView[] {
                 vb.aTextView, vb.bTextView, vb.cTextView, vb.dTextView, vb.eTextView, vb.fTextView,

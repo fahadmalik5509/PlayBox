@@ -26,9 +26,10 @@ public class GameModeActivity extends AppCompatActivity {
 
     //onclick Method
     public void handleGameModeClick(View view) {
-        isVsAi = view.getTag().equals("pva");
+        boolean isVsAi = view.getTag().equals("pva");
         playSound(this, R.raw.click_ui);
-        new Handler().postDelayed(() -> changeActivity(this, TicTacToeActivity.class, false, true), ACTIVITY_TRANSITION_DELAY_MS);
+        if(isVsAi) new Handler().postDelayed(() -> changeActivity(this, TicTacToeAIActivity.class, false, true), ACTIVITY_TRANSITION_DELAY_MS);
+        else new Handler().postDelayed(() -> changeActivity(this, TicTacToeVsActivity.class, false, true), ACTIVITY_TRANSITION_DELAY_MS);
     }
 
     @Override

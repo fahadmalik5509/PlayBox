@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/gridLayout"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/playerOneCV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:cardBackgroundColor="@color/beige"
+            app:cardCornerRadius="20dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="21dp">
+
+                <TextView
+                    android:id="@+id/playerOneNameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/you"
+                    android:textSize="12dp"
+                    android:textColor="@color/background"
+                    android:textAppearance="@style/default_font"/>
+
+                <TextView
+                    android:id="@+id/playerOneSymbolTV"
+                    android:layout_width="30dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/playerOneNameTV"
+                    android:text="X"
+                    android:textSize="35sp"
+                    android:textColor="@color/background"
+                    android:gravity="center"
+                    android:textAppearance="@style/default_font"/>
+
+                <TextView
+                    android:id="@+id/playerOneScoreTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/playerOneSymbolTV"
+                    android:text="Score: 0"
+                    android:textSize="12dp"
+                    android:textColor="@color/background"
+                    android:textAppearance="@style/default_font"/>
+
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/playerTwoCV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            app:cardBackgroundColor="@color/beige"
+            app:cardCornerRadius="20dp"
+            android:elevation="0dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
+                android:paddingHorizontal="20dp">
+
+                <TextView
+                    android:id="@+id/playerTwoNameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="AI"
+                    android:textSize="12dp"
+                    android:textColor="@color/background"
+                    android:textAppearance="@style/default_font"/>
+
+                <TextView
+                    android:id="@+id/playerTwoSymbolTV"
+                    android:layout_width="30dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/playerTwoNameTV"
+                    android:text="O"
+                    android:textSize="35sp"
+                    android:textColor="@color/background"
+                    android:gravity="center"
+                    android:textAppearance="@style/default_font"/>
+
+                <TextView
+                    android:id="@+id/playerTwoScoreTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@+id/playerTwoSymbolTV"
+                    android:text="Score: 0"
+                    android:textSize="12dp"
+                    android:textColor="@color/background"
+                    android:textAppearance="@style/default_font"/>
+
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:columnCount="3"
+        android:rowCount="3" >
+
+        <Button
+            android:id="@+id/gameBoard0B"
+            android:tag="0"
+            android:layout_row="0"
+            android:layout_column="0"
+            style="@style/BoardButton"
+            android:onClick="handleBoardClick" />
+
+        <Button
+            android:id="@+id/gameBoard1B"
+            android:tag="1"
+            android:layout_row="0"
+            android:layout_column="1"
+            style="@style/BoardButton"
+            android:onClick="handleBoardClick" />
+
+        <Button
+            android:id="@+id/gameBoard2B"
+            android:tag="2"
+            android:layout_row="0"
+            android:layout_column="2"
+            style="@style/BoardButton"
+            android:onClick="handleBoardClick" />
+
+        <Button
+            android:id="@+id/gameBoard3B"
+            android:tag="3"
+            android:layout_row="1"
+            android:layout_column="0"
+            style="@style/BoardButton"
+            android:onClick="handleBoardClick" />
+
+        <Button
+            android:id="@+id/gameBoard4B"
+            android:tag="4"
+            android:layout_row="1"
+            android:layout_column="1"
+            style="@style/BoardButton"
+            android:onClick="handleBoardClick" />
+
+        <Button
+            android:id="@+id/gameBoard5B"
+            android:tag="5"
+            android:layout_row="1"
+            android:layout_column="2"
+            style="@style/BoardButton"
+            android:onClick="handleBoardClick" />
+
+        <Button
+            android:id="@+id/gameBoard6B"
+            android:tag="6"
+            android:layout_row="2"
+            android:layout_column="0"
+            style="@style/BoardButton"
+            android:onClick="handleBoardClick" />
+
+        <Button
+            android:id="@+id/gameBoard7B"
+            android:tag="7"
+            android:layout_row="2"
+            android:layout_column="1"
+            style="@style/BoardButton"
+            android:onClick="handleBoardClick" />
+
+        <Button
+            android:id="@+id/gameBoard8B"
+            android:tag="8"
+            android:layout_row="2"
+            android:layout_column="2"
+            style="@style/BoardButton"
+            android:onClick="handleBoardClick" />
+
+    </GridLayout>
+
+    <!-- Back ImageView -->
+    <ImageView
+        android:id="@+id/backIconIV"
+        style="@style/BackImageView"
+        android:onClick="goToHome" />
+
+    <!-- Home ImageView -->
+    <ImageView
+        android:id="@+id/homeIconIV"
+        style="@style/HomeImageView"
+        android:onClick="goToHome" />
+
+    <!-- Setting ImageView -->
+    <ImageView
+        android:id="@+id/settingIconIV"
+        style="@style/SettingImageView"
+        android:onClick="goToSetting" />
+
+    <!--Difficulty RelativeLayout-->
+    <RelativeLayout
+        android:id="@+id/difficultyRL"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
+        android:elevation="2dp">
+
+        <ImageView
+            android:id="@+id/difficultyIV"
+            android:background="@drawable/circle_background"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/difficulty"
+            android:gravity="center"
+            android:onClick="difficultyClicked" />
+
+        <TextView
+            android:id="@+id/difficultyTooltipTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/difficultyIV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/popup_background"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textAppearance="@style/default_font"
+            android:textColor="@color/beige"
+            android:textSize="10sp"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <!--Switch ImageView-->
+    <ImageView
+        android:id="@+id/symbolSwitchIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="64dp"
+        android:src="@drawable/switchicon"
+        android:onClick="handleSwitchClick"/>
+
+    <!--Replay TextView-->
+    <TextView
+        android:id="@+id/replayTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:text="Replay"
+        android:textSize="50sp"
+        android:textColor="@color/beige"
+        android:textAppearance="@style/default_font"
+        android:onClick="onResetGameClicked"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/fireworksLAV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:lottie_rawRes="@raw/fireworks"
+        app:lottie_loop="true"/>
+
+    <!--Shadow View-->
+    <View
+        android:id="@+id/shadowV"
+        style="@style/ShadowLayout"/>
+
+    <!--GameDraw ImageView-->
+    <ImageView
+        android:contentDescription="@string/imageDescription"
+        android:id="@+id/drawIV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginHorizontal="50dp"
+        android:visibility="gone"
+        android:src="@drawable/draw"/>
+
+    <!--Symbol RelativeLayout-->
+    <RelativeLayout
+        android:id="@+id/symbolRL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:background="@drawable/popup_background"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/pick_your_side"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/pick_your_side"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"/>
+
+        <TextView
+            android:id="@+id/first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/first"
+            android:layout_below="@id/pick_your_side"
+            android:layout_marginTop="35dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"/>
+
+        <TextView
+            android:id="@+id/aiSymbolXTV"
+            android:tag="X"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/first"
+            android:layout_alignStart="@+id/pick_your_side"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="15dp"
+            android:paddingHorizontal="27dp"
+            android:text="@string/X"
+            android:textSize="60sp"
+            android:textColor="@color/black"
+            android:textAppearance="@style/default_font"
+            android:background="@drawable/keyboard_keys_background"
+            android:onClick="handleSymbolClick"/>
+
+        <TextView
+            android:id="@+id/aiSymbolOTV"
+            android:tag="O"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/first"
+            android:layout_alignEnd="@+id/pick_your_side"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:paddingHorizontal="20dp"
+            android:text="@string/O"
+            android:textSize="60sp"
+            android:textColor="@color/black"
+            android:textAppearance="@style/default_font"
+            android:background="@drawable/keyboard_keys_background"
+            android:onClick="handleSymbolClick"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

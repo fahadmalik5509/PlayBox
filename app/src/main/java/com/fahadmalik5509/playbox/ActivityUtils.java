@@ -54,7 +54,6 @@ public class ActivityUtils {
     public static int YELLOW_COLOR;
     public static int GREEN_COLOR;
 
-    public static boolean isVsAi = false;
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
     private static final SparseIntArray soundMap = new SparseIntArray();
