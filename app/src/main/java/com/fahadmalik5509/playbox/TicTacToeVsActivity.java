@@ -16,7 +16,7 @@ public class TicTacToeVsActivity extends AppCompatActivity {
 
     TictactoevsLayoutBinding vb;
     TicTacToeLogic game;
-    private boolean isX = true;
+    private boolean switchTurn = true;
     private Button[] buttons;
 
     @Override
@@ -32,7 +32,7 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         animateViewsPulse();
     }
 
-    // Called when a board cell is clicked.
+    //onClick Method
     public void handleBoardClick(View view) {
         if (game.getHasWon() || game.getHasDraw()) {
             playSound(this, R.raw.click_error);
@@ -53,18 +53,17 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         button.setText(String.valueOf(currentPlayer));
         button.setEnabled(false);
 
-        if(game.getHasWon()) isWon();
-        else if(game.getHasDraw()) isDraw();
+        if(game.getHasWon()) updateWinGUI();
+        else if(game.getHasDraw()) updateDrawGUI();
     }
 
-    // Toggle between 'X' and 'O' and return the current player's symbol.
     private char toggleAndGetCurrentPlayerSymbol() {
-        char currentPlayer = isX ? 'X' : 'O';
-        isX = !isX;
+        char currentPlayer = switchTurn ? 'X' : 'O';
+        switchTurn = !switchTurn;
         return currentPlayer;
     }
 
-    private void isWon() {
+    private void updateWinGUI() {
         playSound(this, R.raw.win);
         animateWinningButtons(game.winA, game.winB, game.winC);
 
@@ -74,7 +73,7 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         vb.fireworksLAV.playAnimation();
     }
 
-    private void isDraw() {
+    private void updateDrawGUI() {
         playSound(this, R.raw.draw);
         vb.drawIV.setVisibility(View.VISIBLE);
     }
@@ -91,15 +90,20 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         vb.playerTwoScoreTV.setText(getString(R.string.score, game.getPlayerTwoScore()));
     }
 
-    // Resets the game state and board.
-    public void onResetGameClicked(View view) {
+    //onClick Method
+    public void handleResetClick(View view) {
         playSound(this, R.raw.click_ui);
-        resetGameState();
+        resetGame();
+
     }
 
-    private void resetGameState() {
-        game.resetGameLogic();
+    private void resetGame() {
 
+        game.resetGameLogic();
+        resetGameGUI();
+    }
+
+    private void resetGameGUI() {
         vb.drawIV.setVisibility(View.GONE);
         vb.fireworksLAV.cancelAnimation();
         vb.fireworksLAV.setVisibility(View.GONE);
@@ -116,31 +120,13 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         }
     }
 
-    // Navigation methods.
-    public void goToSetting(View view) {
-        playSound(this, R.raw.click_ui);
-        Intent intent = new Intent(this, SettingActivity.class);
-        intent.putExtra("origin_activity", getClass().getSimpleName());
-        startActivity(intent);
-    }
-
-    public void goToHome(View view) {
-        playSound(this, R.raw.click_ui);
-        changeActivity(this, HomeActivity.class, true, false);
-    }
-
-    public void goBack(View view) {
-        playSound(this, R.raw.click_ui);
-        changeActivity(this, GameModeActivity.class, true, false);
-    }
-
     @Override
     public void onBackPressed() {
         vibrate(this, 50);
         changeActivity(this, GameModeActivity.class, true, false);
     }
 
-    // Displays the profile editing view.
+    //onClick Method
     public void profileClicked(View view) {
         playSound(this, R.raw.click_ui);
         animateViewScale(vb.profileRL, 0f, 1.0f, 200);
@@ -150,7 +136,6 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         vb.playerTwoET.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY, "Player 2"));
     }
 
-    // Handles the profile view's save/exit actions.
     public void handleProfileButtons(View view) {
         playSound(this, R.raw.click_ui);
         if ("save".equals(view.getTag())) updateProfiles();
@@ -176,9 +161,8 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         vb.playerTwoNameTV.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY, "Player 2"));
     }
 
-    // Updates the card views' alpha and scale based on the active player.
     private void updateCardView() {
-        if (isX) {
+        if (switchTurn) {
             vb.playerOneCV.setAlpha(1f);
             vb.playerTwoCV.setAlpha(0.8f);
             animateViewScale(vb.playerOneCV, 1f, 1.1f, 200);
@@ -190,7 +174,23 @@ public class TicTacToeVsActivity extends AppCompatActivity {
             animateViewScale(vb.playerTwoCV, 1f, 1.1f, 200);
         }
     }
-
+    //onClick Method
+    public void goToSetting(View view) {
+        playSound(this, R.raw.click_ui);
+        Intent intent = new Intent(this, SettingActivity.class);
+        intent.putExtra("origin_activity", getClass().getSimpleName());
+        startActivity(intent);
+    }
+    //onClick Method
+    public void goToHome(View view) {
+        playSound(this, R.raw.click_ui);
+        changeActivity(this, HomeActivity.class, true, false);
+    }
+    //onClick Method
+    public void goBack(View view) {
+        playSound(this, R.raw.click_ui);
+        changeActivity(this, GameModeActivity.class, true, false);
+    }
     private void initialize() {
         buttons = new Button[] {
                 vb.gameBoard0B, vb.gameBoard1B, vb.gameBoard2B,
@@ -200,8 +200,6 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         vb.playerOneNameTV.setText(sharedPreferences.getString(PLAYERONE_NAME_KEY, "Player 1"));
         vb.playerTwoNameTV.setText(sharedPreferences.getString(PLAYERTWO_NAME_KEY, "Player 2"));
     }
-
-    // Combines animation calls for multiple UI elements.
     private void animateViewsPulse() {
         for (Button button : buttons) {
             animateViewPulse(this, button);

@@ -29,8 +29,8 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         loadColors(this);
         loadPreference(this);
         initialize();
-        setupGameMode();
         animateViewsPulse();
+        setupGameMode();
     }
 
     private void setupGameMode() {
@@ -39,7 +39,7 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         updateDifficultyColor();
     }
 
-    // Board click handler
+    //onClick Method
     public void handleBoardClick(View view) {
         if (game.getHasWon() || game.getHasDraw()) {
             playSound(this, R.raw.click_error);
@@ -50,7 +50,7 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         handlePlayerMove(playerMove, buttons[playerMove]);
 
         if (!game.getHasWon() && !game.getHasDraw()) {
-            makeAIMove();
+            handleAIMove();
         }
     }
 
@@ -61,11 +61,11 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         button.setText(String.valueOf(playerSymbol));
         button.setEnabled(false);
 
-        if(game.getHasWon()) isWon();
-        else if(game.getHasDraw()) isDraw();
+        if(game.getHasWon()) updateWinGUI();
+        else if(game.getHasDraw()) updateDrawGUI();
     }
 
-    private void makeAIMove() {
+    private void handleAIMove() {
 
         int aiMove = game.getAIMove(difficulty, playerSymbol, aiSymbol);
         game.updateGameBoardAndState(aiMove, aiSymbol);
@@ -73,11 +73,11 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         buttons[aiMove].setText(String.valueOf(aiSymbol));
         buttons[aiMove].setEnabled(false);
 
-        if(game.getHasWon()) isWon();
-        else if(game.getHasDraw()) isDraw();
+        if(game.getHasWon()) updateWinGUI();
+        else if(game.getHasDraw()) updateDrawGUI();
     }
 
-    private void isWon() {
+    private void updateWinGUI() {
         playSound(this, R.raw.win);
         animateWinningButtons(game.winA, game.winB, game.winC);
 
@@ -87,7 +87,7 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         vb.fireworksLAV.playAnimation();
     }
 
-    private void isDraw() {
+    private void updateDrawGUI() {
         vb.drawIV.setVisibility(View.VISIBLE);
         playSound(this, R.raw.draw);
     }
@@ -99,23 +99,25 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         }
     }
 
-    // Reset game handlers
-    public void onResetGameClicked(View view) {
+    //onClick Method
+    public void handleResetClick(View view) {
         playSound(this, R.raw.click_ui);
-        resetGameState();
+        resetGame();
     }
 
-    private void resetGameState() {
-
+    private void resetGame() {
         game.resetGameLogic();
+        resetGameGUI();
 
+        if (aiSymbol == 'X') handleAIMove();
+    }
+
+    private void resetGameGUI() {
         vb.drawIV.setVisibility(View.GONE);
         vb.fireworksLAV.cancelAnimation();
         vb.fireworksLAV.setVisibility(View.GONE);
 
         resetButtons();
-
-        if (aiSymbol == 'X') makeAIMove();
     }
 
     private void resetButtons() {
@@ -127,24 +129,7 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         }
     }
 
-    // Navigation handlers
-    public void goToSetting(View view) {
-        playSound(this, R.raw.click_ui);
-        Intent intent = new Intent(this, SettingActivity.class);
-        intent.putExtra("origin_activity", getClass().getSimpleName());
-        startActivity(intent);
-    }
-
-    public void goToHome(View view) {
-        playSound(this, R.raw.click_ui);
-        changeActivity(this, HomeActivity.class, true, false);
-    }
-
-    public void goBack(View view) {
-        playSound(this, R.raw.click_ui);
-        changeActivity(this, GameModeActivity.class, true, false);
-    }
-
+    //onClick Method
     public void difficultyClicked(View view) {
         playSound(this, R.raw.click_ui);
         difficulty = (difficulty % 3) + 1;
@@ -153,7 +138,7 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         vb.difficultyTooltipTV.setVisibility(View.VISIBLE);
         vb.difficultyTooltipTV.postDelayed(() -> vb.difficultyTooltipTV.setVisibility(View.GONE), 2000);
         updateDifficultyColor();
-        resetGameState();
+        resetGame();
     }
 
     private void updateDifficultyColor() {
@@ -183,7 +168,7 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         changeActivity(this, GameModeActivity.class, true, false);
     }
 
-    // Symbol selection handlers
+    //onClick Method
     public void handleSymbolClick(View view) {
         playSound(this, R.raw.click_ui);
         if ("X".equals(view.getTag())) {
@@ -192,10 +177,10 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         } else {
             playerSymbol = 'O';
             aiSymbol = 'X';
-            makeAIMove();
+            handleAIMove();
         }
         updateSymbol();
-        resetGameState();
+        resetGame();
         toggleVisibility(false, vb.symbolRL, vb.shadowV);
     }
 
@@ -204,11 +189,31 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         vb.playerTwoSymbolTV.setText(String.valueOf(aiSymbol));
     }
 
+    //onClick Method
     public void handleSwitchClick(View view) {
         playSound(this, R.raw.click_ui);
         toggleVisibility(true, vb.symbolRL, vb.shadowV);
     }
 
+    //onClick Method
+    public void goToSetting(View view) {
+        playSound(this, R.raw.click_ui);
+        Intent intent = new Intent(this, SettingActivity.class);
+        intent.putExtra("origin_activity", getClass().getSimpleName());
+        startActivity(intent);
+    }
+
+    //onClick Method
+    public void goToHome(View view) {
+        playSound(this, R.raw.click_ui);
+        changeActivity(this, HomeActivity.class, true, false);
+    }
+
+    //onClick Method
+    public void goBack(View view) {
+        playSound(this, R.raw.click_ui);
+        changeActivity(this, GameModeActivity.class, true, false);
+    }
     private void initialize() {
         buttons = new Button[] {
                 vb.gameBoard0B, vb.gameBoard1B, vb.gameBoard2B,
@@ -216,7 +221,6 @@ public class TicTacToeAIActivity extends AppCompatActivity {
                 vb.gameBoard6B, vb.gameBoard7B, vb.gameBoard8B
         };
     }
-
     private void animateViewsPulse() {
         // Animate all game board buttons
         for (Button button : buttons) {

@@ -1,5 +1,6 @@
 package com.fahadmalik5509.playbox;
 
+import static android.view.View.VISIBLE;
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import com.fahadmalik5509.playbox.databinding.WordleLayoutBinding;
 
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,16 +29,16 @@ public class WordleActivity extends AppCompatActivity {
 
     WordleLayoutBinding vb;
 
-    private final int MAX_ROWS = 6;
-    private final int MAX_COLS = 5;
+    private final byte MAX_ROWS = 6;
+    private final byte MAX_COLS = 5;
 
     private TextView[] keyboard;
     private EditText[][] letterBox;
 
-    private int currentColumn = 0, currentRow = 0, hintUsed = 0, currentStreakCount,
-            currentCurrencyCount, currentBombCount, currentSkipCount, currentHintCount;
-    private final List < String > commonWords = new ArrayList <> ();
-    private final List < String > dictionary = new ArrayList <> ();
+    private byte currentColumn = 0, currentRow = 0, hintUsed = 0;
+    private int currentStreakCount, currentCurrencyCount, currentBombCount, currentSkipCount, currentHintCount;
+    private List < String > commonWords = new ArrayList <>();
+    private List < String > dictionary = new ArrayList <>();
     private final List<Character> grayedOutLetters = new ArrayList<>();
     private final Map<Character, Integer> letterColorMap = new HashMap<>();
     private final Map<Integer, Character> revealedHints = new HashMap<>();
@@ -59,16 +61,16 @@ public class WordleActivity extends AppCompatActivity {
     private void loadGameData() {
         loadColors(this);
         loadPreference(this);
-        loadCommonWords();
-        loadDictionary();
+        dictionary = loadWordList(R.raw.dictionary);
+        commonWords = loadWordList(R.raw.commonwords);
         loadRandomTargetWord();
     }
     private void updateUI() {
         updateStreak();
-        updateCurrency();
-        updateBomb();
-        updateHint();
-        updateSkip();
+        updateCount(CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
+        updateCount(BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shopBombCountTV);
+        updateCount(HINT_KEY, currentHintCount, vb.hintCountTV, vb.shopHintCountTV);
+        updateCount(SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shopSkipCountTV);
     }
 
     // OnClick Method
@@ -183,11 +185,11 @@ public class WordleActivity extends AppCompatActivity {
         gameWon = true;
         waveRow();
         animateText(vb.currencyCountTV, 0f, 360f, 300);
-        vb.coinblastLAV.setVisibility(View.VISIBLE);
+        vb.coinblastLAV.setVisibility(VISIBLE);
         vb.coinblastLAV.playAnimation();
         playSound(this, R.raw.coin);
         currentCurrencyCount += (50 + (5 * currentStreakCount) + ((6 - currentRow) * 5));
-        updateCurrency();
+        updateCount(CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
         currentStreakCount++;
         updateStreak();
         new Handler().postDelayed(() -> toggleVisibility(true, vb.resetIV), 500);
@@ -242,7 +244,7 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     // OnClick Method
-    public void onResetGameClicked(View view) {
+    public void handleResetClick(View view) {
         gameWon = false;
         gameLost = false;
         currentRow = 0;
@@ -296,27 +298,18 @@ public class WordleActivity extends AppCompatActivity {
         targetWord = commonWords.get(getRandomNumber(0,commonWords.size() - 1));
     }
 
-    private void loadDictionary() {
-        InputStream inputStream = this.getResources().openRawResource(R.raw.dictionary);
+    private List<String> loadWordList(int resourceId) {
+        List<String> words = new ArrayList<>();
+        InputStream inputStream = getResources().openRawResource(resourceId);
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                dictionary.add(line.toUpperCase().trim());
+                words.add(line.toUpperCase().trim());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    private void loadCommonWords() {
-        InputStream inputStream = this.getResources().openRawResource(R.raw.commonwords);
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                commonWords.add(line.toUpperCase().trim());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return words;
     }
 
     // OnClick Method
@@ -328,11 +321,6 @@ public class WordleActivity extends AppCompatActivity {
         vb.shopBombCountTV.setText(String.valueOf(currentBombCount));
         vb.shopHintCountTV.setText(String.valueOf(currentHintCount));
         vb.shopSkipCountTV.setText(String.valueOf(currentSkipCount));
-    }
-    private void updateCurrency() {
-
-        saveToSharedPreferences(CURRENCY_KEY, currentCurrencyCount);
-        vb.currencyCountTV.setText(String.valueOf(currentCurrencyCount));
     }
 
     // OnClick Method
@@ -353,7 +341,7 @@ public class WordleActivity extends AppCompatActivity {
         if (currentStreakCount >= bestStreakCount && currentStreakCount != 0) {
             saveToSharedPreferences(WORDLE_HIGHEST_STREAK_KEY, currentStreakCount);
             changeBackgroundColor(vb.currentStreakTV, Color.TRANSPARENT);
-            vb.flameLAV.setVisibility(View.VISIBLE);
+            vb.flameLAV.setVisibility(VISIBLE);
             vb.flameLAV.playAnimation();
         }
         else {
@@ -396,16 +384,11 @@ public class WordleActivity extends AppCompatActivity {
         if(sharedPreferences.getInt(EXPLOSION_KEY, 0) == 1)  playSound(this, R.raw.explosion2);
         else playSound(this, R.raw.explosion);
 
-        vb.blastLAV.setVisibility(View.VISIBLE);
+        vb.blastLAV.setVisibility(VISIBLE);
         vb.blastLAV.playAnimation();
 
         currentBombCount--;
-        updateBomb();
-    }
-    private void updateBomb() {
-        saveToSharedPreferences(BOMB_KEY, currentBombCount);
-        vb.bombTV.setText(String.valueOf(currentBombCount));
-        vb.shopBombCountTV.setText(String.valueOf(currentBombCount));
+        updateCount(BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shopBombCountTV);
     }
 
     // OnClick Method
@@ -417,17 +400,12 @@ public class WordleActivity extends AppCompatActivity {
 
         displayTargetWord();
         currentSkipCount--;
-        updateSkip();
+        updateCount(SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shopSkipCountTV);
 
         playSound(this, R.raw.skip);
         vb.skipLAV.setMinFrame(10);
         vb.skipLAV.playAnimation();
-        onResetGameClicked(view);
-    }
-    private void updateSkip() {
-        saveToSharedPreferences(SKIP_KEY, currentSkipCount);
-        vb.skipCountTV.setText(String.valueOf(currentSkipCount));
-        vb.shopSkipCountTV.setText(String.valueOf(currentSkipCount));
+        handleResetClick(view);
     }
 
     // OnClick Method
@@ -469,12 +447,14 @@ public class WordleActivity extends AppCompatActivity {
 
         hintUsed++;
         currentHintCount--;
-        updateHint();
+        updateCount(HINT_KEY, currentHintCount, vb.hintCountTV, vb.shopHintCountTV);
     }
-    private void updateHint() {
-        saveToSharedPreferences(HINT_KEY, currentHintCount);
-        vb.hintCountTV.setText(String.valueOf(currentHintCount));
-        vb.shopHintCountTV.setText(String.valueOf(currentHintCount));
+
+    private void updateCount(String key, int count, TextView... views) {
+        saveToSharedPreferences(key, count);
+        for (TextView tv : views) {
+            tv.setText(String.valueOf(count));
+        }
     }
 
     // OnClick Method
@@ -490,43 +470,53 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     // OnClick Method
-    public void handleStopButtons(View view) {
+    public void handleShopButtons(View view) {
 
-        if (view.getTag().equals("bomb")) {
-            if (currentCurrencyCount >=40) {
-                playSound(this, R.raw.bought);
-                currentBombCount++;
-                currentCurrencyCount -= 40;
-                updateBomb();
-                updateCurrency();
-            }
-            else { playSound(this, R.raw.click_error); }
-        } else if (view.getTag().equals("hint")) {
-            if (currentCurrencyCount >= 100) {
-                playSound(this, R.raw.bought);
-                currentHintCount++;
-                currentCurrencyCount -= 100;
-                updateHint();
-                updateCurrency();
-            }
-            else { playSound(this, R.raw.click_error); }
-        } else if (view.getTag().equals("skip")) {
-            if (currentCurrencyCount >= 200) {
-                playSound(this, R.raw.bought);
-                currentSkipCount++;
-                currentCurrencyCount -= 200;
-                updateSkip();
-                updateCurrency();
-            }
-            else { playSound(this, R.raw.click_error); }
-        } else {
-            playSound(this, R.raw.click_ui);
-            toggleVisibility(false, vb.shadowV, vb.shopRL);
+        String tag = (String) view.getTag();
+
+        switch (tag) {
+            case "bomb":
+                if (currentCurrencyCount >=40) {
+                    playSound(this, R.raw.bought);
+                    currentBombCount++;
+                    currentCurrencyCount -= 40;
+                    updateCount(BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shopBombCountTV);
+                    updateCount(CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
+                }
+                else { playSound(this, R.raw.click_error); }
+                break;
+
+            case "hint":
+                if (currentCurrencyCount >= 100) {
+                    playSound(this, R.raw.bought);
+                    currentHintCount++;
+                    currentCurrencyCount -= 100;
+                    updateCount(HINT_KEY, currentHintCount, vb.hintCountTV, vb.shopHintCountTV);
+                    updateCount(CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
+                }
+                else { playSound(this, R.raw.click_error); }
+                break;
+
+            case "skip":
+                if (currentCurrencyCount >= 200) {
+                    playSound(this, R.raw.bought);
+                    currentSkipCount++;
+                    currentCurrencyCount -= 200;
+                    updateCount(SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shopSkipCountTV);
+                    updateCount(CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
+                }
+                else { playSound(this, R.raw.click_error); }
+                break;
+
+            default:
+                playSound(this, R.raw.click_ui);
+                toggleVisibility(false, vb.shadowV, vb.shopRL);
+                break;
         }
     }
 
     private void displayTargetWord() {
-        vb.targetWordTV.setVisibility(View.VISIBLE);
+        vb.targetWordTV.setVisibility(VISIBLE);
         vb.targetWordTV.setText(Html.fromHtml("Word was: <font color='#FFFF00'>" + targetWord + "</font>"));
         new Handler().postDelayed(() -> vb.targetWordTV.setVisibility(View.GONE), 2000);
     }
@@ -542,7 +532,7 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
-        if(currentRow>0) {
+        if(currentRow>0 && currentStreakCount != 0) {
             toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
         }
         else {
@@ -553,7 +543,11 @@ public class WordleActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         vibrate(this, 50);
-        if(currentRow>0) {
+        if(vb.shopRL.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.shadowV, vb.shopRL);
+            return;
+        }
+        if(currentRow>0 && currentStreakCount != 0) {
             toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
         }
         else {
@@ -588,42 +582,34 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     private void animateViewsPulse() {
-        for (int i = 0; i < 26; i++) animateViewPulse(this, keyboard[i]);
+        List<View> viewsToAnimate = Arrays.asList(
+                // Keyboard keys
+                vb.aTextView, vb.bTextView, vb.cTextView, vb.dTextView, vb.eTextView, vb.fTextView,
+                vb.gTextView, vb.hTextView, vb.iTextView, vb.jTextView, vb.kTextView, vb.lTextView,
+                vb.mTextView, vb.nTextView, vb.oTextView, vb.pTextView, vb.qTextView, vb.rTextView,
+                vb.sTextView, vb.tTextView, vb.uTextView, vb.vTextView, vb.wTextView, vb.xTextView,
+                vb.yTextView, vb.zTextView,
+                // Other views
+                vb.enterIV, vb.backspaceIV, vb.resetIV, vb.homeIconIV, vb.settingIconIV,
+                vb.backIconIV, vb.currentStreakTV, vb.bombRL, vb.skipRL, vb.hintRL, vb.currencyRL,
+                vb.popupLeaveB, vb.popupStayB, vb.shopBombBuyB, vb.shopHintBuyB, vb.shopSkipBuyB, vb.shopCloseBuyB
+        );
 
-        animateViewPulse(this, vb.enterIV);
-        animateViewPulse(this, vb.backspaceIV);
-
-        animateViewPulse(this, vb.resetIV);
-        animateViewPulse(this, vb.homeIconIV);
-        animateViewPulse(this, vb.settingIconIV);
-        animateViewPulse(this, vb.backIconIV);
-        animateViewPulse(this, vb.currentStreakTV);
-
-        animateViewPulse(this, vb.bombRL);
-        animateViewPulse(this, vb.skipRL);
-        animateViewPulse(this, vb.hintRL);
-        animateViewPulse(this, vb.currencyRL);
-
-        animateViewPulse(this, vb.popupLeaveB);
-        animateViewPulse(this, vb.popupStayB);
-
-        animateViewPulse(this, vb.shopBombBuyB);
-        animateViewPulse(this, vb.shopHintBuyB);
-        animateViewPulse(this, vb.shopSkipBuyB);
-        animateViewPulse(this, vb.shopCloseBuyB);
+        for (View v : viewsToAnimate) {
+            animateViewPulse(this, v);
+        }
     }
 
     private void cheat() {
         currentCurrencyCount = 99999;
-        updateCurrency();
+        updateCount(CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
         saveToSharedPreferences(EXPLOSION_KEY, 1);
         displayTargetWord();
     }
-
     private  void unCheat() {
         saveToSharedPreferences(EXPLOSION_KEY, 0);
         currentCurrencyCount = 300;
-        updateCurrency();
+        updateCount(CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
         Toast.makeText(this, "Cheat Disabled Nigga", Toast.LENGTH_SHORT).show();
     }
 }

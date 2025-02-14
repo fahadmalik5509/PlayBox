@@ -543,7 +543,7 @@
             android:src="@drawable/bomb" />
 
         <TextView
-            android:id="@+id/bombTV"
+            android:id="@+id/bombCountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -691,7 +691,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="70dp"
-        android:onClick="onResetGameClicked"
+        android:onClick="handleResetClick"
         android:visibility="gone" />
 
     <!-- Mid-Game Warning RelativeLayout -->
@@ -800,7 +800,7 @@
                     android:textSize="12sp"
                     android:textColor="@color/black"
                     android:textAppearance="@style/default_font"
-                    android:onClick="handleStopButtons"
+                    android:onClick="handleShopButtons"
                     android:background="@drawable/keyboard_keys_background"/>
             </RelativeLayout>
 
@@ -843,7 +843,7 @@
                     android:textSize="12sp"
                     android:textColor="@color/black"
                     android:textAppearance="@style/default_font"
-                    android:onClick="handleStopButtons"
+                    android:onClick="handleShopButtons"
                     android:background="@drawable/keyboard_keys_background"/>
 
             </RelativeLayout>
@@ -885,7 +885,7 @@
                     android:textSize="12sp"
                     android:textColor="@color/black"
                     android:textAppearance="@style/default_font"
-                    android:onClick="handleStopButtons"
+                    android:onClick="handleShopButtons"
                     android:background="@drawable/keyboard_keys_background"/>
 
             </RelativeLayout>
@@ -905,7 +905,7 @@
             android:textSize="15sp"
             android:textColor="@color/black"
             android:textAppearance="@style/default_font"
-            android:onClick="handleStopButtons"/>
+            android:onClick="handleShopButtons"/>
 
     </RelativeLayout>
 
