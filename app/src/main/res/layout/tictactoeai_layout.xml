@@ -205,7 +205,7 @@
     <ImageView
         android:id="@+id/backIconIV"
         style="@style/BackImageView"
-        android:onClick="goToHome" />
+        android:onClick="goBack" />
 
     <!-- Home ImageView -->
     <ImageView

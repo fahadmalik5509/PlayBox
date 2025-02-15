@@ -149,7 +149,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         }
     }
     private void handleLifeIncrement() {
-        if (consecutiveWin == 5 || (consecutiveWin == 3 && currentScore >=25)) {
+        if (consecutiveWin == 5 || (consecutiveWin == 3 && currentScore >=30)) {
             if (numberOfLives < 3) {
                 numberOfLives++;
             }
@@ -194,11 +194,8 @@ public class ColorPuzzleActivity extends AppCompatActivity {
                 break;
         }
     }
-    private void updateScoreDisplay() { vb.currentScoreTV.setText("Score: " + currentScore); }
-    private void updateBestScoreDisplay() {
-        int bestScore = sharedPreferences.getInt(PUZZLE_BEST_SCORE, 0);
-        vb.bestScoreTV.setText("Best Score: " + bestScore);
-    }
+    private void updateScoreDisplay() { vb.currentScoreTV.setText(getString(R.string.score, currentScore)); }
+    private void updateBestScoreDisplay() { vb.bestScoreTV.setText(getString(R.string.score, sharedPreferences.getInt(PUZZLE_BEST_SCORE, 0))); }
     public void handleResetClick(View view) {
         playSound(this, R.raw.click_ui);
         resetGameState();
@@ -238,10 +235,10 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     }
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, HomeActivity.class, true, false);
+        changeActivity(this, HomeActivity.class, true);
     }
     public void goBack(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, GameModeActivity.class, true, false);
+        changeActivity(this, GamesActivity.class, true);
     }
 }

@@ -4,6 +4,7 @@ import static com.fahadmalik5509.playbox.ActivityUtils.*;
 
 import com.fahadmalik5509.playbox.databinding.TictactoeaiLayoutBinding;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -24,6 +25,14 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         vb = TictactoeaiLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackNavigation();
+            }
+        });
+
         game = new TicTacToeLogic();
 
         loadColors(this);
@@ -162,10 +171,9 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         return "";
     }
 
-    @Override
-    public void onBackPressed() {
+    public void handleBackNavigation() {
         vibrate(this, 50);
-        changeActivity(this, GameModeActivity.class, true, false);
+        changeActivity(this, GameModeActivity.class, true);
     }
 
     //onClick Method
@@ -206,13 +214,13 @@ public class TicTacToeAIActivity extends AppCompatActivity {
     //onClick Method
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, HomeActivity.class, true, false);
+        changeActivity(this, HomeActivity.class, true);
     }
 
     //onClick Method
     public void goBack(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, GameModeActivity.class, true, false);
+        changeActivity(this, GameModeActivity.class, true);
     }
     private void initialize() {
         buttons = new Button[] {

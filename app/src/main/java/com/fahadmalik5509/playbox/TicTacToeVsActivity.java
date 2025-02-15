@@ -3,6 +3,7 @@ package com.fahadmalik5509.playbox;
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import com.fahadmalik5509.playbox.databinding.TictactoevsLayoutBinding;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -24,6 +25,14 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         vb = TictactoevsLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackNavigation();
+            }
+        });
+
         game = new TicTacToeLogic();
 
         loadColors(this);
@@ -120,10 +129,9 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    public void handleBackNavigation() {
         vibrate(this, 50);
-        changeActivity(this, GameModeActivity.class, true, false);
+        changeActivity(this, GameModeActivity.class, true);
     }
 
     //onClick Method
@@ -132,8 +140,8 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         animateViewScale(vb.profileRL, 0f, 1.0f, 200);
         vb.profileRL.setVisibility(View.VISIBLE);
         vb.shadowV.setVisibility(View.VISIBLE);
-        vb.playerOneET.setText(sharedPreferences.getString(TTT_PLAYERONE_NAME_KEY, "Player 1"));
-        vb.playerTwoET.setText(sharedPreferences.getString(TTT_PLAYERTWO_NAME_KEY, "Player 2"));
+        vb.playerOneET.setText(sharedPreferences.getString(TTT_PLAYER_ONE_NAME_KEY, "Player 1"));
+        vb.playerTwoET.setText(sharedPreferences.getString(TTT_PLAYER_TWO_NAME_KEY, "Player 2"));
     }
 
     public void handleProfileButtons(View view) {
@@ -154,11 +162,11 @@ public class TicTacToeVsActivity extends AppCompatActivity {
 
         String playerOneName = vb.playerOneET.getText().toString().trim().replaceAll("\\s", "");
         String playerTwoName = vb.playerTwoET.getText().toString().trim().replaceAll("\\s", "");
-        saveToSharedPreferences(TTT_PLAYERONE_NAME_KEY, playerOneName);
-        saveToSharedPreferences(TTT_PLAYERTWO_NAME_KEY, playerTwoName);
+        saveToSharedPreferences(TTT_PLAYER_ONE_NAME_KEY, playerOneName);
+        saveToSharedPreferences(TTT_PLAYER_TWO_NAME_KEY, playerTwoName);
 
-        vb.playerOneNameTV.setText(sharedPreferences.getString(TTT_PLAYERONE_NAME_KEY, "Player 1"));
-        vb.playerTwoNameTV.setText(sharedPreferences.getString(TTT_PLAYERTWO_NAME_KEY, "Player 2"));
+        vb.playerOneNameTV.setText(sharedPreferences.getString(TTT_PLAYER_ONE_NAME_KEY, "Player 1"));
+        vb.playerTwoNameTV.setText(sharedPreferences.getString(TTT_PLAYER_TWO_NAME_KEY, "Player 2"));
     }
 
     private void updateCardView() {
@@ -184,12 +192,12 @@ public class TicTacToeVsActivity extends AppCompatActivity {
     //onClick Method
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, HomeActivity.class, true, false);
+        changeActivity(this, HomeActivity.class, true);
     }
     //onClick Method
     public void goBack(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, GameModeActivity.class, true, false);
+        changeActivity(this, GameModeActivity.class, true);
     }
     private void initialize() {
         buttons = new Button[] {
@@ -197,8 +205,8 @@ public class TicTacToeVsActivity extends AppCompatActivity {
                 vb.gameBoard3B, vb.gameBoard4B, vb.gameBoard5B,
                 vb.gameBoard6B, vb.gameBoard7B, vb.gameBoard8B
         };
-        vb.playerOneNameTV.setText(sharedPreferences.getString(TTT_PLAYERONE_NAME_KEY, "Player 1"));
-        vb.playerTwoNameTV.setText(sharedPreferences.getString(TTT_PLAYERTWO_NAME_KEY, "Player 2"));
+        vb.playerOneNameTV.setText(sharedPreferences.getString(TTT_PLAYER_ONE_NAME_KEY, "Player 1"));
+        vb.playerTwoNameTV.setText(sharedPreferences.getString(TTT_PLAYER_TWO_NAME_KEY, "Player 2"));
     }
     private void animateViewsPulse() {
         for (Button button : buttons) {

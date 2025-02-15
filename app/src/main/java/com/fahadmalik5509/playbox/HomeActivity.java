@@ -3,6 +3,7 @@ package com.fahadmalik5509.playbox;
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import com.fahadmalik5509.playbox.databinding.HomeLayoutBinding;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -34,6 +35,13 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         vb = HomeLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackNavigation();
+            }
+        });
+
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -42,20 +50,15 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         animateViewsPulse();
     }
 
-    public void handleTicTacToeButtonClick(View view) { navigateToActivity(GameModeActivity.class); }
-    public void handleWordleButtonClick(View view) {
-        navigateToActivity(WordleActivity.class);
-    }
+    public void handleGamesButtonClick(View view) { navigateToActivity(GamesActivity.class); }
     public void handleSettingsButtonClick(View view) { navigateToActivity(SettingActivity.class); }
-    public void handleColorPuzzleButtonClick(View view) { navigateToActivity(ColorPuzzleActivity.class); }
 
     private void navigateToActivity(Class < ? > targetActivity) {
         playSound(this, R.raw.click_ui);
-        new Handler().postDelayed(() -> changeActivity(this, targetActivity, false, true), ACTIVITY_TRANSITION_DELAY_MS);
+        new Handler().postDelayed(() -> changeActivity(this, targetActivity, false), ACTIVITY_TRANSITION_DELAY_MS);
     }
 
-    @Override
-    public void onBackPressed() {
+    public void handleBackNavigation() {
         vibrate(this, 50);
         animateViewScale(vb.exitRL,0f,1.0f,200);
         toggleVisibility(true, vb.exitRL, vb.shadowV);
@@ -156,8 +159,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void animateViewsPulse() {
-        animateViewPulse(this, vb.ticTacToeB, true);
-        animateViewPulse(this, vb.wordleB, true);
+        animateViewPulse(this, vb.gamesB, true);
         animateViewPulse(this, vb.settingsB, true);
         animateViewPulse(this, vb.yesExitB, true);
         animateViewPulse(this, vb.noExitB, true);

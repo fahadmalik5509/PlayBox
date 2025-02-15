@@ -42,22 +42,10 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/ticTacToeB"
-            android:text="@string/TicTacToe"
+            android:id="@+id/gamesB"
+            android:text="Games"
             style="@style/NavigationButton"
-            android:onClick="handleTicTacToeButtonClick" />
-
-        <Button
-            android:id="@+id/wordleB"
-            android:text="WORDLE"
-            style="@style/NavigationButton"
-            android:onClick="handleWordleButtonClick" />
-
-        <Button
-            android:id="@+id/colorPuzzleB"
-            style="@style/NavigationButton"
-            android:onClick="handleColorPuzzleButtonClick"
-            android:text="Color Puzzle" />
+            android:onClick="handleGamesButtonClick" />
 
         <Button
             android:id="@+id/settingsB"
@@ -69,7 +57,7 @@
 
     <TextView
         android:id="@+id/tvPlayBox"
-        android:layout_width="wrap_content"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
@@ -84,10 +72,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvPlayBox"
-        android:layout_alignEnd="@+id/tvPlayBox"
-        android:text="By FAHAD"
-        android:textSize="12sp"
-        android:letterSpacing="0.1"
+        android:layout_centerHorizontal="true"
+        android:text="@string/creator"
+        android:textSize="16sp"
+        android:letterSpacing="0.05"
         android:textColor="@color/yellow"
         android:textAppearance="@style/default_font" />
 

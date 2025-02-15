@@ -56,6 +56,12 @@
             android:exported="true"
             android:screenOrientation="portrait"/>
 
+        <!-- GamesActivity -->
+        <activity
+            android:name=".GamesActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+
         <!-- SettingActivity -->
         <activity
             android:name=".SettingActivity"

@@ -3,17 +3,19 @@ package com.fahadmalik5509.playbox;
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import com.fahadmalik5509.playbox.databinding.SettingLayoutBinding;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class SettingActivity extends AppCompatActivity {
 
     SettingLayoutBinding vb;
-
     private boolean isSoundEnabled, isVibrationEnabled;
     private String originActivity;
 
@@ -22,6 +24,13 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         vb = SettingLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackNavigation();
+            }
+        });
 
         originActivity = getIntent().getStringExtra("origin_activity");
 
@@ -70,33 +79,26 @@ public class SettingActivity extends AppCompatActivity {
     // OnClick Method
     public void goBack(View view) {
         playSound(this, R.raw.click_ui);
-        if (originActivity != null) {
-            try {
-                // Launch the originating activity
-                Class < ? > clazz = Class.forName("com.yourpackage." + originActivity);
-                Intent intent = new Intent(this, clazz);
-                startActivity(intent);
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        finish(); // Close the settings activity
+        handleBackNavigation();
     }
 
-    @Override
-    public void onBackPressed() {
+    public void handleBackNavigation() {
         vibrate(this, 50);
         if (originActivity != null) {
             try {
-                // Launch the originating activity
-                Class < ? > clazz = Class.forName("com.yourpackage." + originActivity);
+                // Fixed package name (remove space in "com.your package")
+                Class<?> clazz = Class.forName("com.fahadmalik5509.playbox." + originActivity);
                 Intent intent = new Intent(this, clazz);
                 startActivity(intent);
             } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+                // Proper error logging
+                Log.e("SettingActivity", "Failed to navigate back to: " + originActivity, e);
+
+                // Optional: Show user feedback
+                Toast.makeText(this, "Navigation error", Toast.LENGTH_SHORT).show();
             }
         }
-        finish(); // Close the settings activity
+        finish();
     }
 
     private void animateViewsPulse() {

@@ -14,26 +14,31 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/playerVsPlayerB"
-            android:tag="pvp"
-            android:text="@string/pvp"
+            android:id="@+id/ticTacToeB"
+            android:text="@string/TicTacToe"
             style="@style/NavigationButton"
-            android:onClick="handleGameModeClick" />
+            android:onClick="handleTicTacToeButtonClick" />
 
         <Button
-            android:id="@+id/playerVsAIB"
-            android:tag="pva"
-            android:text="@string/pvAI"
+            android:id="@+id/wordleB"
+            android:text="WORDLE"
             style="@style/NavigationButton"
-            android:onClick="handleGameModeClick" />
+            android:onClick="handleWordleButtonClick" />
+
+        <Button
+            android:id="@+id/colorPuzzleB"
+            style="@style/NavigationButton"
+            android:onClick="handleColorPuzzleButtonClick"
+            android:text="Color Puzzle" />
 
     </LinearLayout>
+
 
     <!-- Back ImageView -->
     <ImageView
         android:id="@+id/backIconIV"
         style="@style/BackImageView"
-        android:onClick="goBack" />
+        android:onClick="goToHome" />
 
     <!-- Home ImageView -->
     <ImageView
@@ -52,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="Select Gamemode"
+        android:text="Select Game"
         android:textSize="30sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/default_font"/>

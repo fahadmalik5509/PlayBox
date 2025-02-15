@@ -3,6 +3,7 @@ package com.fahadmalik5509.playbox;
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import com.fahadmalik5509.playbox.databinding.GamemodeLayoutBinding;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -20,6 +21,14 @@ public class GameModeActivity extends AppCompatActivity {
         vb = GamemodeLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
+        // Handle back button press
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackNavigation();
+            }
+        });
+
         loadColors(this);
         animateViewsPulse();
     }
@@ -28,14 +37,13 @@ public class GameModeActivity extends AppCompatActivity {
     public void handleGameModeClick(View view) {
         boolean isVsAi = view.getTag().equals("pva");
         playSound(this, R.raw.click_ui);
-        if(isVsAi) new Handler().postDelayed(() -> changeActivity(this, TicTacToeAIActivity.class, false, true), ACTIVITY_TRANSITION_DELAY_MS);
-        else new Handler().postDelayed(() -> changeActivity(this, TicTacToeVsActivity.class, false, true), ACTIVITY_TRANSITION_DELAY_MS);
+        if(isVsAi) new Handler().postDelayed(() -> changeActivity(this, TicTacToeAIActivity.class, false), ACTIVITY_TRANSITION_DELAY_MS);
+        else new Handler().postDelayed(() -> changeActivity(this, TicTacToeVsActivity.class, false), ACTIVITY_TRANSITION_DELAY_MS);
     }
 
-    @Override
-    public void onBackPressed() {
+    private void handleBackNavigation() {
         vibrate(this, 50);
-        changeActivity(this, HomeActivity.class, true, false);
+        changeActivity(this, GamesActivity.class, true);
     }
 
     // OnClick Method
@@ -49,7 +57,13 @@ public class GameModeActivity extends AppCompatActivity {
     //onclick Method
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, HomeActivity.class, true, false);
+        changeActivity(this, HomeActivity.class, true);
+    }
+
+    //onClick Method
+    public void goBack(View view) {
+        playSound(this, R.raw.click_ui);
+        changeActivity(this, GamesActivity.class, true);
     }
 
     private void animateViewsPulse() {

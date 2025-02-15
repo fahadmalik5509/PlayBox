@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
@@ -33,8 +32,8 @@ public class ActivityUtils {
     public static final String SOUND_KEY = "soundEnabled";
     public static final String VIBRATION_KEY = "vibrationEnabled";
     public static final String TTT_DIFFICULTY_KEY = "difficultyLevel";
-    public static final String TTT_PLAYERONE_NAME_KEY = "playerOneName";
-    public static final String TTT_PLAYERTWO_NAME_KEY = "playerTwoName";
+    public static final String TTT_PLAYER_ONE_NAME_KEY = "playerOneName";
+    public static final String TTT_PLAYER_TWO_NAME_KEY = "playerTwoName";
     public static final String WORDLE_STREAK_KEY = "streakNumber";
     public static final String WORDLE_HIGHEST_STREAK_KEY = "streakHighestNumber";
     public static final String WORDLE_EXPLOSION_KEY = "boomKey";
@@ -212,13 +211,10 @@ public class ActivityUtils {
         view.animate().rotation(endAngle).setDuration(duration).setListener(null);
     }
 
-    public static void changeActivity(Activity fromActivity, Class < ? > toActivity, boolean shouldFinish, boolean animate) {
+    public static void changeActivity(Activity fromActivity, Class < ? > toActivity, boolean shouldFinish) {
 
         Intent intent = new Intent(fromActivity, toActivity);
         fromActivity.startActivity(intent);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-
-        if (animate) fromActivity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
         if (shouldFinish) fromActivity.finish();
     }
@@ -267,15 +263,5 @@ public class ActivityUtils {
         } else {
             view.setBackgroundTintList(ColorStateList.valueOf(color));
         }
-    }
-
-    public static int getBackgroundColor(View view) {
-        if (view == null) return ContextCompat.getColor(view.getContext(), android.R.color.transparent);
-
-        Drawable background = view.getBackground();
-        if (background instanceof ColorDrawable) {
-            return ((ColorDrawable) background).getColor();
-        }
-        return ContextCompat.getColor(view.getContext(), android.R.color.transparent);
     }
 }

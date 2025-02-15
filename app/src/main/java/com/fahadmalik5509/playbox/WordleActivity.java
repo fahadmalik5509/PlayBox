@@ -4,13 +4,15 @@ import static android.view.View.VISIBLE;
 import static com.fahadmalik5509.playbox.ActivityUtils.*;
 import com.fahadmalik5509.playbox.databinding.WordleLayoutBinding;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -51,6 +53,13 @@ public class WordleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         vb = WordleLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackNavigation();
+            }
+        });
 
         initialize();
         animateViewsPulse();
@@ -307,7 +316,11 @@ public class WordleActivity extends AppCompatActivity {
                 words.add(line.toUpperCase().trim());
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e("WordleActivity", "Error reading word list resource: " + resourceId, e);
+            // Optional user feedback:
+            runOnUiThread(() -> Toast.makeText(this,
+                    "Game data load failed!",
+                    Toast.LENGTH_SHORT).show());
         }
         return words;
     }
@@ -462,7 +475,7 @@ public class WordleActivity extends AppCompatActivity {
         playSound(this, R.raw.click_ui);
         if (view.getTag().equals("leave")) {
             saveToSharedPreferences(WORDLE_STREAK_KEY, 0);
-            changeActivity(this, HomeActivity.class, true, false);
+            changeActivity(this, GamesActivity.class, true);
 
         } else {
             toggleVisibility(false, vb.shadowV, vb.leaveGameRL);
@@ -517,7 +530,10 @@ public class WordleActivity extends AppCompatActivity {
 
     private void displayTargetWord() {
         vb.targetWordTV.setVisibility(VISIBLE);
-        vb.targetWordTV.setText(Html.fromHtml("Word was: <font color='#FFFF00'>" + targetWord + "</font>"));
+        vb.targetWordTV.setText(HtmlCompat.fromHtml(
+                "Word was: <font color='#FFFF00'>" + targetWord + "</font>",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+        ));
         new Handler().postDelayed(() -> vb.targetWordTV.setVisibility(View.GONE), 2000);
     }
 
@@ -536,12 +552,18 @@ public class WordleActivity extends AppCompatActivity {
             toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
         }
         else {
-            changeActivity(this, HomeActivity.class, true, false);
+            changeActivity(this, HomeActivity.class, true);
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    //onClick Method
+    public void goBack(View view) {
+        playSound(this, R.raw.click_ui);
+        changeActivity(this, GamesActivity.class, true);
+    }
+
+
+    public void handleBackNavigation() {
         vibrate(this, 50);
         if(vb.shopRL.getVisibility() == VISIBLE) {
             toggleVisibility(false, vb.shadowV, vb.shopRL);
@@ -551,7 +573,7 @@ public class WordleActivity extends AppCompatActivity {
             toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
         }
         else {
-            changeActivity(this, HomeActivity.class, true, false);
+            changeActivity(this, GamesActivity.class, true);
         }
     }
 
