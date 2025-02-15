@@ -100,8 +100,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void animateViewsPulse() {
-        animateViewPulse(this, vb.soundB);
-        animateViewPulse(this, vb.vibrationB);
-        animateViewPulse(this, vb.backIconIV);
+        animateViewPulse(this, vb.soundB, true);
+        animateViewPulse(this, vb.vibrationB, true);
+        animateViewPulse(this, vb.backIconIV, true);
     }
 }

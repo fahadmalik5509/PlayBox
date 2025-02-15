@@ -4,41 +4,132 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background">
 
+    <!--Grid LL-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <FrameLayout
+            android:id="@+id/gridContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
 
-    <GridLayout
-        android:id="@+id/gridLayout"
+    </LinearLayout>
+
+    <!--CurrentScore View-->
+    <TextView
+        android:id="@+id/currentScoreTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="Score: 0"
+        android:textSize="40sp"
+        android:textAppearance="@style/default_font"
+        android:textColor="@color/beige"/>
+
+    <!--BestScore View-->
+    <TextView
+        android:id="@+id/bestScoreTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/currentScoreTV"
+        android:text="Best Score: 0"
+        android:textSize="15sp"
+        android:textAppearance="@style/default_font"
+        android:textColor="@color/beige"/>
+
+    <!--Heart LL-->
+    <LinearLayout
+        android:id="@+id/heartLL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/bestScoreTV"
+        android:layout_centerHorizontal="true">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/heartOneLAV"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:lottie_rawRes="@raw/heartbreak"
+            />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/heartTwoLAV"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:lottie_rawRes="@raw/heartbreak"
+            />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/heartThreeLAV"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:lottie_rawRes="@raw/heartbreak"
+            />
+    </LinearLayout>
+
+    <!--Shadow View-->
+    <View
+        android:id="@+id/shadowV"
+        style="@style/ShadowLayout"/>
+
+    <!--GameOver LAV-->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/gameOverLAV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:columnCount="3"
-        android:rowCount="3">
+        app:lottie_speed="2"
+        app:lottie_rawRes="@raw/gameover"/>
 
-        <Button
-            android:layout_row="0"
-            android:layout_column="0"
+    <!--Fire LAV-->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/fireLAV"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toEndOf="@+id/currentScoreTV"
+        android:layout_alignTop="@+id/currentScoreTV"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/puzzle_fire_animation"
+        android:visibility="gone"/>
 
-            />
+    <!--Reset TextView-->
+    <TextView
+        android:id="@+id/resetTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:text="Reset"
+        android:textSize="50sp"
+        android:textColor="@color/beige"
+        android:textAppearance="@style/default_font"
+        android:onClick="handleResetClick"/>
 
-        <Button
-            android:layout_row="0"
-            android:layout_column="1"
+    <!-- Back ImageView -->
+    <ImageView
+        android:id="@+id/backIconIV"
+        style="@style/BackImageView"
+        android:onClick="goToHome" />
 
-            />
+    <!-- Home ImageView -->
+    <ImageView
+        android:id="@+id/homeIconIV"
+        style="@style/HomeImageView"
+        android:onClick="goToHome" />
 
-        <Button
-            android:layout_row="0"
-            android:layout_column="2"
-
-            />
-
-        <Button
-            android:layout_row="1"
-            android:layout_column="0"
-
-            />
-
-
-    </GridLayout>
+    <!-- Setting ImageView -->
+    <ImageView
+        android:id="@+id/settingIconIV"
+        style="@style/SettingImageView"
+        android:onClick="goToSetting" />
 
 </RelativeLayout>

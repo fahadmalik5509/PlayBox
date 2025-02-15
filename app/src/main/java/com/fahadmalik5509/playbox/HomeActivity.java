@@ -156,10 +156,10 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void animateViewsPulse() {
-        animateViewPulse(this, vb.ticTacToeB);
-        animateViewPulse(this, vb.wordleB);
-        animateViewPulse(this, vb.settingsB);
-        animateViewPulse(this, vb.yesExitB);
-        animateViewPulse(this, vb.noExitB);
+        animateViewPulse(this, vb.ticTacToeB, true);
+        animateViewPulse(this, vb.wordleB, true);
+        animateViewPulse(this, vb.settingsB, true);
+        animateViewPulse(this, vb.yesExitB, true);
+        animateViewPulse(this, vb.noExitB, true);
     }
 }

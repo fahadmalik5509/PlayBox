@@ -8,7 +8,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -33,16 +32,17 @@ public class ActivityUtils {
     public static final String PREFS_NAME = "MyAppSettings";
     public static final String SOUND_KEY = "soundEnabled";
     public static final String VIBRATION_KEY = "vibrationEnabled";
-    public static final String DIFFICULTY_KEY = "difficultyLevel";
+    public static final String TTT_DIFFICULTY_KEY = "difficultyLevel";
+    public static final String TTT_PLAYERONE_NAME_KEY = "playerOneName";
+    public static final String TTT_PLAYERTWO_NAME_KEY = "playerTwoName";
     public static final String WORDLE_STREAK_KEY = "streakNumber";
     public static final String WORDLE_HIGHEST_STREAK_KEY = "streakHighestNumber";
-    public static final String PLAYERONE_NAME_KEY = "playerOneName";
-    public static final String PLAYERTWO_NAME_KEY = "playerTwoName";
-    public static final String EXPLOSION_KEY = "boomKey";
-    public static final String CURRENCY_KEY = "currency";
-    public static final String BOMB_KEY = "bomb";
-    public static final String SKIP_KEY = "skip";
-    public static final String HINT_KEY = "hint";
+    public static final String WORDLE_EXPLOSION_KEY = "boomKey";
+    public static final String WORDLE_CURRENCY_KEY = "currency";
+    public static final String WORDLE_BOMB_KEY = "bomb";
+    public static final String WORDLE_SKIP_KEY = "skip";
+    public static final String WORDLE_HINT_KEY = "hint";
+    public static final String PUZZLE_BEST_SCORE = "bestScore";
 
     public static int BACKGROUND_COLOR;
     public static int BLACK_COLOR;
@@ -92,6 +92,11 @@ public class ActivityUtils {
         soundMap.put(R.raw.flamesfx, soundPool.load(context, R.raw.flamesfx, 1));
         soundMap.put(R.raw.acoinflip, soundPool.load(context, R.raw.acoinflip, 1));
         soundMap.put(R.raw.acoinreveal, soundPool.load(context, R.raw.acoinreveal, 1));
+        soundMap.put(R.raw.sucess, soundPool.load(context, R.raw.sucess, 1));
+        soundMap.put(R.raw.aheartbreak, soundPool.load(context, R.raw.aheartbreak, 1));
+        soundMap.put(R.raw.agameover, soundPool.load(context, R.raw.agameover, 1));
+        soundMap.put(R.raw.newlevel, soundPool.load(context, R.raw.newlevel, 1));
+
     }
 
     public static void playSound(Context context, int soundResId) {
@@ -168,18 +173,18 @@ public class ActivityUtils {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    public static void animateViewPulse(Context context, View view) {
+    public static void animateViewPulse(Context context, View view, boolean changeAlpha) {
         view.setOnTouchListener((v, event) -> {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     animateViewScale(view, 1f, 0.9f, 100);
-                    view.setAlpha(0.8f);
+                    if(changeAlpha) view.setAlpha(0.8f);
                     return false;
 
                 case MotionEvent.ACTION_UP:
                     animateViewScale(view, 0.9f, 1f, 100);
                     vibrate(context, 50);
-                    view.setAlpha(1f);
+                    if(changeAlpha) view.setAlpha(1f);
                     return false;
             }
             return false;

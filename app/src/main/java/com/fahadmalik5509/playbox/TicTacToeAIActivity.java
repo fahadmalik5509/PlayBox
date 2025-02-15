@@ -35,7 +35,7 @@ public class TicTacToeAIActivity extends AppCompatActivity {
 
     private void setupGameMode() {
         toggleVisibility(true, vb.shadowV, vb.symbolRL);
-        difficulty = sharedPreferences.getInt(DIFFICULTY_KEY, 1);
+        difficulty = sharedPreferences.getInt(TTT_DIFFICULTY_KEY, 1);
         updateDifficultyColor();
     }
 
@@ -133,7 +133,7 @@ public class TicTacToeAIActivity extends AppCompatActivity {
     public void difficultyClicked(View view) {
         playSound(this, R.raw.click_ui);
         difficulty = (difficulty % 3) + 1;
-        saveToSharedPreferences(DIFFICULTY_KEY, difficulty);
+        saveToSharedPreferences(TTT_DIFFICULTY_KEY, difficulty);
         vb.difficultyTooltipTV.setText(getString(R.string.difficulty_tooltip, getDifficultyText()));
         vb.difficultyTooltipTV.setVisibility(View.VISIBLE);
         vb.difficultyTooltipTV.postDelayed(() -> vb.difficultyTooltipTV.setVisibility(View.GONE), 2000);
@@ -224,13 +224,13 @@ public class TicTacToeAIActivity extends AppCompatActivity {
     private void animateViewsPulse() {
         // Animate all game board buttons
         for (Button button : buttons) {
-            animateViewPulse(this, button);
+            animateViewPulse(this, button, true);
         }
         // Animate other UI elements in one loop
         View[] views = { vb.homeIconIV, vb.settingIconIV, vb.replayTV, vb.backIconIV,
                 vb.difficultyIV, vb.aiSymbolXTV, vb.aiSymbolOTV, vb.symbolSwitchIV };
         for (View view : views) {
-            animateViewPulse(this, view);
+            animateViewPulse(this, view, true);
         }
     }
 }

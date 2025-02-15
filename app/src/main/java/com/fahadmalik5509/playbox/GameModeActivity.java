@@ -53,10 +53,10 @@ public class GameModeActivity extends AppCompatActivity {
     }
 
     private void animateViewsPulse() {
-        animateViewPulse(this, vb.playerVsPlayerB);
-        animateViewPulse(this, vb.playerVsAIB);
-        animateViewPulse(this, vb.homeIconIV);
-        animateViewPulse(this, vb.settingIconIV);
-        animateViewPulse(this, vb.backIconIV);
+        animateViewPulse(this, vb.playerVsPlayerB, true);
+        animateViewPulse(this, vb.playerVsAIB, true);
+        animateViewPulse(this, vb.homeIconIV, true);
+        animateViewPulse(this, vb.settingIconIV, true);
+        animateViewPulse(this, vb.backIconIV, true);
     }
 }
