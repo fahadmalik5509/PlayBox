@@ -1,10 +1,14 @@
 package com.fahadmalik5509.playbox;
 
-import static com.fahadmalik5509.playbox.ActivityUtils.*;
-import com.fahadmalik5509.playbox.databinding.HomeLayoutBinding;
-
-import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewPulse;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewScale;
+import static com.fahadmalik5509.playbox.ActivityUtils.changeActivity;
+import static com.fahadmalik5509.playbox.ActivityUtils.fun_openURL;
+import static com.fahadmalik5509.playbox.ActivityUtils.initializeSoundPool;
+import static com.fahadmalik5509.playbox.ActivityUtils.loadColors;
+import static com.fahadmalik5509.playbox.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.ActivityUtils.toggleVisibility;
+import static com.fahadmalik5509.playbox.ActivityUtils.vibrate;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +21,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.fahadmalik5509.playbox.databinding.HomeLayoutBinding;
 
 public class HomeActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -50,18 +59,21 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         animateViewsPulse();
     }
 
-    public void handleGamesButtonClick(View view) { navigateToActivity(GamesActivity.class); }
-    public void handleSettingsButtonClick(View view) { navigateToActivity(SettingActivity.class); }
-
-    private void navigateToActivity(Class < ? > targetActivity) {
+    public void handleGamesButtonClick(View view) {
         playSound(this, R.raw.click_ui);
-        new Handler().postDelayed(() -> changeActivity(this, targetActivity, false), ACTIVITY_TRANSITION_DELAY_MS);
+        changeActivity(this, GamesActivity.class);
+    }
+    public void handleSettingsButtonClick(View view) {
+        playSound(this, R.raw.click_ui);
+        Intent intent = new Intent(this, SettingActivity.class);
+        intent.putExtra("origin_activity", getClass().getSimpleName());
+        startActivity(intent);
     }
 
     public void handleBackNavigation() {
         vibrate(this, 50);
         animateViewScale(vb.exitRL,0f,1.0f,200);
-        toggleVisibility(true, vb.exitRL, vb.shadowV);
+        toggleVisibility(vb.exitRL.getVisibility() != View.VISIBLE, vb.shadowV, vb.exitRL);
     }
 
     // Onclick Method

@@ -14,18 +14,18 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/playerVsPlayerB"
-            android:tag="pvp"
-            android:text="@string/pvp"
-            style="@style/NavigationButton"
-            android:onClick="handleGameModeClick" />
-
-        <Button
             android:id="@+id/playerVsAIB"
             android:tag="pva"
             android:text="@string/pvAI"
             style="@style/NavigationButton"
-            android:onClick="handleGameModeClick" />
+            android:onClick="handlePvAClick" />
+
+        <Button
+            android:id="@+id/playerVsPlayerB"
+            android:tag="pvp"
+            android:text="@string/pvp"
+            style="@style/NavigationButton"
+            android:onClick="handlePvPClick" />
 
     </LinearLayout>
 

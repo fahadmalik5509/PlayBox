@@ -2,10 +2,18 @@ package com.fahadmalik5509.playbox;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
-import static com.fahadmalik5509.playbox.ActivityUtils.*;
+import static com.fahadmalik5509.playbox.ActivityUtils.PUZZLE_BEST_SCORE;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateBlink;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewJiggle;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewPulse;
+import static com.fahadmalik5509.playbox.ActivityUtils.changeActivity;
+import static com.fahadmalik5509.playbox.ActivityUtils.getRandomNumber;
+import static com.fahadmalik5509.playbox.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.ActivityUtils.saveToSharedPreferences;
+import static com.fahadmalik5509.playbox.ActivityUtils.sharedPreferences;
+import static com.fahadmalik5509.playbox.ActivityUtils.toggleVisibility;
+import static com.fahadmalik5509.playbox.ActivityUtils.vibrate;
 
-import com.fahadmalik5509.playbox.databinding.ColorpuzzleLayoutBinding;
-import androidx.appcompat.app.AppCompatActivity;
 import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +24,11 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.fahadmalik5509.playbox.databinding.ColorpuzzleLayoutBinding;
+
 import java.util.Random;
 
 public class ColorPuzzleActivity extends AppCompatActivity {
@@ -23,20 +36,29 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     private ColorpuzzleLayoutBinding vb;
     private static final byte INITIAL_GRID_SIZE = 3;
     private static final byte MAX_GRID_SIZE = 9;
+    private static final byte CHANGE_GRID_SIZE_AFTER = 3;
     private static final byte MAX_LIVES = 3;
     private static final byte INITIAL_COLOR_DELTA = 30;
     private static final byte LOWEST_COLOR_DELTA = 5;
-    private static final byte CHANGE_IN_COLOR_DELTA = 3;
-
+    private static final byte CHANGE_IN_COLOR_DELTA = 5;
     private byte currentGridSize = INITIAL_GRID_SIZE,  currentColorDelta = INITIAL_COLOR_DELTA, numberOfLives = MAX_LIVES, successCount = 0, consecutiveWin = 0;
     private int currentScore = 0;
     private boolean isGridChange = false;
+
+    private Button targetButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         vb = ColorpuzzleLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackNavigation();
+            }
+        });
 
         setupGame();
     }
@@ -73,7 +95,11 @@ public class ColorPuzzleActivity extends AppCompatActivity {
 
             for (int i = 0; i < totalButtons; i++) {
                 boolean isTarget = (i == targetIndex);
-                gridLayout.addView(createGridButton(buttonSize, gapPx, isTarget, baseColor, targetColor));
+                Button button = createGridButton(buttonSize, gapPx, isTarget, baseColor, targetColor);
+                if (isTarget) {
+                    targetButton = button; // Store reference to the target button
+                }
+                gridLayout.addView(button);
             }
             vb.gridContainer.addView(gridLayout);
         });
@@ -131,13 +157,16 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             toggleVisibility(true, vb.shadowV, vb.gameOverLAV);
             vb.gameOverLAV.playAnimation();
             playSound(this, R.raw.agameover);
+
+            // Zoom out the target button when the game is over
+            if (targetButton != null) animateBlink(targetButton, 300, 3);
         }
 
         playHeartAnimation();
     }
 
     private void handleLevelUp() {
-        if (successCount >= 5) {
+        if (successCount >= CHANGE_GRID_SIZE_AFTER) {
             if (currentGridSize < MAX_GRID_SIZE) {
                 currentGridSize++;
                 isGridChange = true;
@@ -149,7 +178,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         }
     }
     private void handleLifeIncrement() {
-        if (consecutiveWin == 5 || (consecutiveWin == 3 && currentScore >=30)) {
+        if (consecutiveWin == 5 || (consecutiveWin == 3 && currentScore >= 20)) {
             if (numberOfLives < 3) {
                 numberOfLives++;
             }
@@ -195,12 +224,28 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         }
     }
     private void updateScoreDisplay() { vb.currentScoreTV.setText(getString(R.string.score, currentScore)); }
-    private void updateBestScoreDisplay() { vb.bestScoreTV.setText(getString(R.string.score, sharedPreferences.getInt(PUZZLE_BEST_SCORE, 0))); }
+    private void updateBestScoreDisplay() { vb.bestScoreTV.setText(getString(R.string.best_score, sharedPreferences.getInt(PUZZLE_BEST_SCORE, 0))); }
     public void handleResetClick(View view) {
         playSound(this, R.raw.click_ui);
         resetGameState();
         generateGrid(currentGridSize);
     }
+
+    public void handleExitButtons(View view) {
+        playSound(this, R.raw.click_ui);
+        if(view.getTag().equals("no")) toggleVisibility(false, vb.leaveRL, vb.shadowV);
+        else changeActivity(this, GamesActivity.class);
+    }
+
+    private void handleBackNavigation() {
+        vibrate(this, 50);
+        if (currentScore > 0) {
+            toggleVisibility(vb.leaveRL.getVisibility() != View.VISIBLE, vb.leaveRL, vb.shadowV);
+        } else {
+            changeActivity(this, GamesActivity.class);
+        }
+    }
+
     private void resetGameState() {
         currentScore = 0;
         consecutiveWin = 0;
@@ -235,10 +280,11 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     }
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, HomeActivity.class, true);
+        changeActivity(this, HomeActivity.class);
     }
     public void goBack(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, GamesActivity.class, true);
+        if(currentScore > 0) toggleVisibility(true, vb.leaveRL, vb.shadowV);
+        else changeActivity(this, GamesActivity.class);
     }
 }

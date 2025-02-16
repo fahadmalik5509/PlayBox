@@ -16,6 +16,7 @@
     <string name="player_one">Player⠀1</string>
     <string name="player_two">Player⠀2</string>
     <string name="score">Score: %1$d</string>
+    <string name="best_score">Best Score: %1$d</string>
     <string name="difficulty_tooltip">AI Difficulty\n(%1$s)</string>
     <string name="you">YOU</string>
     <string name="ai">AI</string>

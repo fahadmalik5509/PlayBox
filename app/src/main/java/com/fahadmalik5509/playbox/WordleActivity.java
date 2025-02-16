@@ -1,12 +1,33 @@
 package com.fahadmalik5509.playbox;
 
 import static android.view.View.VISIBLE;
-import static com.fahadmalik5509.playbox.ActivityUtils.*;
-import com.fahadmalik5509.playbox.databinding.WordleLayoutBinding;
-
-import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.text.HtmlCompat;
+import static com.fahadmalik5509.playbox.ActivityUtils.BEIGE_COLOR;
+import static com.fahadmalik5509.playbox.ActivityUtils.GRAY_COLOR;
+import static com.fahadmalik5509.playbox.ActivityUtils.GREEN_COLOR;
+import static com.fahadmalik5509.playbox.ActivityUtils.RED_COLOR;
+import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_BOMB_KEY;
+import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_CURRENCY_KEY;
+import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_EXPLOSION_KEY;
+import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_HIGHEST_STREAK_KEY;
+import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_HINT_KEY;
+import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_SKIP_KEY;
+import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_STREAK_KEY;
+import static com.fahadmalik5509.playbox.ActivityUtils.YELLOW_COLOR;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateText;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewBounce;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewJiggle;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewPulse;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewScale;
+import static com.fahadmalik5509.playbox.ActivityUtils.changeActivity;
+import static com.fahadmalik5509.playbox.ActivityUtils.changeBackgroundColor;
+import static com.fahadmalik5509.playbox.ActivityUtils.getRandomNumber;
+import static com.fahadmalik5509.playbox.ActivityUtils.loadColors;
+import static com.fahadmalik5509.playbox.ActivityUtils.loadPreference;
+import static com.fahadmalik5509.playbox.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.ActivityUtils.saveToSharedPreferences;
+import static com.fahadmalik5509.playbox.ActivityUtils.sharedPreferences;
+import static com.fahadmalik5509.playbox.ActivityUtils.toggleVisibility;
+import static com.fahadmalik5509.playbox.ActivityUtils.vibrate;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +38,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.text.HtmlCompat;
+
+import com.fahadmalik5509.playbox.databinding.WordleLayoutBinding;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -475,7 +503,7 @@ public class WordleActivity extends AppCompatActivity {
         playSound(this, R.raw.click_ui);
         if (view.getTag().equals("leave")) {
             saveToSharedPreferences(WORDLE_STREAK_KEY, 0);
-            changeActivity(this, GamesActivity.class, true);
+            changeActivity(this, GamesActivity.class);
 
         } else {
             toggleVisibility(false, vb.shadowV, vb.leaveGameRL);
@@ -552,28 +580,41 @@ public class WordleActivity extends AppCompatActivity {
             toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
         }
         else {
-            changeActivity(this, HomeActivity.class, true);
+            changeActivity(this, HomeActivity.class);
         }
     }
 
     //onClick Method
     public void goBack(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, GamesActivity.class, true);
+        if(gameWon) {
+            changeActivity(this, GamesActivity.class);
+            return;
+        }
+        if ((currentRow > 0) && (currentStreakCount != 0)) {
+            // Toggle leaveGameRL: show it if not visible, hide it if visible.
+            toggleVisibility(vb.leaveGameRL.getVisibility() != View.VISIBLE, vb.shadowV, vb.leaveGameRL);
+        } else {
+            changeActivity(this, GamesActivity.class);
+        }
     }
 
 
     public void handleBackNavigation() {
         vibrate(this, 50);
-        if(vb.shopRL.getVisibility() == VISIBLE) {
+        if (vb.shopRL.getVisibility() == VISIBLE) {
             toggleVisibility(false, vb.shadowV, vb.shopRL);
             return;
         }
-        if(currentRow>0 && currentStreakCount != 0) {
-            toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
+        if(gameWon) {
+            changeActivity(this, GamesActivity.class);
+            return;
         }
-        else {
-            changeActivity(this, GamesActivity.class, true);
+        if ((currentRow > 0) && (currentStreakCount != 0)) {
+            // Toggle leaveGameRL: show it if not visible, hide it if visible.
+            toggleVisibility(vb.leaveGameRL.getVisibility() != View.VISIBLE, vb.shadowV, vb.leaveGameRL);
+        } else {
+            changeActivity(this, GamesActivity.class);
         }
     }
 

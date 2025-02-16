@@ -3,10 +3,12 @@ package com.fahadmalik5509.playbox;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -19,7 +21,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-import android.content.SharedPreferences;
 
 import androidx.core.content.ContextCompat;
 
@@ -206,17 +207,28 @@ public class ActivityUtils {
         animator.start();
     }
 
+    public static void animateBlink(View view, int duration, int repeatCount) {
+        if (view == null) return;
+
+        ObjectAnimator blink = ObjectAnimator.ofFloat(view, "alpha", 1f, 0f, 1f);
+        blink.setDuration(duration);
+        blink.setRepeatMode(ValueAnimator.REVERSE);
+        blink.setRepeatCount(repeatCount);
+        blink.start();
+    }
+
+
     public static void animateText(View view, float startAngle, float endAngle, int duration) {
         view.setRotation(startAngle);
         view.animate().rotation(endAngle).setDuration(duration).setListener(null);
     }
 
-    public static void changeActivity(Activity fromActivity, Class < ? > toActivity, boolean shouldFinish) {
+    public static void changeActivity(Activity fromActivity, Class < ? > toActivity) {
 
         Intent intent = new Intent(fromActivity, toActivity);
         fromActivity.startActivity(intent);
 
-        if (shouldFinish) fromActivity.finish();
+        fromActivity.finish();
     }
 
     public static int getColorByID(Context context, int colorResId) {

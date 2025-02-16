@@ -1,15 +1,19 @@
 package com.fahadmalik5509.playbox;
 
-import static com.fahadmalik5509.playbox.ActivityUtils.*;
-import com.fahadmalik5509.playbox.databinding.GamemodeLayoutBinding;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewPulse;
+import static com.fahadmalik5509.playbox.ActivityUtils.changeActivity;
+import static com.fahadmalik5509.playbox.ActivityUtils.loadColors;
+import static com.fahadmalik5509.playbox.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.ActivityUtils.vibrate;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
+import com.fahadmalik5509.playbox.databinding.GamemodeLayoutBinding;
 
 public class GameModeActivity extends AppCompatActivity {
 
@@ -21,7 +25,6 @@ public class GameModeActivity extends AppCompatActivity {
         vb = GamemodeLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
-        // Handle back button press
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -33,17 +36,22 @@ public class GameModeActivity extends AppCompatActivity {
         animateViewsPulse();
     }
 
-    //onclick Method
-    public void handleGameModeClick(View view) {
-        boolean isVsAi = view.getTag().equals("pva");
+    public void handlePvPClick(View view) {
+
         playSound(this, R.raw.click_ui);
-        if(isVsAi) new Handler().postDelayed(() -> changeActivity(this, TicTacToeAIActivity.class, false), ACTIVITY_TRANSITION_DELAY_MS);
-        else new Handler().postDelayed(() -> changeActivity(this, TicTacToeVsActivity.class, false), ACTIVITY_TRANSITION_DELAY_MS);
+        changeActivity(this, TicTacToeVsActivity.class);
+
+    }
+
+    public void handlePvAClick(View view) {
+
+        playSound(this, R.raw.click_ui);
+        changeActivity(this, TicTacToeAIActivity.class);
     }
 
     private void handleBackNavigation() {
         vibrate(this, 50);
-        changeActivity(this, GamesActivity.class, true);
+        changeActivity(this, GamesActivity.class);
     }
 
     // OnClick Method
@@ -57,13 +65,13 @@ public class GameModeActivity extends AppCompatActivity {
     //onclick Method
     public void goToHome(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, HomeActivity.class, true);
+        changeActivity(this, HomeActivity.class);
     }
 
     //onClick Method
     public void goBack(View view) {
         playSound(this, R.raw.click_ui);
-        changeActivity(this, GamesActivity.class, true);
+        changeActivity(this, GamesActivity.class);
     }
 
     private void animateViewsPulse() {

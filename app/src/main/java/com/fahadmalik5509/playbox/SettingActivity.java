@@ -1,10 +1,17 @@
 package com.fahadmalik5509.playbox;
 
-import static com.fahadmalik5509.playbox.ActivityUtils.*;
-import com.fahadmalik5509.playbox.databinding.SettingLayoutBinding;
-
-import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
+import static com.fahadmalik5509.playbox.ActivityUtils.GREEN_COLOR;
+import static com.fahadmalik5509.playbox.ActivityUtils.RED_COLOR;
+import static com.fahadmalik5509.playbox.ActivityUtils.SOUND_KEY;
+import static com.fahadmalik5509.playbox.ActivityUtils.VIBRATION_KEY;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewPulse;
+import static com.fahadmalik5509.playbox.ActivityUtils.changeBackgroundColor;
+import static com.fahadmalik5509.playbox.ActivityUtils.loadColors;
+import static com.fahadmalik5509.playbox.ActivityUtils.loadPreference;
+import static com.fahadmalik5509.playbox.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.ActivityUtils.saveToSharedPreferences;
+import static com.fahadmalik5509.playbox.ActivityUtils.sharedPreferences;
+import static com.fahadmalik5509.playbox.ActivityUtils.vibrate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +19,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.fahadmalik5509.playbox.databinding.SettingLayoutBinding;
 
 public class SettingActivity extends AppCompatActivity {
 

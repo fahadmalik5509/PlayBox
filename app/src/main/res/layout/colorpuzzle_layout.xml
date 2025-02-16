@@ -86,6 +86,61 @@
         android:id="@+id/shadowV"
         style="@style/ShadowLayout"/>
 
+    <!-- MidGame Leave Warning RL-->
+    <RelativeLayout
+        android:id="@+id/leaveRL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="15dp"
+        android:background="@drawable/popup_background"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Are you sure?"
+            android:textSize="30sp"
+            android:textAppearance="@style/default_font"
+            android:textColor="@color/beige" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/noExitB"
+                android:tag="no"
+                android:background="@drawable/exitno"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:text="NO"
+                android:textSize="25sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:onClick="handleExitButtons" />
+
+            <Button
+                android:id="@+id/yesExitB"
+                android:tag="yes"
+                android:background="@drawable/ui_background"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:text="YES"
+                android:textSize="25sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:onClick="handleExitButtons" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
     <!--GameOver LAV-->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/gameOverLAV"

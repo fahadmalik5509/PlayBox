@@ -44,6 +44,7 @@
         <Button
             android:id="@+id/gamesB"
             android:text="Games"
+            android:letterSpacing="0.05"
             style="@style/NavigationButton"
             android:onClick="handleGamesButtonClick" />
 
