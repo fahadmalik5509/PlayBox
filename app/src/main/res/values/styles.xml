@@ -37,6 +37,7 @@
         <item name="android:textColorHint">@color/hint</item>
         <item name="android:gravity">center</item>
         <item name="android:enabled">false</item>
+        <item name="android:inputType">none</item>
     </style>
 
     <style name="BackImageView">

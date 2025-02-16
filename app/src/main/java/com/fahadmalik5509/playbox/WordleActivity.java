@@ -222,8 +222,8 @@ public class WordleActivity extends AppCompatActivity {
         gameWon = true;
         waveRow();
         animateText(vb.currencyCountTV, 0f, 360f, 300);
-        vb.coinblastLAV.setVisibility(VISIBLE);
-        vb.coinblastLAV.playAnimation();
+        vb.coinBlastLAV.setVisibility(VISIBLE);
+        vb.coinBlastLAV.playAnimation();
         playSound(this, R.raw.coin);
         currentCurrencyCount += (50 + (5 * currentStreakCount) + ((6 - currentRow) * 5));
         updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);

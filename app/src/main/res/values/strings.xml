@@ -1,32 +1,94 @@
 <resources>
     <string name="app_name">Fahad\'s PlayBox</string>
-    <string name="title_name">PlayBox</string>
+    <string name="title">PlayBox</string>
     <string name="creator">by FAHAD</string>
-    <string name="buttonStateOn">%1$s On</string>
-    <string name="buttonStateOff">%1$s Off</string>
-    <string name="imageDescription">ImageView</string>
-    <string name="settings">SETTINGS</string>
+
+    <string name="image_description">Image</string>
+    <string name="button_description">A_button</string>
+
+    <string name="button_state_on">%1$s On</string>
+    <string name="button_state_off">%1$s Off</string>
+    <string name="are_you_sure">Are you Sure?</string>
+    <string name="confirm_exit">Confirm Exit?</string>
+    <string name="exit">Exit</string>
+    <string name="close">Close</string>
+    <string name="leave">Leave</string>
+    <string name="reset">Reset</string>
+    <string name="replay">Replay</string>
+    <string name="stay">Stay</string>
+    <string name="save">Save</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+
+    <string name="select_game">Select Game</string>
+    <string name="change_settings">Change Settings</string>
+    <string name="select_gamemode">Select Gamemode</string>
+
+    <string name="games">Games</string>
+    <string name="settings">Settings</string>
+    <string name="TicTacToe">Tic Tac Toe</string>
+    <string name="wordle">Wordle</string>
+    <string name="color_puzzle">Color Puzzle</string>
+
     <string name="pvp">Player Vs Player</string>
     <string name="pvAI">Player   Vs   AI</string>
-    <string name="difficulty">AI Difficulty</string>
+    <string name="you">You</string>
+    <string name="ai">Ai</string>
+    <string name="X">X</string>
+    <string name="O">O</string>
+    <string name="player_one">Player⠀1</string>
+    <string name="player_two">Player⠀2</string>
+
     <string name="easy">EASY</string>
     <string name="medium">MEDIUM</string>
     <string name="hard">HARD</string>
-    <string name="streak_tooltip">Streak\n(Current: %1$d)\n(Best: %2$d)</string>
-    <string name="player_one">Player⠀1</string>
-    <string name="player_two">Player⠀2</string>
+    <string name="difficulty">AI Difficulty</string>
+
     <string name="score">Score: %1$d</string>
     <string name="best_score">Best Score: %1$d</string>
-    <string name="difficulty_tooltip">AI Difficulty\n(%1$s)</string>
-    <string name="you">YOU</string>
-    <string name="ai">AI</string>
+    <string name="initial_score">Score: 0</string>
+    <string name="initial_best_score">Best Score: 0</string>
+
     <string name="pick_your_side">Pick Your Side:</string>
-    <string name="X">X</string>
-    <string name="O">O</string>
+    <string name="profile_hint">(8 Letters Max)</string>
     <string name="first">(First Move: X)</string>
-    <string name="TicTacToe">Tic Tac Toe</string>
+
     <string name="Heads">Heads</string>
     <string name="Tails">Tails</string>
 
+    <string name="buy40">Buy ($40)</string>
+    <string name="buy100">Buy ($100)</string>
+    <string name="buy200">Buy ($200)</string>
 
+    <string name="difficulty_tooltip">AI Difficulty\n(%1$s)</string>
+    <string name="streak_tooltip">Streak\n(Current: %1$d)\n(Best: %2$d)</string>
+    <string name="wordle_exit">Exit mid-game?\nStreak reset!</string>
+
+    <!-- On-screen keyboard letters -->
+    <string name="letter_A" translatable="false">A</string>
+    <string name="letter_B" translatable="false">B</string>
+    <string name="letter_C" translatable="false">C</string>
+    <string name="letter_D" translatable="false">D</string>
+    <string name="letter_E" translatable="false">E</string>
+    <string name="letter_F" translatable="false">F</string>
+    <string name="letter_G" translatable="false">G</string>
+    <string name="letter_H" translatable="false">H</string>
+    <string name="letter_I" translatable="false">I</string>
+    <string name="letter_J" translatable="false">J</string>
+    <string name="letter_K" translatable="false">K</string>
+    <string name="letter_L" translatable="false">L</string>
+    <string name="letter_M" translatable="false">M</string>
+    <string name="letter_N" translatable="false">N</string>
+    <string name="letter_O" translatable="false">O</string>
+    <string name="letter_P" translatable="false">P</string>
+    <string name="letter_Q" translatable="false">Q</string>
+    <string name="letter_R" translatable="false">R</string>
+    <string name="letter_S" translatable="false">S</string>
+    <string name="letter_T" translatable="false">T</string>
+    <string name="letter_U" translatable="false">U</string>
+    <string name="letter_V" translatable="false">V</string>
+    <string name="letter_W" translatable="false">W</string>
+    <string name="letter_X" translatable="false">X</string>
+    <string name="letter_Y" translatable="false">Y</string>
+    <string name="letter_Z" translatable="false">Z</string>
 </resources>

@@ -27,14 +27,12 @@
 
         <Button
             android:id="@+id/playerVsAIB"
-            android:tag="pva"
             android:text="@string/pvAI"
             style="@style/NavigationButton"
             android:onClick="handlePvAClick" />
 
         <Button
             android:id="@+id/playerVsPlayerB"
-            android:tag="pvp"
             android:text="@string/pvp"
             style="@style/NavigationButton"
             android:onClick="handlePvPClick" />
@@ -45,26 +43,29 @@
     <ImageView
         android:id="@+id/backIconIV"
         style="@style/BackImageView"
-        android:onClick="goBack" />
+        android:onClick="goBack"
+        android:contentDescription="@string/image_description" />
 
     <!-- Home ImageView -->
     <ImageView
         android:id="@+id/homeIconIV"
         style="@style/HomeImageView"
-        android:onClick="goToHome" />
+        android:onClick="goToHome"
+        android:contentDescription="@string/image_description" />
 
     <!-- Setting ImageView -->
     <ImageView
         android:id="@+id/settingIconIV"
         style="@style/SettingImageView"
-        android:onClick="goToSetting" />
+        android:onClick="goToSetting"
+        android:contentDescription="@string/image_description" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="Select Gamemode"
+        android:text="@string/select_gamemode"
         android:textSize="30sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/default_font"/>

@@ -39,12 +39,11 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     private static final byte CHANGE_GRID_SIZE_AFTER = 3;
     private static final byte MAX_LIVES = 3;
     private static final byte INITIAL_COLOR_DELTA = 30;
-    private static final byte LOWEST_COLOR_DELTA = 5;
-    private static final byte CHANGE_IN_COLOR_DELTA = 5;
+    private static final byte LOWEST_COLOR_DELTA = 6;
+    private static final byte CHANGE_IN_COLOR_DELTA = 3;
     private byte currentGridSize = INITIAL_GRID_SIZE,  currentColorDelta = INITIAL_COLOR_DELTA, numberOfLives = MAX_LIVES, successCount = 0, consecutiveWin = 0;
     private int currentScore = 0;
     private boolean isGridChange = false;
-
     private Button targetButton;
 
     @Override

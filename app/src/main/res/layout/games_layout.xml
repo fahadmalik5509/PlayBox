@@ -33,7 +33,7 @@
 
         <Button
             android:id="@+id/wordleB"
-            android:text="WORDLE"
+            android:text="@string/wordle"
             style="@style/NavigationButton"
             android:onClick="handleWordleButtonClick" />
 
@@ -41,7 +41,7 @@
             android:id="@+id/colorPuzzleB"
             style="@style/NavigationButton"
             android:onClick="handleColorPuzzleButtonClick"
-            android:text="Color Puzzle" />
+            android:text="@string/color_puzzle" />
 
     </LinearLayout>
 
@@ -50,26 +50,29 @@
     <ImageView
         android:id="@+id/backIconIV"
         style="@style/BackImageView"
-        android:onClick="goToHome" />
+        android:onClick="goToHome"
+        android:contentDescription="@string/image_description" />
 
     <!-- Home ImageView -->
     <ImageView
         android:id="@+id/homeIconIV"
         style="@style/HomeImageView"
-        android:onClick="goToHome" />
+        android:onClick="goToHome"
+        android:contentDescription="@string/image_description" />
 
     <!-- Setting ImageView -->
     <ImageView
         android:id="@+id/settingIconIV"
         style="@style/SettingImageView"
-        android:onClick="goToSetting" />
+        android:onClick="goToSetting"
+        android:contentDescription="@string/image_description" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="Select Game"
+        android:text="@string/select_game"
         android:textSize="30sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/default_font"/>

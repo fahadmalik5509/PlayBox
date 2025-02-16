@@ -1,4 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -43,183 +44,213 @@
 
         <EditText
             android:id="@+id/letterBoxR0C0EV"
+            style="@style/letterBoxTextView"
             android:layout_row="0"
             android:layout_column="0"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR0C1EV"
+            style="@style/letterBoxTextView"
             android:layout_row="0"
             android:layout_column="1"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR0C2EV"
             style="@style/letterBoxTextView"
             android:layout_row="0"
-            android:layout_column="2" />
+            android:layout_column="2"
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR0C3EV"
+            style="@style/letterBoxTextView"
             android:layout_row="0"
             android:layout_column="3"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR0C4EV"
+            style="@style/letterBoxTextView"
             android:layout_row="0"
             android:layout_column="4"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR1C0EV"
+            style="@style/letterBoxTextView"
             android:layout_row="1"
             android:layout_column="0"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR1C1EV"
+            style="@style/letterBoxTextView"
             android:layout_row="1"
             android:layout_column="1"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR1C2EV"
+            style="@style/letterBoxTextView"
             android:layout_row="1"
             android:layout_column="2"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR1C3EV"
+            style="@style/letterBoxTextView"
             android:layout_row="1"
             android:layout_column="3"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR1C4EV"
+            style="@style/letterBoxTextView"
             android:layout_row="1"
             android:layout_column="4"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR2C0EV"
+            style="@style/letterBoxTextView"
             android:layout_row="2"
             android:layout_column="0"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR2C1EV"
+            style="@style/letterBoxTextView"
             android:layout_row="2"
             android:layout_column="1"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR2C2EV"
+            style="@style/letterBoxTextView"
             android:layout_row="2"
             android:layout_column="2"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR2C3EV"
+            style="@style/letterBoxTextView"
             android:layout_row="2"
             android:layout_column="3"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR2C4EV"
+            style="@style/letterBoxTextView"
             android:layout_row="2"
             android:layout_column="4"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR3C0EV"
+            style="@style/letterBoxTextView"
             android:layout_row="3"
             android:layout_column="0"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR3C1EV"
+            style="@style/letterBoxTextView"
             android:layout_row="3"
             android:layout_column="1"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR3C2EV"
+            style="@style/letterBoxTextView"
             android:layout_row="3"
             android:layout_column="2"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR3C3EV"
+            style="@style/letterBoxTextView"
             android:layout_row="3"
             android:layout_column="3"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR3C4EV"
+            style="@style/letterBoxTextView"
             android:layout_row="3"
             android:layout_column="4"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR4C0EV"
+            style="@style/letterBoxTextView"
             android:layout_row="4"
             android:layout_column="0"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR4C1EV"
+            style="@style/letterBoxTextView"
             android:layout_row="4"
             android:layout_column="1"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR4C2EV"
+            style="@style/letterBoxTextView"
             android:layout_row="4"
             android:layout_column="2"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR4C3EV"
+            style="@style/letterBoxTextView"
             android:layout_row="4"
             android:layout_column="3"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR4C4EV"
+            style="@style/letterBoxTextView"
             android:layout_row="4"
             android:layout_column="4"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR5C0EV"
+            style="@style/letterBoxTextView"
             android:layout_row="5"
             android:layout_column="0"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR5C1EV"
+            style="@style/letterBoxTextView"
             android:layout_row="5"
             android:layout_column="1"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR5C2EV"
+            style="@style/letterBoxTextView"
             android:layout_row="5"
             android:layout_column="2"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR5C3EV"
+            style="@style/letterBoxTextView"
             android:layout_row="5"
             android:layout_column="3"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
         <EditText
             android:id="@+id/letterBoxR5C4EV"
+            style="@style/letterBoxTextView"
             android:layout_row="5"
             android:layout_column="4"
-            style="@style/letterBoxTextView"/>
+            tools:ignore="Autofill,LabelFor,SpeakableTextPresentCheck" />
 
     </GridLayout>
 
@@ -243,61 +274,61 @@
                 android:id="@+id/qTextView"
                 android:tag="Q"
                 style="@style/KeyboardTextView"
-                android:text="Q"/>
+                android:text="@string/letter_Q"/>
 
             <TextView
                 android:id="@+id/wTextView"
                 android:tag="W"
                 style="@style/KeyboardTextView"
-                android:text="W"/>
+                android:text="@string/letter_W"/>
 
             <TextView
                 android:id="@+id/eTextView"
                 android:tag="E"
                 style="@style/KeyboardTextView"
-                android:text="E"/>
+                android:text="@string/letter_E"/>
 
             <TextView
                 android:id="@+id/rTextView"
                 android:tag="R"
                 style="@style/KeyboardTextView"
-                android:text="R"/>
+                android:text="@string/letter_R"/>
 
             <TextView
                 android:id="@+id/tTextView"
                 android:tag="T"
                 style="@style/KeyboardTextView"
-                android:text="T"/>
+                android:text="@string/letter_T"/>
 
             <TextView
                 android:id="@+id/yTextView"
                 android:tag="Y"
                 style="@style/KeyboardTextView"
-                android:text="Y"/>
+                android:text="@string/letter_Y"/>
 
             <TextView
                 android:id="@+id/uTextView"
                 android:tag="U"
                 style="@style/KeyboardTextView"
-                android:text="U"/>
+                android:text="@string/letter_U"/>
 
             <TextView
                 android:id="@+id/iTextView"
                 android:tag="I"
                 style="@style/KeyboardTextView"
-                android:text="I"/>
+                android:text="@string/letter_I"/>
 
             <TextView
                 android:id="@+id/oTextView"
                 android:tag="O"
                 style="@style/KeyboardTextView"
-                android:text="O"/>
+                android:text="@string/letter_O"/>
 
             <TextView
                 android:id="@+id/pTextView"
                 android:tag="P"
                 style="@style/KeyboardTextView"
-                android:text="P"/>
+                android:text="@string/letter_P"/>
 
         </LinearLayout>
 
@@ -311,55 +342,55 @@
                 android:id="@+id/aTextView"
                 android:tag="A"
                 style="@style/KeyboardTextView"
-                android:text="A"/>
+                android:text="@string/letter_A"/>
 
             <TextView
                 android:id="@+id/sTextView"
                 android:tag="S"
                 style="@style/KeyboardTextView"
-                android:text="S"/>
+                android:text="@string/letter_S"/>
 
             <TextView
                 android:id="@+id/dTextView"
                 android:tag="D"
                 style="@style/KeyboardTextView"
-                android:text="D"/>
+                android:text="@string/letter_D"/>
 
             <TextView
                 android:id="@+id/fTextView"
                 android:tag="F"
                 style="@style/KeyboardTextView"
-                android:text="F"/>
+                android:text="@string/letter_F"/>
 
             <TextView
                 android:id="@+id/gTextView"
                 android:tag="G"
                 style="@style/KeyboardTextView"
-                android:text="G"/>
+                android:text="@string/letter_G"/>
 
             <TextView
                 android:id="@+id/hTextView"
                 android:tag="H"
                 style="@style/KeyboardTextView"
-                android:text="H"/>
+                android:text="@string/letter_H"/>
 
             <TextView
                 android:id="@+id/jTextView"
                 android:tag="J"
                 style="@style/KeyboardTextView"
-                android:text="J"/>
+                android:text="@string/letter_J"/>
 
             <TextView
                 android:id="@+id/kTextView"
                 android:tag="K"
                 style="@style/KeyboardTextView"
-                android:text="K"/>
+                android:text="@string/letter_K"/>
 
             <TextView
                 android:id="@+id/lTextView"
                 android:tag="L"
                 style="@style/KeyboardTextView"
-                android:text="L"/>
+                android:text="@string/letter_L"/>
 
         </LinearLayout>
 
@@ -378,52 +409,52 @@
                 android:textSize="20sp"
                 android:gravity="center"
                 android:padding="6dp"
-                android:clickable="true"
                 android:background="@drawable/keyboard_keys_background"
                 android:src="@drawable/backspace"
-                android:onClick="keyboardClicked"/>
+                android:onClick="keyboardClicked"
+                android:contentDescription="@string/image_description" />
 
             <TextView
                 android:id="@+id/zTextView"
                 android:tag="Z"
                 style="@style/KeyboardTextView"
-                android:text="Z"/>
+                android:text="@string/letter_Z"/>
 
             <TextView
                 android:id="@+id/xTextView"
                 android:tag="X"
                 style="@style/KeyboardTextView"
-                android:text="X"/>
+                android:text="@string/letter_X"/>
 
             <TextView
                 android:id="@+id/cTextView"
                 android:tag="C"
                 style="@style/KeyboardTextView"
-                android:text="C"/>
+                android:text="@string/letter_C"/>
 
             <TextView
                 android:id="@+id/vTextView"
                 android:tag="V"
                 style="@style/KeyboardTextView"
-                android:text="V"/>
+                android:text="@string/letter_V"/>
 
             <TextView
                 android:id="@+id/bTextView"
                 android:tag="B"
                 style="@style/KeyboardTextView"
-                android:text="B"/>
+                android:text="@string/letter_B"/>
 
             <TextView
                 android:id="@+id/nTextView"
                 android:tag="N"
                 style="@style/KeyboardTextView"
-                android:text="N"/>
+                android:text="@string/letter_N"/>
 
             <TextView
                 android:id="@+id/mTextView"
                 android:tag="M"
                 style="@style/KeyboardTextView"
-                android:text="M"/>
+                android:text="@string/letter_M"/>
 
             <ImageView
                 android:id="@+id/enterIV"
@@ -434,11 +465,11 @@
                 android:textSize="20sp"
                 android:gravity="center"
                 android:layout_marginStart="5dp"
-                android:clickable="true"
                 android:padding="6dp"
                 android:background="@drawable/keyboard_keys_background"
                 android:src="@drawable/enter"
-                android:onClick="keyboardClicked"/>
+                android:onClick="keyboardClicked"
+                android:contentDescription="@string/image_description"/>
 
         </LinearLayout>
 
@@ -460,11 +491,11 @@
         android:layout_width="match_parent"
         android:layout_height="340dp"
         android:layout_alignBottom="@+id/gridLayout"
-        app:lottie_rawRes="@raw/skipanimation" />
+        app:lottie_rawRes="@raw/skip_animation" />
 
     <!-- Coin Blast AnimationView -->
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/coinblastLAV"
+        android:id="@+id/coinBlastLAV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -475,19 +506,22 @@
     <ImageView
         android:id="@+id/backIconIV"
         style="@style/BackImageView"
-        android:onClick="goBack" />
+        android:onClick="goBack"
+        android:contentDescription="@string/image_description" />
 
     <!-- Home ImageView -->
     <ImageView
         android:id="@+id/homeIconIV"
         style="@style/HomeImageView"
-        android:onClick="goToHome" />
+        android:onClick="goToHome"
+        android:contentDescription="@string/image_description" />
 
     <!-- Setting ImageView -->
     <ImageView
         android:id="@+id/settingIconIV"
         style="@style/SettingImageView"
-        android:onClick="goToSetting" />
+        android:onClick="goToSetting"
+        android:contentDescription="@string/image_description" />
 
     <!-- Streak TextView -->
     <RelativeLayout
@@ -499,15 +533,16 @@
 
         <TextView
             android:id="@+id/currentStreakTV"
-            android:background="@drawable/circle_background"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerHorizontal="true"
-            android:textSize="12sp"
-            android:textColor="@color/background"
-            android:textAppearance="@style/default_font"
+            android:background="@drawable/circle_background"
             android:gravity="center"
-            android:onClick="onStreakClick" />
+            android:onClick="onStreakClick"
+            android:textAppearance="@style/default_font"
+            android:textColor="@color/background"
+            android:textSize="12sp"
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/streakTooltipTV"
@@ -542,7 +577,8 @@
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:padding="1dp"
-            android:src="@drawable/bomb" />
+            android:src="@drawable/bomb"
+            android:contentDescription="@string/image_description" />
 
         <TextView
             android:id="@+id/bombCountTV"
@@ -574,7 +610,8 @@
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:padding="3dp"
-            android:src="@drawable/skip" />
+            android:src="@drawable/skip"
+            android:contentDescription="@string/image_description" />
 
         <TextView
             android:id="@+id/skipCountTV"
@@ -606,7 +643,8 @@
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:padding="2dp"
-            android:src="@drawable/hint" />
+            android:src="@drawable/hint"
+            android:contentDescription="@string/image_description" />
 
         <TextView
             android:id="@+id/hintCountTV"
@@ -640,7 +678,8 @@
             android:layout_marginStart="-15dp"
             android:padding="4dp"
             android:background="@drawable/border_background"
-            android:src="@drawable/coin"/>
+            android:src="@drawable/coin"
+            android:contentDescription="@string/image_description" />
 
         <TextView
             android:id="@+id/currencyCountTV"
@@ -660,7 +699,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="-5dp"
-            android:layout_marginEnd="-5dp"/>
+            android:layout_marginEnd="-5dp"
+            android:contentDescription="@string/image_description" />
 
     </RelativeLayout>
 
@@ -694,7 +734,8 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="70dp"
         android:onClick="handleResetClick"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:contentDescription="@string/image_description" />
 
     <!-- Mid-Game Warning RelativeLayout -->
     <RelativeLayout
@@ -711,7 +752,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Exit mid-game?\nStreak reset!"
+            android:text="@string/wordle_exit"
             android:textSize="20sp"
             android:textColor="@color/beige"
             android:textAppearance="@style/default_font"
@@ -724,7 +765,7 @@
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
-            android:text="Leave"
+            android:text="@string/leave"
             android:textSize="20sp"
             android:textColor="@color/beige"
             android:textAppearance="@style/default_font"
@@ -733,12 +774,12 @@
         <Button
             android:id="@+id/popupStayB"
             android:tag="stay"
-            android:background="@drawable/exitno"
+            android:background="@drawable/exit_no"
             android:layout_width="100dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:text="Stay"
+            android:text="@string/stay"
             android:textSize="20sp"
             android:textColor="@color/beige"
             android:textAppearance="@style/default_font"
@@ -766,7 +807,7 @@
             <RelativeLayout
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/ui_background">
 
                 <ImageView
@@ -774,7 +815,8 @@
                     android:layout_width="45dp"
                     android:layout_height="45dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/bomb"/>
+                    android:src="@drawable/bomb"
+                    android:contentDescription="@string/image_description" />
 
                 <TextView
                     android:id="@+id/shopBombCountTV"
@@ -798,7 +840,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="15dp"
-                    android:text="buy ($40)"
+                    android:text="@string/buy40"
                     android:textSize="12sp"
                     android:textColor="@color/black"
                     android:textAppearance="@style/default_font"
@@ -809,7 +851,7 @@
             <RelativeLayout
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:background="@drawable/ui_background">
 
                 <ImageView
@@ -818,7 +860,8 @@
                     android:layout_height="40dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
-                    android:src="@drawable/skip"/>
+                    android:src="@drawable/skip"
+                    android:contentDescription="@string/image_description" />
 
                 <TextView
                     android:id="@+id/shopSkipCountTV"
@@ -841,7 +884,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="15dp"
-                    android:text="buy ($200)"
+                    android:text="@string/buy200"
                     android:textSize="12sp"
                     android:textColor="@color/black"
                     android:textAppearance="@style/default_font"
@@ -860,7 +903,8 @@
                     android:layout_width="40dp"
                     android:layout_height="45dp"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/hint"/>
+                    android:src="@drawable/hint"
+                    android:contentDescription="@string/image_description" />
 
                 <TextView
                     android:id="@+id/shopHintCountTV"
@@ -883,7 +927,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="15dp"
-                    android:text="buy ($100)"
+                    android:text="@string/buy100"
                     android:textSize="12sp"
                     android:textColor="@color/black"
                     android:textAppearance="@style/default_font"
@@ -902,8 +946,8 @@
             android:layout_below="@+id/shopLL"
             android:layout_marginTop="30dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/exitno"
-            android:text="Close"
+            android:background="@drawable/exit_no"
+            android:text="@string/close"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:textAppearance="@style/default_font"

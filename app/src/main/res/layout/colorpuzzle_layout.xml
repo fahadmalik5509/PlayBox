@@ -27,7 +27,7 @@
         <FrameLayout
             android:id="@+id/gridContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
-        android:text="Score: 0"
+        android:text="@string/initial_score"
         android:textSize="40sp"
         android:textAppearance="@style/default_font"
         android:textColor="@color/beige"/>
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/currentScoreTV"
-        android:text="Best Score: 0"
+        android:text="@string/initial_best_score"
         android:textSize="15sp"
         android:textAppearance="@style/default_font"
         android:textColor="@color/beige"/>
@@ -112,7 +112,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Are you sure?"
+            android:text="@string/are_you_sure"
             android:textSize="30sp"
             android:textAppearance="@style/default_font"
             android:textColor="@color/beige" />
@@ -127,10 +127,10 @@
             <Button
                 android:id="@+id/noExitB"
                 android:tag="no"
-                android:background="@drawable/exitno"
+                android:background="@drawable/exit_no"
                 android:layout_width="100dp"
                 android:layout_height="50dp"
-                android:text="NO"
+                android:text="@string/no"
                 android:textSize="25sp"
                 android:textColor="@color/beige"
                 android:textAppearance="@style/default_font"
@@ -143,7 +143,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="10dp"
-                android:text="YES"
+                android:text="@string/yes"
                 android:textSize="25sp"
                 android:textColor="@color/beige"
                 android:textAppearance="@style/default_font"
@@ -160,7 +160,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         app:lottie_speed="2"
-        app:lottie_rawRes="@raw/gameover"/>
+        app:lottie_rawRes="@raw/game_over"/>
 
     <!--Fire LAV-->
     <com.airbnb.lottie.LottieAnimationView
@@ -181,7 +181,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="100dp"
-        android:text="Reset"
+        android:text="@string/reset"
         android:textSize="50sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/default_font"
@@ -191,18 +191,21 @@
     <ImageView
         android:id="@+id/backIconIV"
         style="@style/BackImageView"
-        android:onClick="goBack" />
+        android:onClick="goBack"
+        android:contentDescription="@string/image_description"/>
 
     <!-- Home ImageView -->
     <ImageView
         android:id="@+id/homeIconIV"
         style="@style/HomeImageView"
-        android:onClick="goToHome" />
+        android:onClick="goToHome"
+        android:contentDescription="@string/image_description"/>
 
     <!-- Setting ImageView -->
     <ImageView
         android:id="@+id/settingIconIV"
         style="@style/SettingImageView"
-        android:onClick="goToSetting" />
+        android:onClick="goToSetting"
+        android:contentDescription="@string/image_description"/>
 
 </RelativeLayout>
