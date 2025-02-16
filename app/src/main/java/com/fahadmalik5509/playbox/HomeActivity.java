@@ -3,6 +3,7 @@ package com.fahadmalik5509.playbox;
 import static com.fahadmalik5509.playbox.ActivityUtils.animateViewPulse;
 import static com.fahadmalik5509.playbox.ActivityUtils.animateViewScale;
 import static com.fahadmalik5509.playbox.ActivityUtils.changeActivity;
+import static com.fahadmalik5509.playbox.ActivityUtils.firstLoad;
 import static com.fahadmalik5509.playbox.ActivityUtils.fun_openURL;
 import static com.fahadmalik5509.playbox.ActivityUtils.initializeSoundPool;
 import static com.fahadmalik5509.playbox.ActivityUtils.loadColors;
@@ -43,6 +44,16 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         vb = HomeLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
+
+        if(firstLoad) {
+            vb.loadingLAV.playAnimation();
+            toggleVisibility(true, vb.loadingLAV);
+            vb.loadingLAV.postDelayed(() -> {
+                vb.loadingLAV.cancelAnimation();
+                toggleVisibility(false, vb.loadingLAV);
+            }, 5500);
+            firstLoad = false;
+        }
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override

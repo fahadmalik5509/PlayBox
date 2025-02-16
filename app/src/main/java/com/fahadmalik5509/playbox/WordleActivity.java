@@ -229,7 +229,7 @@ public class WordleActivity extends AppCompatActivity {
         updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
         currentStreakCount++;
         updateStreak();
-        new Handler().postDelayed(() -> toggleVisibility(true, vb.resetIV), 500);
+        vb.resetIV.postDelayed(() -> toggleVisibility(true, vb.resetIV), 500);
     }
 
     private void handleLoss() {

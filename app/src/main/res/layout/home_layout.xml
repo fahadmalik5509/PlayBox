@@ -6,7 +6,7 @@
     android:background="@color/background">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lavBackground"
+        android:id="@+id/backgroundLAV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
@@ -15,8 +15,7 @@
         app:lottie_asyncUpdates="enabled"
         app:lottie_cacheComposition="true"
         app:lottie_autoPlay="true"
-        app:lottie_loop="true"
-        app:lottie_speed="2"/>
+        app:lottie_loop="true" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavGitHub"
@@ -169,5 +168,17 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loadingLAV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@color/background"
+        app:lottie_rawRes="@raw/loading"
+        app:lottie_asyncUpdates="enabled"
+        app:lottie_cacheComposition="true"
+        app:lottie_loop="true"
+        android:visibility="gone"/>
 
 </RelativeLayout>

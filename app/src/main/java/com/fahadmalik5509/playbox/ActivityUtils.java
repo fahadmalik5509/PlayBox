@@ -28,7 +28,7 @@ import java.util.Random;
 
 public class ActivityUtils {
 
-    static final int ACTIVITY_TRANSITION_DELAY_MS = 50;
+    public static boolean firstLoad = true;
     public static final String PREFS_NAME = "MyAppSettings";
     public static final String SOUND_KEY = "soundEnabled";
     public static final String VIBRATION_KEY = "vibrationEnabled";
