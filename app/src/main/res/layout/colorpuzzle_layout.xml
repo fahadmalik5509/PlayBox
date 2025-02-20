@@ -32,6 +32,25 @@
 
     </LinearLayout>
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/explosionLAV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        app:lottie_rawRes="@raw/puzzle_explosion_animation"
+        app:lottie_asyncUpdates="enabled"
+        app:lottie_cacheComposition="true"
+        android:visibility="gone"/>
+
+    <!-- Skip AnimationView -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/skipLAV"
+        android:layout_width="match_parent"
+        android:layout_height="340dp"
+        android:layout_centerInParent="true"
+        app:lottie_speed="2"
+        app:lottie_rawRes="@raw/skip_animation" />
+
     <!--CurrentScore View-->
     <TextView
         android:id="@+id/currentScoreTV"
@@ -92,6 +111,105 @@
             app:lottie_cacheComposition="true"
             />
     </LinearLayout>
+
+    <!-- Bomb RelativeLayout -->
+    <RelativeLayout
+        android:id="@+id/bombRL"
+        android:layout_width="82dp"
+        android:layout_height="33dp"
+        android:layout_above="@+id/resetTV"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="10dp"
+        android:onClick="handleEliminateClick">
+
+        <ImageView
+            android:background="@drawable/ui_background"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:padding="1dp"
+            android:src="@drawable/bomb"
+            android:contentDescription="@string/image_description" />
+
+        <TextView
+            android:id="@+id/bombCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/circle_background"
+            android:paddingHorizontal="5dp"
+            android:textSize="12sp"
+            android:textAppearance="@style/default_font"
+            android:textColor="@color/gray"/>
+
+    </RelativeLayout>
+
+    <!-- Hint RelativeLayout -->
+    <RelativeLayout
+        android:id="@+id/hintRL"
+        android:layout_width="82dp"
+        android:layout_height="33dp"
+        android:layout_toStartOf="@+id/bombRL"
+        android:layout_alignTop="@+id/bombRL"
+        android:layout_marginHorizontal="20dp"
+        android:onClick="handleHintClick">
+
+        <ImageView
+            android:background="@drawable/ui_background"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:padding="1dp"
+            android:src="@drawable/hint"
+            android:contentDescription="@string/image_description" />
+
+        <TextView
+            android:id="@+id/hintCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/circle_background"
+            android:paddingHorizontal="5dp"
+            android:textSize="12sp"
+            android:textAppearance="@style/default_font"
+            android:textColor="@color/gray"/>
+
+    </RelativeLayout>
+
+    <!-- Skip RelativeLayout -->
+    <RelativeLayout
+        android:id="@+id/skipRL"
+        android:layout_width="82dp"
+        android:layout_height="33dp"
+        android:layout_toEndOf="@+id/bombRL"
+        android:layout_alignTop="@+id/bombRL"
+        android:layout_marginHorizontal="20dp"
+        android:onClick="handleSkipClick">
+
+        <ImageView
+            android:background="@drawable/ui_background"
+            android:layout_width="80dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:padding="1dp"
+            android:src="@drawable/skip"
+            android:contentDescription="@string/image_description" />
+
+        <TextView
+            android:id="@+id/skipCountTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/circle_background"
+            android:paddingHorizontal="5dp"
+            android:textSize="12sp"
+            android:textAppearance="@style/default_font"
+            android:textColor="@color/gray"/>
+
+    </RelativeLayout>
 
     <!--Shadow View-->
     <View

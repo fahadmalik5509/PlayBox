@@ -22,6 +22,11 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
+import android.graphics.Color;
+import android.widget.TextView;
+
+
+
 import androidx.core.content.ContextCompat;
 
 import java.util.Random;
@@ -275,5 +280,27 @@ public class ActivityUtils {
         } else {
             view.setBackgroundTintList(ColorStateList.valueOf(color));
         }
+    }
+
+    public static void animateViewRGBColor(final View view, long duration) {
+        // Create a ValueAnimator that cycles through hues from 0 to 360.
+        ValueAnimator colorAnimator = ValueAnimator.ofFloat(0f, 360f);
+        colorAnimator.setDuration(duration); // e.g., 6000 ms for a slower transition
+        colorAnimator.setRepeatCount(ValueAnimator.INFINITE); // Repeat indefinitely
+        colorAnimator.setInterpolator(new LinearInterpolator());
+
+        // Update the view's color on every animation frame.
+        colorAnimator.addUpdateListener(animation -> {
+            float hue = (float) animation.getAnimatedValue();
+            int color = Color.HSVToColor(new float[]{hue, 1f, 1f});
+
+            // If the view is a TextView, update its text color; otherwise update its background.
+            if (view instanceof TextView) {
+                ((TextView) view).setTextColor(color);
+            } else {
+                view.setBackgroundColor(color);
+            }
+        });
+        colorAnimator.start();
     }
 }

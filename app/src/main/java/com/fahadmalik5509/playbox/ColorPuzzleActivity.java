@@ -17,6 +17,7 @@ import static com.fahadmalik5509.playbox.ActivityUtils.vibrate;
 import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -29,21 +30,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.fahadmalik5509.playbox.databinding.ColorpuzzleLayoutBinding;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 public class ColorPuzzleActivity extends AppCompatActivity {
 
+    private int targetIndex;
+    private View hintBorderView;
     private ColorpuzzleLayoutBinding vb;
     private static final byte INITIAL_GRID_SIZE = 3;
     private static final byte MAX_GRID_SIZE = 9;
     private static final byte CHANGE_GRID_SIZE_AFTER = 3;
     private static final byte MAX_LIVES = 3;
     private static final byte INITIAL_COLOR_DELTA = 30;
-    private static final byte LOWEST_COLOR_DELTA = 6;
-    private static final byte CHANGE_IN_COLOR_DELTA = 3;
+    private static final byte LOWEST_COLOR_DELTA = 5;
+    private static final byte CHANGE_IN_COLOR_DELTA = 5;
     private byte currentGridSize = INITIAL_GRID_SIZE,  currentColorDelta = INITIAL_COLOR_DELTA, numberOfLives = MAX_LIVES, successCount = 0, consecutiveWin = 0;
     private int currentScore = 0;
-    private boolean isGridChange = false;
+    private boolean isGridChange = false, isHintUsed = false, isExplosionUsed = false;
     private Button targetButton;
 
     @Override
@@ -70,6 +76,14 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     }
 
     private void generateGrid(final int gridSize) {
+        if (hintBorderView != null) {
+            vb.gridContainer.removeView(hintBorderView);
+            hintBorderView = null;
+        }
+
+        isHintUsed = false;
+        isExplosionUsed = false;
+
         vb.gridContainer.removeAllViews();
         vb.gridContainer.post(() -> {
             int containerWidth = vb.gridContainer.getWidth();
@@ -90,13 +104,15 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             int baseColor = getBaseColor();
             int targetColor = getTargetColor(baseColor);
             int totalButtons = gridSize * gridSize;
-            int targetIndex = new Random().nextInt(totalButtons);
+
+            // Directly assign to the field 'targetIndex'
+            targetIndex = new Random().nextInt(totalButtons);
 
             for (int i = 0; i < totalButtons; i++) {
                 boolean isTarget = (i == targetIndex);
                 Button button = createGridButton(buttonSize, gapPx, isTarget, baseColor, targetColor);
                 if (isTarget) {
-                    targetButton = button; // Store reference to the target button
+                    targetButton = button; // Store reference to the target button.
                 }
                 gridLayout.addView(button);
             }
@@ -177,7 +193,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         }
     }
     private void handleLifeIncrement() {
-        if (consecutiveWin == 5 || (consecutiveWin == 3 && currentScore >= 20)) {
+        if (consecutiveWin == 5) {
             if (numberOfLives < 3) {
                 numberOfLives++;
             }
@@ -228,6 +244,146 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         playSound(this, R.raw.click_ui);
         resetGameState();
         generateGrid(currentGridSize);
+    }
+
+    public void handleEliminateClick(View view) {
+
+        if(isExplosionUsed) {
+            playSound(this, R.raw.click_error);
+            return;
+        }
+
+        isExplosionUsed = true;
+
+        playSound(this, R.raw.explosion);
+        vb.explosionLAV.playAnimation();
+        vb.explosionLAV.setVisibility(VISIBLE);
+
+        if (vb.gridContainer.getChildCount() > 0) {
+            GridLayout gridLayout = (GridLayout) vb.gridContainer.getChildAt(0);
+            int childCount = gridLayout.getChildCount();
+
+            // Collect all visible non-target buttons
+            List<View> nonTargetButtons = new ArrayList<>();
+            for (int i = 0; i < childCount; i++) {
+                View child = gridLayout.getChildAt(i);
+                if (child instanceof Button && child != targetButton && child.getVisibility() == View.VISIBLE) {
+                    nonTargetButtons.add(child);
+                }
+            }
+
+            // Determine how many buttons to eliminate (hide half)
+            int numToEliminate = nonTargetButtons.size() / 2;
+
+            // Randomize the selection
+            Collections.shuffle(nonTargetButtons);
+
+            // Fade out and then hide the buttons
+            for (int i = 0; i < numToEliminate; i++) {
+                View button = nonTargetButtons.get(i);
+                button.animate()
+                        .alpha(0f)
+                        .setDuration(150)
+                        .withEndAction(() -> {
+                            button.setVisibility(View.INVISIBLE);
+                            button.setAlpha(1f);
+                        });
+            }
+        }
+    }
+
+    public void handleHintClick(View view) {
+
+        if (isHintUsed) {
+            playSound(this, R.raw.click_error);
+            return;
+        }
+
+        playSound(this, R.raw.hint);
+        isHintUsed = true;
+        if (targetButton == null) return;
+
+        // Try to find an existing hint border by its tag.
+        View border = vb.gridContainer.findViewWithTag("hint_border");
+        if (border == null) {
+            // Calculate the block dimension (60% of grid, at least 3 cells)
+            int blockDimension = Math.max(3, (int) Math.ceil(currentGridSize * 0.6));
+            blockDimension = Math.min(blockDimension, currentGridSize);
+            int targetRow = targetIndex / currentGridSize;
+            int targetCol = targetIndex % currentGridSize;
+            int minRow = Math.max(0, targetRow - blockDimension + 1);
+            int maxRow = Math.min(targetRow, currentGridSize - blockDimension);
+            int blockStartRow = (minRow == maxRow) ? minRow : minRow + new Random().nextInt(maxRow - minRow + 1);
+            int minCol = Math.max(0, targetCol - blockDimension + 1);
+            int maxCol = Math.min(targetCol, currentGridSize - blockDimension);
+            int blockStartCol = (minCol == maxCol) ? minCol : minCol + new Random().nextInt(maxCol - minCol + 1);
+
+            // Retrieve the GridLayout (first child of gridContainer)
+            GridLayout grid = (GridLayout) vb.gridContainer.getChildAt(0);
+            int topLeftIndex = blockStartRow * currentGridSize + blockStartCol;
+            int bottomRightIndex = (blockStartRow + blockDimension - 1) * currentGridSize + (blockStartCol + blockDimension - 1);
+            View topLeft = grid.getChildAt(topLeftIndex);
+            View bottomRight = grid.getChildAt(bottomRightIndex);
+
+            int[] gridLoc = new int[2];
+            vb.gridContainer.getLocationOnScreen(gridLoc);
+            int[] topLeftLoc = new int[2];
+            topLeft.getLocationOnScreen(topLeftLoc);
+            int[] bottomRightLoc = new int[2];
+            bottomRight.getLocationOnScreen(bottomRightLoc);
+
+            int relativeLeft = topLeftLoc[0] - gridLoc[0];
+            int relativeTop = topLeftLoc[1] - gridLoc[1];
+            int relativeRight = bottomRightLoc[0] - gridLoc[0] + bottomRight.getWidth();
+            int relativeBottom = bottomRightLoc[1] - gridLoc[1] + bottomRight.getHeight();
+
+            int borderWidth = relativeRight - relativeLeft;
+            int borderHeight = relativeBottom - relativeTop;
+
+            // Create the border view.
+            border = new View(this);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(borderWidth, borderHeight);
+            params.leftMargin = relativeLeft;
+            params.topMargin = relativeTop;
+            border.setLayoutParams(params);
+
+            // Create a border drawable with a thin stroke.
+            GradientDrawable drawable = new GradientDrawable();
+            drawable.setColor(Color.TRANSPARENT);
+            int thickness = dpToPx(1 + currentGridSize / 4); // Adjust thickness as desired.
+            drawable.setStroke(thickness, Color.YELLOW);
+            drawable.setCornerRadius(0);
+            border.setBackground(drawable);
+
+            // Tag the view so we can find it later.
+            border.setTag("hint_border");
+            vb.gridContainer.addView(border);
+        }
+        // Reanimate the border (blink it) without recalculating position.
+        reanimateBorder(border);
+    }
+
+    public void handleSkipClick(View view) {
+        playSound(this, R.raw.skip);
+        vb.skipLAV.setMinFrame(10);
+        vb.skipLAV.playAnimation();
+        generateGrid(currentGridSize);
+    }
+
+    private void reanimateBorder(final View border) {
+        border.animate().cancel();
+        border.setVisibility(VISIBLE);
+        border.setAlpha(1f); // start fully visible
+        blinkBorderAndHide(border);
+    }
+
+    private void blinkBorderAndHide(final View border) {
+        // Animate fade-out then fade-in, and repeat indefinitely.
+        border.animate().alpha(0f).setDuration(200).withEndAction(() -> {
+            border.animate().alpha(1f).setDuration(200).withEndAction(() -> {
+                blinkBorderAndHide(border); // recursion for indefinite blinking
+            }).start();
+        }).start();
     }
 
     public void handleExitButtons(View view) {

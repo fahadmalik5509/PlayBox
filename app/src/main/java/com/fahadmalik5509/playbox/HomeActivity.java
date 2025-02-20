@@ -1,6 +1,7 @@
 package com.fahadmalik5509.playbox;
 
 import static com.fahadmalik5509.playbox.ActivityUtils.animateViewPulse;
+import static com.fahadmalik5509.playbox.ActivityUtils.animateViewRGBColor;
 import static com.fahadmalik5509.playbox.ActivityUtils.animateViewScale;
 import static com.fahadmalik5509.playbox.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.ActivityUtils.firstLoad;
@@ -182,6 +183,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void animateViewsPulse() {
+        animateViewRGBColor(vb.creatorTV, 9000);
         animateViewPulse(this, vb.gamesB, true);
         animateViewPulse(this, vb.settingsB, true);
         animateViewPulse(this, vb.yesExitB, true);
