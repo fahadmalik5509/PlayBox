@@ -1,4 +1,4 @@
-package com.fahadmalik5509.playbox;
+package com.fahadmalik5509.playbox.miscellaneous;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -28,6 +28,8 @@ import android.widget.TextView;
 
 
 import androidx.core.content.ContextCompat;
+
+import com.fahadmalik5509.playbox.R;
 
 import java.util.Random;
 
@@ -79,28 +81,28 @@ public class ActivityUtils {
                 .build();
 
         // Preload sounds (You can load more sounds as needed)
-        soundMap.put(R.raw.click_board, soundPool.load(context, R.raw.click_board, 1));
-        soundMap.put(R.raw.click_ui, soundPool.load(context, R.raw.click_ui, 1));
-        soundMap.put(R.raw.click_error, soundPool.load(context, R.raw.click_error, 1));
-        soundMap.put(R.raw.draw, soundPool.load(context, R.raw.draw, 1));
-        soundMap.put(R.raw.win, soundPool.load(context, R.raw.win, 1));
-        soundMap.put(R.raw.key, soundPool.load(context, R.raw.key, 1));
-        soundMap.put(R.raw.enter, soundPool.load(context, R.raw.enter, 1));
-        soundMap.put(R.raw.backspace, soundPool.load(context, R.raw.backspace, 1));
-        soundMap.put(R.raw.explosion, soundPool.load(context, R.raw.explosion, 1));
-        soundMap.put(R.raw.explosion2, soundPool.load(context, R.raw.explosion2, 1));
-        soundMap.put(R.raw.hint, soundPool.load(context, R.raw.hint, 1));
-        soundMap.put(R.raw.skip, soundPool.load(context, R.raw.skip, 1));
-        soundMap.put(R.raw.bought, soundPool.load(context, R.raw.bought, 1));
-        soundMap.put(R.raw.coin, soundPool.load(context, R.raw.coin, 1));
-        soundMap.put(R.raw.register, soundPool.load(context, R.raw.register, 1));
-        soundMap.put(R.raw.flamesfx, soundPool.load(context, R.raw.flamesfx, 1));
-        soundMap.put(R.raw.acoinflip, soundPool.load(context, R.raw.acoinflip, 1));
-        soundMap.put(R.raw.acoinreveal, soundPool.load(context, R.raw.acoinreveal, 1));
-        soundMap.put(R.raw.sucess, soundPool.load(context, R.raw.sucess, 1));
-        soundMap.put(R.raw.aheartbreak, soundPool.load(context, R.raw.aheartbreak, 1));
-        soundMap.put(R.raw.agameover, soundPool.load(context, R.raw.agameover, 1));
-        soundMap.put(R.raw.newlevel, soundPool.load(context, R.raw.newlevel, 1));
+        soundMap.put(R.raw.sound_click, soundPool.load(context, R.raw.sound_click, 1));
+        soundMap.put(R.raw.sound_ui, soundPool.load(context, R.raw.sound_ui, 1));
+        soundMap.put(R.raw.sound_error, soundPool.load(context, R.raw.sound_error, 1));
+        soundMap.put(R.raw.sound_draw, soundPool.load(context, R.raw.sound_draw, 1));
+        soundMap.put(R.raw.sound_win, soundPool.load(context, R.raw.sound_win, 1));
+        soundMap.put(R.raw.sound_key, soundPool.load(context, R.raw.sound_key, 1));
+        soundMap.put(R.raw.sound_enter, soundPool.load(context, R.raw.sound_enter, 1));
+        soundMap.put(R.raw.sound_backspace, soundPool.load(context, R.raw.sound_backspace, 1));
+        soundMap.put(R.raw.sound_explosion, soundPool.load(context, R.raw.sound_explosion, 1));
+        soundMap.put(R.raw.sound_explosion2, soundPool.load(context, R.raw.sound_explosion2, 1));
+        soundMap.put(R.raw.sound_hint, soundPool.load(context, R.raw.sound_hint, 1));
+        soundMap.put(R.raw.sound_skip, soundPool.load(context, R.raw.sound_skip, 1));
+        soundMap.put(R.raw.sound_bought, soundPool.load(context, R.raw.sound_bought, 1));
+        soundMap.put(R.raw.sound_coin, soundPool.load(context, R.raw.sound_coin, 1));
+        soundMap.put(R.raw.sound_register, soundPool.load(context, R.raw.sound_register, 1));
+        soundMap.put(R.raw.sound_flame, soundPool.load(context, R.raw.sound_flame, 1));
+        soundMap.put(R.raw.sound_coin_flip, soundPool.load(context, R.raw.sound_coin_flip, 1));
+        soundMap.put(R.raw.sound_coin_reveal, soundPool.load(context, R.raw.sound_coin_reveal, 1));
+        soundMap.put(R.raw.sound_success, soundPool.load(context, R.raw.sound_success, 1));
+        soundMap.put(R.raw.sound_heart_crack, soundPool.load(context, R.raw.sound_heart_crack, 1));
+        soundMap.put(R.raw.sound_game_over, soundPool.load(context, R.raw.sound_game_over, 1));
+        soundMap.put(R.raw.sound_new_level, soundPool.load(context, R.raw.sound_new_level, 1));
 
     }
 

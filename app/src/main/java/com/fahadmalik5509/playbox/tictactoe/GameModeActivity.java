@@ -1,10 +1,10 @@
-package com.fahadmalik5509.playbox;
+package com.fahadmalik5509.playbox.tictactoe;
 
-import static com.fahadmalik5509.playbox.ActivityUtils.animateViewPulse;
-import static com.fahadmalik5509.playbox.ActivityUtils.changeActivity;
-import static com.fahadmalik5509.playbox.ActivityUtils.loadColors;
-import static com.fahadmalik5509.playbox.ActivityUtils.playSound;
-import static com.fahadmalik5509.playbox.ActivityUtils.vibrate;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,10 @@ import android.view.View;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
+import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
+import com.fahadmalik5509.playbox.R;
+import com.fahadmalik5509.playbox.miscellaneous.SettingActivity;
 import com.fahadmalik5509.playbox.databinding.GamemodeLayoutBinding;
 
 public class GameModeActivity extends AppCompatActivity {
@@ -38,14 +42,14 @@ public class GameModeActivity extends AppCompatActivity {
 
     public void handlePvPClick(View view) {
 
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         changeActivity(this, TicTacToeVsActivity.class);
 
     }
 
     public void handlePvAClick(View view) {
 
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         changeActivity(this, TicTacToeAIActivity.class);
     }
 
@@ -56,7 +60,7 @@ public class GameModeActivity extends AppCompatActivity {
 
     // OnClick Method
     public void goToSetting(View view) {
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", this.getClass().getSimpleName());
         this.startActivity(intent);
@@ -64,13 +68,13 @@ public class GameModeActivity extends AppCompatActivity {
 
     //onclick Method
     public void goToHome(View view) {
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         changeActivity(this, HomeActivity.class);
     }
 
     //onClick Method
     public void goBack(View view) {
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         changeActivity(this, GamesActivity.class);
     }
 

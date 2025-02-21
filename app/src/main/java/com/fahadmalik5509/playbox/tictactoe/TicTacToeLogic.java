@@ -1,6 +1,6 @@
-package com.fahadmalik5509.playbox;
+package com.fahadmalik5509.playbox.tictactoe;
 
-import static com.fahadmalik5509.playbox.ActivityUtils.getRandomNumber;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.getRandomNumber;
 
 public class TicTacToeLogic {
 

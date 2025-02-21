@@ -1,16 +1,16 @@
-package com.fahadmalik5509.playbox;
+package com.fahadmalik5509.playbox.miscellaneous;
 
-import static com.fahadmalik5509.playbox.ActivityUtils.animateViewPulse;
-import static com.fahadmalik5509.playbox.ActivityUtils.animateViewRGBColor;
-import static com.fahadmalik5509.playbox.ActivityUtils.animateViewScale;
-import static com.fahadmalik5509.playbox.ActivityUtils.changeActivity;
-import static com.fahadmalik5509.playbox.ActivityUtils.firstLoad;
-import static com.fahadmalik5509.playbox.ActivityUtils.fun_openURL;
-import static com.fahadmalik5509.playbox.ActivityUtils.initializeSoundPool;
-import static com.fahadmalik5509.playbox.ActivityUtils.loadColors;
-import static com.fahadmalik5509.playbox.ActivityUtils.playSound;
-import static com.fahadmalik5509.playbox.ActivityUtils.toggleVisibility;
-import static com.fahadmalik5509.playbox.ActivityUtils.vibrate;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewRGBColor;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.firstLoad;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.fun_openURL;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.initializeSoundPool;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
 import android.content.Context;
 import android.content.Intent;
@@ -27,6 +27,7 @@ import android.view.View;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.HomeLayoutBinding;
 
 public class HomeActivity extends AppCompatActivity implements SensorEventListener {
@@ -72,11 +73,11 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void handleGamesButtonClick(View view) {
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         changeActivity(this, GamesActivity.class);
     }
     public void handleSettingsButtonClick(View view) {
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", getClass().getSimpleName());
         startActivity(intent);
@@ -91,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     // Onclick Method
     public void handleExitButtons(View view) {
 
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
 
         if(view.getTag().equals("yes")) {
             finishAffinity();
@@ -154,14 +155,14 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         if (isCoinFlipping) return;
         isCoinFlipping = true;
 
-        playSound(this, R.raw.acoinflip);
+        playSound(this, R.raw.sound_coin_flip);
         vibrate(this, 300);
         vb.lavCoinFlip.setVisibility(View.VISIBLE);
         vb.lavCoinFlip.playAnimation();
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 vb.lavCoinFlip.setVisibility(View.GONE);
-            playSound(this, R.raw.acoinreveal);
+            playSound(this, R.raw.sound_coin_reveal);
 
             vb.tvCoinFlip.setText(getCoinFlipResult());
             vb.tvCoinFlip.setVisibility(View.VISIBLE);

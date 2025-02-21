@@ -6,16 +6,9 @@
     android:background="@color/background">
 
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/backgroundLAV"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        app:lottie_rawRes="@raw/background"
-        android:scaleType="centerCrop"
-        app:lottie_asyncUpdates="enabled"
-        app:lottie_cacheComposition="true"
-        app:lottie_autoPlay="true"
-        app:lottie_loop="true" />
+        app:lottie_rawRes="@raw/lottie_home_background"
+        style="@style/BackgroundLottieAnimation"
+        />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavGitHub"
@@ -29,7 +22,7 @@
         app:lottie_loop="true"
         app:lottie_asyncUpdates="enabled"
         app:lottie_cacheComposition="true"
-        app:lottie_rawRes="@raw/github"
+        app:lottie_rawRes="@raw/lottie_github"
         android:onClick="handleGitHub"/>
 
     <LinearLayout
@@ -85,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:lottie_rawRes="@raw/coinsplash"
+        app:lottie_rawRes="@raw/lottie_coin_splash"
         app:lottie_asyncUpdates="enabled"
         app:lottie_cacheComposition="true" />
 
@@ -96,7 +89,7 @@
         android:layout_centerInParent="true"
         app:lottie_asyncUpdates="enabled"
         app:lottie_cacheComposition="true"
-        app:lottie_rawRes="@raw/coinflip"
+        app:lottie_rawRes="@raw/lottie_coin_flip"
         android:visibility="gone"/>
 
     <TextView
@@ -176,7 +169,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:background="@color/background"
-        app:lottie_rawRes="@raw/loading"
+        app:lottie_rawRes="@raw/lottie_loading"
         app:lottie_asyncUpdates="enabled"
         app:lottie_cacheComposition="true"
         app:lottie_loop="true"

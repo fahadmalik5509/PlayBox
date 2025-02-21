@@ -1,33 +1,33 @@
-package com.fahadmalik5509.playbox;
+package com.fahadmalik5509.playbox.wordle;
 
 import static android.view.View.VISIBLE;
-import static com.fahadmalik5509.playbox.ActivityUtils.BEIGE_COLOR;
-import static com.fahadmalik5509.playbox.ActivityUtils.GRAY_COLOR;
-import static com.fahadmalik5509.playbox.ActivityUtils.GREEN_COLOR;
-import static com.fahadmalik5509.playbox.ActivityUtils.RED_COLOR;
-import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_BOMB_KEY;
-import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_CURRENCY_KEY;
-import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_EXPLOSION_KEY;
-import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_HIGHEST_STREAK_KEY;
-import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_HINT_KEY;
-import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_SKIP_KEY;
-import static com.fahadmalik5509.playbox.ActivityUtils.WORDLE_STREAK_KEY;
-import static com.fahadmalik5509.playbox.ActivityUtils.YELLOW_COLOR;
-import static com.fahadmalik5509.playbox.ActivityUtils.animateText;
-import static com.fahadmalik5509.playbox.ActivityUtils.animateViewBounce;
-import static com.fahadmalik5509.playbox.ActivityUtils.animateViewJiggle;
-import static com.fahadmalik5509.playbox.ActivityUtils.animateViewPulse;
-import static com.fahadmalik5509.playbox.ActivityUtils.animateViewScale;
-import static com.fahadmalik5509.playbox.ActivityUtils.changeActivity;
-import static com.fahadmalik5509.playbox.ActivityUtils.changeBackgroundColor;
-import static com.fahadmalik5509.playbox.ActivityUtils.getRandomNumber;
-import static com.fahadmalik5509.playbox.ActivityUtils.loadColors;
-import static com.fahadmalik5509.playbox.ActivityUtils.loadPreference;
-import static com.fahadmalik5509.playbox.ActivityUtils.playSound;
-import static com.fahadmalik5509.playbox.ActivityUtils.saveToSharedPreferences;
-import static com.fahadmalik5509.playbox.ActivityUtils.sharedPreferences;
-import static com.fahadmalik5509.playbox.ActivityUtils.toggleVisibility;
-import static com.fahadmalik5509.playbox.ActivityUtils.vibrate;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.BEIGE_COLOR;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GRAY_COLOR;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GREEN_COLOR;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.RED_COLOR;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_BOMB_KEY;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_CURRENCY_KEY;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_EXPLOSION_KEY;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_HIGHEST_STREAK_KEY;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_HINT_KEY;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_SKIP_KEY;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_STREAK_KEY;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.YELLOW_COLOR;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateText;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewBounce;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewJiggle;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.getRandomNumber;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadPreference;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -43,6 +43,10 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 
+import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
+import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
+import com.fahadmalik5509.playbox.R;
+import com.fahadmalik5509.playbox.miscellaneous.SettingActivity;
 import com.fahadmalik5509.playbox.databinding.WordleLayoutBinding;
 
 import java.io.BufferedReader;
@@ -125,12 +129,12 @@ public class WordleActivity extends AppCompatActivity {
     private void onLetterKeyClicked(String alphabet) {
 
         if (currentColumn == MAX_COLS) {
-            playSound(this, R.raw.click_error);
+            playSound(this, R.raw.sound_error);
             jiggleRow();
             return;
         }
 
-        playSound(this, R.raw.key);
+        playSound(this, R.raw.sound_key);
         animateViewBounce(letterBox[currentRow][currentColumn]);
         letterBox[currentRow][currentColumn].setText(alphabet);
         userGuess.insert(currentColumn, alphabet);
@@ -140,15 +144,15 @@ public class WordleActivity extends AppCompatActivity {
     private void onEnterKeyClicked() {
 
         if(userGuess.toString().equals("FAHAD")) cheat();
-        if(userGuess.toString().equals("NIGGA"))  unCheat();
+        if(userGuess.toString().equals("NIGGA")) unCheat();
 
         if (!isValidGuess()) {
-            playSound(this, R.raw.click_error);
+            playSound(this, R.raw.sound_error);
             jiggleRow();
             return;
         }
 
-        playSound(this, R.raw.enter);
+        playSound(this, R.raw.sound_enter);
         boolean[] letterMatched = new boolean[MAX_COLS];
         int[] targetLetterCount = initializeTargetLetterCount();
 
@@ -156,7 +160,6 @@ public class WordleActivity extends AppCompatActivity {
         markPartialMatches(letterMatched, targetLetterCount);
         applyKeyboardColors();
         handleEndOfTurn();
-
     }
 
     private int[] initializeTargetLetterCount() {
@@ -224,7 +227,7 @@ public class WordleActivity extends AppCompatActivity {
         animateText(vb.currencyCountTV, 0f, 360f, 300);
         vb.coinBlastLAV.setVisibility(VISIBLE);
         vb.coinBlastLAV.playAnimation();
-        playSound(this, R.raw.coin);
+        playSound(this, R.raw.sound_coin);
         currentCurrencyCount += (50 + (5 * currentStreakCount) + ((6 - currentRow) * 5));
         updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
         currentStreakCount++;
@@ -234,7 +237,7 @@ public class WordleActivity extends AppCompatActivity {
 
     private void handleLoss() {
         gameLost = true;
-        playSound(this, R.raw.draw);
+        playSound(this, R.raw.sound_draw);
         displayTargetWord();
         toggleVisibility(true, vb.resetIV);
         currentStreakCount = 0;
@@ -269,12 +272,12 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     private void onBackspaceKeyClicked() {
         if (currentColumn == 0) {
-            playSound(this, R.raw.click_error);
+            playSound(this, R.raw.sound_error);
             jiggleRow();
             return;
         }
 
-        playSound(this, R.raw.backspace);
+        playSound(this, R.raw.sound_backspace);
         currentColumn--;
         userGuess.deleteCharAt(currentColumn);
         letterBox[currentRow][currentColumn].setText("");
@@ -355,7 +358,7 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void onCurrencyClick(View view) {
-        playSound(this, R.raw.register);
+        playSound(this, R.raw.sound_register);
         animateViewScale(vb.shopRL,0f,1.0f,200);
         toggleVisibility(true, vb.shadowV, vb.shopRL);
 
@@ -366,8 +369,8 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void onStreakClick(View view) {
-        if(vb.flameLAV.isAnimating()) playSound(this, R.raw.flamesfx);
-        else playSound(this, R.raw.click_ui);
+        if(vb.flameLAV.isAnimating()) playSound(this, R.raw.sound_flame);
+        else playSound(this, R.raw.sound_ui);
         vb.streakTooltipTV.setText(getString(R.string.streak_tooltip, sharedPreferences.getInt(WORDLE_STREAK_KEY, 0), sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0)));
         toggleVisibility(true, vb.streakTooltipTV);
         vb.streakTooltipTV.postDelayed(() -> toggleVisibility(false, vb.streakTooltipTV), 2000);
@@ -396,7 +399,7 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void onBombClick(View view) {
         if (gameWon || gameLost || currentBombCount == 0) {
-            playSound(this, R.raw.click_error);
+            playSound(this, R.raw.sound_error);
             return;
         }
 
@@ -418,12 +421,12 @@ public class WordleActivity extends AppCompatActivity {
         }
 
         if (lettersToGrayOut == 0) {
-            playSound(this, R.raw.click_error);
+            playSound(this, R.raw.sound_error);
             return;
         }
 
-        if(sharedPreferences.getInt(WORDLE_EXPLOSION_KEY, 0) == 1)  playSound(this, R.raw.explosion2);
-        else playSound(this, R.raw.explosion);
+        if(sharedPreferences.getInt(WORDLE_EXPLOSION_KEY, 0) == 1)  playSound(this, R.raw.sound_explosion2);
+        else playSound(this, R.raw.sound_explosion);
 
         vb.blastLAV.setVisibility(VISIBLE);
         vb.blastLAV.playAnimation();
@@ -435,7 +438,7 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void onSkipClick(View view) {
         if (gameWon || gameLost || currentRow == 0 || currentSkipCount == 0) {
-            playSound(this, R.raw.click_error);
+            playSound(this, R.raw.sound_error);
             return;
         }
 
@@ -443,7 +446,7 @@ public class WordleActivity extends AppCompatActivity {
         currentSkipCount--;
         updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shopSkipCountTV);
 
-        playSound(this, R.raw.skip);
+        playSound(this, R.raw.sound_skip);
         vb.skipLAV.setMinFrame(10);
         vb.skipLAV.playAnimation();
         handleResetClick(view);
@@ -452,7 +455,7 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void onHintClick(View view) {
         if (gameWon || gameLost || hintUsed >= 2 || currentHintCount == 0) {
-            playSound(this, R.raw.click_error);
+            playSound(this, R.raw.sound_error);
             return;
         }
 
@@ -468,7 +471,7 @@ public class WordleActivity extends AppCompatActivity {
         }
 
         if (unrevealedPositions.isEmpty()) {
-            playSound(this, R.raw.click_error);
+            playSound(this, R.raw.sound_error);
             return;
         }
 
@@ -482,7 +485,7 @@ public class WordleActivity extends AppCompatActivity {
         // Store the revealed hint
         revealedHints.put(positionToReveal, correctLetter);
 
-        playSound(this, R.raw.hint);
+        playSound(this, R.raw.sound_hint);
         updateKeyboardColor(correctLetter, GREEN_COLOR);
         applyKeyboardColors();
 
@@ -500,7 +503,7 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void handleLeaveButtons(View view) {
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         if (view.getTag().equals("leave")) {
             saveToSharedPreferences(WORDLE_STREAK_KEY, 0);
             changeActivity(this, GamesActivity.class);
@@ -514,43 +517,42 @@ public class WordleActivity extends AppCompatActivity {
     public void handleShopButtons(View view) {
 
         String tag = (String) view.getTag();
-
         switch (tag) {
             case "bomb":
                 if (currentCurrencyCount >=40) {
-                    playSound(this, R.raw.bought);
+                    playSound(this, R.raw.sound_bought);
                     currentBombCount++;
                     currentCurrencyCount -= 40;
                     updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shopBombCountTV);
                     updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
                 }
-                else { playSound(this, R.raw.click_error); }
+                else { playSound(this, R.raw.sound_error); }
                 break;
 
             case "hint":
                 if (currentCurrencyCount >= 100) {
-                    playSound(this, R.raw.bought);
+                    playSound(this, R.raw.sound_bought);
                     currentHintCount++;
                     currentCurrencyCount -= 100;
                     updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shopHintCountTV);
                     updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
                 }
-                else { playSound(this, R.raw.click_error); }
+                else { playSound(this, R.raw.sound_error); }
                 break;
 
             case "skip":
                 if (currentCurrencyCount >= 200) {
-                    playSound(this, R.raw.bought);
+                    playSound(this, R.raw.sound_bought);
                     currentSkipCount++;
                     currentCurrencyCount -= 200;
                     updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shopSkipCountTV);
                     updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
                 }
-                else { playSound(this, R.raw.click_error); }
+                else { playSound(this, R.raw.sound_error); }
                 break;
 
             default:
-                playSound(this, R.raw.click_ui);
+                playSound(this, R.raw.sound_ui);
                 toggleVisibility(false, vb.shadowV, vb.shopRL);
                 break;
         }
@@ -567,7 +569,7 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void goToSetting(View view) {
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", this.getClass().getSimpleName());
         this.startActivity(intent);
@@ -575,7 +577,7 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void goToHome(View view) {
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         if(currentRow>0 && currentStreakCount != 0) {
             toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
         }
@@ -586,7 +588,7 @@ public class WordleActivity extends AppCompatActivity {
 
     //onClick Method
     public void goBack(View view) {
-        playSound(this, R.raw.click_ui);
+        playSound(this, R.raw.sound_ui);
         if(gameWon) {
             changeActivity(this, GamesActivity.class);
             return;

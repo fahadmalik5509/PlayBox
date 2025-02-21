@@ -17,7 +17,7 @@
 
 
         <activity
-            android:name=".HomeActivity"
+            android:name=".miscellaneous.HomeActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -28,43 +28,43 @@
 
         <!-- TicTacToeVsActivity -->
         <activity
-            android:name=".TicTacToeVsActivity"
+            android:name=".tictactoe.TicTacToeVsActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
 
         <!-- TicTacToeAIActivity -->
         <activity
-            android:name=".TicTacToeAIActivity"
+            android:name=".tictactoe.TicTacToeAIActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
 
         <!-- WordleActivity -->
         <activity
-            android:name=".WordleActivity"
+            android:name=".wordle.WordleActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
 
         <!-- ColorPuzzleActivity -->
         <activity
-            android:name=".ColorPuzzleActivity"
+            android:name=".colorpuzzle.ColorPuzzleActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
 
         <!-- GameModeActivity -->
         <activity
-            android:name=".GameModeActivity"
+            android:name=".tictactoe.GameModeActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
 
         <!-- GamesActivity -->
         <activity
-            android:name=".GamesActivity"
+            android:name=".miscellaneous.GamesActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
 
         <!-- SettingActivity -->
         <activity
-            android:name=".SettingActivity"
+            android:name=".miscellaneous.SettingActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
 

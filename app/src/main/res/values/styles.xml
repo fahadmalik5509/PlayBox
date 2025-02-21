@@ -12,6 +12,16 @@
         <item name="android:fontFamily">@font/spooky</item>
     </style>
 
+    <style name="BackgroundLottieAnimation">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="lottie_asyncUpdates">enabled</item>
+        <item name="lottie_cacheComposition">true</item>
+        <item name="lottie_autoPlay">true</item>
+        <item name="lottie_loop">true</item>
+    </style>
 
     <style name="KeyboardTextView">
         <item name="android:background">@drawable/keyboard_keys_background</item>
@@ -93,6 +103,13 @@
         <item name="android:visibility">gone</item>
         <item name="android:focusable">true</item>
         <item name="android:clickable">true</item>
+    </style>
+
+    <style name="CP_HeartsLottieAnimation">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="lottie_asyncUpdates">enabled</item>
+        <item name="lottie_cacheComposition">true</item>
     </style>
 
 </resources>
