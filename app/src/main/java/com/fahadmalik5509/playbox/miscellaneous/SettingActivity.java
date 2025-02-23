@@ -7,7 +7,7 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.VIBRATION_K
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadPreference;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
@@ -58,7 +58,7 @@ public class SettingActivity extends AppCompatActivity {
     // OnClick Method
     public void handleSoundButtonClick(View view) {
         isSoundEnabled = !isSoundEnabled;
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         int color = isSoundEnabled ? GREEN_COLOR : RED_COLOR;
         changeBackgroundColor(vb.soundB, color);
         updateButtonState(vb.soundB, isSoundEnabled, "Sounds ");
@@ -68,7 +68,7 @@ public class SettingActivity extends AppCompatActivity {
 
     // OnClick Method
     public void handleVibrationButtonClick(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         isVibrationEnabled = !isVibrationEnabled;
         int color = isVibrationEnabled ? GREEN_COLOR : RED_COLOR;
         changeBackgroundColor(vb.vibrationB, color);
@@ -84,7 +84,7 @@ public class SettingActivity extends AppCompatActivity {
 
     // OnClick Method
     public void goBack(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         handleBackNavigation();
     }
 

@@ -2,7 +2,7 @@ package com.fahadmalik5509.playbox.tictactoe;
 
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
 import android.content.Intent;
@@ -40,14 +40,14 @@ public class GameModeActivity extends AppCompatActivity {
 
     public void handlePvPClick(View view) {
 
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, TicTacToeVsActivity.class);
 
     }
 
     public void handlePvAClick(View view) {
 
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, TicTacToeAIActivity.class);
     }
 
@@ -58,7 +58,7 @@ public class GameModeActivity extends AppCompatActivity {
 
     // OnClick Method
     public void goToSetting(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", this.getClass().getSimpleName());
         this.startActivity(intent);
@@ -66,13 +66,13 @@ public class GameModeActivity extends AppCompatActivity {
 
     //onclick Method
     public void goToHome(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, HomeActivity.class);
     }
 
     //onClick Method
     public void goBack(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, GamesActivity.class);
     }
 }

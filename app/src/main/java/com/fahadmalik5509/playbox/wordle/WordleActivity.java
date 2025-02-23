@@ -102,12 +102,12 @@ public class WordleActivity extends AppCompatActivity {
     private void onLetterKeyClicked(String alphabet) {
 
         if (currentColumn == MAX_COLS) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             jiggleRow();
             return;
         }
 
-        playSound(this, R.raw.sound_key);
+        playSoundAndVibrate(this, R.raw.sound_key, true, 50);
         animateViewBounce(letterBox[currentRow][currentColumn]);
         letterBox[currentRow][currentColumn].setText(alphabet);
         userGuess.insert(currentColumn, alphabet);
@@ -120,12 +120,12 @@ public class WordleActivity extends AppCompatActivity {
         if(userGuess.toString().equals("NIGGA")) unCheat();
 
         if (!isValidGuess()) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             jiggleRow();
             return;
         }
 
-        playSound(this, R.raw.sound_enter);
+        playSoundAndVibrate(this, R.raw.sound_enter, true, 50);
         boolean[] letterMatched = new boolean[MAX_COLS];
         int[] targetLetterCount = initializeTargetLetterCount();
 
@@ -200,7 +200,7 @@ public class WordleActivity extends AppCompatActivity {
         animateText(vb.currencyCountTV, 0f, 360f, 300);
         vb.coinBlastLAV.setVisibility(VISIBLE);
         vb.coinBlastLAV.playAnimation();
-        playSound(this, R.raw.sound_coin);
+        playSoundAndVibrate(this, R.raw.sound_coin, false, 0);
         currentCurrencyCount += (50 + (5 * currentStreakCount) + ((6 - currentRow) * 5));
         updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
         currentStreakCount++;
@@ -210,7 +210,7 @@ public class WordleActivity extends AppCompatActivity {
 
     private void handleLoss() {
         gameLost = true;
-        playSound(this, R.raw.sound_draw);
+        playSoundAndVibrate(this, R.raw.sound_draw, true, 100);
         displayTargetWord();
         toggleVisibility(true, vb.resetIV);
         currentStreakCount = 0;
@@ -245,12 +245,12 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     private void onBackspaceKeyClicked() {
         if (currentColumn == 0) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             jiggleRow();
             return;
         }
 
-        playSound(this, R.raw.sound_backspace);
+        playSoundAndVibrate(this, R.raw.sound_backspace, true, 0);
         currentColumn--;
         userGuess.deleteCharAt(currentColumn);
         letterBox[currentRow][currentColumn].setText("");
@@ -331,7 +331,7 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void onCurrencyClick(View view) {
-        playSound(this, R.raw.sound_register);
+        playSoundAndVibrate(this, R.raw.sound_register, true, 50);
         animateViewScale(vb.shop.shopRL,0f,1.0f,200);
         toggleVisibility(true, vb.shadowV, vb.shop.shopRL);
 
@@ -342,8 +342,8 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void onStreakClick(View view) {
-        if(vb.flameLAV.isAnimating()) playSound(this, R.raw.sound_flame);
-        else playSound(this, R.raw.sound_ui);
+        if(vb.flameLAV.isAnimating()) playSoundAndVibrate(this, R.raw.sound_flame, true, 50);
+        else playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         vb.streakTooltipTV.setText(getString(R.string.streak_tooltip, sharedPreferences.getInt(WORDLE_STREAK_KEY, 0), sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0)));
         toggleVisibility(true, vb.streakTooltipTV);
         vb.streakTooltipTV.postDelayed(() -> toggleVisibility(false, vb.streakTooltipTV), 2000);
@@ -372,7 +372,7 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void onBombClick(View view) {
         if (gameWon || gameLost || currentBombCount == 0) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             return;
         }
 
@@ -394,12 +394,12 @@ public class WordleActivity extends AppCompatActivity {
         }
 
         if (lettersToGrayOut == 0) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
             return;
         }
 
-        if(sharedPreferences.getInt(WORDLE_EXPLOSION_KEY, 0) == 1)  playSound(this, R.raw.sound_explosion2);
-        else playSound(this, R.raw.sound_explosion);
+        if(sharedPreferences.getInt(WORDLE_EXPLOSION_KEY, 0) == 1)  playSoundAndVibrate(this, R.raw.sound_explosion2, true, 50);
+        else playSoundAndVibrate(this, R.raw.sound_explosion, true, 50);
 
         vb.blastLAV.setVisibility(VISIBLE);
         vb.blastLAV.playAnimation();
@@ -411,7 +411,7 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void onSkipClick(View view) {
         if (gameWon || gameLost || currentRow == 0 || currentSkipCount == 0) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
             return;
         }
 
@@ -419,7 +419,7 @@ public class WordleActivity extends AppCompatActivity {
         currentSkipCount--;
         updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shop.shopSkipCountTV);
 
-        playSound(this, R.raw.sound_skip);
+        playSoundAndVibrate(this, R.raw.sound_skip, true, 50);
         vb.skipLAV.setMinFrame(10);
         vb.skipLAV.playAnimation();
         handleResetClick(view);
@@ -428,7 +428,7 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void onHintClick(View view) {
         if (gameWon || gameLost || hintUsed >= 2 || currentHintCount == 0) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
             return;
         }
 
@@ -444,7 +444,7 @@ public class WordleActivity extends AppCompatActivity {
         }
 
         if (unrevealedPositions.isEmpty()) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
             return;
         }
 
@@ -458,7 +458,7 @@ public class WordleActivity extends AppCompatActivity {
         // Store the revealed hint
         revealedHints.put(positionToReveal, correctLetter);
 
-        playSound(this, R.raw.sound_hint);
+        playSoundAndVibrate(this, R.raw.sound_hint, true, 50);
         updateKeyboardColor(correctLetter, GREEN_COLOR);
         applyKeyboardColors();
 
@@ -476,7 +476,7 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void handleLeaveButtons(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         if (view.getTag().equals("leave")) {
             saveToSharedPreferences(WORDLE_STREAK_KEY, 0);
             changeActivity(this, GamesActivity.class);
@@ -509,7 +509,7 @@ public class WordleActivity extends AppCompatActivity {
                 });
                 break;
             default:
-                playSound(this, R.raw.sound_ui);
+                playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
                 toggleVisibility(false, vb.shadowV, vb.shop.shopRL);
                 break;
         }
@@ -517,12 +517,12 @@ public class WordleActivity extends AppCompatActivity {
 
     private void processPurchase(int cost, Runnable updateAction) {
         if (currentCurrencyCount >= cost) {
-            playSound(this, R.raw.sound_bought);
+            playSoundAndVibrate(this, R.raw.sound_bought, true, 50);
             currentCurrencyCount -= cost;
             updateAction.run();
             updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
         } else {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
         }
     }
 
@@ -537,7 +537,7 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void goToSetting(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", this.getClass().getSimpleName());
         this.startActivity(intent);
@@ -545,7 +545,7 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void goToHome(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         if(currentRow>0 && currentStreakCount != 0) {
             toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
         }
@@ -556,7 +556,7 @@ public class WordleActivity extends AppCompatActivity {
 
     //onClick Method
     public void goBack(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         if(gameWon) {
             changeActivity(this, GamesActivity.class);
             return;

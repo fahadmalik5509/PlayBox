@@ -9,7 +9,7 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActiv
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadPreference;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
@@ -59,10 +59,10 @@ public class TicTacToeVsActivity extends AppCompatActivity {
     //onClick Method
     public void handleBoardClick(View view) {
         if (game.getHasWon() || game.getHasDraw()) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             return;
         }
-        playSound(this, R.raw.sound_click);
+        playSoundAndVibrate(this, R.raw.sound_click, true, 50);
         int move = Integer.parseInt(view.getTag().toString());
         handlePlayerMove(move, buttons[move]);
     }
@@ -88,7 +88,7 @@ public class TicTacToeVsActivity extends AppCompatActivity {
     }
 
     private void updateWinGUI() {
-        playSound(this, R.raw.sound_win);
+        playSoundAndVibrate(this, R.raw.sound_win, true, 100);
         animateWinningButtons(game.winA, game.winB, game.winC);
 
         updateScore();
@@ -98,7 +98,7 @@ public class TicTacToeVsActivity extends AppCompatActivity {
     }
 
     private void updateDrawGUI() {
-        playSound(this, R.raw.sound_draw);
+        playSoundAndVibrate(this, R.raw.sound_draw, true, 100);
         vb.drawIV.setVisibility(View.VISIBLE);
     }
 
@@ -116,7 +116,7 @@ public class TicTacToeVsActivity extends AppCompatActivity {
 
     //onClick Method
     public void handleResetClick(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         resetGame();
 
     }
@@ -151,7 +151,7 @@ public class TicTacToeVsActivity extends AppCompatActivity {
 
     //onClick Method
     public void profileClicked(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         animateViewScale(vb.profileRL, 0f, 1.0f, 200);
         vb.profileRL.setVisibility(View.VISIBLE);
         vb.shadowV.setVisibility(View.VISIBLE);
@@ -160,7 +160,7 @@ public class TicTacToeVsActivity extends AppCompatActivity {
     }
 
     public void handleProfileButtons(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         if ("save".equals(view.getTag())) updateProfiles();
         animateViewScale(vb.profileRL, 1.0f, 0f, 200);
         vb.shadowV.setVisibility(View.GONE);
@@ -199,19 +199,19 @@ public class TicTacToeVsActivity extends AppCompatActivity {
     }
     //onClick Method
     public void goToSetting(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", getClass().getSimpleName());
         startActivity(intent);
     }
     //onClick Method
     public void goToHome(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, HomeActivity.class);
     }
     //onClick Method
     public void goBack(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, GameModeActivity.class);
     }
     private void initialize() {

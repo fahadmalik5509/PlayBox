@@ -128,7 +128,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             } else {
                 handleLoss(button);
             }
-            playSound(this, isTarget ? (isGridChange ? R.raw.sound_new_level : R.raw.sound_success) : R.raw.sound_heart_crack);
+            playSoundAndVibrate(this, isTarget ? (isGridChange ? R.raw.sound_new_level : R.raw.sound_success) : R.raw.sound_heart_crack, false, 0);
             isGridChange = false;
         });
         return button;
@@ -165,7 +165,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             gameLost = true;
             toggleVisibility(true, vb.shadowV, vb.gameOverLAV);
             vb.gameOverLAV.playAnimation();
-            playSound(this, R.raw.sound_game_over);
+            playSoundAndVibrate(this, R.raw.sound_game_over, true, 100);
 
             if (targetButton != null) animateBlink(targetButton, 300, 3);
         }
@@ -234,21 +234,20 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     private void updateScoreDisplay() { vb.currentScoreTV.setText(getString(R.string.score, currentScore)); }
     private void updateBestScoreDisplay() { vb.bestScoreTV.setText(getString(R.string.best_score, sharedPreferences.getInt(PUZZLE_BEST_SCORE, 0))); }
     public void handleResetClick(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         resetGameState();
         generateGrid(currentGridSize);
     }
-
     public void handleEliminateClick(View view) {
 
         if(isExplosionUsed) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             return;
         }
 
         isExplosionUsed = true;
 
-        playSound(this, R.raw.sound_explosion);
+        playSoundAndVibrate(this, R.raw.sound_explosion, false, 0);
         vb.explosionLAV.playAnimation();
         vb.explosionLAV.setVisibility(VISIBLE);
 
@@ -284,15 +283,21 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             }
         }
     }
+    public void handleSkipClick(View view) {
+        playSoundAndVibrate(this, R.raw.sound_skip, true, 50);
+        vb.skipLAV.setMinFrame(10);
+        vb.skipLAV.playAnimation();
+        generateGrid(currentGridSize);
+    }
 
     public void handleHintClick(View view) {
 
         if (isHintUsed) {
-            playSound(this, R.raw.sound_error);
+            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             return;
         }
 
-        playSound(this, R.raw.sound_hint);
+        playSoundAndVibrate(this, R.raw.sound_hint, true, 50);
         isHintUsed = true;
         if (targetButton == null) return;
 
@@ -356,13 +361,6 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         reanimateBorder(border);
     }
 
-    public void handleSkipClick(View view) {
-        playSound(this, R.raw.sound_skip);
-        vb.skipLAV.setMinFrame(10);
-        vb.skipLAV.playAnimation();
-        generateGrid(currentGridSize);
-    }
-
     private void reanimateBorder(final View border) {
         border.animate().cancel();
         border.setVisibility(VISIBLE);
@@ -371,13 +369,11 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     }
 
     private void blinkBorderAndHide(final View border) {
-        border.animate().alpha(0f).setDuration(200).withEndAction(() -> border.animate().alpha(1f).setDuration(200).withEndAction(() -> {
-            blinkBorderAndHide(border);
-        }).start()).start();
+        border.animate().alpha(0f).setDuration(200).withEndAction(() -> border.animate().alpha(1f).setDuration(200).withEndAction(() -> blinkBorderAndHide(border)).start()).start();
     }
 
     public void handleExitButtons(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         if(view.getTag().equals("no")) toggleVisibility(false, vb.leaveRL, vb.shadowV);
         else changeActivity(this, GamesActivity.class);
     }
@@ -422,18 +418,19 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     private int dpToPx(int dp) {
         return Math.round(dp * getResources().getDisplayMetrics().density);
     }
+
     public void goToSetting(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", getClass().getSimpleName());
         startActivity(intent);
     }
     public void goToHome(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, HomeActivity.class);
     }
     public void goBack(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         if(currentScore > 0) toggleVisibility(true, vb.leaveRL, vb.shadowV);
         else changeActivity(this, GamesActivity.class);
     }

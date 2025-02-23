@@ -93,10 +93,9 @@ public class ActivityUtils {
         soundMap.put(R.raw.sound_heart_crack, soundPool.load(context, R.raw.sound_heart_crack, 1));
         soundMap.put(R.raw.sound_game_over, soundPool.load(context, R.raw.sound_game_over, 1));
         soundMap.put(R.raw.sound_new_level, soundPool.load(context, R.raw.sound_new_level, 1));
-
     }
 
-    public static void playSound(Context context, int soundResId) {
+    public static void playSoundAndVibrate(Context context, int soundResId, boolean vibrate, int vibrationDuration) {
         if (context == null || soundPool == null) return;
 
         loadPreference(context);
@@ -108,6 +107,7 @@ public class ActivityUtils {
         if (soundID != -1) {
             soundPool.play(soundID, 1f, 1f, 1, 0, 1f);
         }
+        if(vibrate) vibrate(context, vibrationDuration);
     }
 
     public static void loadPreference(Context context) {

@@ -52,11 +52,11 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void handleGamesButtonClick(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, GamesActivity.class);
     }
     public void handleSettingsButtonClick(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", getClass().getSimpleName());
         startActivity(intent);
@@ -71,7 +71,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     // Onclick Method
     public void handleExitButtons(View view) {
 
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
 
         if(view.getTag().equals("yes")) {
             finishAffinity();
@@ -91,7 +91,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void handleGitHub(View view) {
-        playSound(this,R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/fahadmalik5509"));
         this.startActivity(intent);
     }
@@ -135,14 +135,14 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         if (isCoinFlipping) return;
         isCoinFlipping = true;
 
-        playSound(this, R.raw.sound_coin_flip);
+        playSoundAndVibrate(this, R.raw.sound_coin_flip, false, 0);
         vibrate(this, 300);
         vb.lavCoinFlip.setVisibility(View.VISIBLE);
         vb.lavCoinFlip.playAnimation();
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 vb.lavCoinFlip.setVisibility(View.GONE);
-            playSound(this, R.raw.sound_coin_reveal);
+            playSoundAndVibrate(this, R.raw.sound_coin_reveal, true, 100);
 
             vb.tvCoinFlip.setText(getCoinFlipResult());
             vb.tvCoinFlip.setVisibility(View.VISIBLE);

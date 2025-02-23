@@ -1,7 +1,7 @@
 package com.fahadmalik5509.playbox.miscellaneous;
 
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
 import android.content.Intent;
@@ -37,15 +37,15 @@ public class GamesActivity extends AppCompatActivity {
     }
 
     public void handleTicTacToeButtonClick(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, GameModeActivity.class);
     }
     public void handleWordleButtonClick(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, WordleActivity.class);
     }
     public void handleColorPuzzleButtonClick(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, ColorPuzzleActivity.class);
     }
 
@@ -56,7 +56,7 @@ public class GamesActivity extends AppCompatActivity {
 
     // OnClick Method
     public void goToSetting(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", this.getClass().getSimpleName());
         this.startActivity(intent);
@@ -64,13 +64,13 @@ public class GamesActivity extends AppCompatActivity {
 
     //onclick Method
     public void goToHome(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, HomeActivity.class);
     }
 
     //onClick Method
     public void goBack(View view) {
-        playSound(this, R.raw.sound_ui);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, HomeActivity.class);
     }
 }
