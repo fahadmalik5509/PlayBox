@@ -4,7 +4,6 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GREEN_COLOR
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.RED_COLOR;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_DIFFICULTY_KEY;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.YELLOW_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
@@ -55,7 +54,6 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         loadColors(this);
         loadPreference(this);
         initialize();
-        animateViewsPulse();
         setupGameMode();
     }
 
@@ -245,17 +243,5 @@ public class TicTacToeAIActivity extends AppCompatActivity {
                 vb.gameBoard3B, vb.gameBoard4B, vb.gameBoard5B,
                 vb.gameBoard6B, vb.gameBoard7B, vb.gameBoard8B
         };
-    }
-    private void animateViewsPulse() {
-        // Animate all game board buttons
-        for (Button button : buttons) {
-            animateViewPulse(this, button, true);
-        }
-        // Animate other UI elements in one loop
-        View[] views = { vb.homeIconIV, vb.settingIconIV, vb.replayTV, vb.backIconIV,
-                vb.difficultyIV, vb.aiSymbolXTV, vb.aiSymbolOTV, vb.symbolSwitchIV };
-        for (View view : views) {
-            animateViewPulse(this, view, true);
-        }
     }
 }

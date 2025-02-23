@@ -6,7 +6,7 @@
     android:background="@color/background">
 
     <com.airbnb.lottie.LottieAnimationView
-        app:lottie_rawRes="@raw/lottie_home_background"
+        app:lottie_rawRes="@raw/lottie_stars_background"
         style="@style/BackgroundLottieAnimation"
         />
 
@@ -57,7 +57,7 @@
         android:text="@string/title"
         android:textSize="55sp"
         android:letterSpacing="0.1"
-        android:textColor="@color/background"
+        android:textColor="@color/white"
         android:textAppearance="@style/funky_font"
         android:onClick="handlePlayBox" />
 
@@ -80,7 +80,8 @@
         android:layout_centerInParent="true"
         app:lottie_rawRes="@raw/lottie_coin_splash"
         app:lottie_asyncUpdates="enabled"
-        app:lottie_cacheComposition="true" />
+        app:lottie_cacheComposition="true"
+        android:stateListAnimator="@animator/pulse_animation" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavCoinFlip"
@@ -144,7 +145,8 @@
                 android:textSize="25sp"
                 android:textColor="@color/beige"
                 android:textAppearance="@style/default_font"
-                android:onClick="handleExitButtons" />
+                android:onClick="handleExitButtons"
+                android:stateListAnimator="@animator/pulse_animation" />
 
             <Button
                 android:id="@+id/yesExitB"
@@ -157,22 +159,11 @@
                 android:textSize="25sp"
                 android:textColor="@color/beige"
                 android:textAppearance="@style/default_font"
-                android:onClick="handleExitButtons" />
+                android:onClick="handleExitButtons"
+                android:stateListAnimator="@animator/pulse_animation" />
 
         </LinearLayout>
 
     </RelativeLayout>
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/loadingLAV"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:background="@color/background"
-        app:lottie_rawRes="@raw/lottie_loading"
-        app:lottie_asyncUpdates="enabled"
-        app:lottie_cacheComposition="true"
-        app:lottie_loop="true"
-        android:visibility="gone"/>
 
 </RelativeLayout>

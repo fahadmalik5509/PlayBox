@@ -4,7 +4,6 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GREEN_COLOR
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.RED_COLOR;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.SOUND_KEY;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.VIBRATION_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadPreference;
@@ -46,7 +45,6 @@ public class SettingActivity extends AppCompatActivity {
 
         loadColors(this);
         loadPreference(this);
-        animateViewsPulse();
         updateButtonStates();
     }
 
@@ -95,9 +93,4 @@ public class SettingActivity extends AppCompatActivity {
         finish();
     }
 
-    private void animateViewsPulse() {
-        animateViewPulse(this, vb.soundB, true);
-        animateViewPulse(this, vb.vibrationB, true);
-        animateViewPulse(this, vb.backIconIV, true);
-    }
 }

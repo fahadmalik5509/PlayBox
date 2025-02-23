@@ -1,6 +1,5 @@
 package com.fahadmalik5509.playbox.miscellaneous;
 
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
@@ -35,8 +34,6 @@ public class GamesActivity extends AppCompatActivity {
                 handleBackNavigation();
             }
         });
-
-        animateViewsPulse();
     }
 
     public void handleTicTacToeButtonClick(View view) {
@@ -75,11 +72,5 @@ public class GamesActivity extends AppCompatActivity {
     public void goBack(View view) {
         playSound(this, R.raw.sound_ui);
         changeActivity(this, HomeActivity.class);
-    }
-
-    private void animateViewsPulse() {
-        animateViewPulse(this, vb.ticTacToeB, true);
-        animateViewPulse(this, vb.wordleB, true);
-        animateViewPulse(this, vb.colorPuzzleB, true);
     }
 }

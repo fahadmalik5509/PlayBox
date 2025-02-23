@@ -14,7 +14,7 @@
         android:layout_width="300dp"
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/gridLayout"
+        android:layout_above="@+id/letterBoxGL"
         android:layout_marginBottom="10dp"
         android:gravity="center">
 
@@ -125,7 +125,7 @@
     </RelativeLayout>
 
     <GridLayout
-        android:id="@+id/gridLayout"
+        android:id="@+id/letterBoxGL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -245,7 +245,8 @@
         android:layout_marginStart="64dp"
         android:src="@drawable/profile_icon"
         android:onClick="profileClicked"
-        android:contentDescription="@string/image_description" />
+        android:contentDescription="@string/image_description"
+        android:stateListAnimator="@animator/pulse_animation" />
 
     <!--Replay TextView-->
     <TextView
@@ -259,7 +260,8 @@
         android:textSize="50sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/default_font"
-        android:onClick="handleResetClick"/>
+        android:onClick="handleResetClick"
+        android:stateListAnimator="@animator/pulse_animation" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/fireworksLAV"
@@ -373,7 +375,8 @@
             android:textSize="20sp"
             android:textColor="@color/beige"
             android:textAppearance="@style/default_font"
-            android:onClick="handleProfileButtons" />
+            android:onClick="handleProfileButtons"
+            android:stateListAnimator="@animator/pulse_animation" />
 
         <Button
             android:id="@+id/profileSaveB"
@@ -387,7 +390,8 @@
             android:textSize="20sp"
             android:textColor="@color/beige"
             android:textAppearance="@style/default_font"
-            android:onClick="handleProfileButtons" />
+            android:onClick="handleProfileButtons"
+            android:stateListAnimator="@animator/pulse_animation" />
 
 
     </RelativeLayout>

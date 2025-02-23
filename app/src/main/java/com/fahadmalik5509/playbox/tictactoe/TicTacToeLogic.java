@@ -1,6 +1,6 @@
 package com.fahadmalik5509.playbox.tictactoe;
 
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.getRandomNumber;
+import java.util.Random;
 
 public class TicTacToeLogic {
 
@@ -80,7 +80,8 @@ public class TicTacToeLogic {
     private int getEasyMove() {
         int randomNum;
         do {
-            randomNum = getRandomNumber(0, 8);
+            randomNum = new Random().nextInt(9);
+
         } while (gameBoard[randomNum] == 'X' || gameBoard[randomNum] == 'O');
         return randomNum;
     }

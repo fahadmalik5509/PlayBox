@@ -1,6 +1,5 @@
 package com.fahadmalik5509.playbox.tictactoe;
 
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
@@ -37,7 +36,6 @@ public class GameModeActivity extends AppCompatActivity {
         });
 
         loadColors(this);
-        animateViewsPulse();
     }
 
     public void handlePvPClick(View view) {
@@ -76,13 +74,5 @@ public class GameModeActivity extends AppCompatActivity {
     public void goBack(View view) {
         playSound(this, R.raw.sound_ui);
         changeActivity(this, GamesActivity.class);
-    }
-
-    private void animateViewsPulse() {
-        animateViewPulse(this, vb.playerVsPlayerB, true);
-        animateViewPulse(this, vb.playerVsAIB, true);
-        animateViewPulse(this, vb.homeIconIV, true);
-        animateViewPulse(this, vb.settingIconIV, true);
-        animateViewPulse(this, vb.backIconIV, true);
     }
 }

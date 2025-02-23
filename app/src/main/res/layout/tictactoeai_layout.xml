@@ -14,7 +14,7 @@
         android:layout_width="300dp"
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/gridLayout"
+        android:layout_above="@+id/letterBoxGL"
         android:layout_marginBottom="10dp"
         android:gravity="center">
 
@@ -125,7 +125,7 @@
     </RelativeLayout>
 
     <GridLayout
-        android:id="@+id/gridLayout"
+        android:id="@+id/letterBoxGL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -138,7 +138,6 @@
             android:layout_row="0"
             android:layout_column="0"
             style="@style/BoardButton"
-            android:onClick="handleBoardClick"
             android:contentDescription="@string/button_description" />
 
         <Button
@@ -147,7 +146,6 @@
             android:layout_row="0"
             android:layout_column="1"
             style="@style/BoardButton"
-            android:onClick="handleBoardClick"
             android:contentDescription="@string/button_description" />
 
         <Button
@@ -156,7 +154,6 @@
             android:layout_row="0"
             android:layout_column="2"
             style="@style/BoardButton"
-            android:onClick="handleBoardClick"
             android:contentDescription="@string/button_description" />
 
         <Button
@@ -165,7 +162,6 @@
             android:layout_row="1"
             android:layout_column="0"
             style="@style/BoardButton"
-            android:onClick="handleBoardClick"
             android:contentDescription="@string/button_description" />
 
         <Button
@@ -174,7 +170,6 @@
             android:layout_row="1"
             android:layout_column="1"
             style="@style/BoardButton"
-            android:onClick="handleBoardClick"
             android:contentDescription="@string/button_description" />
 
         <Button
@@ -183,7 +178,6 @@
             android:layout_row="1"
             android:layout_column="2"
             style="@style/BoardButton"
-            android:onClick="handleBoardClick"
             android:contentDescription="@string/button_description"/>
 
         <Button
@@ -192,7 +186,6 @@
             android:layout_row="2"
             android:layout_column="0"
             style="@style/BoardButton"
-            android:onClick="handleBoardClick"
             android:contentDescription="@string/button_description" />
 
         <Button
@@ -201,7 +194,6 @@
             android:layout_row="2"
             android:layout_column="1"
             style="@style/BoardButton"
-            android:onClick="handleBoardClick"
             android:contentDescription="@string/button_description" />
 
         <Button
@@ -210,7 +202,6 @@
             android:layout_row="2"
             android:layout_column="2"
             style="@style/BoardButton"
-            android:onClick="handleBoardClick"
             android:contentDescription="@string/button_description" />
 
     </GridLayout>
@@ -255,7 +246,8 @@
             android:src="@drawable/difficulty"
             android:gravity="center"
             android:onClick="difficultyClicked"
-            android:contentDescription="@string/image_description"/>
+            android:contentDescription="@string/image_description"
+            android:stateListAnimator="@animator/pulse_animation" />
 
         <TextView
             android:id="@+id/difficultyTooltipTV"
@@ -283,7 +275,8 @@
         android:layout_marginStart="64dp"
         android:src="@drawable/switch_icon"
         android:onClick="handleSwitchClick"
-        android:contentDescription="@string/image_description"/>
+        android:contentDescription="@string/image_description"
+        android:stateListAnimator="@animator/pulse_animation" />
 
     <!--Replay TextView-->
     <TextView
@@ -297,7 +290,8 @@
         android:textSize="50sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/default_font"
-        android:onClick="handleResetClick"/>
+        android:onClick="handleResetClick"
+        android:stateListAnimator="@animator/pulse_animation" />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/fireworksLAV"
@@ -373,7 +367,8 @@
             android:textColor="@color/black"
             android:textAppearance="@style/default_font"
             android:background="@drawable/keyboard_keys_background"
-            android:onClick="handleSymbolClick"/>
+            android:onClick="handleSymbolClick"
+            android:stateListAnimator="@animator/pulse_animation" />
 
         <TextView
             android:id="@+id/aiSymbolOTV"
@@ -390,7 +385,8 @@
             android:textColor="@color/black"
             android:textAppearance="@style/default_font"
             android:background="@drawable/keyboard_keys_background"
-            android:onClick="handleSymbolClick"/>
+            android:onClick="handleSymbolClick"
+            android:stateListAnimator="@animator/pulse_animation" />
 
     </RelativeLayout>
 

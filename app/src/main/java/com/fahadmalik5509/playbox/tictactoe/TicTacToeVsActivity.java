@@ -4,7 +4,6 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GREEN_COLOR
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.RED_COLOR;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_PLAYER_ONE_NAME_KEY;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_PLAYER_TWO_NAME_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
@@ -55,7 +54,6 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         loadColors(this);
         loadPreference(this);
         initialize();
-        animateViewsPulse();
     }
 
     //onClick Method
@@ -224,17 +222,5 @@ public class TicTacToeVsActivity extends AppCompatActivity {
         };
         vb.playerOneNameTV.setText(sharedPreferences.getString(TTT_PLAYER_ONE_NAME_KEY, "Player 1"));
         vb.playerTwoNameTV.setText(sharedPreferences.getString(TTT_PLAYER_TWO_NAME_KEY, "Player 2"));
-    }
-    private void animateViewsPulse() {
-        for (Button button : buttons) {
-            animateViewPulse(this, button, true);
-        }
-        View[] views = {
-                vb.homeIconIV, vb.settingIconIV, vb.replayTV,
-                vb.backIconIV, vb.profileIV, vb.profileSaveB, vb.profileExitB
-        };
-        for (View view : views) {
-            animateViewPulse(this, view, true);
-        }
     }
 }

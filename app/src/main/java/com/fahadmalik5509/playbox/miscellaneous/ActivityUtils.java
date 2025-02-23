@@ -4,7 +4,6 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,25 +16,16 @@ import android.media.SoundPool;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 import android.util.SparseIntArray;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
-
-import android.graphics.Color;
-import android.widget.TextView;
-
-
 
 import androidx.core.content.ContextCompat;
 
 import com.fahadmalik5509.playbox.R;
 
-import java.util.Random;
 
 public class ActivityUtils {
-
-    public static boolean firstLoad = true;
     public static final String PREFS_NAME = "MyAppSettings";
     public static final String SOUND_KEY = "soundEnabled";
     public static final String VIBRATION_KEY = "vibrationEnabled";
@@ -179,25 +169,6 @@ public class ActivityUtils {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    public static void animateViewPulse(Context context, View view, boolean changeAlpha) {
-        view.setOnTouchListener((v, event) -> {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    animateViewScale(view, 1f, 0.9f, 100);
-                    if(changeAlpha) view.setAlpha(0.8f);
-                    return false;
-
-                case MotionEvent.ACTION_UP:
-                    animateViewScale(view, 0.9f, 1f, 100);
-                    vibrate(context, 50);
-                    if(changeAlpha) view.setAlpha(1f);
-                    return false;
-            }
-            return false;
-        });
-    }
-
     public static void animateViewBounce(View view) {
 
         ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationY", -15f, 0f);
@@ -255,14 +226,6 @@ public class ActivityUtils {
         GREEN_COLOR = getColorByID(context, R.color.green);
     }
 
-    public static int getRandomNumber(int min, int max) {
-        if (min > max) {
-            throw new IllegalArgumentException("max must be greater than min");
-        }
-        Random random = new Random();
-        return random.nextInt((max - min) + 1) + min;
-    }
-
     public static void toggleVisibility(boolean visible, View... views) {
         for (View view : views) {
             if (visible) {
@@ -284,25 +247,4 @@ public class ActivityUtils {
         }
     }
 
-    public static void animateViewRGBColor(final View view, long duration) {
-        // Create a ValueAnimator that cycles through hues from 0 to 360.
-        ValueAnimator colorAnimator = ValueAnimator.ofFloat(0f, 360f);
-        colorAnimator.setDuration(duration); // e.g., 6000 ms for a slower transition
-        colorAnimator.setRepeatCount(ValueAnimator.INFINITE); // Repeat indefinitely
-        colorAnimator.setInterpolator(new LinearInterpolator());
-
-        // Update the view's color on every animation frame.
-        colorAnimator.addUpdateListener(animation -> {
-            float hue = (float) animation.getAnimatedValue();
-            int color = Color.HSVToColor(new float[]{hue, 1f, 1f});
-
-            // If the view is a TextView, update its text color; otherwise update its background.
-            if (view instanceof TextView) {
-                ((TextView) view).setTextColor(color);
-            } else {
-                view.setBackgroundColor(color);
-            }
-        });
-        colorAnimator.start();
-    }
 }

@@ -1,16 +1,6 @@
 package com.fahadmalik5509.playbox.miscellaneous;
 
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewRGBColor;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.firstLoad;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.fun_openURL;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.initializeSoundPool;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
 
 import android.content.Context;
 import android.content.Intent;
@@ -47,16 +37,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         vb = HomeLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
-        if(firstLoad) {
-            vb.loadingLAV.playAnimation();
-            toggleVisibility(true, vb.loadingLAV);
-            vb.loadingLAV.postDelayed(() -> {
-                vb.loadingLAV.cancelAnimation();
-                toggleVisibility(false, vb.loadingLAV);
-            }, 5500);
-            firstLoad = false;
-        }
-
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -69,7 +49,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
         loadColors(this);
         initializeSoundPool(this);
-        animateViewsPulse();
     }
 
     public void handleGamesButtonClick(View view) {
@@ -112,6 +91,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void handleGitHub(View view) {
+        playSound(this,R.raw.sound_ui);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/fahadmalik5509"));
         this.startActivity(intent);
     }
@@ -181,13 +161,5 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
     private String getCoinFlipResult() {
         return Math.random() < 0.5 ? "HEADS" : "TAILS";
-    }
-
-    private void animateViewsPulse() {
-        animateViewRGBColor(vb.creatorTV, 9000);
-        animateViewPulse(this, vb.gamesB, true);
-        animateViewPulse(this, vb.settingsB, true);
-        animateViewPulse(this, vb.yesExitB, true);
-        animateViewPulse(this, vb.noExitB, true);
     }
 }

@@ -1,18 +1,9 @@
 package com.fahadmalik5509.playbox.colorpuzzle;
 
 import static android.view.View.VISIBLE;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.PUZZLE_BEST_SCORE;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateBlink;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewJiggle;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.getRandomNumber;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
 
+import android.animation.AnimatorInflater;
 import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.graphics.Color;
@@ -52,7 +43,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     private static final byte CHANGE_IN_COLOR_DELTA = 5;
     private byte currentGridSize = INITIAL_GRID_SIZE,  currentColorDelta = INITIAL_COLOR_DELTA, numberOfLives = MAX_LIVES, successCount = 0, consecutiveWin = 0;
     private int currentScore = 0;
-    private boolean isGridChange = false, isHintUsed = false, isExplosionUsed = false;
+    private boolean isGridChange = false, isHintUsed = false, isExplosionUsed = false, gameLost = false;
     private Button targetButton;
 
     @Override
@@ -72,7 +63,6 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     }
 
     private void setupGame() {
-        animateViewPulse(this, vb.resetTV, true);
         vb.gridContainer.setLayoutTransition(new LayoutTransition());
         updateBestScoreDisplay();
         generateGrid(currentGridSize);
@@ -126,7 +116,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     private Button createGridButton(int size, int gapPx, boolean isTarget, int baseColor, int targetColor) {
         Button button = new Button(this);
         button.setBackgroundColor(isTarget ? targetColor : baseColor);
-        animateViewPulse(this, button, false);
+        button.setStateListAnimator(AnimatorInflater.loadStateListAnimator(this, R.animator.pulse_animation));
         GridLayout.LayoutParams params = new GridLayout.LayoutParams();
         params.width = size;
         params.height = size;
@@ -156,8 +146,10 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         if (currentScore > sharedPreferences.getInt(PUZZLE_BEST_SCORE, 0)) {
             saveToSharedPreferences(PUZZLE_BEST_SCORE, currentScore);
             updateBestScoreDisplay();
-            vb.crownLAV.playAnimation();
-            vb.crownLAV.setVisibility(VISIBLE);
+            if(!(vb.crownLAV.isAnimating())) {
+                vb.crownLAV.playAnimation();
+                vb.crownLAV.setVisibility(VISIBLE);
+            }
         }
 
         generateGrid(currentGridSize);
@@ -170,11 +162,11 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         if (numberOfLives > 0) numberOfLives--;
 
         if (numberOfLives == 0) {
+            gameLost = true;
             toggleVisibility(true, vb.shadowV, vb.gameOverLAV);
             vb.gameOverLAV.playAnimation();
             playSound(this, R.raw.sound_game_over);
 
-            // Zoom out the target button when the game is over
             if (targetButton != null) animateBlink(targetButton, 300, 3);
         }
 
@@ -379,12 +371,9 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     }
 
     private void blinkBorderAndHide(final View border) {
-        // Animate fade-out then fade-in, and repeat indefinitely.
-        border.animate().alpha(0f).setDuration(200).withEndAction(() -> {
-            border.animate().alpha(1f).setDuration(200).withEndAction(() -> {
-                blinkBorderAndHide(border); // recursion for indefinite blinking
-            }).start();
-        }).start();
+        border.animate().alpha(0f).setDuration(200).withEndAction(() -> border.animate().alpha(1f).setDuration(200).withEndAction(() -> {
+            blinkBorderAndHide(border);
+        }).start()).start();
     }
 
     public void handleExitButtons(View view) {
@@ -395,7 +384,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
 
     private void handleBackNavigation() {
         vibrate(this, 50);
-        if (currentScore > 0) {
+        if (currentScore > 0 && (!gameLost)) {
             toggleVisibility(vb.leaveRL.getVisibility() != View.VISIBLE, vb.leaveRL, vb.shadowV);
         } else {
             changeActivity(this, GamesActivity.class);
@@ -409,12 +398,17 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         numberOfLives = MAX_LIVES;
         currentGridSize = INITIAL_GRID_SIZE;
         currentColorDelta = INITIAL_COLOR_DELTA;
+        gameLost = false;
         toggleVisibility(false, vb.shadowV, vb.crownLAV, vb.gameOverLAV);
         resetHearts();
         updateScoreDisplay();
     }
     private int getBaseColor() {
-        return Color.rgb(getRandomNumber(0, 256), getRandomNumber(0, 256), getRandomNumber(0, 256));
+        return Color.rgb(
+                new Random().nextInt(256),
+                new Random().nextInt(256),
+                new Random().nextInt(256)
+        );
     }
     private int getTargetColor(int baseColor) {
         int adjust = new Random().nextBoolean() ? currentColorDelta : -currentColorDelta;

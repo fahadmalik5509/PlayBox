@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shopRL"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:background="@drawable/popup_background"
+    android:padding="10dp"
+    android:visibility="gone">
+
+    <LinearLayout
+        android:id="@+id/shopLL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ui_background">
+
+            <ImageView
+                android:id="@+id/ivBuyBomb"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/bomb"
+                android:contentDescription="@string/image_description" />
+
+            <TextView
+                android:id="@+id/shopBombCountTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:layout_alignBottom="@id/ivBuyBomb"
+                android:layout_alignEnd="@+id/ivBuyBomb"
+                android:layout_marginEnd="5dp"
+                android:paddingHorizontal="5dp"
+                android:background="@drawable/circle_background"
+                android:textAppearance="@style/default_font" />
+
+            <Button
+                android:id="@+id/shopBombBuyB"
+                android:tag="bomb"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:text="@string/buy40"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAppearance="@style/default_font"
+                android:background="@drawable/keyboard_keys_background"
+                android:onClick="handleShopButtons"
+                android:stateListAnimator="@animator/pulse_animation" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ui_background">
+
+            <ImageView
+                android:id="@+id/ivBuySkip"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/skip"
+                android:contentDescription="@string/image_description" />
+
+            <TextView
+                android:id="@+id/shopSkipCountTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:layout_alignBottom="@id/ivBuySkip"
+                android:layout_alignEnd="@+id/ivBuySkip"
+                android:paddingHorizontal="5dp"
+                android:background="@drawable/circle_background"
+                android:textAppearance="@style/default_font" />
+
+            <Button
+                android:id="@+id/shopSkipBuyB"
+                android:tag="skip"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:text="@string/buy200"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAppearance="@style/default_font"
+                android:background="@drawable/keyboard_keys_background"
+                android:onClick="handleShopButtons"
+                android:stateListAnimator="@animator/pulse_animation" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@drawable/ui_background">
+
+            <ImageView
+                android:id="@+id/ivBuyHint"
+                android:layout_width="40dp"
+                android:layout_height="45dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/hint"
+                android:contentDescription="@string/image_description" />
+
+            <TextView
+                android:id="@+id/shopHintCountTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="5dp"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:layout_alignBottom="@id/ivBuyHint"
+                android:layout_alignEnd="@+id/ivBuyHint"
+                android:paddingHorizontal="5dp"
+                android:background="@drawable/circle_background"
+                android:textAppearance="@style/default_font" />
+
+            <Button
+                android:id="@+id/shopHintBuyB"
+                android:tag="hint"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="15dp"
+                android:text="@string/buy100"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:textAppearance="@style/default_font"
+                android:background="@drawable/keyboard_keys_background"
+                android:onClick="handleShopButtons"
+                android:stateListAnimator="@animator/pulse_animation" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/shopCloseBuyB"
+        android:tag="close"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/shopLL"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/exit_no"
+        android:text="@string/close"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:textAppearance="@style/default_font"
+        android:onClick="handleShopButtons"
+        android:stateListAnimator="@animator/pulse_animation" />
+
+</RelativeLayout>

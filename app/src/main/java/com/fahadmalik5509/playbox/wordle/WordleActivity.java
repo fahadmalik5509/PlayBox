@@ -1,33 +1,7 @@
 package com.fahadmalik5509.playbox.wordle;
 
 import static android.view.View.VISIBLE;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.BEIGE_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GRAY_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GREEN_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.RED_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_BOMB_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_CURRENCY_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_EXPLOSION_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_HIGHEST_STREAK_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_HINT_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_SKIP_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.WORDLE_STREAK_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.YELLOW_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateText;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewBounce;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewJiggle;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewPulse;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.getRandomNumber;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadPreference;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSound;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -54,10 +28,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class WordleActivity extends AppCompatActivity {
 
@@ -94,7 +68,6 @@ public class WordleActivity extends AppCompatActivity {
         });
 
         initialize();
-        animateViewsPulse();
         loadGameData();
         updateUI();
     }
@@ -109,9 +82,9 @@ public class WordleActivity extends AppCompatActivity {
     private void updateUI() {
         updateStreak();
         updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
-        updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shopBombCountTV);
-        updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shopHintCountTV);
-        updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shopSkipCountTV);
+        updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shop.shopBombCountTV);
+        updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shop.shopHintCountTV);
+        updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shop.shopSkipCountTV);
     }
 
     // OnClick Method
@@ -318,7 +291,7 @@ public class WordleActivity extends AppCompatActivity {
         for (int i = 0; i < MAX_COLS; i++) animateViewJiggle(letterBox[currentRow][i], 150);
     }
     private void waveRow() {
-        final int duration = 150;
+        final int duration = 200;
         final int delayBetweenAnimations = 50;
 
         for (int i = 0; i < MAX_COLS; i++) {
@@ -326,16 +299,16 @@ public class WordleActivity extends AppCompatActivity {
             final int startDelay = i * delayBetweenAnimations;
 
             // Scale down animation
-            letterBox[currentRow][i].postDelayed(() -> animateViewScale(letterBox[currentRow][index], 1.0f, 0.7f, duration), startDelay);
+            letterBox[currentRow][i].postDelayed(() -> animateViewScale(letterBox[currentRow][index], 1.0f, 0.5f, duration), startDelay);
 
             // Scale up animation
-            letterBox[currentRow][i].postDelayed(() -> animateViewScale(letterBox[currentRow][index], 0.7f, 1.0f, duration), startDelay + duration + delayBetweenAnimations);
+            letterBox[currentRow][i].postDelayed(() -> animateViewScale(letterBox[currentRow][index], 0.5f, 1.0f, duration), startDelay + duration + delayBetweenAnimations);
         }
     }
 
     public void loadRandomTargetWord() {
 
-        targetWord = commonWords.get(getRandomNumber(0,commonWords.size() - 1));
+        targetWord = commonWords.get(new Random().nextInt(commonWords.size()));
     }
 
     private List<String> loadWordList(int resourceId) {
@@ -359,12 +332,12 @@ public class WordleActivity extends AppCompatActivity {
     // OnClick Method
     public void onCurrencyClick(View view) {
         playSound(this, R.raw.sound_register);
-        animateViewScale(vb.shopRL,0f,1.0f,200);
-        toggleVisibility(true, vb.shadowV, vb.shopRL);
+        animateViewScale(vb.shop.shopRL,0f,1.0f,200);
+        toggleVisibility(true, vb.shadowV, vb.shop.shopRL);
 
-        vb.shopBombCountTV.setText(String.valueOf(currentBombCount));
-        vb.shopHintCountTV.setText(String.valueOf(currentHintCount));
-        vb.shopSkipCountTV.setText(String.valueOf(currentSkipCount));
+        vb.shop.shopBombCountTV.setText(String.valueOf(currentBombCount));
+        vb.shop.shopHintCountTV.setText(String.valueOf(currentHintCount));
+        vb.shop.shopSkipCountTV.setText(String.valueOf(currentSkipCount));
     }
 
     // OnClick Method
@@ -432,7 +405,7 @@ public class WordleActivity extends AppCompatActivity {
         vb.blastLAV.playAnimation();
 
         currentBombCount--;
-        updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shopBombCountTV);
+        updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shop.shopBombCountTV);
     }
 
     // OnClick Method
@@ -444,7 +417,7 @@ public class WordleActivity extends AppCompatActivity {
 
         displayTargetWord();
         currentSkipCount--;
-        updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shopSkipCountTV);
+        updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shop.shopSkipCountTV);
 
         playSound(this, R.raw.sound_skip);
         vb.skipLAV.setMinFrame(10);
@@ -475,7 +448,7 @@ public class WordleActivity extends AppCompatActivity {
             return;
         }
 
-        int randomIndex = getRandomNumber(0, unrevealedPositions.size() - 1);
+        int randomIndex = new Random().nextInt(unrevealedPositions.size());
         int positionToReveal = unrevealedPositions.get(randomIndex);
 
         char correctLetter = targetWord.charAt(positionToReveal);
@@ -491,7 +464,7 @@ public class WordleActivity extends AppCompatActivity {
 
         hintUsed++;
         currentHintCount--;
-        updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shopHintCountTV);
+        updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shop.shopHintCountTV);
     }
 
     private void updateCount(String key, int count, TextView... views) {
@@ -515,46 +488,41 @@ public class WordleActivity extends AppCompatActivity {
 
     // OnClick Method
     public void handleShopButtons(View view) {
-
         String tag = (String) view.getTag();
         switch (tag) {
             case "bomb":
-                if (currentCurrencyCount >=40) {
-                    playSound(this, R.raw.sound_bought);
+                processPurchase(40, () -> {
                     currentBombCount++;
-                    currentCurrencyCount -= 40;
-                    updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shopBombCountTV);
-                    updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
-                }
-                else { playSound(this, R.raw.sound_error); }
+                    updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shop.shopBombCountTV);
+                });
                 break;
-
             case "hint":
-                if (currentCurrencyCount >= 100) {
-                    playSound(this, R.raw.sound_bought);
+                processPurchase(100, () -> {
                     currentHintCount++;
-                    currentCurrencyCount -= 100;
-                    updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shopHintCountTV);
-                    updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
-                }
-                else { playSound(this, R.raw.sound_error); }
+                    updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shop.shopHintCountTV);
+                });
                 break;
-
             case "skip":
-                if (currentCurrencyCount >= 200) {
-                    playSound(this, R.raw.sound_bought);
+                processPurchase(200, () -> {
                     currentSkipCount++;
-                    currentCurrencyCount -= 200;
-                    updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shopSkipCountTV);
-                    updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
-                }
-                else { playSound(this, R.raw.sound_error); }
+                    updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shop.shopSkipCountTV);
+                });
                 break;
-
             default:
                 playSound(this, R.raw.sound_ui);
-                toggleVisibility(false, vb.shadowV, vb.shopRL);
+                toggleVisibility(false, vb.shadowV, vb.shop.shopRL);
                 break;
+        }
+    }
+
+    private void processPurchase(int cost, Runnable updateAction) {
+        if (currentCurrencyCount >= cost) {
+            playSound(this, R.raw.sound_bought);
+            currentCurrencyCount -= cost;
+            updateAction.run();
+            updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
+        } else {
+            playSound(this, R.raw.sound_error);
         }
     }
 
@@ -594,18 +562,16 @@ public class WordleActivity extends AppCompatActivity {
             return;
         }
         if ((currentRow > 0) && (currentStreakCount != 0)) {
-            // Toggle leaveGameRL: show it if not visible, hide it if visible.
             toggleVisibility(vb.leaveGameRL.getVisibility() != View.VISIBLE, vb.shadowV, vb.leaveGameRL);
         } else {
             changeActivity(this, GamesActivity.class);
         }
     }
 
-
     public void handleBackNavigation() {
         vibrate(this, 50);
-        if (vb.shopRL.getVisibility() == VISIBLE) {
-            toggleVisibility(false, vb.shadowV, vb.shopRL);
+        if (vb.shop.shopRL.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.shadowV, vb.shop.shopRL);
             return;
         }
         if(gameWon) {
@@ -644,25 +610,6 @@ public class WordleActivity extends AppCompatActivity {
         currentBombCount = sharedPreferences.getInt(WORDLE_BOMB_KEY, 10);
         currentSkipCount = sharedPreferences.getInt(WORDLE_SKIP_KEY, 5);
         currentHintCount = sharedPreferences.getInt(WORDLE_HINT_KEY, 10);
-    }
-
-    private void animateViewsPulse() {
-        List<View> viewsToAnimate = Arrays.asList(
-                // Keyboard keys
-                vb.aTextView, vb.bTextView, vb.cTextView, vb.dTextView, vb.eTextView, vb.fTextView,
-                vb.gTextView, vb.hTextView, vb.iTextView, vb.jTextView, vb.kTextView, vb.lTextView,
-                vb.mTextView, vb.nTextView, vb.oTextView, vb.pTextView, vb.qTextView, vb.rTextView,
-                vb.sTextView, vb.tTextView, vb.uTextView, vb.vTextView, vb.wTextView, vb.xTextView,
-                vb.yTextView, vb.zTextView,
-                // Other views
-                vb.enterIV, vb.backspaceIV, vb.resetIV, vb.homeIconIV, vb.settingIconIV,
-                vb.backIconIV, vb.currentStreakTV, vb.bombRL, vb.skipRL, vb.hintRL, vb.currencyRL,
-                vb.popupLeaveB, vb.popupStayB, vb.shopBombBuyB, vb.shopHintBuyB, vb.shopSkipBuyB, vb.shopCloseBuyB
-        );
-
-        for (View v : viewsToAnimate) {
-            animateViewPulse(this, v, true);
-        }
     }
 
     private void cheat() {

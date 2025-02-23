@@ -291,7 +291,8 @@
         android:textSize="50sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/default_font"
-        android:onClick="handleResetClick"/>
+        android:onClick="handleResetClick"
+        android:stateListAnimator="@animator/pulse_animation" />
 
     <!-- Back ImageView -->
     <ImageView

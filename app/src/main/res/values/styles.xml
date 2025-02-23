@@ -35,6 +35,7 @@
         <item name="android:gravity">center</item>
         <item name="android:clickable">true</item>
         <item name="android:onClick">keyboardClicked</item>
+        <item name="android:stateListAnimator">@animator/pulse_animation</item>
     </style>
 
     <style name="letterBoxTextView">
@@ -56,6 +57,7 @@
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_marginStart">15dp</item>
+        <item name="android:stateListAnimator">@animator/pulse_animation</item>
     </style>
 
     <style name="HomeImageView">
@@ -64,6 +66,7 @@
         <item name="android:layout_height">30dp</item>
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:stateListAnimator">@animator/pulse_animation</item>
     </style>
 
     <style name="SettingImageView">
@@ -73,6 +76,7 @@
         <item name="android:layout_marginTop">15dp</item>
         <item name="android:layout_alignParentEnd">true</item>
         <item name="android:layout_marginEnd">15dp</item>
+        <item name="android:stateListAnimator">@animator/pulse_animation</item>
     </style>
 
     <style name="NavigationButton">
@@ -83,6 +87,7 @@
         <item name="android:textSize">25sp</item>
         <item name="android:textColor">@color/beige</item>
         <item name="android:textAppearance">@style/default_font</item>
+        <item name="android:stateListAnimator">@animator/pulse_animation</item>
     </style>
 
     <style name="BoardButton">
@@ -93,6 +98,8 @@
         <item name="android:textSize">50sp</item>
         <item name="android:textColor">@color/beige</item>
         <item name="android:textAppearance">@style/default_font</item>
+        <item name="android:onClick">handleBoardClick</item>
+        <item name="android:stateListAnimator">@animator/pulse_animation</item>
     </style>
 
     <style name="ShadowLayout">
