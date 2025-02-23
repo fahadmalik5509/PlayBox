@@ -23,7 +23,7 @@
         app:lottie_asyncUpdates="enabled"
         app:lottie_cacheComposition="true"
         app:lottie_rawRes="@raw/lottie_github"
-        android:onClick="handleGitHub"
+        android:onClick="handleGitHubClick"
         android:stateListAnimator="@animator/pulse_animation"/>
 
     <LinearLayout
@@ -39,13 +39,13 @@
             android:text="@string/games"
             android:letterSpacing="0.05"
             style="@style/NavigationButton"
-            android:onClick="handleGamesButtonClick" />
+            android:onClick="handleGamesClick" />
 
         <Button
             android:id="@+id/settingsB"
             android:text="@string/settings"
             style="@style/NavigationButton"
-            android:onClick="handleSettingsButtonClick" />
+            android:onClick="handleSettingsClick" />
 
     </LinearLayout>
 
@@ -60,7 +60,7 @@
         android:letterSpacing="0.1"
         android:textColor="@color/white"
         android:textAppearance="@style/funky_font"
-        android:onClick="handlePlayBox" />
+        android:onClick="handlePlayBoxClick" />
 
     <TextView
         android:id="@+id/creatorTV"

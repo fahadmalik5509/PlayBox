@@ -1,16 +1,6 @@
 package com.fahadmalik5509.playbox.miscellaneous;
 
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GREEN_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.RED_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.SOUND_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.VIBRATION_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadPreference;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
 
 import android.os.Bundle;
 import android.view.View;
@@ -25,7 +15,6 @@ import com.fahadmalik5509.playbox.databinding.SettingLayoutBinding;
 public class SettingActivity extends AppCompatActivity {
 
     SettingLayoutBinding vb;
-    private boolean isSoundEnabled, isVibrationEnabled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +28,6 @@ public class SettingActivity extends AppCompatActivity {
                 handleBackNavigation();
             }
         });
-
-        isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
-        isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
 
         loadColors(this);
         loadPreference(this);

@@ -250,7 +250,7 @@ public class WordleActivity extends AppCompatActivity {
             return;
         }
 
-        playSoundAndVibrate(this, R.raw.sound_backspace, true, 0);
+        playSoundAndVibrate(this, R.raw.sound_backspace, true, 50);
         currentColumn--;
         userGuess.deleteCharAt(currentColumn);
         letterBox[currentRow][currentColumn].setText("");

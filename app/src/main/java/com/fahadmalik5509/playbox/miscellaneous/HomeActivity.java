@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,17 +46,24 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         });
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        if (sensorManager != null) {
+            accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            if (accelerometer == null) Toast.makeText(this, "Accelerometer not Present!", Toast.LENGTH_SHORT).show();
+        }
+
 
         loadColors(this);
         initializeSoundPool(this);
+        loadPreference(this);
+        isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
+        isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
     }
 
-    public void handleGamesButtonClick(View view) {
+    public void handleGamesClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, GamesActivity.class);
     }
-    public void handleSettingsButtonClick(View view) {
+    public void handleSettingsClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", getClass().getSimpleName());
@@ -80,7 +88,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    public void handlePlayBox(View view) {
+    public void handlePlayBoxClick(View view) {
         fun_openURL++;
 
         if (fun_openURL >= 5) {
@@ -90,7 +98,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    public void handleGitHub(View view) {
+    public void handleGitHubClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/fahadmalik5509"));
         this.startActivity(intent);
@@ -101,14 +109,11 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
-
-
     @Override
     protected void onPause() {
         super.onPause();
         sensorManager.unregisterListener(this);
     }
-
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
@@ -120,18 +125,14 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
 
             if (acceleration > SHAKE_THRESHOLD && (currentTime - lastShakeTime > SHAKE_COOLDOWN_MS)) {
-                handleCoinFlip();
+                triggerCoinFlip();
                 lastShakeTime = currentTime;
             }
         }
     }
-
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Not used
-    }
-
-    private void handleCoinFlip() {
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+    private void triggerCoinFlip() {
         if (isCoinFlipping) return;
         isCoinFlipping = true;
 
@@ -140,7 +141,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         vb.lavCoinFlip.setVisibility(View.VISIBLE);
         vb.lavCoinFlip.playAnimation();
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        vb.lavCoinFlip.postDelayed(() -> {
                 vb.lavCoinFlip.setVisibility(View.GONE);
             playSoundAndVibrate(this, R.raw.sound_coin_reveal, true, 100);
 
@@ -150,7 +151,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             animateViewScale(vb.tvCoinFlip, 0f, 1.0f, 200);
             vb.lavCoinSplash.playAnimation();
 
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
+            vb.lavCoinSplash.postDelayed(() -> {
                 vb.lavCoinSplash.setVisibility(View.GONE);
                 vb.tvCoinFlip.setVisibility(View.GONE);
                 isCoinFlipping = false;

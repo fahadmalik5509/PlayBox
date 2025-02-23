@@ -26,6 +26,8 @@ import com.fahadmalik5509.playbox.R;
 
 
 public class ActivityUtils {
+
+    public static boolean isSoundEnabled, isVibrationEnabled;
     public static final String PREFS_NAME = "MyAppSettings";
     public static final String SOUND_KEY = "soundEnabled";
     public static final String VIBRATION_KEY = "vibrationEnabled";
@@ -98,8 +100,7 @@ public class ActivityUtils {
     public static void playSoundAndVibrate(Context context, int soundResId, boolean vibrate, int vibrationDuration) {
         if (context == null || soundPool == null) return;
 
-        loadPreference(context);
-        boolean isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
+        if(vibrate) vibrate(context, vibrationDuration);
 
         if (!isSoundEnabled) return;
 
@@ -107,7 +108,6 @@ public class ActivityUtils {
         if (soundID != -1) {
             soundPool.play(soundID, 1f, 1f, 1, 0, 1f);
         }
-        if(vibrate) vibrate(context, vibrationDuration);
     }
 
     public static void loadPreference(Context context) {
@@ -133,9 +133,6 @@ public class ActivityUtils {
     }
 
     public static void vibrate(Context context, long milliseconds) {
-
-        loadPreference(context);
-        boolean isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
 
         if (!isVibrationEnabled) return;
 

@@ -68,7 +68,7 @@
         app:lottie_speed="2"
         app:lottie_rawRes="@raw/lottie_skip" />
 
-    <!--Crown LAV-->
+    <!--Crown AnimationView-->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/crownLAV"
         android:layout_width="30dp"
