@@ -95,6 +95,7 @@ public class ActivityUtils {
         soundMap.put(R.raw.sound_heart_crack, soundPool.load(context, R.raw.sound_heart_crack, 1));
         soundMap.put(R.raw.sound_game_over, soundPool.load(context, R.raw.sound_game_over, 1));
         soundMap.put(R.raw.sound_new_level, soundPool.load(context, R.raw.sound_new_level, 1));
+        soundMap.put(R.raw.sound_reveal, soundPool.load(context, R.raw.sound_reveal, 1));
     }
 
     public static void playSoundAndVibrate(Context context, int soundResId, boolean vibrate, int vibrationDuration) {

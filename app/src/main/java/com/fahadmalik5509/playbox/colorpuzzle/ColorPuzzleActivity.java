@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -43,7 +44,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     private static final byte CHANGE_IN_COLOR_DELTA = 5;
     private byte currentGridSize = INITIAL_GRID_SIZE,  currentColorDelta = INITIAL_COLOR_DELTA, numberOfLives = MAX_LIVES, successCount = 0, consecutiveWin = 0;
     private int currentScore = 0;
-    private boolean isGridChange = false, isHintUsed = false, isExplosionUsed = false, gameLost = false;
+    private boolean isGridSizeChanged = false, isHintUsed = false, isExplosionUsed = false, gameLost = false;
     private Button targetButton;
 
     @Override
@@ -128,8 +129,8 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             } else {
                 handleLoss(button);
             }
-            playSoundAndVibrate(this, isTarget ? (isGridChange ? R.raw.sound_new_level : R.raw.sound_success) : R.raw.sound_heart_crack, false, 0);
-            isGridChange = false;
+            playSoundAndVibrate(this, isTarget ? (isGridSizeChanged ? R.raw.sound_new_level : R.raw.sound_success) : R.raw.sound_heart_crack, false, 0);
+            isGridSizeChanged = false;
         });
         return button;
     }
@@ -177,7 +178,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         if (successCount >= CHANGE_GRID_SIZE_AFTER) {
             if (currentGridSize < MAX_GRID_SIZE) {
                 currentGridSize++;
-                isGridChange = true;
+                isGridSizeChanged = true;
             }
             if (currentColorDelta > LOWEST_COLOR_DELTA) {
                 currentColorDelta -= CHANGE_IN_COLOR_DELTA;
@@ -297,7 +298,14 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             return;
         }
 
-        playSoundAndVibrate(this, R.raw.sound_hint, true, 50);
+        playSoundAndVibrate(this, R.raw.sound_reveal, true, 50);
+        vb.spotlightLAV.setVisibility(View.VISIBLE);
+        vb.spotlightLAV.setMinFrame(20);
+        vb.spotlightLAV.playAnimation();
+        animateViewScale(vb.spotlightLAV,0,1,200);
+        new Handler().postDelayed(() -> animateViewScale(vb.spotlightLAV, 1, 0, 200), 400);
+
+
         isHintUsed = true;
         if (targetButton == null) return;
 
@@ -358,13 +366,6 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             vb.gridContainer.addView(border);
         }
         // Reanimate the border (blink it) without recalculating position.
-        reanimateBorder(border);
-    }
-
-    private void reanimateBorder(final View border) {
-        border.animate().cancel();
-        border.setVisibility(VISIBLE);
-        border.setAlpha(1f); // start fully visible
         blinkBorderAndHide(border);
     }
 
