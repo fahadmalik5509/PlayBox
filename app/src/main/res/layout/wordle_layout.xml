@@ -784,11 +784,10 @@
             android:stateListAnimator="@animator/pulse_animation" />
 
 
-    </RelativeLayout>=
+    </RelativeLayout>
 
     <include
         android:id="@+id/shop"
         layout="@layout/shop_layout" />
-
 
 </RelativeLayout>
