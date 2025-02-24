@@ -52,6 +52,7 @@ public class ActivityUtils {
     public static int RED_COLOR;
     public static int YELLOW_COLOR;
     public static int GREEN_COLOR;
+    public static int BLUE_COLOR;
 
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
@@ -222,6 +223,7 @@ public class ActivityUtils {
         RED_COLOR = getColorByID(context, R.color.red);
         YELLOW_COLOR = getColorByID(context, R.color.yellow);
         GREEN_COLOR = getColorByID(context, R.color.green);
+        BLUE_COLOR = getColorByID(context, R.color.blue);
     }
 
     public static void toggleVisibility(boolean visible, View... views) {

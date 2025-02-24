@@ -1,5 +1,6 @@
 package com.fahadmalik5509.playbox.colorpuzzle;
 
+import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
 
@@ -60,6 +61,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             }
         });
 
+        loadColors(this);
         setupGame();
     }
 
@@ -239,7 +241,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         resetGameState();
         generateGrid(currentGridSize);
     }
-    public void handleEliminateClick(View view) {
+    public void handleStrikeClick(View view) {
 
         if(isExplosionUsed) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
@@ -249,8 +251,8 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         isExplosionUsed = true;
 
         playSoundAndVibrate(this, R.raw.sound_explosion, false, 0);
-        vb.explosionLAV.playAnimation();
-        vb.explosionLAV.setVisibility(VISIBLE);
+        vb.strikeLAV.playAnimation();
+        vb.strikeLAV.setVisibility(VISIBLE);
 
         if (vb.gridContainer.getChildCount() > 0) {
             GridLayout gridLayout = (GridLayout) vb.gridContainer.getChildAt(0);
@@ -284,14 +286,29 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             }
         }
     }
-    public void handleSkipClick(View view) {
+
+    public void handleJumpClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_skip, true, 50);
-        vb.skipLAV.setMinFrame(10);
-        vb.skipLAV.playAnimation();
-        generateGrid(currentGridSize);
+        vb.jumpLAV.setVisibility(VISIBLE);
+        vb.jumpLAV.playAnimation();
+        vb.jumpLAV.postDelayed(() -> vb.jumpLAV.setVisibility(GONE), 600);
+
+        // Slide the grid container to the right (out of view)
+        vb.gridContainer.animate()
+                .translationX(vb.gridContainer.getWidth())
+                .setDuration(200)
+                .withEndAction(() -> {
+                    generateGrid(currentGridSize);
+                    // Set the grid off-screen to the left
+                    vb.gridContainer.setTranslationX(-vb.gridContainer.getWidth());
+                    // Animate the grid container back into view from the left
+                    vb.gridContainer.animate()
+                            .translationX(0)
+                            .setDuration(200);
+                });
     }
 
-    public void handleHintClick(View view) {
+    public void handleSpotlightClick(View view) {
 
         if (isHintUsed) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
@@ -302,9 +319,8 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         vb.spotlightLAV.setVisibility(View.VISIBLE);
         vb.spotlightLAV.setMinFrame(20);
         vb.spotlightLAV.playAnimation();
-        animateViewScale(vb.spotlightLAV,0,1,200);
+        animateViewScale(vb.spotlightLAV, 0, 1, 200);
         new Handler().postDelayed(() -> animateViewScale(vb.spotlightLAV, 1, 0, 200), 400);
-
 
         isHintUsed = true;
         if (targetButton == null) return;
@@ -357,17 +373,32 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             GradientDrawable drawable = new GradientDrawable();
             drawable.setColor(Color.TRANSPARENT);
             int thickness = dpToPx(1 + currentGridSize / 4); // Adjust thickness as desired.
-            drawable.setStroke(thickness, Color.YELLOW);
+            drawable.setStroke(thickness, BLUE_COLOR);
             drawable.setCornerRadius(0);
             border.setBackground(drawable);
 
             // Tag the view so we can find it later.
             border.setTag("hint_border");
             vb.gridContainer.addView(border);
+
+            // Calculate the center coordinates of the hint boundary.
+            int centerX = relativeLeft + borderWidth / 2;
+            int centerY = relativeTop + borderHeight / 2;
+
+            // Reposition spotlightLAV so that its center aligns with the hint boundary's center.
+            vb.spotlightLAV.post(() -> {
+                int spotlightWidth = vb.spotlightLAV.getWidth();
+                int spotlightHeight = vb.spotlightLAV.getHeight();
+                float newX = centerX - spotlightWidth / 2f;
+                float newY = centerY - spotlightHeight / 2f;
+                vb.spotlightLAV.setX(newX);
+                vb.spotlightLAV.setY(newY);
+            });
         }
-        // Reanimate the border (blink it) without recalculating position.
+        // Reanimate the border (blink it) without recalculating its position.
         blinkBorderAndHide(border);
     }
+
 
     private void blinkBorderAndHide(final View border) {
         border.animate().alpha(0f).setDuration(200).withEndAction(() -> border.animate().alpha(1f).setDuration(200).withEndAction(() -> blinkBorderAndHide(border)).start()).start();

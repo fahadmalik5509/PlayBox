@@ -20,7 +20,7 @@
 
     </LinearLayout>
 
-    <!--Heart LL-->
+    <!-- Heart LL -->
     <LinearLayout
         android:id="@+id/heartLL"
         android:layout_width="wrap_content"
@@ -48,11 +48,11 @@
             />
     </LinearLayout>
 
-    <!-- Explosion AnimationView -->
+    <!-- Strike AnimationView -->
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/explosionLAV"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:id="@+id/strikeLAV"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_centerInParent="true"
         app:lottie_rawRes="@raw/lottie_strike"
         app:lottie_asyncUpdates="enabled"
@@ -60,26 +60,26 @@
         app:lottie_speed="2"
         android:visibility="gone" />
 
-    <!-- Skip AnimationView -->
+    <!-- Jump AnimationView -->
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/skipLAV"
-        android:layout_width="match_parent"
-        android:layout_height="340dp"
+        android:id="@+id/jumpLAV"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_centerInParent="true"
-        app:lottie_speed="2"
-        app:lottie_rawRes="@raw/lottie_skip" />
+        app:lottie_speed="1.5"
+        app:lottie_rawRes="@raw/lottie_jump1"
+        android:visibility="gone"/>
 
     <!-- Spotlight AnimationView -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/spotlightLAV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
         app:lottie_speed="2"
         app:lottie_rawRes="@raw/lottie_spotlight"
         android:visibility="gone"/>
 
-    <!--Crown AnimationView-->
+    <!-- Crown AnimationView -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/crownLAV"
         android:layout_width="30dp"
@@ -117,27 +117,28 @@
         android:textAppearance="@style/default_font"
         android:textColor="@color/beige"/>
 
-    <!-- Bomb RelativeLayout -->
+    <!-- Strike RelativeLayout -->
     <RelativeLayout
-        android:id="@+id/bombRL"
+        android:id="@+id/strikeRL"
         android:layout_width="82dp"
         android:layout_height="33dp"
         android:layout_above="@+id/resetTV"
         android:layout_centerInParent="true"
         android:layout_marginBottom="10dp"
-        android:onClick="handleEliminateClick">
+        android:onClick="handleStrikeClick"
+        android:stateListAnimator="@animator/pulse_animation" >
 
         <ImageView
             android:background="@drawable/ui_background"
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
-            android:padding="1dp"
-            android:src="@drawable/bomb"
+            android:padding="2dp"
+            android:src="@drawable/strike"
             android:contentDescription="@string/image_description" />
 
         <TextView
-            android:id="@+id/bombCountTV"
+            android:id="@+id/strikeCountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -150,27 +151,28 @@
 
     </RelativeLayout>
 
-    <!-- Hint RelativeLayout -->
+    <!-- Spotlight RelativeLayout -->
     <RelativeLayout
-        android:id="@+id/hintRL"
+        android:id="@+id/spotlightRL"
         android:layout_width="82dp"
         android:layout_height="33dp"
-        android:layout_toStartOf="@+id/bombRL"
-        android:layout_alignTop="@+id/bombRL"
+        android:layout_toStartOf="@+id/strikeRL"
+        android:layout_alignTop="@+id/strikeRL"
         android:layout_marginHorizontal="20dp"
-        android:onClick="handleHintClick">
+        android:onClick="handleSpotlightClick"
+        android:stateListAnimator="@animator/pulse_animation">
 
         <ImageView
             android:background="@drawable/ui_background"
             android:layout_width="80dp"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
-            android:padding="1dp"
+            android:padding="2dp"
             android:src="@drawable/spotlight"
             android:contentDescription="@string/image_description" />
 
         <TextView
-            android:id="@+id/hintCountTV"
+            android:id="@+id/spotlightCountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -183,15 +185,16 @@
 
     </RelativeLayout>
 
-    <!-- Skip RelativeLayout -->
+    <!-- Jump RelativeLayout -->
     <RelativeLayout
-        android:id="@+id/skipRL"
+        android:id="@+id/jumpRL"
         android:layout_width="82dp"
         android:layout_height="33dp"
-        android:layout_toEndOf="@+id/bombRL"
-        android:layout_alignTop="@+id/bombRL"
+        android:layout_toEndOf="@+id/strikeRL"
+        android:layout_alignTop="@+id/strikeRL"
         android:layout_marginHorizontal="20dp"
-        android:onClick="handleSkipClick">
+        android:onClick="handleJumpClick"
+        android:stateListAnimator="@animator/pulse_animation">
 
         <ImageView
             android:background="@drawable/ui_background"
@@ -202,7 +205,7 @@
             android:contentDescription="@string/image_description" />
 
         <TextView
-            android:id="@+id/skipCountTV"
+            android:id="@+id/jumpCountTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -215,12 +218,12 @@
 
     </RelativeLayout>
 
-    <!--Shadow View-->
+    <!-- Shadow  -->
     <View
         android:id="@+id/shadowV"
         style="@style/ShadowLayout"/>
 
-    <!-- MidGame Leave Warning RL-->
+    <!-- MidGame Leave Warning RL -->
     <RelativeLayout
         android:id="@+id/leaveRL"
         android:layout_width="wrap_content"
@@ -275,7 +278,7 @@
 
     </RelativeLayout>
 
-    <!--GameOver LAV-->
+    <!-- GameOver LAV -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/gameOverLAV"
         android:layout_width="wrap_content"
@@ -284,7 +287,7 @@
         app:lottie_speed="2"
         app:lottie_rawRes="@raw/lottie_game_over"/>
 
-    <!--Reset TextView-->
+    <!--Reset TextView -->
     <TextView
         android:id="@+id/resetTV"
         android:layout_width="wrap_content"
