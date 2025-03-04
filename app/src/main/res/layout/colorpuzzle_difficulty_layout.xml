@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/difficultyRL"
+    android:background="@drawable/popup_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="24dp"
+    android:padding="16dp"
+    android:visibility="gone">
+
+
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Difficulty"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:tag="0"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/delete"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:onClick="onDifficultySelected"
+            android:stateListAnimator="@animator/pulse_animation"/>
+
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="60dp"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <!-- EASY -->
+    <LinearLayout
+        android:id="@+id/easyLayout"
+        android:tag="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:layout_margin="10dp"
+        android:minHeight="100dp"
+        android:minWidth="300dp"
+        android:background="@drawable/background"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onDifficultySelected"
+        android:stateListAnimator="@animator/pulse_animation">
+
+        <TextView
+            android:id="@+id/easyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="EASY ⭐"
+            android:textSize="22sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1 target to match, slower color shifts."
+            android:gravity="center"
+            android:textSize="11sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <!-- MEDIUM -->
+    <LinearLayout
+        android:id="@+id/mediumLayout"
+        android:tag="2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:layout_margin="10dp"
+        android:minHeight="100dp"
+        android:minWidth="300dp"
+        android:background="@drawable/background"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onDifficultySelected"
+        android:stateListAnimator="@animator/pulse_animation">
+
+        <TextView
+            android:id="@+id/mediumText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Medium ⚔️"
+            android:textSize="22sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2 target to match, moderate color shifts"
+            android:gravity="center"
+            android:textSize="11sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <!-- HARD -->
+    <LinearLayout
+        android:id="@+id/hardLayout"
+        android:tag="3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:padding="12dp"
+        android:layout_margin="10dp"
+        android:minHeight="100dp"
+        android:minWidth="300dp"
+        android:background="@drawable/background"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="onDifficultySelected"
+        android:stateListAnimator="@animator/pulse_animation">
+
+        <TextView
+            android:id="@+id/hardText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Hard 🔥"
+            android:textSize="22sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3 target to match, fast changing colors!"
+            android:gravity="center"
+            android:textSize="11sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+</RelativeLayout>
+

@@ -49,10 +49,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
             if (accelerometer == null) Toast.makeText(this, "Accelerometer not Present!", Toast.LENGTH_SHORT).show();
         }
 
-
-        loadColors(this);
-        initializeSoundPool(this);
-        loadPreference(this);
         isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
         isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
     }

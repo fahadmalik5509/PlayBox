@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
@@ -31,7 +33,7 @@ public class ActivityUtils {
     public static final String PREFS_NAME = "MyAppSettings";
     public static final String SOUND_KEY = "soundEnabled";
     public static final String VIBRATION_KEY = "vibrationEnabled";
-    public static final String TTT_DIFFICULTY_KEY = "difficultyLevel";
+    public static final String TTT_DIFFICULTY_KEY = "TTT_currentDifficulty";
     public static final String TTT_PLAYER_ONE_NAME_KEY = "playerOneName";
     public static final String TTT_PLAYER_TWO_NAME_KEY = "playerTwoName";
     public static final String WORDLE_STREAK_KEY = "streakNumber";
@@ -41,7 +43,10 @@ public class ActivityUtils {
     public static final String WORDLE_BOMB_KEY = "bomb";
     public static final String WORDLE_SKIP_KEY = "skip";
     public static final String WORDLE_HINT_KEY = "hint";
-    public static final String PUZZLE_BEST_SCORE = "bestScore";
+    public static final String PUZZLE_EASY_SCORE_KEY = "puzzleEasyScore";
+    public static final String PUZZLE_MEDIUM_SCORE_KEY = "puzzleMediumScore";
+    public static final String PUZZLE_HARD_SCORE_KEY = "puzzleHardScore";
+    public static final String PUZZLE_DIFFICULTY_KEY = "puzzleDifficulty";
 
     public static int BACKGROUND_COLOR;
     public static int BLACK_COLOR;
@@ -53,6 +58,7 @@ public class ActivityUtils {
     public static int YELLOW_COLOR;
     public static int GREEN_COLOR;
     public static int BLUE_COLOR;
+    public static int CHARCOAL_COLOR;
 
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
@@ -224,6 +230,7 @@ public class ActivityUtils {
         YELLOW_COLOR = getColorByID(context, R.color.yellow);
         GREEN_COLOR = getColorByID(context, R.color.green);
         BLUE_COLOR = getColorByID(context, R.color.blue);
+        CHARCOAL_COLOR = getColorByID(context, R.color.charcoal);
     }
 
     public static void toggleVisibility(boolean visible, View... views) {
@@ -246,5 +253,13 @@ public class ActivityUtils {
             view.setBackgroundTintList(ColorStateList.valueOf(color));
         }
     }
+
+    public static int getBackgroundColor(View view) {
+        if (view.getBackground() != null) {
+            return ((ColorDrawable) view.getBackground()).getColor();
+        }
+        return Color.TRANSPARENT; // Default if no color is set
+    }
+
 
 }

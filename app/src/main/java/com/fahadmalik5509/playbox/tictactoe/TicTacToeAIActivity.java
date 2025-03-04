@@ -51,8 +51,6 @@ public class TicTacToeAIActivity extends AppCompatActivity {
 
         game = new TicTacToeLogic();
 
-        loadColors(this);
-        loadPreference(this);
         initialize();
         setupGameMode();
     }

@@ -35,7 +35,6 @@ public class GameModeActivity extends AppCompatActivity {
             }
         });
 
-        loadColors(this);
     }
 
     public void handlePvPClick(View view) {

@@ -25,28 +25,38 @@ import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.miscellaneous.SettingActivity;
 import com.fahadmalik5509.playbox.databinding.ColorpuzzleLayoutBinding;
+import com.airbnb.lottie.LottieAnimationView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class ColorPuzzleActivity extends AppCompatActivity {
 
-    private int targetIndex;
-    private View hintBorderView;
-    private ColorpuzzleLayoutBinding vb;
-    private static final byte INITIAL_GRID_SIZE = 3;
-    private static final byte MAX_GRID_SIZE = 9;
-    private static final byte CHANGE_GRID_SIZE_AFTER = 3;
+    private static final byte CHANGE_GRID_SIZE_AFTER = 5;
+    private static byte CHANGE_IN_COLOR_DELTA;
     private static final byte MAX_LIVES = 3;
-    private static final byte INITIAL_COLOR_DELTA = 30;
-    private static final byte LOWEST_COLOR_DELTA = 5;
-    private static final byte CHANGE_IN_COLOR_DELTA = 5;
-    private byte currentGridSize = INITIAL_GRID_SIZE,  currentColorDelta = INITIAL_COLOR_DELTA, numberOfLives = MAX_LIVES, successCount = 0, consecutiveWin = 0;
-    private int currentScore = 0;
+    private byte numberOfLives = MAX_LIVES;
+    private byte MAX_GRID_SIZE;
+    private byte LOWEST_COLOR_DELTA;
+    private byte currentGridSize;
+    private byte currentColorDelta;
+    private byte successCount;
+    private byte consecutiveWin;
+    private int currentScore;
     private boolean isGridSizeChanged = false, isHintUsed = false, isExplosionUsed = false, gameLost = false;
-    private Button targetButton;
+    private List<Integer> targetIndices;
+    private final List<Button> targetButtons = new ArrayList<>();
+    private byte difficultyLevel;
+
+    private int currentBaseColor;
+    private int currentGridDelta;
+    private String BEST_SCORE_KEY_BASED_ON_DIFFICULTY;
+
+    private ColorpuzzleLayoutBinding vb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,66 +64,94 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         vb = ColorpuzzleLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
+        // Handle back navigation.
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
-            public void handleOnBackPressed() {
-                handleBackNavigation();
-            }
+            public void handleOnBackPressed() { handleBackNavigation(); }
         });
 
-        loadColors(this);
         setupGame();
     }
 
     private void setupGame() {
+        difficultyLevel = (byte) sharedPreferences.getInt(PUZZLE_DIFFICULTY_KEY, 1);
         vb.gridContainer.setLayoutTransition(new LayoutTransition());
+        updateDifficultyColor();
         updateBestScoreDisplay();
-        generateGrid(currentGridSize);
     }
 
-    private void generateGrid(final int gridSize) {
-        if (hintBorderView != null) {
-            vb.gridContainer.removeView(hintBorderView);
-            hintBorderView = null;
-        }
-
-        isHintUsed = false;
-        isExplosionUsed = false;
+    private void generateGrid() {
+        removeHintBorder();
+        resetPowerUps();
+        targetButtons.clear();
 
         vb.gridContainer.removeAllViews();
         vb.gridContainer.post(() -> {
             int containerWidth = vb.gridContainer.getWidth();
             int paddingPx = dpToPx(8);
             int gapPx = dpToPx(1);
-            int totalMargins = gridSize * gapPx * 2;
-            int buttonSize = (containerWidth - (paddingPx * 2) - totalMargins) / gridSize;
+            int totalMargins = currentGridSize * gapPx * 2;
+            int buttonSize = (containerWidth - (paddingPx * 2) - totalMargins) / currentGridSize;
 
-            GridLayout gridLayout = new GridLayout(this);
-            gridLayout.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
-            gridLayout.setColumnCount(gridSize);
-            gridLayout.setRowCount(gridSize);
-            FrameLayout.LayoutParams gridParams = new FrameLayout.LayoutParams(
-                    FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-            gridParams.gravity = Gravity.CENTER;
-            gridLayout.setLayoutParams(gridParams);
+            GridLayout gridLayout = createGridLayout(currentGridSize, paddingPx);
+            currentBaseColor = getBaseColor(); // Store base color for the grid
+            // Determine adjust direction once per grid
+            int adjust = new Random().nextBoolean() ? currentColorDelta : -currentColorDelta;
+            currentGridDelta = adjust; // Store adjust for the current grid
+            int targetColor = Color.rgb(
+                    clampColorValue(Color.red(currentBaseColor) + adjust),
+                    clampColorValue(Color.green(currentBaseColor) + adjust),
+                    clampColorValue(Color.blue(currentBaseColor) + adjust)
+            );
+            int totalButtons = currentGridSize * currentGridSize;
 
-            int baseColor = getBaseColor();
-            int targetColor = getTargetColor(baseColor);
-            int totalButtons = gridSize * gridSize;
-
-            // Directly assign to the field 'targetIndex'
-            targetIndex = new Random().nextInt(totalButtons);
+            // Generate target indices based on difficulty.
+            int targetCount = difficultyLevel;
+            targetIndices = generateUniqueRandomIndices(totalButtons, targetCount);
 
             for (int i = 0; i < totalButtons; i++) {
-                boolean isTarget = (i == targetIndex);
-                Button button = createGridButton(buttonSize, gapPx, isTarget, baseColor, targetColor);
+                boolean isTarget = targetIndices.contains(i);
+                Button button = createGridButton(buttonSize, gapPx, isTarget, currentBaseColor, targetColor);
                 if (isTarget) {
-                    targetButton = button; // Store reference to the target button.
+                    targetButtons.add(button);
                 }
                 gridLayout.addView(button);
             }
             vb.gridContainer.addView(gridLayout);
         });
+    }
+
+    private List<Integer> generateUniqueRandomIndices(int total, int count) {
+        Set<Integer> indices = new HashSet<>();
+        Random random = new Random();
+        while (indices.size() < count && indices.size() < total) {
+            indices.add(random.nextInt(total));
+        }
+        return new ArrayList<>(indices);
+    }
+
+    private GridLayout createGridLayout(int gridSize, int paddingPx) {
+        GridLayout gridLayout = new GridLayout(this);
+        gridLayout.setPadding(paddingPx, paddingPx, paddingPx, paddingPx);
+        gridLayout.setColumnCount(gridSize);
+        gridLayout.setRowCount(gridSize);
+        FrameLayout.LayoutParams gridParams = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        gridParams.gravity = Gravity.CENTER;
+        gridLayout.setLayoutParams(gridParams);
+        return gridLayout;
+    }
+
+    private void removeHintBorder() {
+        View hintBorder = vb.gridContainer.findViewWithTag("hint_border");
+        if (hintBorder != null) {
+            vb.gridContainer.removeView(hintBorder);
+        }
+    }
+
+    private void resetPowerUps() {
+        isHintUsed = false;
+        isExplosionUsed = false;
     }
 
     private Button createGridButton(int size, int gapPx, boolean isTarget, int baseColor, int targetColor) {
@@ -125,15 +163,42 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         params.height = size;
         params.setMargins(gapPx, gapPx, gapPx, gapPx);
         button.setLayoutParams(params);
+
+        // Set click listener to handle win/loss.
         button.setOnClickListener(v -> {
             if (isTarget) {
-                handleWin();
+                if ("found".equals(button.getTag())) {
+                    return;
+                }
+                button.setTag("found");
+                // Set the tick emoji and adjust text size.
+                button.setText("\uD83C\uDFAF");
+                button.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 11);
+                // Disable extra font padding.
+                button.setIncludeFontPadding(false);
+                // Center the text.
+                button.setGravity(Gravity.CENTER);
+
+                // Check if all target buttons are found.
+                boolean allFound = true;
+                for (Button targetButton : targetButtons) {
+                    if (!"found".equals(targetButton.getTag())) {
+                        allFound = false;
+                        break;
+                    }
+                }
+                if (allFound) {
+                    handleWin();
+                }
             } else {
                 handleLoss(button);
             }
-            playSoundAndVibrate(this, isTarget ? (isGridSizeChanged ? R.raw.sound_new_level : R.raw.sound_success) : R.raw.sound_heart_crack, false, 0);
+            playSoundAndVibrate(this,
+                    isTarget ? (isGridSizeChanged ? R.raw.sound_new_level : R.raw.sound_success) : R.raw.sound_heart_crack,
+                    false, 0);
             isGridSizeChanged = false;
         });
+
         return button;
     }
 
@@ -142,37 +207,45 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         successCount++;
         handleLevelUp();
         handleLifeIncrement();
-
         currentScore++;
         updateScoreDisplay();
 
-        if (currentScore > sharedPreferences.getInt(PUZZLE_BEST_SCORE, 0)) {
-            saveToSharedPreferences(PUZZLE_BEST_SCORE, currentScore);
+        if (currentScore > sharedPreferences.getInt(BEST_SCORE_KEY_BASED_ON_DIFFICULTY, 0)) {
+            saveToSharedPreferences(BEST_SCORE_KEY_BASED_ON_DIFFICULTY, currentScore);
             updateBestScoreDisplay();
-            if(!(vb.crownLAV.isAnimating())) {
-                vb.crownLAV.playAnimation();
-                vb.crownLAV.setVisibility(VISIBLE);
-            }
+            playCrownAnimation(true);
+        }
+        generateGrid();
+    }
+
+    private void playCrownAnimation(boolean play) {
+        if (play) {
+            vb.crownLAV.playAnimation();
+            vb.crownLAV.setVisibility(VISIBLE);
+        }
+        else {
+            vb.crownLAV.cancelAnimation();
+            vb.crownLAV.setVisibility(GONE);
         }
 
-        generateGrid(currentGridSize);
     }
 
     private void handleLoss(Button button) {
         animateViewJiggle(button, 150);
         consecutiveWin = 0;
-
-        if (numberOfLives > 0) numberOfLives--;
-
+        if (numberOfLives > 0) {
+            numberOfLives--;
+        }
         if (numberOfLives == 0) {
             gameLost = true;
             toggleVisibility(true, vb.shadowV, vb.gameOverLAV);
             vb.gameOverLAV.playAnimation();
             playSoundAndVibrate(this, R.raw.sound_game_over, true, 100);
-
-            if (targetButton != null) animateBlink(targetButton, 300, 3);
+            // Animate all target buttons on game loss.
+            for (Button tButton : targetButtons) {
+                animateBlink(tButton, 300, 3);
+            }
         }
-
         playHeartAnimation();
     }
 
@@ -188,92 +261,76 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             successCount = 0;
         }
     }
+
     private void handleLifeIncrement() {
         if (consecutiveWin == 5) {
-            if (numberOfLives < 3) {
+            if (numberOfLives < MAX_LIVES) {
                 numberOfLives++;
             }
             consecutiveWin = 0;
             resetHearts();
         }
     }
+
     private void resetHearts() {
-        switch (numberOfLives) {
-            case 3:
-                vb.heartOneLAV.cancelAnimation();
-                vb.heartTwoLAV.cancelAnimation();
-                vb.heartThreeLAV.cancelAnimation();
-
-                vb.heartOneLAV.setFrame(0);
-                vb.heartTwoLAV.setFrame(0);
-                vb.heartThreeLAV.setFrame(0);
-                break;
-            case 2:
-                vb.heartOneLAV.cancelAnimation();
-                vb.heartTwoLAV.cancelAnimation();
-
-                vb.heartOneLAV.setFrame(0);
-                vb.heartTwoLAV.setFrame(0);
-                break;
-            case 1:
-                vb.heartTwoLAV.cancelAnimation();
-                vb.heartTwoLAV.setFrame(0);
-                break;
-        }
+        resetHeartAnimation(vb.heartOneLAV);
+        resetHeartAnimation(vb.heartTwoLAV);
+        resetHeartAnimation(vb.heartThreeLAV);
     }
+
+    private void resetHeartAnimation(LottieAnimationView heart) {
+        heart.cancelAnimation();
+        heart.setFrame(0);
+    }
+
     private void playHeartAnimation() {
-        switch (numberOfLives) {
-            case 2:
-                vb.heartThreeLAV.playAnimation();
-                break;
-            case 1:
-                vb.heartTwoLAV.playAnimation();
-                break;
-            default:
-                vb.heartOneLAV.playAnimation();
-                break;
+        if (numberOfLives == 2) {
+            vb.heartThreeLAV.playAnimation();
+        } else if (numberOfLives == 1) {
+            vb.heartTwoLAV.playAnimation();
+        } else {
+            vb.heartOneLAV.playAnimation();
         }
     }
-    private void updateScoreDisplay() { vb.currentScoreTV.setText(getString(R.string.score, currentScore)); }
-    private void updateBestScoreDisplay() { vb.bestScoreTV.setText(getString(R.string.best_score, sharedPreferences.getInt(PUZZLE_BEST_SCORE, 0))); }
+
+    private void updateScoreDisplay() {
+        vb.currentScoreTV.setText(getString(R.string.score, currentScore));
+    }
+
+    private void updateBestScoreDisplay() {
+        vb.bestScoreTV.setText(getString(R.string.best_score, sharedPreferences.getInt(BEST_SCORE_KEY_BASED_ON_DIFFICULTY, 0)));
+    }
+
     public void handleResetClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         resetGameState();
-        generateGrid(currentGridSize);
     }
-    public void handleStrikeClick(View view) {
 
-        if(isExplosionUsed) {
+    public void handleStrikeClick(View view) {
+        if (isExplosionUsed) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             return;
         }
-
         isExplosionUsed = true;
-
         playSoundAndVibrate(this, R.raw.sound_explosion, false, 0);
         vb.strikeLAV.playAnimation();
         vb.strikeLAV.setVisibility(VISIBLE);
+        eliminateNonTargetButtons();
+    }
 
+    private void eliminateNonTargetButtons() {
         if (vb.gridContainer.getChildCount() > 0) {
             GridLayout gridLayout = (GridLayout) vb.gridContainer.getChildAt(0);
-            int childCount = gridLayout.getChildCount();
-
-            // Collect all visible non-target buttons
             List<View> nonTargetButtons = new ArrayList<>();
-            for (int i = 0; i < childCount; i++) {
+            for (int i = 0; i < gridLayout.getChildCount(); i++) {
                 View child = gridLayout.getChildAt(i);
-                if (child instanceof Button && child != targetButton && child.getVisibility() == View.VISIBLE) {
+                // Exclude any button that is in the targetButtons list.
+                if (child instanceof Button && !targetButtons.contains(child) && child.getVisibility() == View.VISIBLE) {
                     nonTargetButtons.add(child);
                 }
             }
-
-            // Determine how many buttons to eliminate (hide half)
             int numToEliminate = nonTargetButtons.size() / 2;
-
-            // Randomize the selection
             Collections.shuffle(nonTargetButtons);
-
-            // Fade out and then hide the buttons
             for (int i = 0; i < numToEliminate; i++) {
                 View button = nonTargetButtons.get(i);
                 button.animate()
@@ -293,15 +350,12 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         vb.jumpLAV.playAnimation();
         vb.jumpLAV.postDelayed(() -> vb.jumpLAV.setVisibility(GONE), 600);
 
-        // Slide the grid container to the right (out of view)
         vb.gridContainer.animate()
                 .translationX(vb.gridContainer.getWidth())
                 .setDuration(200)
                 .withEndAction(() -> {
-                    generateGrid(currentGridSize);
-                    // Set the grid off-screen to the left
+                    generateGrid();
                     vb.gridContainer.setTranslationX(-vb.gridContainer.getWidth());
-                    // Animate the grid container back into view from the left
                     vb.gridContainer.animate()
                             .translationX(0)
                             .setDuration(200);
@@ -309,12 +363,10 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     }
 
     public void handleSpotlightClick(View view) {
-
         if (isHintUsed) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             return;
         }
-
         playSoundAndVibrate(this, R.raw.sound_reveal, true, 50);
         vb.spotlightLAV.setVisibility(View.VISIBLE);
         vb.spotlightLAV.setMinFrame(20);
@@ -323,96 +375,208 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> animateViewScale(vb.spotlightLAV, 1, 0, 200), 400);
 
         isHintUsed = true;
-        if (targetButton == null) return;
-
-        // Try to find an existing hint border by its tag.
+        if (targetButtons.isEmpty()) return;
         View border = vb.gridContainer.findViewWithTag("hint_border");
         if (border == null) {
-            // Calculate the block dimension (60% of grid, at least 3 cells)
-            int blockDimension = Math.max(3, (int) Math.ceil(currentGridSize * 0.6));
-            blockDimension = Math.min(blockDimension, currentGridSize);
-            int targetRow = targetIndex / currentGridSize;
-            int targetCol = targetIndex % currentGridSize;
-            int minRow = Math.max(0, targetRow - blockDimension + 1);
-            int maxRow = Math.min(targetRow, currentGridSize - blockDimension);
-            int blockStartRow = (minRow == maxRow) ? minRow : minRow + new Random().nextInt(maxRow - minRow + 1);
-            int minCol = Math.max(0, targetCol - blockDimension + 1);
-            int maxCol = Math.min(targetCol, currentGridSize - blockDimension);
-            int blockStartCol = (minCol == maxCol) ? minCol : minCol + new Random().nextInt(maxCol - minCol + 1);
-
-            // Retrieve the GridLayout (first child of gridContainer)
-            GridLayout grid = (GridLayout) vb.gridContainer.getChildAt(0);
-            int topLeftIndex = blockStartRow * currentGridSize + blockStartCol;
-            int bottomRightIndex = (blockStartRow + blockDimension - 1) * currentGridSize + (blockStartCol + blockDimension - 1);
-            View topLeft = grid.getChildAt(topLeftIndex);
-            View bottomRight = grid.getChildAt(bottomRightIndex);
-
-            int[] gridLoc = new int[2];
-            vb.gridContainer.getLocationOnScreen(gridLoc);
-            int[] topLeftLoc = new int[2];
-            topLeft.getLocationOnScreen(topLeftLoc);
-            int[] bottomRightLoc = new int[2];
-            bottomRight.getLocationOnScreen(bottomRightLoc);
-
-            int relativeLeft = topLeftLoc[0] - gridLoc[0];
-            int relativeTop = topLeftLoc[1] - gridLoc[1];
-            int relativeRight = bottomRightLoc[0] - gridLoc[0] + bottomRight.getWidth();
-            int relativeBottom = bottomRightLoc[1] - gridLoc[1] + bottomRight.getHeight();
-
-            int borderWidth = relativeRight - relativeLeft;
-            int borderHeight = relativeBottom - relativeTop;
-
-            // Create the border view.
-            border = new View(this);
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(borderWidth, borderHeight);
-            params.leftMargin = relativeLeft;
-            params.topMargin = relativeTop;
-            border.setLayoutParams(params);
-
-            // Create a border drawable with a thin stroke.
-            GradientDrawable drawable = new GradientDrawable();
-            drawable.setColor(Color.TRANSPARENT);
-            int thickness = dpToPx(1 + currentGridSize / 4); // Adjust thickness as desired.
-            drawable.setStroke(thickness, BLUE_COLOR);
-            drawable.setCornerRadius(0);
-            border.setBackground(drawable);
-
-            // Tag the view so we can find it later.
-            border.setTag("hint_border");
-            vb.gridContainer.addView(border);
-
-            // Calculate the center coordinates of the hint boundary.
-            int centerX = relativeLeft + borderWidth / 2;
-            int centerY = relativeTop + borderHeight / 2;
-
-            // Reposition spotlightLAV so that its center aligns with the hint boundary's center.
-            vb.spotlightLAV.post(() -> {
-                int spotlightWidth = vb.spotlightLAV.getWidth();
-                int spotlightHeight = vb.spotlightLAV.getHeight();
-                float newX = centerX - spotlightWidth / 2f;
-                float newY = centerY - spotlightHeight / 2f;
-                vb.spotlightLAV.setX(newX);
-                vb.spotlightLAV.setY(newY);
-            });
+            border = createHintBorder();
         }
-        // Reanimate the border (blink it) without recalculating its position.
+        assert border != null;
         blinkBorderAndHide(border);
     }
+    public void handleContrastClick(View view) {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        vb.contrastLAV.setVisibility(VISIBLE);
+        vb.contrastLAV.playAnimation();
 
+        vb.contrastLAV.postDelayed(() -> {
+            vb.contrastLAV.cancelAnimation();
+            vb.contrastLAV.setVisibility(View.GONE);
+        }, 300);
+
+        // Increase delta by 1 in the original direction (positive/negative)
+        int newDelta = currentGridDelta + (currentGridDelta > 0 ? 1 : -1);
+
+        // Calculate new target color with updated delta
+        int newTargetColor = Color.rgb(
+                clampColorValue(Color.red(currentBaseColor) + newDelta),
+                clampColorValue(Color.green(currentBaseColor) + newDelta),
+                clampColorValue(Color.blue(currentBaseColor) + newDelta)
+        );
+
+        // Update all visible target buttons that haven't been found
+        for (Button targetButton : targetButtons) {
+            if (targetButton.getVisibility() == View.VISIBLE && !"found".equals(targetButton.getTag())) {
+                targetButton.setBackgroundColor(newTargetColor);
+            }
+        }
+
+        // Update currentGridDelta to reflect the new delta for subsequent clicks
+        currentGridDelta = newDelta;
+    }
+
+    private View createHintBorder() {
+        // Calculate a block boundary that includes (at least) one target.
+        int blockDimension = Math.max(3, (int) Math.ceil(currentGridSize * 0.6));
+        blockDimension = Math.min(blockDimension, currentGridSize);
+
+        // Select an anchor target button that hasn't been found.
+        Button anchor = null;
+        for (Button btn : targetButtons) {
+            if (!"found".equals(btn.getTag())) {
+                anchor = btn;
+                break;
+            }
+        }
+
+        // If all target buttons are already found, don't show the hint.
+        if (anchor == null) {
+            return null;
+        }
+
+        // Get the grid layout from the container.
+        GridLayout grid = (GridLayout) vb.gridContainer.getChildAt(0);
+        // Use the grid layout to get the index of the anchor button.
+        int targetIndex = grid.indexOfChild(anchor);
+
+        int targetRow = targetIndex / currentGridSize;
+        int targetCol = targetIndex % currentGridSize;
+        int minRow = Math.max(0, targetRow - blockDimension + 1);
+        int maxRow = Math.min(targetRow, currentGridSize - blockDimension);
+        int blockStartRow = (minRow == maxRow) ? minRow : minRow + new Random().nextInt(maxRow - minRow + 1);
+        int minCol = Math.max(0, targetCol - blockDimension + 1);
+        int maxCol = Math.min(targetCol, currentGridSize - blockDimension);
+        int blockStartCol = (minCol == maxCol) ? minCol : minCol + new Random().nextInt(maxCol - minCol + 1);
+
+        int topLeftIndex = blockStartRow * currentGridSize + blockStartCol;
+        int bottomRightIndex = (blockStartRow + blockDimension - 1) * currentGridSize + (blockStartCol + blockDimension - 1);
+        View topLeft = grid.getChildAt(topLeftIndex);
+        View bottomRight = grid.getChildAt(bottomRightIndex);
+
+        int[] gridLoc = new int[2];
+        vb.gridContainer.getLocationOnScreen(gridLoc);
+        int[] topLeftLoc = new int[2];
+        topLeft.getLocationOnScreen(topLeftLoc);
+        int[] bottomRightLoc = new int[2];
+        bottomRight.getLocationOnScreen(bottomRightLoc);
+
+        int relativeLeft = topLeftLoc[0] - gridLoc[0];
+        int relativeTop = topLeftLoc[1] - gridLoc[1];
+        int relativeRight = bottomRightLoc[0] - gridLoc[0] + bottomRight.getWidth();
+        int relativeBottom = bottomRightLoc[1] - gridLoc[1] + bottomRight.getHeight();
+        int borderWidth = relativeRight - relativeLeft;
+        int borderHeight = relativeBottom - relativeTop;
+
+        View border = new View(this);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(borderWidth, borderHeight);
+        params.leftMargin = relativeLeft;
+        params.topMargin = relativeTop;
+        border.setLayoutParams(params);
+
+        GradientDrawable drawable = new GradientDrawable();
+        drawable.setColor(Color.TRANSPARENT);
+        int thickness = dpToPx(1 + currentGridSize / 4);
+        drawable.setStroke(thickness, BLUE_COLOR);
+        border.setBackground(drawable);
+        border.setTag("hint_border");
+        vb.gridContainer.addView(border);
+
+        positionSpotlight(borderWidth, borderHeight, relativeLeft, relativeTop);
+        return border;
+    }
+
+    private void positionSpotlight(int borderWidth, int borderHeight, int relativeLeft, int relativeTop) {
+        int centerX = relativeLeft + borderWidth / 2;
+        int centerY = relativeTop + borderHeight / 2;
+        vb.spotlightLAV.post(() -> {
+            int spotlightWidth = vb.spotlightLAV.getWidth();
+            int spotlightHeight = vb.spotlightLAV.getHeight();
+            vb.spotlightLAV.setX(centerX - spotlightWidth / 2f);
+            vb.spotlightLAV.setY(centerY - spotlightHeight / 2f);
+        });
+    }
 
     private void blinkBorderAndHide(final View border) {
-        border.animate().alpha(0f).setDuration(200).withEndAction(() -> border.animate().alpha(1f).setDuration(200).withEndAction(() -> blinkBorderAndHide(border)).start()).start();
+        border.animate().alpha(0f).setDuration(200)
+                .withEndAction(() -> border.animate().alpha(1f).setDuration(200)
+                        .withEndAction(() -> blinkBorderAndHide(border)).start()).start();
+    }
+
+    public void handleDifficultyButton(View view) {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        animateViewScale(vb.DifficultyMenu.difficultyRL, 0f, 1f, 200);
+        toggleVisibility(true, vb.DifficultyMenu.difficultyRL, vb.shadowV);
+    }
+
+    public void onDifficultySelected(View view) {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        byte temp = difficultyLevel;
+        difficultyLevel = Byte.parseByte(view.getTag().toString());
+        if (difficultyLevel == 0) {
+            toggleVisibility(false, vb.DifficultyMenu.difficultyRL, vb.shadowV);
+            difficultyLevel = temp;
+            return;
+        }
+        updateDifficultyColor();
+    }
+
+    private void updateDifficultyColor() {
+        int easyColor = CHARCOAL_COLOR, mediumColor = CHARCOAL_COLOR, hardColor = CHARCOAL_COLOR;
+        switch (difficultyLevel) {
+            case 1:
+                BEST_SCORE_KEY_BASED_ON_DIFFICULTY = PUZZLE_EASY_SCORE_KEY;
+                easyColor = GREEN_COLOR;
+                animateViewScale(vb.DifficultyMenu.easyLayout, 1f, 1.05f, 200);
+                resetGameForDifficulty((byte) 3, (byte) 5, (byte) 30, (byte) 10, (byte) 4);
+                break;
+            case 2:
+                BEST_SCORE_KEY_BASED_ON_DIFFICULTY = PUZZLE_MEDIUM_SCORE_KEY;
+                mediumColor = YELLOW_COLOR;
+                animateViewScale(vb.DifficultyMenu.mediumLayout, 1f, 1.05f, 200);
+                resetGameForDifficulty((byte) 5, (byte) 7, (byte) 20, (byte) 8, (byte) 4);
+                break;
+            case 3:
+            default:
+                BEST_SCORE_KEY_BASED_ON_DIFFICULTY = PUZZLE_HARD_SCORE_KEY;
+                hardColor = RED_COLOR;
+                animateViewScale(vb.DifficultyMenu.hardLayout, 1f, 1.05f, 200);
+                resetGameForDifficulty((byte) 7, (byte) 9, (byte) 5, (byte) 5, (byte) 0);
+                break;
+        }
+        // Update difficulty button backgrounds:
+        changeBackgroundColor(vb.DifficultyMenu.easyLayout, easyColor);
+        changeBackgroundColor(vb.DifficultyMenu.mediumLayout, mediumColor);
+        changeBackgroundColor(vb.DifficultyMenu.hardLayout, hardColor);
+        // Save the difficulty setting:
+        saveToSharedPreferences(PUZZLE_DIFFICULTY_KEY, (int) difficultyLevel);
+    }
+
+    private void resetGameForDifficulty(byte initialGrid, byte maxGrid, byte initialDelta, byte lowestDelta, byte changeDelta) {
+        currentScore = 0;
+        consecutiveWin = 0;
+        successCount = 0;
+        MAX_GRID_SIZE = maxGrid;
+        LOWEST_COLOR_DELTA = lowestDelta;
+        CHANGE_IN_COLOR_DELTA = changeDelta;
+        currentGridSize = initialGrid;
+        currentColorDelta = initialDelta;
+        updateScoreDisplay();
+        updateBestScoreDisplay();
+        playCrownAnimation(false);
+        generateGrid();
     }
 
     public void handleExitButtons(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        if(view.getTag().equals("no")) toggleVisibility(false, vb.leaveRL, vb.shadowV);
-        else changeActivity(this, GamesActivity.class);
+        if ("no".equals(view.getTag())) {
+            toggleVisibility(false, vb.leaveRL, vb.shadowV);
+        } else {
+            changeActivity(this, GamesActivity.class);
+        }
     }
 
     private void handleBackNavigation() {
         vibrate(this, 50);
-        if (currentScore > 0 && (!gameLost)) {
+        if (currentScore > 0 && !gameLost) {
             toggleVisibility(vb.leaveRL.getVisibility() != View.VISIBLE, vb.leaveRL, vb.shadowV);
         } else {
             changeActivity(this, GamesActivity.class);
@@ -420,33 +584,21 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     }
 
     private void resetGameState() {
-        currentScore = 0;
-        consecutiveWin = 0;
-        successCount = 0;
         numberOfLives = MAX_LIVES;
-        currentGridSize = INITIAL_GRID_SIZE;
-        currentColorDelta = INITIAL_COLOR_DELTA;
         gameLost = false;
         toggleVisibility(false, vb.shadowV, vb.crownLAV, vb.gameOverLAV);
+        updateDifficultyColor();
         resetHearts();
-        updateScoreDisplay();
     }
+
     private int getBaseColor() {
-        return Color.rgb(
-                new Random().nextInt(256),
-                new Random().nextInt(256),
-                new Random().nextInt(256)
-        );
+        return Color.rgb(new Random().nextInt(256), new Random().nextInt(256), new Random().nextInt(256));
     }
-    private int getTargetColor(int baseColor) {
-        int adjust = new Random().nextBoolean() ? currentColorDelta : -currentColorDelta;
-        return Color.rgb(
-                clampColorValue(Color.red(baseColor) + adjust),
-                clampColorValue(Color.green(baseColor) + adjust),
-                clampColorValue(Color.blue(baseColor) + adjust)
-        );
+
+    private int clampColorValue(int value) {
+        return Math.min(255, Math.max(0, value));
     }
-    private int clampColorValue(int value) { return Math.min(255, Math.max(0, value)); }
+
     private int dpToPx(int dp) {
         return Math.round(dp * getResources().getDisplayMetrics().density);
     }
@@ -457,13 +609,18 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         intent.putExtra("origin_activity", getClass().getSimpleName());
         startActivity(intent);
     }
+
     public void goToHome(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, HomeActivity.class);
     }
+
     public void goBack(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        if(currentScore > 0) toggleVisibility(true, vb.leaveRL, vb.shadowV);
-        else changeActivity(this, GamesActivity.class);
+        if (currentScore > 0) {
+            toggleVisibility(true, vb.leaveRL, vb.shadowV);
+        } else {
+            changeActivity(this, GamesActivity.class);
+        }
     }
 }

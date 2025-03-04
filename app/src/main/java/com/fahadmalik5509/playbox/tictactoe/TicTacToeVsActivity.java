@@ -51,8 +51,6 @@ public class TicTacToeVsActivity extends AppCompatActivity {
 
         game = new TicTacToeLogic();
 
-        loadColors(this);
-        loadPreference(this);
         initialize();
     }
 

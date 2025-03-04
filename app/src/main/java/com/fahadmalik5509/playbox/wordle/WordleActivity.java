@@ -73,8 +73,6 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     private void loadGameData() {
-        loadColors(this);
-        loadPreference(this);
         dictionary = loadWordList(R.raw.dictionary);
         commonWords = loadWordList(R.raw.commonwords);
         loadRandomTargetWord();

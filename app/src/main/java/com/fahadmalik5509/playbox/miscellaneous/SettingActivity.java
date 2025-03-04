@@ -29,8 +29,6 @@ public class SettingActivity extends AppCompatActivity {
             }
         });
 
-        loadColors(this);
-        loadPreference(this);
         updateButtonStates();
     }
 
