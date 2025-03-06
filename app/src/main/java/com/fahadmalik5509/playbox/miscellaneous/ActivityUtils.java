@@ -103,6 +103,7 @@ public class ActivityUtils {
         soundMap.put(R.raw.sound_game_over, soundPool.load(context, R.raw.sound_game_over, 1));
         soundMap.put(R.raw.sound_new_level, soundPool.load(context, R.raw.sound_new_level, 1));
         soundMap.put(R.raw.sound_reveal, soundPool.load(context, R.raw.sound_reveal, 1));
+        soundMap.put(R.raw.sound_contrast, soundPool.load(context, R.raw.sound_contrast, 1));
     }
 
     public static void playSoundAndVibrate(Context context, int soundResId, boolean vibrate, int vibrationDuration) {
@@ -206,11 +207,12 @@ public class ActivityUtils {
         view.animate().rotation(endAngle).setDuration(duration).setListener(null);
     }
 
-    public static void changeActivity(Activity fromActivity, Class < ? > toActivity) {
-
+    public static void changeActivity(Activity fromActivity, Class<?> toActivity) {
+        if (toActivity == null) {
+            return;
+        }
         Intent intent = new Intent(fromActivity, toActivity);
         fromActivity.startActivity(intent);
-
         fromActivity.finish();
     }
 

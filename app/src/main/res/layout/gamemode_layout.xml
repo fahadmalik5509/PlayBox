@@ -27,26 +27,26 @@
 
     </LinearLayout>
 
-    <!-- Back ImageView -->
-    <ImageView
-        android:id="@+id/backIconIV"
-        style="@style/BackImageView"
-        android:onClick="goBack"
-        android:contentDescription="@string/image_description" />
+<!--    &lt;!&ndash; Back ImageView &ndash;&gt;-->
+<!--    <ImageView-->
+<!--        android:id="@+id/backIconIV"-->
+<!--        style="@style/BackImageView"-->
+<!--        android:onClick="goBack"-->
+<!--        android:contentDescription="@string/image_description" />-->
 
-    <!-- Home ImageView -->
-    <ImageView
-        android:id="@+id/homeIconIV"
-        style="@style/HomeImageView"
-        android:onClick="goToHome"
-        android:contentDescription="@string/image_description" />
+<!--    &lt;!&ndash; Home ImageView &ndash;&gt;-->
+<!--    <ImageView-->
+<!--        android:id="@+id/homeIconIV"-->
+<!--        style="@style/HomeImageView"-->
+<!--        android:onClick="goToHome"-->
+<!--        android:contentDescription="@string/image_description" />-->
 
-    <!-- Setting ImageView -->
-    <ImageView
-        android:id="@+id/settingIconIV"
-        style="@style/SettingImageView"
-        android:onClick="goToSetting"
-        android:contentDescription="@string/image_description" />
+<!--    &lt;!&ndash; Setting ImageView &ndash;&gt;-->
+<!--    <ImageView-->
+<!--        android:id="@+id/settingIconIV"-->
+<!--        style="@style/SettingImageView"-->
+<!--        android:onClick="goToSetting"-->
+<!--        android:contentDescription="@string/image_description" />-->
 
     <TextView
         android:layout_width="wrap_content"
@@ -57,5 +57,7 @@
         android:textSize="30sp"
         android:textColor="@color/beige"
         android:textAppearance="@style/default_font"/>
+
+    <include layout="@layout/navigation_layout" />
 
 </RelativeLayout>

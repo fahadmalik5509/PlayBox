@@ -4,12 +4,10 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActiv
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.colorpuzzle.ColorPuzzleActivity;
@@ -18,7 +16,7 @@ import com.fahadmalik5509.playbox.tictactoe.GameModeActivity;
 import com.fahadmalik5509.playbox.wordle.WordleActivity;
 
 
-public class GamesActivity extends AppCompatActivity {
+public class GamesActivity extends BaseActivity {
     GamesLayoutBinding vb;
 
     @Override
@@ -53,24 +51,9 @@ public class GamesActivity extends AppCompatActivity {
         vibrate(this, 50);
         changeActivity(this, HomeActivity.class);
     }
-
-    // OnClick Method
-    public void goToSetting(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        Intent intent = new Intent(this, SettingActivity.class);
-        intent.putExtra("origin_activity", this.getClass().getSimpleName());
-        this.startActivity(intent);
+    @Override
+    protected Class<?> getBackDestination() {
+        return HomeActivity.class;
     }
 
-    //onclick Method
-    public void goToHome(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        changeActivity(this, HomeActivity.class);
-    }
-
-    //onClick Method
-    public void goBack(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        changeActivity(this, HomeActivity.class);
-    }
 }

@@ -210,26 +210,7 @@
 
     </GridLayout>
 
-    <!-- Back ImageView -->
-    <ImageView
-        android:id="@+id/backIconIV"
-        style="@style/BackImageView"
-        android:onClick="goBack"
-        android:contentDescription="@string/image_description" />
-
-    <!-- Home ImageView -->
-    <ImageView
-        android:id="@+id/homeIconIV"
-        style="@style/HomeImageView"
-        android:onClick="goToHome"
-        android:contentDescription="@string/image_description" />
-
-    <!-- Setting ImageView -->
-    <ImageView
-        android:id="@+id/settingIconIV"
-        style="@style/SettingImageView"
-        android:onClick="goToSetting"
-        android:contentDescription="@string/image_description" />
+    <include layout="@layout/navigation_layout"/>
 
     <!--Profile ImageView-->
     <ImageView

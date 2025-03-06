@@ -7,29 +7,26 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_PLAYER_
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadPreference;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
 import com.fahadmalik5509.playbox.R;
-import com.fahadmalik5509.playbox.miscellaneous.SettingActivity;
 import com.fahadmalik5509.playbox.databinding.TictactoevsLayoutBinding;
+import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
 
-public class TicTacToeVsActivity extends AppCompatActivity {
+import java.util.Base64;
+
+public class TicTacToeVsActivity extends BaseActivity {
 
     TictactoevsLayoutBinding vb;
     TicTacToeLogic game;
@@ -195,22 +192,10 @@ public class TicTacToeVsActivity extends AppCompatActivity {
             animateViewScale(vb.playerTwoCV, 1f, 1.1f, 200);
         }
     }
-    //onClick Method
-    public void goToSetting(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        Intent intent = new Intent(this, SettingActivity.class);
-        intent.putExtra("origin_activity", getClass().getSimpleName());
-        startActivity(intent);
-    }
-    //onClick Method
-    public void goToHome(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        changeActivity(this, HomeActivity.class);
-    }
-    //onClick Method
-    public void goBack(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        changeActivity(this, GameModeActivity.class);
+
+    @Override
+    protected Class<?> getBackDestination() {
+        return GameModeActivity.class;
     }
     private void initialize() {
         buttons = new Button[] {

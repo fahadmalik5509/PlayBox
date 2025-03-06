@@ -7,28 +7,24 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.YELLOW_COLO
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadColors;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadPreference;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 
-import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
+import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
+import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
 import com.fahadmalik5509.playbox.R;
-import com.fahadmalik5509.playbox.miscellaneous.SettingActivity;
 import com.fahadmalik5509.playbox.databinding.TictactoeaiLayoutBinding;
 
-public class TicTacToeAIActivity extends AppCompatActivity {
+public class TicTacToeAIActivity extends BaseActivity {
 
     TictactoeaiLayoutBinding vb;
     TicTacToeLogic game;
@@ -216,25 +212,11 @@ public class TicTacToeAIActivity extends AppCompatActivity {
         toggleVisibility(true, vb.symbolRL, vb.shadowV);
     }
 
-    //onClick Method
-    public void goToSetting(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        Intent intent = new Intent(this, SettingActivity.class);
-        intent.putExtra("origin_activity", getClass().getSimpleName());
-        startActivity(intent);
+    @Override
+    protected Class<?> getBackDestination() {
+        return GameModeActivity.class;
     }
 
-    //onClick Method
-    public void goToHome(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        changeActivity(this, HomeActivity.class);
-    }
-
-    //onClick Method
-    public void goBack(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        changeActivity(this, GameModeActivity.class);
-    }
     private void initialize() {
         buttons = new Button[] {
                 vb.gameBoard0B, vb.gameBoard1B, vb.gameBoard2B,

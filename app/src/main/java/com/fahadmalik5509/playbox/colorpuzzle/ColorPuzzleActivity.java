@@ -20,6 +20,7 @@ import android.widget.GridLayout;
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
 import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
 import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
 import com.fahadmalik5509.playbox.R;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class ColorPuzzleActivity extends AppCompatActivity {
+public class ColorPuzzleActivity extends BaseActivity {
 
     private static final byte CHANGE_GRID_SIZE_AFTER = 5;
     private static byte CHANGE_IN_COLOR_DELTA;
@@ -47,7 +48,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     private byte successCount;
     private byte consecutiveWin;
     private int currentScore;
-    private boolean isGridSizeChanged = false, isHintUsed = false, isExplosionUsed = false, gameLost = false;
+    private boolean isGridSizeChanged = false, isSpotlightUsed = false, isExplosionUsed = false, gameLost = false;
     private List<Integer> targetIndices;
     private final List<Button> targetButtons = new ArrayList<>();
     private byte difficultyLevel;
@@ -76,12 +77,12 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     private void setupGame() {
         difficultyLevel = (byte) sharedPreferences.getInt(PUZZLE_DIFFICULTY_KEY, 1);
         vb.gridContainer.setLayoutTransition(new LayoutTransition());
-        updateDifficultyColor();
+        updateGameBasedOnDifficulty();
         updateBestScoreDisplay();
     }
 
     private void generateGrid() {
-        removeHintBorder();
+        removeSpotlightBorder();
         resetPowerUps();
         targetButtons.clear();
 
@@ -142,15 +143,15 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         return gridLayout;
     }
 
-    private void removeHintBorder() {
-        View hintBorder = vb.gridContainer.findViewWithTag("hint_border");
-        if (hintBorder != null) {
-            vb.gridContainer.removeView(hintBorder);
+    private void removeSpotlightBorder() {
+        View spotlightBorder = vb.gridContainer.findViewWithTag("spotlight_border");
+        if (spotlightBorder != null) {
+            vb.gridContainer.removeView(spotlightBorder);
         }
     }
 
     private void resetPowerUps() {
-        isHintUsed = false;
+        isSpotlightUsed = false;
         isExplosionUsed = false;
     }
 
@@ -174,10 +175,6 @@ public class ColorPuzzleActivity extends AppCompatActivity {
                 // Set the tick emoji and adjust text size.
                 button.setText("\uD83C\uDFAF");
                 button.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 11);
-                // Disable extra font padding.
-                button.setIncludeFontPadding(false);
-                // Center the text.
-                button.setGravity(Gravity.CENTER);
 
                 // Check if all target buttons are found.
                 boolean allFound = true;
@@ -363,7 +360,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     }
 
     public void handleSpotlightClick(View view) {
-        if (isHintUsed) {
+        if (isSpotlightUsed) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             return;
         }
@@ -374,47 +371,17 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         animateViewScale(vb.spotlightLAV, 0, 1, 200);
         new Handler().postDelayed(() -> animateViewScale(vb.spotlightLAV, 1, 0, 200), 400);
 
-        isHintUsed = true;
+        isSpotlightUsed = true;
         if (targetButtons.isEmpty()) return;
-        View border = vb.gridContainer.findViewWithTag("hint_border");
+        View border = vb.gridContainer.findViewWithTag("spotlight_border");
         if (border == null) {
-            border = createHintBorder();
+            border = createSpotlightBorder();
         }
         assert border != null;
         blinkBorderAndHide(border);
     }
-    public void handleContrastClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        vb.contrastLAV.setVisibility(VISIBLE);
-        vb.contrastLAV.playAnimation();
 
-        vb.contrastLAV.postDelayed(() -> {
-            vb.contrastLAV.cancelAnimation();
-            vb.contrastLAV.setVisibility(View.GONE);
-        }, 300);
-
-        // Increase delta by 1 in the original direction (positive/negative)
-        int newDelta = currentGridDelta + (currentGridDelta > 0 ? 1 : -1);
-
-        // Calculate new target color with updated delta
-        int newTargetColor = Color.rgb(
-                clampColorValue(Color.red(currentBaseColor) + newDelta),
-                clampColorValue(Color.green(currentBaseColor) + newDelta),
-                clampColorValue(Color.blue(currentBaseColor) + newDelta)
-        );
-
-        // Update all visible target buttons that haven't been found
-        for (Button targetButton : targetButtons) {
-            if (targetButton.getVisibility() == View.VISIBLE && !"found".equals(targetButton.getTag())) {
-                targetButton.setBackgroundColor(newTargetColor);
-            }
-        }
-
-        // Update currentGridDelta to reflect the new delta for subsequent clicks
-        currentGridDelta = newDelta;
-    }
-
-    private View createHintBorder() {
+    private View createSpotlightBorder() {
         // Calculate a block boundary that includes (at least) one target.
         int blockDimension = Math.max(3, (int) Math.ceil(currentGridSize * 0.6));
         blockDimension = Math.min(blockDimension, currentGridSize);
@@ -428,7 +395,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             }
         }
 
-        // If all target buttons are already found, don't show the hint.
+        // If all target buttons are already found, don't show the spotlight.
         if (anchor == null) {
             return null;
         }
@@ -477,7 +444,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         int thickness = dpToPx(1 + currentGridSize / 4);
         drawable.setStroke(thickness, BLUE_COLOR);
         border.setBackground(drawable);
-        border.setTag("hint_border");
+        border.setTag("spotlight_border");
         vb.gridContainer.addView(border);
 
         positionSpotlight(borderWidth, borderHeight, relativeLeft, relativeTop);
@@ -495,6 +462,37 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         });
     }
 
+    public void handleContrastClick(View view) {
+        playSoundAndVibrate(this, R.raw.sound_contrast, true, 50);
+        vb.contrastLAV.setVisibility(VISIBLE);
+        vb.contrastLAV.playAnimation();
+
+        vb.contrastLAV.postDelayed(() -> {
+            vb.contrastLAV.cancelAnimation();
+            vb.contrastLAV.setVisibility(View.GONE);
+        }, 400);
+
+        // Increase delta by 1 in the original direction (positive/negative)
+        int newDelta = currentGridDelta + (currentGridDelta > 0 ? 1 : -1);
+
+        // Calculate new target color with updated delta
+        int newTargetColor = Color.rgb(
+                clampColorValue(Color.red(currentBaseColor) + newDelta),
+                clampColorValue(Color.green(currentBaseColor) + newDelta),
+                clampColorValue(Color.blue(currentBaseColor) + newDelta)
+        );
+
+        // Update all visible target buttons that haven't been found
+        for (Button targetButton : targetButtons) {
+            if (targetButton.getVisibility() == View.VISIBLE && !"found".equals(targetButton.getTag())) {
+                targetButton.setBackgroundColor(newTargetColor);
+            }
+        }
+
+        // Update currentGridDelta to reflect the new delta for subsequent clicks
+        currentGridDelta = newDelta;
+    }
+
     private void blinkBorderAndHide(final View border) {
         border.animate().alpha(0f).setDuration(200)
                 .withEndAction(() -> border.animate().alpha(1f).setDuration(200)
@@ -503,6 +501,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
 
     public void handleDifficultyButton(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        vb.difficultyLAV.playAnimation();
         animateViewScale(vb.DifficultyMenu.difficultyRL, 0f, 1f, 200);
         toggleVisibility(true, vb.DifficultyMenu.difficultyRL, vb.shadowV);
     }
@@ -516,10 +515,10 @@ public class ColorPuzzleActivity extends AppCompatActivity {
             difficultyLevel = temp;
             return;
         }
-        updateDifficultyColor();
+        updateGameBasedOnDifficulty();
     }
 
-    private void updateDifficultyColor() {
+    private void updateGameBasedOnDifficulty() {
         int easyColor = CHARCOAL_COLOR, mediumColor = CHARCOAL_COLOR, hardColor = CHARCOAL_COLOR;
         switch (difficultyLevel) {
             case 1:
@@ -534,7 +533,7 @@ public class ColorPuzzleActivity extends AppCompatActivity {
                 animateViewScale(vb.DifficultyMenu.mediumLayout, 1f, 1.05f, 200);
                 resetGameForDifficulty((byte) 5, (byte) 7, (byte) 20, (byte) 8, (byte) 4);
                 break;
-            case 3:
+
             default:
                 BEST_SCORE_KEY_BASED_ON_DIFFICULTY = PUZZLE_HARD_SCORE_KEY;
                 hardColor = RED_COLOR;
@@ -559,6 +558,8 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         CHANGE_IN_COLOR_DELTA = changeDelta;
         currentGridSize = initialGrid;
         currentColorDelta = initialDelta;
+        numberOfLives = MAX_LIVES;
+        resetHearts();
         updateScoreDisplay();
         updateBestScoreDisplay();
         playCrownAnimation(false);
@@ -584,11 +585,9 @@ public class ColorPuzzleActivity extends AppCompatActivity {
     }
 
     private void resetGameState() {
-        numberOfLives = MAX_LIVES;
         gameLost = false;
         toggleVisibility(false, vb.shadowV, vb.crownLAV, vb.gameOverLAV);
-        updateDifficultyColor();
-        resetHearts();
+        updateGameBasedOnDifficulty();
     }
 
     private int getBaseColor() {
@@ -603,24 +602,8 @@ public class ColorPuzzleActivity extends AppCompatActivity {
         return Math.round(dp * getResources().getDisplayMetrics().density);
     }
 
-    public void goToSetting(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        Intent intent = new Intent(this, SettingActivity.class);
-        intent.putExtra("origin_activity", getClass().getSimpleName());
-        startActivity(intent);
-    }
-
-    public void goToHome(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        changeActivity(this, HomeActivity.class);
-    }
-
-    public void goBack(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        if (currentScore > 0) {
-            toggleVisibility(true, vb.leaveRL, vb.shadowV);
-        } else {
-            changeActivity(this, GamesActivity.class);
-        }
+    @Override
+    protected Class<?> getBackDestination() {
+        return GamesActivity.class;
     }
 }

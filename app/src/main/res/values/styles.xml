@@ -47,34 +47,6 @@
         <item name="android:inputType">none</item>
     </style>
 
-    <style name="BackImageView">
-        <item name="android:src">@drawable/backicon</item>
-        <item name="android:layout_width">30dp</item>
-        <item name="android:layout_height">30dp</item>
-        <item name="android:layout_marginTop">15dp</item>
-        <item name="android:layout_marginStart">15dp</item>
-        <item name="android:stateListAnimator">@animator/pulse_animation</item>
-    </style>
-
-    <style name="HomeImageView">
-        <item name="android:src">@drawable/homeicon</item>
-        <item name="android:layout_width">30dp</item>
-        <item name="android:layout_height">30dp</item>
-        <item name="android:layout_marginTop">15dp</item>
-        <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:stateListAnimator">@animator/pulse_animation</item>
-    </style>
-
-    <style name="SettingImageView">
-        <item name="android:src">@drawable/settingsicon</item>
-        <item name="android:layout_width">30dp</item>
-        <item name="android:layout_height">30dp</item>
-        <item name="android:layout_marginTop">15dp</item>
-        <item name="android:layout_alignParentEnd">true</item>
-        <item name="android:layout_marginEnd">15dp</item>
-        <item name="android:stateListAnimator">@animator/pulse_animation</item>
-    </style>
-
     <style name="NavigationButton">
         <item name="android:background">@drawable/ui_background</item>
         <item name="android:layout_width">250dp</item>

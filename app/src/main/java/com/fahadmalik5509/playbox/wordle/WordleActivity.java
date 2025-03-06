@@ -3,24 +3,25 @@ package com.fahadmalik5509.playbox.wordle;
 import static android.view.View.VISIBLE;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
 
-import android.content.Intent;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.text.HtmlCompat;
 
+import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
 import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
 import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
 import com.fahadmalik5509.playbox.R;
-import com.fahadmalik5509.playbox.miscellaneous.SettingActivity;
 import com.fahadmalik5509.playbox.databinding.WordleLayoutBinding;
 
 import java.io.BufferedReader;
@@ -33,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class WordleActivity extends AppCompatActivity {
+public class WordleActivity extends BaseActivity {
 
     WordleLayoutBinding vb;
 
@@ -79,7 +80,7 @@ public class WordleActivity extends AppCompatActivity {
     }
     private void updateUI() {
         updateStreak();
-        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
+        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.ShopButton.currencyCountTV);
         updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shop.shopBombCountTV);
         updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shop.shopHintCountTV);
         updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shop.shopSkipCountTV);
@@ -106,12 +107,16 @@ public class WordleActivity extends AppCompatActivity {
         }
 
         playSoundAndVibrate(this, R.raw.sound_key, true, 50);
-        animateViewBounce(letterBox[currentRow][currentColumn]);
+        scaleLetterBox(letterBox[currentRow][currentColumn]);
         letterBox[currentRow][currentColumn].setText(alphabet);
         userGuess.insert(currentColumn, alphabet);
         currentColumn++;
     }
 
+    private void scaleLetterBox(EditText et) {
+        animateViewScale(et,1f,1.2f, 100);
+        et.postDelayed(() -> animateViewScale(et,1.2f,1f, 200), 100);
+    }
     private void onEnterKeyClicked() {
 
         if(userGuess.toString().equals("FAHAD")) cheat();
@@ -195,12 +200,12 @@ public class WordleActivity extends AppCompatActivity {
     private void handleWin() {
         gameWon = true;
         waveRow();
-        animateText(vb.currencyCountTV, 0f, 360f, 300);
+        animateText(vb.ShopButton.currencyCountTV, 0f, 360f, 300);
         vb.coinBlastLAV.setVisibility(VISIBLE);
         vb.coinBlastLAV.playAnimation();
         playSoundAndVibrate(this, R.raw.sound_coin, false, 0);
-        currentCurrencyCount += (50 + (5 * currentStreakCount) + ((6 - currentRow) * 5));
-        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
+        currentCurrencyCount += (50 + (5 * currentStreakCount) + ((MAX_ROWS - currentRow) * 5));
+        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.ShopButton.currencyCountTV);
         currentStreakCount++;
         updateStreak();
         vb.resetIV.postDelayed(() -> toggleVisibility(true, vb.resetIV), 500);
@@ -269,7 +274,7 @@ public class WordleActivity extends AppCompatActivity {
         loadRandomTargetWord();
 
         for (int row = 0; row < MAX_ROWS; row++) {
-            for (int column = 0; column < 5; column++) {
+            for (int column = 0; column < MAX_COLS; column++) {
                 letterBox[row][column].setText("");
                 letterBox[row][column].setHint("");
                 changeBackgroundColor(letterBox[row][column], RED_COLOR);
@@ -328,7 +333,7 @@ public class WordleActivity extends AppCompatActivity {
     }
 
     // OnClick Method
-    public void onCurrencyClick(View view) {
+    public void handleShopButtonClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_register, true, 50);
         animateViewScale(vb.shop.shopRL,0f,1.0f,200);
         toggleVisibility(true, vb.shadowV, vb.shop.shopRL);
@@ -413,15 +418,89 @@ public class WordleActivity extends AppCompatActivity {
             return;
         }
 
+        animateFallingEditTexts();
+
         displayTargetWord();
         currentSkipCount--;
         updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shop.shopSkipCountTV);
 
         playSoundAndVibrate(this, R.raw.sound_skip, true, 50);
-        vb.skipLAV.setMinFrame(10);
-        vb.skipLAV.playAnimation();
-        handleResetClick(view);
+//        vb.skipLAV.setMinFrame(10);
+//        vb.skipLAV.playAnimation();
+        view.postDelayed(() -> handleResetClick(view), 300);
     }
+    private void animateFallingEditTexts() {
+        int screenHeight = getResources().getDisplayMetrics().heightPixels;
+        Random random = new Random();
+        int baseDelay = 100; // Falling delay per row (ms)
+
+        // Falling animation: bottom-to-top cascade.
+        for (int row = 0; row < MAX_ROWS; row++) {
+            // For falling, bottom row (MAX_ROWS-1) starts with no delay.
+            int rowDelay = (MAX_ROWS - 1 - row) * baseDelay;
+            for (int col = 0; col < MAX_COLS; col++) {
+                final TextView view = letterBox[row][col];
+                // Generate a subtle random tilt between -15° and 15°
+                float randomTilt = random.nextFloat() * 30f - 15f;
+
+                // Tilt (rotation) animation.
+                ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(view, "rotation", 0f, randomTilt);
+                rotationAnim.setDuration(300);
+                rotationAnim.setInterpolator(new AccelerateInterpolator());
+
+                // Fall (translation) animation.
+                ObjectAnimator translationAnim = ObjectAnimator.ofFloat(view, "translationY", 0f, screenHeight);
+                translationAnim.setDuration(500);
+                translationAnim.setInterpolator(new AccelerateInterpolator());
+
+                // Play tilt then fall.
+                AnimatorSet animatorSet = new AnimatorSet();
+                animatorSet.playSequentially(rotationAnim, translationAnim);
+                animatorSet.setStartDelay(rowDelay);
+                animatorSet.start();
+            }
+        }
+
+        // Calculate total time until the slowest (top) row has finished falling.
+        // For row 0: delay = (MAX_ROWS-1)*baseDelay, plus 300ms (tilt) + 500ms (fall).
+        // Add an extra offset (e.g., 100ms) to ensure falling is complete.
+        int totalFallingTime = (MAX_ROWS - 1) * baseDelay + 300 + 500 + 100;
+
+        // Schedule regeneration after all falling animations complete.
+        new Handler().postDelayed(this::regenerateViews, totalFallingTime);
+    }
+    private void regenerateViews() {
+        int baseRegenDelay = 100; // Regeneration delay per row (ms)
+
+        // Regenerate from top (row 0) to bottom.
+        for (int row = 0; row < MAX_ROWS; row++) {
+            for (int col = 0; col < MAX_COLS; col++) {
+                final TextView view = letterBox[row][col];
+
+                // Cancel any ongoing animations.
+                view.animate().cancel();
+                // Reset translation and rotation.
+                view.setTranslationY(0);
+                view.setRotation(0);
+                // Ensure the view is visible.
+                view.setVisibility(View.VISIBLE);
+                view.setAlpha(1f);
+                // Set scale to 0 to prepare for regeneration.
+                view.setScaleX(0f);
+                view.setScaleY(0f);
+
+                // For regeneration, apply a top-to-bottom cascade.
+                int regenDelay = row * baseRegenDelay;
+                view.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(300)
+                        .setStartDelay(regenDelay)
+                        .start();
+            }
+        }
+    }
+
 
     // OnClick Method
     public void onHintClick(View view) {
@@ -518,7 +597,7 @@ public class WordleActivity extends AppCompatActivity {
             playSoundAndVibrate(this, R.raw.sound_bought, true, 50);
             currentCurrencyCount -= cost;
             updateAction.run();
-            updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
+            updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.ShopButton.currencyCountTV);
         } else {
             playSoundAndVibrate(this, R.raw.sound_error, true, 50);
         }
@@ -533,15 +612,23 @@ public class WordleActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> vb.targetWordTV.setVisibility(View.GONE), 2000);
     }
 
-    // OnClick Method
-    public void goToSetting(View view) {
+
+    @Override
+    protected Class<?> getBackDestination() {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        Intent intent = new Intent(this, SettingActivity.class);
-        intent.putExtra("origin_activity", this.getClass().getSimpleName());
-        this.startActivity(intent);
+        if(gameWon) {
+            return GamesActivity.class;
+        }
+        if ((currentRow > 0) && (currentStreakCount != 0)) {
+            toggleVisibility(vb.leaveGameRL.getVisibility() != View.VISIBLE, vb.shadowV, vb.leaveGameRL);
+        } else {
+            return GamesActivity.class;
+        }
+        return null;
     }
 
     // OnClick Method
+    @Override
     public void goToHome(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         if(currentRow>0 && currentStreakCount != 0) {
@@ -549,20 +636,6 @@ public class WordleActivity extends AppCompatActivity {
         }
         else {
             changeActivity(this, HomeActivity.class);
-        }
-    }
-
-    //onClick Method
-    public void goBack(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        if(gameWon) {
-            changeActivity(this, GamesActivity.class);
-            return;
-        }
-        if ((currentRow > 0) && (currentStreakCount != 0)) {
-            toggleVisibility(vb.leaveGameRL.getVisibility() != View.VISIBLE, vb.shadowV, vb.leaveGameRL);
-        } else {
-            changeActivity(this, GamesActivity.class);
         }
     }
 
@@ -612,14 +685,14 @@ public class WordleActivity extends AppCompatActivity {
 
     private void cheat() {
         currentCurrencyCount = 99999;
-        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
+        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.ShopButton.currencyCountTV);
         saveToSharedPreferences(WORDLE_EXPLOSION_KEY, 1);
         displayTargetWord();
     }
     private  void unCheat() {
         saveToSharedPreferences(WORDLE_EXPLOSION_KEY, 0);
         currentCurrencyCount = 300;
-        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.currencyCountTV);
+        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.ShopButton.currencyCountTV);
         Toast.makeText(this, "Cheat Disabled Nigga", Toast.LENGTH_SHORT).show();
     }
 }
