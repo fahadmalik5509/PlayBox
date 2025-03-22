@@ -1,5 +1,6 @@
 package com.fahadmalik5509.playbox.tictactoe;
 
+import static android.view.View.VISIBLE;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GREEN_COLOR;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.RED_COLOR;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_PLAYER_ONE_NAME_KEY;
@@ -10,6 +11,7 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackg
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
 import android.content.Context;
@@ -21,10 +23,12 @@ import android.widget.Button;
 import androidx.activity.OnBackPressedCallback;
 
 import com.fahadmalik5509.playbox.R;
+import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.TictactoevsLayoutBinding;
 import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
-
-import java.util.Base64;
 
 public class TicTacToeVsActivity extends BaseActivity {
 
@@ -42,13 +46,21 @@ public class TicTacToeVsActivity extends BaseActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                handleBackNavigation();
+                backLogic();
             }
         });
 
         game = new TicTacToeLogic();
-
+        getBindings();
         initialize();
+    }
+
+    private void getBindings() {
+        ShopButtonLayoutBinding ShopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
+        ShopLayoutBinding ShopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
+        NavigationLayoutBinding NavigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
+        ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
+        setBindings(ShopButtonBinding, ShopBinding, NavigationBinding, ShadowBinding);
     }
 
     //onClick Method
@@ -88,13 +100,13 @@ public class TicTacToeVsActivity extends BaseActivity {
 
         updateScore();
 
-        vb.fireworksLAV.setVisibility(View.VISIBLE);
+        vb.fireworksLAV.setVisibility(VISIBLE);
         vb.fireworksLAV.playAnimation();
     }
 
     private void updateDrawGUI() {
         playSoundAndVibrate(this, R.raw.sound_draw, true, 100);
-        vb.drawIV.setVisibility(View.VISIBLE);
+        vb.drawIV.setVisibility(VISIBLE);
     }
 
     private void animateWinningButtons(int... winBtn) {
@@ -148,8 +160,8 @@ public class TicTacToeVsActivity extends BaseActivity {
     public void profileClicked(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         animateViewScale(vb.profileRL, 0f, 1.0f, 200);
-        vb.profileRL.setVisibility(View.VISIBLE);
-        vb.shadowV.setVisibility(View.VISIBLE);
+        vb.profileRL.setVisibility(VISIBLE);
+        vb.Shadow.ShadowLayout.setVisibility(VISIBLE);
         vb.playerOneET.setText(sharedPreferences.getString(TTT_PLAYER_ONE_NAME_KEY, "Player 1"));
         vb.playerTwoET.setText(sharedPreferences.getString(TTT_PLAYER_TWO_NAME_KEY, "Player 2"));
     }
@@ -158,7 +170,7 @@ public class TicTacToeVsActivity extends BaseActivity {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         if ("save".equals(view.getTag())) updateProfiles();
         animateViewScale(vb.profileRL, 1.0f, 0f, 200);
-        vb.shadowV.setVisibility(View.GONE);
+        vb.Shadow.ShadowLayout.setVisibility(View.GONE);
         vb.profileRL.setVisibility(View.GONE);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
@@ -192,6 +204,16 @@ public class TicTacToeVsActivity extends BaseActivity {
             animateViewScale(vb.playerTwoCV, 1f, 1.1f, 200);
         }
     }
+
+    @Override
+    public void backLogic() {
+        if(vb.profileRL.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.profileRL, vb.Shadow.ShadowLayout);
+            return;
+        }
+        super.backLogic();
+    }
+
 
     @Override
     protected Class<?> getBackDestination() {

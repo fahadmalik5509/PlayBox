@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:background="@color/background">
 
     <RelativeLayout
@@ -210,8 +212,6 @@
 
     </GridLayout>
 
-    <include layout="@layout/navigation_layout"/>
-
     <!--Profile ImageView-->
     <ImageView
         android:id="@+id/profileIV"
@@ -247,10 +247,25 @@
         app:lottie_rawRes="@raw/lottie_fireworks"
         app:lottie_loop="true"/>
 
-    <!--Shadow View-->
-    <View
-        android:id="@+id/shadowV"
-        style="@style/ShadowLayout"/>
+    <!-- Shop Button RelativeLayout -->
+    <include
+        android:id="@+id/ShopButton"
+        layout="@layout/shop_button_layout"/>
+
+    <!-- Shadow Layout -->
+    <include
+        android:id="@+id/Shadow"
+        layout="@layout/shadow_layout"/>
+
+    <!-- Navigation Layout -->
+    <include
+        android:id="@+id/Navigation"
+        layout="@layout/navigation_layout"/>
+
+    <!-- Shop RelativeLayout -->
+    <include
+        android:id="@+id/Shop"
+        layout="@layout/shop_layout"/>
 
     <!--GameDraw ImageView-->
     <ImageView

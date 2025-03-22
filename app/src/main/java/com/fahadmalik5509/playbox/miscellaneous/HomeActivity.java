@@ -1,6 +1,9 @@
 package com.fahadmalik5509.playbox.miscellaneous;
 
+import static android.view.View.VISIBLE;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
+
+import static java.sql.Types.NULL;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,15 +14,19 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.HomeLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopLayoutBinding;
 
-public class HomeActivity extends AppCompatActivity implements SensorEventListener {
+public class HomeActivity extends BaseActivity implements SensorEventListener {
 
     HomeLayoutBinding vb;
 
@@ -39,7 +46,8 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                handleBackNavigation();
+                backLogic();
+                toggleVisibility(vb.exitRL.getVisibility() != VISIBLE, vb.exitRL, vb.Shadow.ShadowLayout);
             }
         });
 
@@ -51,6 +59,22 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
 
         isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
         isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
+
+        getBindings();
+    }
+
+    private void getBindings() {
+        ShopButtonLayoutBinding ShopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
+        ShopLayoutBinding ShopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
+        NavigationLayoutBinding NavigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
+        ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
+        setBindings(ShopButtonBinding, ShopBinding, NavigationBinding, ShadowBinding);
+    }
+
+
+    @Override
+    protected Class<?> getBackDestination() {
+        return null;
     }
 
     public void handleGamesClick(View view) {
@@ -64,12 +88,6 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         startActivity(intent);
     }
 
-    public void handleBackNavigation() {
-        vibrate(this, 50);
-        animateViewScale(vb.exitRL,0f,1.0f,200);
-        toggleVisibility(vb.exitRL.getVisibility() != View.VISIBLE, vb.shadowV, vb.exitRL);
-    }
-
     // Onclick Method
     public void handleExitButtons(View view) {
 
@@ -78,7 +96,7 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
         if(view.getTag().equals("yes")) {
             finishAffinity();
         } else {
-            toggleVisibility(false, vb.exitRL, vb.shadowV);
+            toggleVisibility(false, vb.exitRL, vb.Shadow.ShadowLayout);
         }
     }
 
@@ -139,15 +157,15 @@ public class HomeActivity extends AppCompatActivity implements SensorEventListen
                 vb.lavCoinFlip.setVisibility(View.GONE);
             playSoundAndVibrate(this, R.raw.sound_coin_reveal, true, 100);
 
-            vb.tvCoinFlip.setText(getCoinFlipResult());
-            vb.tvCoinFlip.setVisibility(View.VISIBLE);
-            vb.lavCoinSplash.setVisibility(View.VISIBLE);
-            animateViewScale(vb.tvCoinFlip, 0f, 1.0f, 200);
-            vb.lavCoinSplash.playAnimation();
+            vb.coinFlipTV.setText(getCoinFlipResult());
+            vb.coinFlipTV.setVisibility(View.VISIBLE);
+            vb.confettiLAV.setVisibility(View.VISIBLE);
+            animateViewScale(vb.coinFlipTV, 0f, 1.0f, 200);
+            vb.confettiLAV.playAnimation();
 
-            vb.lavCoinSplash.postDelayed(() -> {
-                vb.lavCoinSplash.setVisibility(View.GONE);
-                vb.tvCoinFlip.setVisibility(View.GONE);
+            vb.confettiLAV.postDelayed(() -> {
+                vb.confettiLAV.setVisibility(View.GONE);
+                vb.coinFlipTV.setVisibility(View.GONE);
                 isCoinFlipping = false;
             }, 1500);
 

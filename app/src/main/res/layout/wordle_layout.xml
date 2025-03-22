@@ -251,7 +251,9 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="50dp">
+        android:layout_marginBottom="65dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -475,14 +477,6 @@
         app:lottie_rawRes="@raw/lottie_blast"
         android:visibility="gone"/>
 
-    <!-- Skip AnimationView -->
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/skipLAV"
-        android:layout_width="match_parent"
-        android:layout_height="340dp"
-        android:layout_alignBottom="@+id/letterBoxGL"
-        app:lottie_rawRes="@raw/lottie_skip" />
-
     <!-- Coin Blast AnimationView -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/coinBlastLAV"
@@ -492,15 +486,13 @@
         app:lottie_rawRes="@raw/lottie_coin_blast"
         android:visibility="gone"/>
 
-    <include layout="@layout/navigation_layout"/>
-
     <!-- Streak TextView -->
     <RelativeLayout
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_width="106dp"
+        android:layout_height="32dp"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
-        android:layout_marginEnd="30dp" >
+        android:layout_marginEnd="24dp">
 
         <TextView
             android:id="@+id/currentStreakTV"
@@ -510,11 +502,11 @@
             android:background="@drawable/circle_background"
             android:gravity="center"
             android:onClick="onStreakClick"
+            android:stateListAnimator="@animator/pulse_animation"
             android:textAppearance="@style/default_font"
             android:textColor="@color/background"
             android:textSize="12sp"
-            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck"
-            android:stateListAnimator="@animator/pulse_animation" />
+            tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
         <TextView
             android:id="@+id/streakTooltipTV"
@@ -529,7 +521,7 @@
             android:textAppearance="@style/default_font"
             android:textColor="@color/beige"
             android:textSize="10sp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 
@@ -635,11 +627,6 @@
 
     </RelativeLayout>
 
-    <!-- Shop Button RelativeLayout -->
-    <include
-        android:id="@+id/ShopButton"
-        layout="@layout/shop_button_layout"/>
-
     <!-- TargetWord TextView -->
     <TextView
         android:id="@+id/targetWordTV"
@@ -655,10 +642,15 @@
         android:background="@drawable/border_background"
         android:visibility="gone"/>
 
-    <!-- Shadow View -->
-    <View
-        android:id="@+id/shadowV"
-        style="@style/ShadowLayout"/>
+    <!-- Shop Button RelativeLayout -->
+    <include
+        android:id="@+id/ShopButton"
+        layout="@layout/shop_button_layout"/>
+
+    <!-- Shadow Layout -->
+    <include
+        android:id="@+id/Shadow"
+        layout="@layout/shadow_layout"/>
 
     <!-- Reset ImageView -->
     <ImageView
@@ -727,8 +719,15 @@
 
     </RelativeLayout>
 
+    <!-- Navigation Layout -->
     <include
-        android:id="@+id/shop"
-        layout="@layout/shop_layout" />
+        android:id="@+id/Navigation"
+        layout="@layout/navigation_layout"/>
+
+    <!-- Shop Layout -->
+    <include
+        android:id="@+id/Shop"
+        layout="@layout/shop_layout"/>
+
 
 </RelativeLayout>

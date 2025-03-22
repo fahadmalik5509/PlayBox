@@ -1,0 +1,505 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:background="@color/background">
+
+
+    <!-- Custom Game View: Centered in parent -->
+    <com.fahadmalik5509.playbox.dotandboxes.DotAndBoxesView
+        android:id="@+id/dotAndBoxesView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Score Display at top -->
+    <TextView
+        android:id="@+id/tvScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:text="Player 1: 0  |  Player 2: 0"
+        android:textSize="24sp"
+        android:textColor="@color/beige"
+        android:textAppearance="@style/default_font" />
+
+    <ImageView
+        android:tag="open"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/menu"
+        android:onClick="handleDotAndBoxesMenuClick"
+        android:stateListAnimator="@animator/pulse_animation"
+        android:contentDescription="@string/image_description"/>
+
+    <!-- Reset TextView at bottom -->
+    <TextView
+        android:id="@+id/resetTV"
+        android:tag="none"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:text="@string/reset"
+        android:textSize="50sp"
+        android:textColor="@color/beige"
+        android:textAppearance="@style/default_font"
+        android:onClick="handleResetClick"
+        android:stateListAnimator="@animator/pulse_animation" />
+
+    <!-- Shop Button RelativeLayout -->
+    <include
+        android:id="@+id/ShopButton"
+        layout="@layout/shop_button_layout"/>
+
+    <!-- Shadow Layout -->
+    <include
+        android:id="@+id/Shadow"
+        layout="@layout/shadow_layout"/>
+
+    <RelativeLayout
+        android:id="@+id/resetRL"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:background="@drawable/popup_background"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/midGameResetTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="@string/reset_game"
+            android:textSize="25sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/yesResetB"
+            android:tag="yes"
+            android:background="@drawable/ui_background"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/yes"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:onClick="handleResetClick"
+            android:stateListAnimator="@animator/pulse_animation" />
+
+        <Button
+            android:id="@+id/noResetB"
+            android:tag="no"
+            android:background="@drawable/exit_no"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="@string/no"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:onClick="handleResetClick"
+            android:stateListAnimator="@animator/pulse_animation" />
+
+
+    </RelativeLayout>
+
+    <!-- Leave RelativeLayout -->
+    <RelativeLayout
+        android:id="@+id/leaveRL"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:background="@drawable/popup_background"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/midGameExitTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="@string/are_you_sure"
+            android:textSize="25sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:gravity="center"/>
+
+        <Button
+            android:id="@+id/yesExitB"
+            android:tag="yes"
+            android:background="@drawable/ui_background"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/yes"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:onClick="handleExitButtons"
+            android:stateListAnimator="@animator/pulse_animation" />
+
+        <Button
+            android:id="@+id/noExitB"
+            android:tag="no"
+            android:background="@drawable/exit_no"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="@string/no"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:onClick="handleExitButtons"
+            android:stateListAnimator="@animator/pulse_animation" />
+
+
+    </RelativeLayout>
+
+    <!-- Shop RelativeLayout -->
+    <include
+        android:id="@+id/Shop"
+        layout="@layout/shop_layout"/>
+
+    <include
+        android:id="@+id/Navigation"
+        layout="@layout/navigation_layout" />
+
+    <RelativeLayout
+        android:id="@+id/DotAndBoxesMenuLayout"
+        android:background="@drawable/popup_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:layout_margin="24dp"
+        android:padding="16dp"
+        android:clipToPadding="false"
+        android:clipChildren="false">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dot_and_boxes_menu"
+                android:textSize="20sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:tag="close"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/delete"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:onClick="handleDotAndBoxesMenuClick"
+                android:stateListAnimator="@animator/pulse_animation"
+                android:contentDescription="@string/image_description"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="60dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:clipToPadding="false"
+            android:clipChildren="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/select_size"
+                android:textSize="22sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal"
+                android:stateListAnimator="@animator/pulse_animation">
+
+                <TextView
+                    android:id="@+id/gridSize5TV"
+                    android:tag="5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:minWidth="72dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:text="@string/size5"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:onClick="handleGridSizeButtons"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+                <TextView
+                    android:id="@+id/gridSize6TV"
+                    android:tag="6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:minWidth="72dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/size6"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:onClick="handleGridSizeButtons"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+                <TextView
+                    android:id="@+id/gridSize7TV"
+                    android:tag="7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:minWidth="72dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/size7"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:onClick="handleGridSizeButtons"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:stateListAnimator="@animator/pulse_animation">
+
+                <TextView
+                    android:id="@+id/gridSize8TV"
+                    android:tag="8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:minWidth="72dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:text="@string/size8"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:onClick="handleGridSizeButtons"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+                <TextView
+                    android:id="@+id/gridSize9TV"
+                    android:tag="9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:minWidth="72dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/size9"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:onClick="handleGridSizeButtons"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+                <TextView
+                    android:id="@+id/gridSize10TV"
+                    android:tag="10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:minWidth="72dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/size10"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:onClick="handleGridSizeButtons"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/select_mode"
+                android:textSize="22sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/pvpTV"
+                android:tag="pvp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="230dp"
+                android:minHeight="50dp"
+                android:gravity="center"
+                android:background="@drawable/selection"
+                android:padding="10dp"
+                android:text="@string/pvp"
+                android:textSize="18sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_gravity="center"
+                android:stateListAnimator="@animator/pulse_animation"
+                android:onClick="handleGameModeButtons"/>
+
+            <TextView
+                android:id="@+id/pvaiTV"
+                android:tag="pvai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:minWidth="230dp"
+                android:minHeight="50dp"
+                android:gravity="center"
+                android:background="@drawable/selection"
+                android:padding="10dp"
+                android:text="@string/pvAI"
+                android:textSize="18sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_gravity="center"
+                android:stateListAnimator="@animator/pulse_animation"
+                android:onClick="handleGameModeButtons"/>
+
+            <TextView
+                android:id="@+id/selectDifficultyTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/select_difficulty"
+                android:textSize="22sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/selectDifficultyLL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/easyTV"
+                    android:tag="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="80dp"
+                    android:minHeight="50dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:text="@string/easy"
+                    android:textSize="18sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:stateListAnimator="@animator/pulse_animation"
+                    android:onClick="handleDifficultyButtons"/>
+
+                <TextView
+                    android:id="@+id/mediumTV"
+                    android:tag="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:minWidth="80dp"
+                    android:minHeight="50dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:text="@string/medium"
+                    android:textSize="18sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:stateListAnimator="@animator/pulse_animation"
+                    android:onClick="handleDifficultyButtons"/>
+
+                <TextView
+                    android:id="@+id/hardTV"
+                    android:tag="3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="80dp"
+                    android:minHeight="50dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:text="@string/hard"
+                    android:textSize="18sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:stateListAnimator="@animator/pulse_animation"
+                    android:onClick="handleDifficultyButtons"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

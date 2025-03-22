@@ -45,6 +45,12 @@
             android:exported="true"
             android:screenOrientation="portrait"/>
 
+        <!-- DotAndBoxesActivity -->
+        <activity
+            android:name=".dotandboxes.DotAndBoxesActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+
         <!-- ColorPuzzleActivity -->
         <activity
             android:name=".colorpuzzle.ColorPuzzleActivity"

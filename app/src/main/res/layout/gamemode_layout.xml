@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:background="@color/background" >
 
     <LinearLayout
@@ -27,27 +28,6 @@
 
     </LinearLayout>
 
-<!--    &lt;!&ndash; Back ImageView &ndash;&gt;-->
-<!--    <ImageView-->
-<!--        android:id="@+id/backIconIV"-->
-<!--        style="@style/BackImageView"-->
-<!--        android:onClick="goBack"-->
-<!--        android:contentDescription="@string/image_description" />-->
-
-<!--    &lt;!&ndash; Home ImageView &ndash;&gt;-->
-<!--    <ImageView-->
-<!--        android:id="@+id/homeIconIV"-->
-<!--        style="@style/HomeImageView"-->
-<!--        android:onClick="goToHome"-->
-<!--        android:contentDescription="@string/image_description" />-->
-
-<!--    &lt;!&ndash; Setting ImageView &ndash;&gt;-->
-<!--    <ImageView-->
-<!--        android:id="@+id/settingIconIV"-->
-<!--        style="@style/SettingImageView"-->
-<!--        android:onClick="goToSetting"-->
-<!--        android:contentDescription="@string/image_description" />-->
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,6 +38,24 @@
         android:textColor="@color/beige"
         android:textAppearance="@style/default_font"/>
 
-    <include layout="@layout/navigation_layout" />
+    <!-- Shop Button Layout -->
+    <include
+        android:id="@+id/ShopButton"
+        layout="@layout/shop_button_layout"/>
+
+    <!-- Shadow Layout -->
+    <include
+        android:id="@+id/Shadow"
+        layout="@layout/shadow_layout"/>
+
+    <!-- Navigation Layout -->
+    <include
+        android:id="@+id/Navigation"
+        layout="@layout/navigation_layout" />
+
+    <!-- Shop Layout -->
+    <include
+        android:id="@+id/Shop"
+        layout="@layout/shop_layout"/>
 
 </RelativeLayout>

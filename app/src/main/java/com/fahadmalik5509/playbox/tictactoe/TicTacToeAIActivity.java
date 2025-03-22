@@ -1,5 +1,6 @@
 package com.fahadmalik5509.playbox.tictactoe;
 
+import static android.view.View.GONE;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GREEN_COLOR;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.RED_COLOR;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_DIFFICULTY_KEY;
@@ -19,8 +20,11 @@ import android.widget.Button;
 
 import androidx.activity.OnBackPressedCallback;
 
+import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopLayoutBinding;
 import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
-import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.TictactoeaiLayoutBinding;
 
@@ -41,18 +45,26 @@ public class TicTacToeAIActivity extends BaseActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                handleBackNavigation();
+                backLogic();
             }
         });
 
         game = new TicTacToeLogic();
-
+        getBindings();
         initialize();
         setupGameMode();
     }
 
+    private void getBindings() {
+        ShopButtonLayoutBinding ShopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
+        ShopLayoutBinding ShopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
+        NavigationLayoutBinding NavigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
+        ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
+        setBindings(ShopButtonBinding, ShopBinding, NavigationBinding, ShadowBinding);
+    }
+
     private void setupGameMode() {
-        toggleVisibility(true, vb.shadowV, vb.symbolRL);
+        toggleVisibility(true, vb.Shadow.ShadowLayout, vb.symbolRL);
         difficulty = sharedPreferences.getInt(TTT_DIFFICULTY_KEY, 1);
         updateDifficultyColor();
     }
@@ -131,9 +143,9 @@ public class TicTacToeAIActivity extends BaseActivity {
     }
 
     private void resetGameGUI() {
-        vb.drawIV.setVisibility(View.GONE);
+        vb.drawIV.setVisibility(GONE);
         vb.fireworksLAV.cancelAnimation();
-        vb.fireworksLAV.setVisibility(View.GONE);
+        vb.fireworksLAV.setVisibility(GONE);
 
         resetButtons();
     }
@@ -154,7 +166,7 @@ public class TicTacToeAIActivity extends BaseActivity {
         saveToSharedPreferences(TTT_DIFFICULTY_KEY, difficulty);
         vb.difficultyTooltipTV.setText(getString(R.string.difficulty_tooltip, getDifficultyText()));
         vb.difficultyTooltipTV.setVisibility(View.VISIBLE);
-        vb.difficultyTooltipTV.postDelayed(() -> vb.difficultyTooltipTV.setVisibility(View.GONE), 2000);
+        vb.difficultyTooltipTV.postDelayed(() -> vb.difficultyTooltipTV.setVisibility(GONE), 2000);
         updateDifficultyColor();
         resetGame();
     }
@@ -180,11 +192,6 @@ public class TicTacToeAIActivity extends BaseActivity {
         return "";
     }
 
-    public void handleBackNavigation() {
-        vibrate(this, 50);
-        changeActivity(this, GameModeActivity.class);
-    }
-
     //onClick Method
     public void handleSymbolClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
@@ -198,7 +205,7 @@ public class TicTacToeAIActivity extends BaseActivity {
         }
         updateSymbol();
         resetGame();
-        toggleVisibility(false, vb.symbolRL, vb.shadowV);
+        toggleVisibility(false, vb.symbolRL, vb.Shadow.ShadowLayout);
     }
 
     private void updateSymbol() {
@@ -209,7 +216,7 @@ public class TicTacToeAIActivity extends BaseActivity {
     //onClick Method
     public void handleSwitchClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        toggleVisibility(true, vb.symbolRL, vb.shadowV);
+        toggleVisibility(true, vb.symbolRL, vb.Shadow.ShadowLayout);
     }
 
     @Override

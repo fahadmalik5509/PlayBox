@@ -41,8 +41,8 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     testImplementation(libs.junit)
-    implementation(libs.gifDrawable)
     implementation(libs.lottie)
+    implementation(libs.gridlayout)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

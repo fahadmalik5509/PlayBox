@@ -29,6 +29,7 @@
     <string name="TicTacToe">Tic Tac Toe</string>
     <string name="wordle">Wordle</string>
     <string name="color_puzzle">Color Puzzle</string>
+    <string name="dot_and_boxes">Dot And Boxes</string>
 
     <string name="pvp">Player Vs Player</string>
     <string name="pvAI">Player   Vs   AI</string>
@@ -57,12 +58,26 @@
     <string name="Tails">Tails</string>
 
     <string name="buy40">Buy ($40)</string>
+    <string name="buy50">Buy ($50)</string>
     <string name="buy100">Buy ($100)</string>
+    <string name="buy150">Buy ($150)</string>
     <string name="buy200">Buy ($200)</string>
 
     <string name="difficulty_tooltip">AI Difficulty\n(%1$s)</string>
     <string name="streak_tooltip">Streak\n(Current: %1$d)\n(Best: %2$d)</string>
     <string name="wordle_exit">Exit mid-game?\nStreak reset!</string>
+
+    <string name="dot_and_boxes_menu">Dot and Boxes Menu</string>
+    <string name="select_size">Select Size</string>
+    <string name="select_mode">Select Mode</string>
+    <string name="select_difficulty">Select Difficulty</string>
+    <string name="reset_game">Reset Game?</string>
+    <string name="size5">5 x 5</string>
+    <string name="size6">6 x 6</string>
+    <string name="size7">7 x 7</string>
+    <string name="size8">8 x 8</string>
+    <string name="size9">9 x 9</string>
+    <string name="size10">10 x 10</string>
 
     <!-- On-screen keyboard letters -->
     <string name="letter_A" translatable="false">A</string>

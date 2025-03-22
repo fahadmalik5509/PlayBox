@@ -9,7 +9,7 @@
                 android:angle="360"/> <!-- Adjust the angle of the gradient -->
 
             <!-- Rounded corners -->
-            <corners android:radius="10dp"/>
+            <corners android:radius="20dp"/>
 
             <!-- Golden stroke -->
             <stroke

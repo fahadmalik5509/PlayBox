@@ -9,6 +9,10 @@ import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
 
+import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopLayoutBinding;
 import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
 import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
 import com.fahadmalik5509.playbox.R;
@@ -27,10 +31,19 @@ public class GameModeActivity extends BaseActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                handleBackNavigation();
+                backLogic();
             }
         });
 
+        getBindings();
+    }
+
+    private void getBindings() {
+        ShopButtonLayoutBinding ShopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
+        ShopLayoutBinding ShopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
+        NavigationLayoutBinding NavigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
+        ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
+        setBindings(ShopButtonBinding, ShopBinding, NavigationBinding, ShadowBinding);
     }
 
     public void handlePvPClick(View view) {
@@ -44,11 +57,6 @@ public class GameModeActivity extends BaseActivity {
 
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, TicTacToeAIActivity.class);
-    }
-
-    private void handleBackNavigation() {
-        vibrate(this, 50);
-        changeActivity(this, GamesActivity.class);
     }
 
     @Override

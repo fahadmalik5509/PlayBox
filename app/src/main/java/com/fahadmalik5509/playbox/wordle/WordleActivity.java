@@ -18,6 +18,10 @@ import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.core.text.HtmlCompat;
 
+import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopLayoutBinding;
 import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
 import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
 import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
@@ -34,26 +38,29 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class WordleActivity extends BaseActivity {
+public class WordleActivity extends BaseActivity implements BaseActivity.ShopUpdateListener {
 
+    // === UI and Binding ===
     WordleLayoutBinding vb;
-
-    private final byte MAX_ROWS = 6;
-    private final byte MAX_COLS = 5;
-
     private TextView[] keyboard;
     private EditText[][] letterBox;
 
-    private byte currentColumn = 0, currentRow = 0, hintUsed = 0;
-    private int currentStreakCount, currentCurrencyCount, currentBombCount, currentSkipCount, currentHintCount;
+    // === Game Constants ===
+    private static final byte MAX_ROWS = 6;
+    private static final byte MAX_COLS = 5;
+
+    // === Game State Variables ===
+    private byte currentRow = 0, currentColumn = 0, hintUsed = 0;
+    private int streakCount;
+    private final StringBuilder userGuess = new StringBuilder();
+    private String targetWord;
+
     private List < String > commonWords = new ArrayList <>();
     private List < String > dictionary = new ArrayList <>();
     private final List<Character> grayedOutLetters = new ArrayList<>();
     private final Map<Character, Integer> letterColorMap = new HashMap<>();
     private final Map<Integer, Character> revealedHints = new HashMap<>();
     private boolean gameWon = false, gameLost = false;
-    private final StringBuilder userGuess = new StringBuilder();
-    private String targetWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,32 +68,72 @@ public class WordleActivity extends BaseActivity {
         vb = WordleLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                handleBackNavigation();
-            }
-        });
-
+        setupOnBackPressed();
+        getBindings();
         initialize();
         loadGameData();
         updateUI();
     }
 
+    // === Setup Methods ===
+    private void getBindings() {
+        ShopButtonLayoutBinding ShopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
+        ShopLayoutBinding ShopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
+        NavigationLayoutBinding NavigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
+        ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
+        setBindings(ShopButtonBinding, ShopBinding, NavigationBinding, ShadowBinding);
+    }
+    
+    private void setupOnBackPressed() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+
+                backLogic();
+            }
+        });
+    }
+    private void initialize() {
+
+        keyboard = new TextView[] {
+                vb.aTextView, vb.bTextView, vb.cTextView, vb.dTextView, vb.eTextView, vb.fTextView,
+                vb.gTextView, vb.hTextView, vb.iTextView, vb.jTextView, vb.kTextView, vb.lTextView,
+                vb.mTextView, vb.nTextView, vb.oTextView, vb.pTextView, vb.qTextView, vb.rTextView,
+                vb.sTextView, vb.tTextView, vb.uTextView, vb.vTextView, vb.wTextView, vb.xTextView,
+                vb.yTextView, vb.zTextView
+        };
+
+        letterBox = new EditText[][] {
+                {vb.letterBoxR0C0EV, vb.letterBoxR0C1EV, vb.letterBoxR0C2EV, vb.letterBoxR0C3EV, vb.letterBoxR0C4EV},
+                {vb.letterBoxR1C0EV, vb.letterBoxR1C1EV, vb.letterBoxR1C2EV, vb.letterBoxR1C3EV, vb.letterBoxR1C4EV},
+                {vb.letterBoxR2C0EV, vb.letterBoxR2C1EV, vb.letterBoxR2C2EV, vb.letterBoxR2C3EV, vb.letterBoxR2C4EV},
+                {vb.letterBoxR3C0EV, vb.letterBoxR3C1EV, vb.letterBoxR3C2EV, vb.letterBoxR3C3EV, vb.letterBoxR3C4EV},
+                {vb.letterBoxR4C0EV, vb.letterBoxR4C1EV, vb.letterBoxR4C2EV, vb.letterBoxR4C3EV, vb.letterBoxR4C4EV},
+                {vb.letterBoxR5C0EV, vb.letterBoxR5C1EV, vb.letterBoxR5C2EV, vb.letterBoxR5C3EV, vb.letterBoxR5C4EV}
+        };
+
+        streakCount = sharedPreferences.getInt(WORDLE_STREAK_KEY, 0);
+    }
     private void loadGameData() {
         dictionary = loadWordList(R.raw.dictionary);
         commonWords = loadWordList(R.raw.commonwords);
         loadRandomTargetWord();
     }
+
+    // === UI Update ===
+    @Override
+    public void onShopClosed() {
+        vb.bombCountTV.setText(String.valueOf(bombCount));
+        vb.hintCountTV.setText(String.valueOf(hintCount));
+        vb.skipCountTV.setText(String.valueOf(skipCount));
+    }
     private void updateUI() {
         updateStreak();
-        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.ShopButton.currencyCountTV);
-        updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shop.shopBombCountTV);
-        updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shop.shopHintCountTV);
-        updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shop.shopSkipCountTV);
+        updateCount(bombCount, vb.bombCountTV);
+        updateCount(hintCount, vb.hintCountTV);
+        updateCount(skipCount, vb.skipCountTV);
     }
 
-    // OnClick Method
     public void keyboardClicked(View view) {
 
         if (gameWon || gameLost) return;
@@ -102,21 +149,17 @@ public class WordleActivity extends BaseActivity {
 
         if (currentColumn == MAX_COLS) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
-            jiggleRow();
+            animateJiggleEditTextsRow();
             return;
         }
 
         playSoundAndVibrate(this, R.raw.sound_key, true, 50);
-        scaleLetterBox(letterBox[currentRow][currentColumn]);
+        animateViewPulse(letterBox[currentRow][currentColumn], 1f, 1.2f, 100);
         letterBox[currentRow][currentColumn].setText(alphabet);
         userGuess.insert(currentColumn, alphabet);
         currentColumn++;
     }
 
-    private void scaleLetterBox(EditText et) {
-        animateViewScale(et,1f,1.2f, 100);
-        et.postDelayed(() -> animateViewScale(et,1.2f,1f, 200), 100);
-    }
     private void onEnterKeyClicked() {
 
         if(userGuess.toString().equals("FAHAD")) cheat();
@@ -124,7 +167,7 @@ public class WordleActivity extends BaseActivity {
 
         if (!isValidGuess()) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
-            jiggleRow();
+            animateJiggleEditTextsRow();
             return;
         }
 
@@ -199,14 +242,13 @@ public class WordleActivity extends BaseActivity {
 
     private void handleWin() {
         gameWon = true;
-        waveRow();
+        animateWaveEditTextsRow();
         animateText(vb.ShopButton.currencyCountTV, 0f, 360f, 300);
         vb.coinBlastLAV.setVisibility(VISIBLE);
         vb.coinBlastLAV.playAnimation();
         playSoundAndVibrate(this, R.raw.sound_coin, false, 0);
-        currentCurrencyCount += (50 + (5 * currentStreakCount) + ((MAX_ROWS - currentRow) * 5));
-        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.ShopButton.currencyCountTV);
-        currentStreakCount++;
+        increaseAndSaveCurrencyCount((50 + (5 * streakCount) + ((MAX_ROWS - currentRow) * 5)));
+        streakCount++;
         updateStreak();
         vb.resetIV.postDelayed(() -> toggleVisibility(true, vb.resetIV), 500);
     }
@@ -216,7 +258,7 @@ public class WordleActivity extends BaseActivity {
         playSoundAndVibrate(this, R.raw.sound_draw, true, 100);
         displayTargetWord();
         toggleVisibility(true, vb.resetIV);
-        currentStreakCount = 0;
+        streakCount = 0;
         updateStreak();
     }
 
@@ -249,7 +291,7 @@ public class WordleActivity extends BaseActivity {
     private void onBackspaceKeyClicked() {
         if (currentColumn == 0) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
-            jiggleRow();
+            animateJiggleEditTextsRow();
             return;
         }
 
@@ -290,25 +332,6 @@ public class WordleActivity extends BaseActivity {
         return  userGuess.length() == MAX_COLS && dictionary.contains(userGuess.toString().toUpperCase());
     }
 
-    private void jiggleRow() {
-        for (int i = 0; i < MAX_COLS; i++) animateViewJiggle(letterBox[currentRow][i], 150);
-    }
-    private void waveRow() {
-        final int duration = 200;
-        final int delayBetweenAnimations = 50;
-
-        for (int i = 0; i < MAX_COLS; i++) {
-            final int index = i;
-            final int startDelay = i * delayBetweenAnimations;
-
-            // Scale down animation
-            letterBox[currentRow][i].postDelayed(() -> animateViewScale(letterBox[currentRow][index], 1.0f, 0.5f, duration), startDelay);
-
-            // Scale up animation
-            letterBox[currentRow][i].postDelayed(() -> animateViewScale(letterBox[currentRow][index], 0.5f, 1.0f, duration), startDelay + duration + delayBetweenAnimations);
-        }
-    }
-
     public void loadRandomTargetWord() {
 
         targetWord = commonWords.get(new Random().nextInt(commonWords.size()));
@@ -333,17 +356,6 @@ public class WordleActivity extends BaseActivity {
     }
 
     // OnClick Method
-    public void handleShopButtonClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_register, true, 50);
-        animateViewScale(vb.shop.shopRL,0f,1.0f,200);
-        toggleVisibility(true, vb.shadowV, vb.shop.shopRL);
-
-        vb.shop.shopBombCountTV.setText(String.valueOf(currentBombCount));
-        vb.shop.shopHintCountTV.setText(String.valueOf(currentHintCount));
-        vb.shop.shopSkipCountTV.setText(String.valueOf(currentSkipCount));
-    }
-
-    // OnClick Method
     public void onStreakClick(View view) {
         if(vb.flameLAV.isAnimating()) playSoundAndVibrate(this, R.raw.sound_flame, true, 50);
         else playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
@@ -355,11 +367,11 @@ public class WordleActivity extends BaseActivity {
 
         int bestStreakCount = sharedPreferences.getInt(WORDLE_HIGHEST_STREAK_KEY, 0);
 
-        saveToSharedPreferences(WORDLE_STREAK_KEY, currentStreakCount);
-        vb.currentStreakTV.setText(String.valueOf(currentStreakCount));
+        saveToSharedPreferences(WORDLE_STREAK_KEY, streakCount);
+        vb.currentStreakTV.setText(String.valueOf(streakCount));
 
-        if (currentStreakCount >= bestStreakCount && currentStreakCount != 0) {
-            saveToSharedPreferences(WORDLE_HIGHEST_STREAK_KEY, currentStreakCount);
+        if (streakCount >= bestStreakCount && streakCount != 0) {
+            saveToSharedPreferences(WORDLE_HIGHEST_STREAK_KEY, streakCount);
             changeBackgroundColor(vb.currentStreakTV, Color.TRANSPARENT);
             vb.flameLAV.setVisibility(VISIBLE);
             vb.flameLAV.playAnimation();
@@ -374,7 +386,7 @@ public class WordleActivity extends BaseActivity {
 
     // OnClick Method
     public void onBombClick(View view) {
-        if (gameWon || gameLost || currentBombCount == 0) {
+        if (gameWon || gameLost || bombCount == 0) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             return;
         }
@@ -407,13 +419,14 @@ public class WordleActivity extends BaseActivity {
         vb.blastLAV.setVisibility(VISIBLE);
         vb.blastLAV.playAnimation();
 
-        currentBombCount--;
-        updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shop.shopBombCountTV);
+
+        decreaseAndSaveBombCount();
+        updateCount(bombCount, vb.bombCountTV);
     }
 
     // OnClick Method
     public void onSkipClick(View view) {
-        if (gameWon || gameLost || currentRow == 0 || currentSkipCount == 0) {
+        if (gameWon || gameLost || currentRow == 0 || skipCount == 0) {
             playSoundAndVibrate(this, R.raw.sound_error, true, 50);
             return;
         }
@@ -421,13 +434,133 @@ public class WordleActivity extends BaseActivity {
         animateFallingEditTexts();
 
         displayTargetWord();
-        currentSkipCount--;
-        updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shop.shopSkipCountTV);
+        decreaseAndSaveSkipCount();
+        updateCount(skipCount, vb.skipCountTV);
 
         playSoundAndVibrate(this, R.raw.sound_skip, true, 50);
-//        vb.skipLAV.setMinFrame(10);
-//        vb.skipLAV.playAnimation();
         view.postDelayed(() -> handleResetClick(view), 300);
+    }
+
+    // OnClick Method
+    public void onHintClick(View view) {
+        if (gameWon || gameLost || hintUsed >= 2 || hintCount == 0) {
+            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+            return;
+        }
+
+        List<Integer> unrevealedPositions = new ArrayList<>();
+
+        for (int i = 0; i < MAX_COLS; i++) {
+            char targetChar = targetWord.charAt(i);
+            Integer keyboardColor = letterColorMap.get(targetChar);
+
+            if (keyboardColor == null || keyboardColor != GREEN_COLOR) {
+                unrevealedPositions.add(i);
+            }
+        }
+
+        if (unrevealedPositions.isEmpty()) {
+            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+            return;
+        }
+
+        int randomIndex = new Random().nextInt(unrevealedPositions.size());
+        int positionToReveal = unrevealedPositions.get(randomIndex);
+
+        char correctLetter = targetWord.charAt(positionToReveal);
+        letterBox[currentRow][positionToReveal].setHint(String.valueOf(correctLetter));
+        animateText(letterBox[currentRow][positionToReveal], 0f, 360f, 300);
+
+        // Store the revealed hint
+        revealedHints.put(positionToReveal, correctLetter);
+
+        playSoundAndVibrate(this, R.raw.sound_hint, true, 50);
+        updateKeyboardColor(correctLetter, GREEN_COLOR);
+        applyKeyboardColors();
+
+        hintUsed++;
+        decreaseAndSaveHintCount();
+        updateCount(hintCount, vb.hintCountTV);
+    }
+
+    private void updateCount(int count, TextView view) {
+        view.setText(String.valueOf(count));
+    }
+
+    // OnClick Method
+    public void handleLeaveButtons(View view) {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        if (view.getTag().equals("leave")) {
+            saveToSharedPreferences(WORDLE_STREAK_KEY, 0);
+            changeActivity(this, GamesActivity.class);
+
+        } else {
+            toggleVisibility(false, vb.Shadow.ShadowLayout, vb.leaveGameRL);
+        }
+    }
+
+    private void displayTargetWord() {
+        vb.targetWordTV.setVisibility(VISIBLE);
+        vb.targetWordTV.setText(HtmlCompat.fromHtml(
+                "Word was: <font color='#FFFF00'>" + targetWord + "</font>",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+        ));
+        new Handler().postDelayed(() -> vb.targetWordTV.setVisibility(View.GONE), 2000);
+    }
+
+
+    @Override
+    protected Class<?> getBackDestination() {
+            return GamesActivity.class;
+    }
+
+    @Override
+    public void backLogic() {
+
+        if(gameWon) {
+            super.backLogic();
+            return;
+        }
+
+        if ((currentRow > 0) && (streakCount != 0)) {
+            playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+            toggleVisibility(vb.leaveGameRL.getVisibility() != View.VISIBLE, vb.Shadow.ShadowLayout, vb.leaveGameRL);
+            return;
+        }
+
+        super.backLogic();
+    }
+
+    // OnClick Method
+    @Override
+    public void handleHomeClick(View view) {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        if(currentRow>0 && streakCount != 0) {
+            toggleVisibility(true, vb.Shadow.ShadowLayout, vb.leaveGameRL);
+        }
+        else {
+            changeActivity(this, HomeActivity.class);
+        }
+    }
+
+    // === ANIMATION METHODS ===
+    private void animateJiggleEditTextsRow() {
+        for (int i = 0; i < MAX_COLS; i++) animateViewJiggle(letterBox[currentRow][i], 150);
+    }
+    private void animateWaveEditTextsRow() {
+        final int duration = 200;
+        final int delayBetweenAnimations = 50;
+
+        for (int i = 0; i < MAX_COLS; i++) {
+            final int index = i;
+            final int startDelay = i * delayBetweenAnimations;
+
+            // Scale down animation
+            letterBox[currentRow][i].postDelayed(() -> animateViewScale(letterBox[currentRow][index], 1.0f, 0.5f, duration), startDelay);
+
+            // Scale up animation
+            letterBox[currentRow][i].postDelayed(() -> animateViewScale(letterBox[currentRow][index], 0.5f, 1.0f, duration), startDelay + duration + delayBetweenAnimations);
+        }
     }
     private void animateFallingEditTexts() {
         int screenHeight = getResources().getDisplayMetrics().heightPixels;
@@ -467,9 +600,9 @@ public class WordleActivity extends BaseActivity {
         int totalFallingTime = (MAX_ROWS - 1) * baseDelay + 300 + 500 + 100;
 
         // Schedule regeneration after all falling animations complete.
-        new Handler().postDelayed(this::regenerateViews, totalFallingTime);
+        new Handler().postDelayed(this::animateRegenerateEditTexts, totalFallingTime);
     }
-    private void regenerateViews() {
+    private void animateRegenerateEditTexts() {
         int baseRegenDelay = 100; // Regeneration delay per row (ms)
 
         // Regenerate from top (row 0) to bottom.
@@ -501,198 +634,13 @@ public class WordleActivity extends BaseActivity {
         }
     }
 
-
-    // OnClick Method
-    public void onHintClick(View view) {
-        if (gameWon || gameLost || hintUsed >= 2 || currentHintCount == 0) {
-            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
-            return;
-        }
-
-        List<Integer> unrevealedPositions = new ArrayList<>();
-
-        for (int i = 0; i < MAX_COLS; i++) {
-            char targetChar = targetWord.charAt(i);
-            Integer keyboardColor = letterColorMap.get(targetChar);
-
-            if (keyboardColor == null || keyboardColor != GREEN_COLOR) {
-                unrevealedPositions.add(i);
-            }
-        }
-
-        if (unrevealedPositions.isEmpty()) {
-            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
-            return;
-        }
-
-        int randomIndex = new Random().nextInt(unrevealedPositions.size());
-        int positionToReveal = unrevealedPositions.get(randomIndex);
-
-        char correctLetter = targetWord.charAt(positionToReveal);
-        letterBox[currentRow][positionToReveal].setHint(String.valueOf(correctLetter));
-        animateText(letterBox[currentRow][positionToReveal], 0f, 360f, 300);
-
-        // Store the revealed hint
-        revealedHints.put(positionToReveal, correctLetter);
-
-        playSoundAndVibrate(this, R.raw.sound_hint, true, 50);
-        updateKeyboardColor(correctLetter, GREEN_COLOR);
-        applyKeyboardColors();
-
-        hintUsed++;
-        currentHintCount--;
-        updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shop.shopHintCountTV);
-    }
-
-    private void updateCount(String key, int count, TextView... views) {
-        saveToSharedPreferences(key, count);
-        for (TextView tv : views) {
-            tv.setText(String.valueOf(count));
-        }
-    }
-
-    // OnClick Method
-    public void handleLeaveButtons(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        if (view.getTag().equals("leave")) {
-            saveToSharedPreferences(WORDLE_STREAK_KEY, 0);
-            changeActivity(this, GamesActivity.class);
-
-        } else {
-            toggleVisibility(false, vb.shadowV, vb.leaveGameRL);
-        }
-    }
-
-    // OnClick Method
-    public void handleShopButtons(View view) {
-        String tag = (String) view.getTag();
-        switch (tag) {
-            case "bomb":
-                processPurchase(40, () -> {
-                    currentBombCount++;
-                    updateCount(WORDLE_BOMB_KEY, currentBombCount, vb.bombCountTV, vb.shop.shopBombCountTV);
-                });
-                break;
-            case "hint":
-                processPurchase(100, () -> {
-                    currentHintCount++;
-                    updateCount(WORDLE_HINT_KEY, currentHintCount, vb.hintCountTV, vb.shop.shopHintCountTV);
-                });
-                break;
-            case "skip":
-                processPurchase(200, () -> {
-                    currentSkipCount++;
-                    updateCount(WORDLE_SKIP_KEY, currentSkipCount, vb.skipCountTV, vb.shop.shopSkipCountTV);
-                });
-                break;
-            default:
-                playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-                toggleVisibility(false, vb.shadowV, vb.shop.shopRL);
-                break;
-        }
-    }
-
-    private void processPurchase(int cost, Runnable updateAction) {
-        if (currentCurrencyCount >= cost) {
-            playSoundAndVibrate(this, R.raw.sound_bought, true, 50);
-            currentCurrencyCount -= cost;
-            updateAction.run();
-            updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.ShopButton.currencyCountTV);
-        } else {
-            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
-        }
-    }
-
-    private void displayTargetWord() {
-        vb.targetWordTV.setVisibility(VISIBLE);
-        vb.targetWordTV.setText(HtmlCompat.fromHtml(
-                "Word was: <font color='#FFFF00'>" + targetWord + "</font>",
-                HtmlCompat.FROM_HTML_MODE_LEGACY
-        ));
-        new Handler().postDelayed(() -> vb.targetWordTV.setVisibility(View.GONE), 2000);
-    }
-
-
-    @Override
-    protected Class<?> getBackDestination() {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        if(gameWon) {
-            return GamesActivity.class;
-        }
-        if ((currentRow > 0) && (currentStreakCount != 0)) {
-            toggleVisibility(vb.leaveGameRL.getVisibility() != View.VISIBLE, vb.shadowV, vb.leaveGameRL);
-        } else {
-            return GamesActivity.class;
-        }
-        return null;
-    }
-
-    // OnClick Method
-    @Override
-    public void goToHome(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        if(currentRow>0 && currentStreakCount != 0) {
-            toggleVisibility(true, vb.shadowV, vb.leaveGameRL);
-        }
-        else {
-            changeActivity(this, HomeActivity.class);
-        }
-    }
-
-    public void handleBackNavigation() {
-        vibrate(this, 50);
-        if (vb.shop.shopRL.getVisibility() == VISIBLE) {
-            toggleVisibility(false, vb.shadowV, vb.shop.shopRL);
-            return;
-        }
-        if(gameWon) {
-            changeActivity(this, GamesActivity.class);
-            return;
-        }
-        if ((currentRow > 0) && (currentStreakCount != 0)) {
-            // Toggle leaveGameRL: show it if not visible, hide it if visible.
-            toggleVisibility(vb.leaveGameRL.getVisibility() != View.VISIBLE, vb.shadowV, vb.leaveGameRL);
-        } else {
-            changeActivity(this, GamesActivity.class);
-        }
-    }
-
-    private void initialize() {
-
-        keyboard = new TextView[] {
-                vb.aTextView, vb.bTextView, vb.cTextView, vb.dTextView, vb.eTextView, vb.fTextView,
-                vb.gTextView, vb.hTextView, vb.iTextView, vb.jTextView, vb.kTextView, vb.lTextView,
-                vb.mTextView, vb.nTextView, vb.oTextView, vb.pTextView, vb.qTextView, vb.rTextView,
-                vb.sTextView, vb.tTextView, vb.uTextView, vb.vTextView, vb.wTextView, vb.xTextView,
-                vb.yTextView, vb.zTextView
-        };
-
-        letterBox = new EditText[][] {
-                {vb.letterBoxR0C0EV, vb.letterBoxR0C1EV, vb.letterBoxR0C2EV, vb.letterBoxR0C3EV, vb.letterBoxR0C4EV},
-                {vb.letterBoxR1C0EV, vb.letterBoxR1C1EV, vb.letterBoxR1C2EV, vb.letterBoxR1C3EV, vb.letterBoxR1C4EV},
-                {vb.letterBoxR2C0EV, vb.letterBoxR2C1EV, vb.letterBoxR2C2EV, vb.letterBoxR2C3EV, vb.letterBoxR2C4EV},
-                {vb.letterBoxR3C0EV, vb.letterBoxR3C1EV, vb.letterBoxR3C2EV, vb.letterBoxR3C3EV, vb.letterBoxR3C4EV},
-                {vb.letterBoxR4C0EV, vb.letterBoxR4C1EV, vb.letterBoxR4C2EV, vb.letterBoxR4C3EV, vb.letterBoxR4C4EV},
-                {vb.letterBoxR5C0EV, vb.letterBoxR5C1EV, vb.letterBoxR5C2EV, vb.letterBoxR5C3EV, vb.letterBoxR5C4EV}
-        };
-
-        currentStreakCount = sharedPreferences.getInt(WORDLE_STREAK_KEY, 0);
-        currentCurrencyCount = sharedPreferences.getInt(WORDLE_CURRENCY_KEY, 300);
-        currentBombCount = sharedPreferences.getInt(WORDLE_BOMB_KEY, 10);
-        currentSkipCount = sharedPreferences.getInt(WORDLE_SKIP_KEY, 5);
-        currentHintCount = sharedPreferences.getInt(WORDLE_HINT_KEY, 10);
-    }
-
+    // === To Be Removed Later ===
     private void cheat() {
-        currentCurrencyCount = 99999;
-        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.ShopButton.currencyCountTV);
-        saveToSharedPreferences(WORDLE_EXPLOSION_KEY, 1);
+        increaseAndSaveCurrencyCount(99999);
         displayTargetWord();
     }
     private  void unCheat() {
         saveToSharedPreferences(WORDLE_EXPLOSION_KEY, 0);
-        currentCurrencyCount = 300;
-        updateCount(WORDLE_CURRENCY_KEY, currentCurrencyCount, vb.ShopButton.currencyCountTV);
         Toast.makeText(this, "Cheat Disabled Nigga", Toast.LENGTH_SHORT).show();
     }
 }

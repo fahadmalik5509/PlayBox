@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:background="@color/background">
 
+    <!-- Background Lottie Animation -->
     <com.airbnb.lottie.LottieAnimationView
         app:lottie_rawRes="@raw/lottie_stars_background"
         style="@style/BackgroundLottieAnimation"
         />
 
+    <!-- GitHub Lottie Animation -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavGitHub"
         android:layout_width="48dp"
@@ -17,7 +21,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="70dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
         app:lottie_asyncUpdates="enabled"
@@ -26,6 +30,34 @@
         android:onClick="handleGitHubClick"
         android:stateListAnimator="@animator/pulse_animation"/>
 
+    <!-- App Name TextView -->
+    <TextView
+        android:id="@+id/playBoxTV"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:text="@string/title"
+        android:textSize="55sp"
+        android:letterSpacing="0.1"
+        android:textColor="@color/white"
+        android:textAppearance="@style/funky_font"
+        android:onClick="handlePlayBoxClick" />
+
+    <!-- Creator Name TextView -->
+    <TextView
+        android:id="@+id/creatorTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/playBoxTV"
+        android:layout_centerHorizontal="true"
+        android:text="@string/creator"
+        android:textSize="16sp"
+        android:letterSpacing="0.05"
+        android:textColor="@color/yellow"
+        android:textAppearance="@style/default_font" />
+
+    <!-- Navigation Buttons LinearLayout -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,45 +76,23 @@
         <Button
             android:id="@+id/settingsB"
             android:text="@string/settings"
+            android:letterSpacing="0.05"
             style="@style/NavigationButton"
             android:onClick="handleSettingsClick" />
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvPlayBox"
-        android:layout_width="230dp"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:text="@string/title"
-        android:textSize="55sp"
-        android:letterSpacing="0.1"
-        android:textColor="@color/white"
-        android:textAppearance="@style/funky_font"
-        android:onClick="handlePlayBoxClick" />
-
-    <TextView
-        android:id="@+id/creatorTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPlayBox"
-        android:layout_centerHorizontal="true"
-        android:text="@string/creator"
-        android:textSize="16sp"
-        android:letterSpacing="0.05"
-        android:textColor="@color/yellow"
-        android:textAppearance="@style/default_font" />
-
+    <!-- Confetti Lottie Animation -->
     <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/lavCoinSplash"
+        android:id="@+id/confettiLAV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        app:lottie_rawRes="@raw/lottie_coin_splash"
+        app:lottie_rawRes="@raw/lottie_confetti"
         app:lottie_asyncUpdates="enabled"
         app:lottie_cacheComposition="true" />
 
+    <!-- Coin Flip Lottie Animation -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lavCoinFlip"
         android:layout_width="wrap_content"
@@ -93,77 +103,88 @@
         app:lottie_rawRes="@raw/lottie_coin_flip"
         android:visibility="gone"/>
 
+    <!-- Coin Flip TextView -->
     <TextView
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="10dp"
-        android:id="@+id/tvCoinFlip"
+        android:id="@+id/coinFlipTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:letterSpacing="0.1"
         android:textSize="70sp"
         android:textColor="@color/yellow"
-        android:textAppearance="@style/funky_font"
-        android:visibility="gone"/>
+        android:textAppearance="@style/funky_font" />
 
-    <View
-        android:id="@+id/shadowV"
-        style="@style/ShadowLayout"/>
+    <!-- Shop Button RelativeLayout -->
+    <include
+        android:id="@+id/ShopButton"
+        layout="@layout/shop_button_layout"/>
 
+    <!-- Shadow Layout -->
+    <include
+        android:id="@+id/Shadow"
+        layout="@layout/shadow_layout"/>
+
+    <!-- Shop RelativeLayout -->
+    <include
+        android:id="@+id/Shop"
+        layout="@layout/shop_layout"/>
+
+    <!-- Leave RelativeLayout -->
     <RelativeLayout
         android:id="@+id/exitRL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
         android:layout_centerInParent="true"
-        android:padding="15dp"
+        android:padding="20dp"
         android:background="@drawable/popup_background"
         android:visibility="gone">
 
         <TextView
+            android:id="@+id/midGameExitTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
             android:text="@string/confirm_exit"
-            android:textSize="30sp"
+            android:textSize="25sp"
+            android:textColor="@color/beige"
             android:textAppearance="@style/default_font"
-            android:textColor="@color/beige" />
+            android:gravity="center"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="45dp"
-            android:orientation="horizontal" >
+        <Button
+            android:id="@+id/yesExitB"
+            android:tag="yes"
+            android:background="@drawable/ui_background"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/yes"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:onClick="handleExitButtons"
+            android:stateListAnimator="@animator/pulse_animation" />
 
-            <Button
-                android:id="@+id/noExitB"
-                android:tag="no"
-                android:background="@drawable/exit_no"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:text="@string/no"
-                android:textSize="25sp"
-                android:textColor="@color/beige"
-                android:textAppearance="@style/default_font"
-                android:onClick="handleExitButtons"
-                android:stateListAnimator="@animator/pulse_animation" />
+        <Button
+            android:id="@+id/noExitB"
+            android:tag="no"
+            android:background="@drawable/exit_no"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="@string/no"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:onClick="handleExitButtons"
+            android:stateListAnimator="@animator/pulse_animation" />
 
-            <Button
-                android:id="@+id/yesExitB"
-                android:tag="yes"
-                android:background="@drawable/ui_background"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:text="@string/yes"
-                android:textSize="25sp"
-                android:textColor="@color/beige"
-                android:textAppearance="@style/default_font"
-                android:onClick="handleExitButtons"
-                android:stateListAnimator="@animator/pulse_animation" />
-
-        </LinearLayout>
 
     </RelativeLayout>
+
+    <include
+        android:id="@+id/Navigation"
+        layout="@layout/navigation_layout"/>
 
 </RelativeLayout>

@@ -6,7 +6,6 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
 
 import android.animation.AnimatorInflater;
 import android.animation.LayoutTransition;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -18,13 +17,14 @@ import android.widget.FrameLayout;
 import android.widget.GridLayout;
 
 import androidx.activity.OnBackPressedCallback;
-import androidx.appcompat.app.AppCompatActivity;
 
+import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopLayoutBinding;
 import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
 import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
-import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
 import com.fahadmalik5509.playbox.R;
-import com.fahadmalik5509.playbox.miscellaneous.SettingActivity;
 import com.fahadmalik5509.playbox.databinding.ColorpuzzleLayoutBinding;
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class ColorPuzzleActivity extends BaseActivity {
+public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.ShopUpdateListener {
 
     private static final byte CHANGE_GRID_SIZE_AFTER = 5;
     private static byte CHANGE_IN_COLOR_DELTA;
@@ -48,10 +48,10 @@ public class ColorPuzzleActivity extends BaseActivity {
     private byte successCount;
     private byte consecutiveWin;
     private int currentScore;
-    private boolean isGridSizeChanged = false, isSpotlightUsed = false, isExplosionUsed = false, gameLost = false;
+    private boolean isGridSizeChanged = false, isSpotlightUsed = false, isStrikeUsed = false, gameLost = false;
     private List<Integer> targetIndices;
     private final List<Button> targetButtons = new ArrayList<>();
-    private byte difficultyLevel;
+    private byte difficultyLevel = 1;
 
     private int currentBaseColor;
     private int currentGridDelta;
@@ -71,12 +71,26 @@ public class ColorPuzzleActivity extends BaseActivity {
             public void handleOnBackPressed() { handleBackNavigation(); }
         });
 
+        getBindings();
         setupGame();
+        updateUI();
+    }
+
+    private void getBindings() {
+        ShopButtonLayoutBinding ShopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
+        ShopLayoutBinding ShopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
+        NavigationLayoutBinding NavigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
+        ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
+        setBindings(ShopButtonBinding, ShopBinding, NavigationBinding, ShadowBinding);
+        setShopUpdateListener(this);
     }
 
     private void setupGame() {
-        difficultyLevel = (byte) sharedPreferences.getInt(PUZZLE_DIFFICULTY_KEY, 1);
         vb.gridContainer.setLayoutTransition(new LayoutTransition());
+        vb.Shop.colorpuzzleTV.setSelected(true);
+        vb.Shop.wordleTV.setSelected(false);
+        vb.Shop.shopWordleLL.setVisibility(GONE);
+        vb.Shop.shopCPLL.setVisibility(VISIBLE);
         updateGameBasedOnDifficulty();
         updateBestScoreDisplay();
     }
@@ -152,7 +166,7 @@ public class ColorPuzzleActivity extends BaseActivity {
 
     private void resetPowerUps() {
         isSpotlightUsed = false;
-        isExplosionUsed = false;
+        isStrikeUsed = false;
     }
 
     private Button createGridButton(int size, int gapPx, boolean isTarget, int baseColor, int targetColor) {
@@ -206,6 +220,10 @@ public class ColorPuzzleActivity extends BaseActivity {
         handleLifeIncrement();
         currentScore++;
         updateScoreDisplay();
+        if(difficultyLevel == 1) increaseAndSaveCurrencyCount(20);
+        else if(difficultyLevel == 2) increaseAndSaveCurrencyCount(20 + Math.abs(currentScore/2));
+        else increaseAndSaveCurrencyCount(30 + currentScore);
+
 
         if (currentScore > sharedPreferences.getInt(BEST_SCORE_KEY_BASED_ON_DIFFICULTY, 0)) {
             saveToSharedPreferences(BEST_SCORE_KEY_BASED_ON_DIFFICULTY, currentScore);
@@ -214,6 +232,8 @@ public class ColorPuzzleActivity extends BaseActivity {
         }
         generateGrid();
     }
+
+
 
     private void playCrownAnimation(boolean play) {
         if (play) {
@@ -235,7 +255,7 @@ public class ColorPuzzleActivity extends BaseActivity {
         }
         if (numberOfLives == 0) {
             gameLost = true;
-            toggleVisibility(true, vb.shadowV, vb.gameOverLAV);
+            toggleVisibility(true, vb.Shadow.ShadowLayout, vb.gameOverLAV);
             vb.gameOverLAV.playAnimation();
             playSoundAndVibrate(this, R.raw.sound_game_over, true, 100);
             // Animate all target buttons on game loss.
@@ -270,9 +290,15 @@ public class ColorPuzzleActivity extends BaseActivity {
     }
 
     private void resetHearts() {
-        resetHeartAnimation(vb.heartOneLAV);
-        resetHeartAnimation(vb.heartTwoLAV);
-        resetHeartAnimation(vb.heartThreeLAV);
+        if(numberOfLives == 3) {
+            resetHeartAnimation(vb.heartOneLAV);
+            resetHeartAnimation(vb.heartTwoLAV);
+            resetHeartAnimation(vb.heartThreeLAV);
+        }
+        else if(numberOfLives == 2) {
+            resetHeartAnimation(vb.heartOneLAV);
+            resetHeartAnimation(vb.heartTwoLAV);
+        }
     }
 
     private void resetHeartAnimation(LottieAnimationView heart) {
@@ -304,32 +330,44 @@ public class ColorPuzzleActivity extends BaseActivity {
     }
 
     public void handleStrikeClick(View view) {
-        if (isExplosionUsed) {
+        if (strikeCount == 0 || isStrikeUsed) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             return;
         }
-        isExplosionUsed = true;
+
+        isStrikeUsed = true;
+
+        decreaseAndSaveStrikeCount();
+        vb.strikeCountTV.setText(String.valueOf(strikeCount));
+
         playSoundAndVibrate(this, R.raw.sound_explosion, false, 0);
+
         vb.strikeLAV.playAnimation();
         vb.strikeLAV.setVisibility(VISIBLE);
         eliminateNonTargetButtons();
     }
 
     private void eliminateNonTargetButtons() {
-        if (vb.gridContainer.getChildCount() > 0) {
-            GridLayout gridLayout = (GridLayout) vb.gridContainer.getChildAt(0);
-            List<View> nonTargetButtons = new ArrayList<>();
-            for (int i = 0; i < gridLayout.getChildCount(); i++) {
-                View child = gridLayout.getChildAt(i);
-                // Exclude any button that is in the targetButtons list.
-                if (child instanceof Button && !targetButtons.contains(child) && child.getVisibility() == View.VISIBLE) {
-                    nonTargetButtons.add(child);
-                }
+        if (vb.gridContainer.getChildCount() == 0) return;
+        GridLayout gridLayout = (GridLayout) vb.gridContainer.getChildAt(0);
+        List<View> nonTargetButtons = new ArrayList<>();
+
+        for (int i = 0; i < gridLayout.getChildCount(); i++) {
+            View child = gridLayout.getChildAt(i);
+            if (child instanceof Button
+                    && !targetButtons.contains(child)
+                    && child.getVisibility() == View.VISIBLE
+                    && child.getParent() == gridLayout) { // Check parent
+                nonTargetButtons.add(child);
             }
-            int numToEliminate = nonTargetButtons.size() / 2;
-            Collections.shuffle(nonTargetButtons);
-            for (int i = 0; i < numToEliminate; i++) {
-                View button = nonTargetButtons.get(i);
+        }
+
+        int numToEliminate = nonTargetButtons.size() / 2;
+        Collections.shuffle(nonTargetButtons);
+
+        for (int i = 0; i < numToEliminate; i++) {
+            View button = nonTargetButtons.get(i);
+            if (button.getParent() == gridLayout) { // Ensure button is still in the grid
                 button.animate()
                         .alpha(0f)
                         .setDuration(150)
@@ -342,6 +380,14 @@ public class ColorPuzzleActivity extends BaseActivity {
     }
 
     public void handleJumpClick(View view) {
+        if(jumpCount == 0) {
+            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
+            return;
+        }
+
+        decreaseAndSaveJumpCount();
+        vb.jumpCountTV.setText(String.valueOf(jumpCount));
+
         playSoundAndVibrate(this, R.raw.sound_skip, true, 50);
         vb.jumpLAV.setVisibility(VISIBLE);
         vb.jumpLAV.playAnimation();
@@ -360,11 +406,15 @@ public class ColorPuzzleActivity extends BaseActivity {
     }
 
     public void handleSpotlightClick(View view) {
-        if (isSpotlightUsed) {
+        if (isSpotlightUsed || spotlightCount == 0) {
             playSoundAndVibrate(this, R.raw.sound_error, false, 0);
             return;
         }
         playSoundAndVibrate(this, R.raw.sound_reveal, true, 50);
+
+        decreaseAndSaveSpotlightCount();
+        vb.spotlightCountTV.setText(String.valueOf(spotlightCount));
+
         vb.spotlightLAV.setVisibility(View.VISIBLE);
         vb.spotlightLAV.setMinFrame(20);
         vb.spotlightLAV.playAnimation();
@@ -463,6 +513,13 @@ public class ColorPuzzleActivity extends BaseActivity {
     }
 
     public void handleContrastClick(View view) {
+        if(contrastCount == 0) {
+            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
+            return;
+        }
+        decreaseAndSaveContrastCount();
+        vb.contrastCountTV.setText(String.valueOf(contrastCount));
+
         playSoundAndVibrate(this, R.raw.sound_contrast, true, 50);
         vb.contrastLAV.setVisibility(VISIBLE);
         vb.contrastLAV.playAnimation();
@@ -502,20 +559,24 @@ public class ColorPuzzleActivity extends BaseActivity {
     public void handleDifficultyButton(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         vb.difficultyLAV.playAnimation();
-        animateViewScale(vb.DifficultyMenu.difficultyRL, 0f, 1f, 200);
-        toggleVisibility(true, vb.DifficultyMenu.difficultyRL, vb.shadowV);
+        animateViewScale(vb.DifficultyMenu.ColorPuzzleDifficultyLayout, 0f, 1f, 200);
+        toggleVisibility(true, vb.DifficultyMenu.ColorPuzzleDifficultyLayout, vb.Shadow.ShadowLayout);
     }
 
     public void onDifficultySelected(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         byte temp = difficultyLevel;
+
         difficultyLevel = Byte.parseByte(view.getTag().toString());
-        if (difficultyLevel == 0) {
-            toggleVisibility(false, vb.DifficultyMenu.difficultyRL, vb.shadowV);
+
+        if(difficultyLevel == 0 || temp == difficultyLevel) {
             difficultyLevel = temp;
+            toggleVisibility(false, vb.DifficultyMenu.ColorPuzzleDifficultyLayout, vb.Shadow.ShadowLayout);
             return;
         }
+
         updateGameBasedOnDifficulty();
+        toggleVisibility(false, vb.DifficultyMenu.ColorPuzzleDifficultyLayout, vb.Shadow.ShadowLayout);
     }
 
     private void updateGameBasedOnDifficulty() {
@@ -534,7 +595,7 @@ public class ColorPuzzleActivity extends BaseActivity {
                 resetGameForDifficulty((byte) 5, (byte) 7, (byte) 20, (byte) 8, (byte) 4);
                 break;
 
-            default:
+            case 3:
                 BEST_SCORE_KEY_BASED_ON_DIFFICULTY = PUZZLE_HARD_SCORE_KEY;
                 hardColor = RED_COLOR;
                 animateViewScale(vb.DifficultyMenu.hardLayout, 1f, 1.05f, 200);
@@ -545,8 +606,6 @@ public class ColorPuzzleActivity extends BaseActivity {
         changeBackgroundColor(vb.DifficultyMenu.easyLayout, easyColor);
         changeBackgroundColor(vb.DifficultyMenu.mediumLayout, mediumColor);
         changeBackgroundColor(vb.DifficultyMenu.hardLayout, hardColor);
-        // Save the difficulty setting:
-        saveToSharedPreferences(PUZZLE_DIFFICULTY_KEY, (int) difficultyLevel);
     }
 
     private void resetGameForDifficulty(byte initialGrid, byte maxGrid, byte initialDelta, byte lowestDelta, byte changeDelta) {
@@ -569,7 +628,7 @@ public class ColorPuzzleActivity extends BaseActivity {
     public void handleExitButtons(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         if ("no".equals(view.getTag())) {
-            toggleVisibility(false, vb.leaveRL, vb.shadowV);
+            toggleVisibility(false, vb.leaveRL, vb.Shadow.ShadowLayout);
         } else {
             changeActivity(this, GamesActivity.class);
         }
@@ -578,7 +637,7 @@ public class ColorPuzzleActivity extends BaseActivity {
     private void handleBackNavigation() {
         vibrate(this, 50);
         if (currentScore > 0 && !gameLost) {
-            toggleVisibility(vb.leaveRL.getVisibility() != View.VISIBLE, vb.leaveRL, vb.shadowV);
+            toggleVisibility(vb.leaveRL.getVisibility() != View.VISIBLE, vb.leaveRL, vb.Shadow.ShadowLayout);
         } else {
             changeActivity(this, GamesActivity.class);
         }
@@ -586,7 +645,7 @@ public class ColorPuzzleActivity extends BaseActivity {
 
     private void resetGameState() {
         gameLost = false;
-        toggleVisibility(false, vb.shadowV, vb.crownLAV, vb.gameOverLAV);
+        toggleVisibility(false, vb.Shadow.ShadowLayout, vb.crownLAV, vb.gameOverLAV);
         updateGameBasedOnDifficulty();
     }
 
@@ -605,5 +664,19 @@ public class ColorPuzzleActivity extends BaseActivity {
     @Override
     protected Class<?> getBackDestination() {
         return GamesActivity.class;
+    }
+
+    @Override
+    public void onShopClosed() {
+        vb.strikeCountTV.setText(String.valueOf(strikeCount));
+        vb.spotlightCountTV.setText(String.valueOf(spotlightCount));
+        vb.contrastCountTV.setText(String.valueOf(contrastCount));
+        vb.jumpCountTV.setText(String.valueOf(jumpCount));
+    }
+    private void updateUI() {
+        vb.strikeCountTV.setText(String.valueOf(strikeCount));
+        vb.spotlightCountTV.setText(String.valueOf(spotlightCount));
+        vb.contrastCountTV.setText(String.valueOf(contrastCount));
+        vb.jumpCountTV.setText(String.valueOf(jumpCount));
     }
 }

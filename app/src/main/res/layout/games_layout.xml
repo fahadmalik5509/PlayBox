@@ -2,6 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false"
     android:background="@color/background" >
 
     <LinearLayout
@@ -30,6 +32,12 @@
             style="@style/NavigationButton"
             android:onClick="handleColorPuzzleButtonClick" />
 
+        <Button
+            android:id="@+id/dotAndBoxesB"
+            android:text="@string/dot_and_boxes"
+            style="@style/NavigationButton"
+            android:onClick="handleDotAndBoxesButtonClick" />
+
     </LinearLayout>
 
     <TextView
@@ -42,6 +50,25 @@
         android:textColor="@color/beige"
         android:textAppearance="@style/default_font"/>
 
-    <include layout="@layout/navigation_layout"/>
+    <!-- Shop Button RelativeLayout -->
+    <include
+        android:id="@+id/ShopButton"
+        layout="@layout/shop_button_layout"/>
+
+    <!-- Shadow Layout -->
+    <include
+        android:id="@+id/Shadow"
+        layout="@layout/shadow_layout"/>
+
+    <!-- Navigation Layout -->
+    <include
+        android:id="@+id/Navigation"
+        layout="@layout/navigation_layout"/>
+
+
+    <!-- Shop RelativeLayout -->
+    <include
+        android:id="@+id/Shop"
+        layout="@layout/shop_layout"/>
 
 </RelativeLayout>

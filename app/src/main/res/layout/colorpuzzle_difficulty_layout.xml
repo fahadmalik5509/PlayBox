@@ -1,19 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/difficultyRL"
+    android:id="@+id/ColorPuzzleDifficultyLayout"
     android:background="@drawable/popup_background"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
-    android:orientation="vertical"
     android:gravity="center"
     android:layout_margin="24dp"
-    android:padding="16dp"
-    android:visibility="gone">
-
-
-
+    android:padding="16dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -41,8 +34,6 @@
             android:stateListAnimator="@animator/pulse_animation"/>
 
     </RelativeLayout>
-
-
 
     <LinearLayout
     android:layout_width="wrap_content"
@@ -177,4 +168,3 @@
 
 
 </RelativeLayout>
-

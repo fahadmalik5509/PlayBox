@@ -46,7 +46,10 @@ public class ActivityUtils {
     public static final String PUZZLE_EASY_SCORE_KEY = "puzzleEasyScore";
     public static final String PUZZLE_MEDIUM_SCORE_KEY = "puzzleMediumScore";
     public static final String PUZZLE_HARD_SCORE_KEY = "puzzleHardScore";
-    public static final String PUZZLE_DIFFICULTY_KEY = "puzzleDifficulty";
+    public static final String WORDLE_STRIKE_KEY = "strike";
+    public static final String WORDLE_SPOTLIGHT_KEY = "spotlight";
+    public static final String WORDLE_CONTRAST_KEY = "contrast";
+    public static final String WORDLE_JUMP_KEY = "jump";
 
     public static int BACKGROUND_COLOR;
     public static int BLACK_COLOR;
@@ -59,6 +62,8 @@ public class ActivityUtils {
     public static int GREEN_COLOR;
     public static int BLUE_COLOR;
     public static int CHARCOAL_COLOR;
+    public static int BROWNISH_GRAY_COLOR;
+    public static int ESPRESSO;
 
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
@@ -104,6 +109,8 @@ public class ActivityUtils {
         soundMap.put(R.raw.sound_new_level, soundPool.load(context, R.raw.sound_new_level, 1));
         soundMap.put(R.raw.sound_reveal, soundPool.load(context, R.raw.sound_reveal, 1));
         soundMap.put(R.raw.sound_contrast, soundPool.load(context, R.raw.sound_contrast, 1));
+        soundMap.put(R.raw.sound_dot_clicked, soundPool.load(context, R.raw.sound_dot_clicked, 1));
+        soundMap.put(R.raw.sound_box_complete, soundPool.load(context, R.raw.sound_box_complete, 1));
     }
 
     public static void playSoundAndVibrate(Context context, int soundResId, boolean vibrate, int vibrationDuration) {
@@ -175,6 +182,11 @@ public class ActivityUtils {
         }
     }
 
+    public static void animateViewPulse(View view, float startScale, float endScale, int Duration) {
+        animateViewScale(view, startScale, endScale, Duration);
+        view.postDelayed(() -> animateViewScale(view,endScale,startScale, Duration), Duration);
+    }
+
     public static void animateViewBounce(View view) {
 
         ObjectAnimator animator = ObjectAnimator.ofFloat(view, "translationY", -15f, 0f);
@@ -233,6 +245,8 @@ public class ActivityUtils {
         GREEN_COLOR = getColorByID(context, R.color.green);
         BLUE_COLOR = getColorByID(context, R.color.blue);
         CHARCOAL_COLOR = getColorByID(context, R.color.charcoal);
+        BROWNISH_GRAY_COLOR = getColorByID(context, R.color.brownish_gray);
+        ESPRESSO = getColorByID(context, R.color.espresso);
     }
 
     public static void toggleVisibility(boolean visible, View... views) {
@@ -262,6 +276,5 @@ public class ActivityUtils {
         }
         return Color.TRANSPARENT; // Default if no color is set
     }
-
 
 }

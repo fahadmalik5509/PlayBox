@@ -12,6 +12,8 @@
     <color name="green">#11e889</color>
     <color name="gold">#FFCC33</color>
     <color name="blue">#6aa9ff</color>
+    <color name="espresso">#2f2626</color>
+    <color name="brownish_gray">#4c3c3c</color>
 
 
 </resources>

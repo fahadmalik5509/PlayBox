@@ -31,7 +31,7 @@
         <item name="android:gravity">center</item>
         <item name="android:clickable">true</item>
         <item name="android:onClick">keyboardClicked</item>
-        <item name="android:stateListAnimator">@animator/pulse_animation</item>
+        <item name="android:stateListAnimator">@animator/keyboard_animation</item>
     </style>
 
     <style name="letterBoxTextView">
@@ -70,15 +70,6 @@
         <item name="android:stateListAnimator">@animator/pulse_animation</item>
     </style>
 
-    <style name="ShadowLayout">
-        <item name="android:background">@color/black</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:alpha">0.5</item>
-        <item name="android:visibility">gone</item>
-        <item name="android:focusable">true</item>
-        <item name="android:clickable">true</item>
-    </style>
 
     <style name="CP_HeartsLottieAnimation">
         <item name="android:layout_width">50dp</item>

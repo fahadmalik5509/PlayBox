@@ -12,9 +12,13 @@ import androidx.activity.OnBackPressedCallback;
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.colorpuzzle.ColorPuzzleActivity;
 import com.fahadmalik5509.playbox.databinding.GamesLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
+import com.fahadmalik5509.playbox.databinding.ShopLayoutBinding;
+import com.fahadmalik5509.playbox.dotandboxes.DotAndBoxesActivity;
 import com.fahadmalik5509.playbox.tictactoe.GameModeActivity;
 import com.fahadmalik5509.playbox.wordle.WordleActivity;
-
 
 public class GamesActivity extends BaseActivity {
     GamesLayoutBinding vb;
@@ -29,11 +33,19 @@ public class GamesActivity extends BaseActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                handleBackNavigation();
+                backLogic();
             }
         });
+        getBindings();
     }
 
+    private void getBindings() {
+        ShopButtonLayoutBinding ShopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
+        ShopLayoutBinding ShopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
+        NavigationLayoutBinding NavigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
+        ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
+        setBindings(ShopButtonBinding, ShopBinding, NavigationBinding, ShadowBinding);
+    }
     public void handleTicTacToeButtonClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, GameModeActivity.class);
@@ -47,10 +59,11 @@ public class GamesActivity extends BaseActivity {
         changeActivity(this, ColorPuzzleActivity.class);
     }
 
-    private void handleBackNavigation() {
-        vibrate(this, 50);
-        changeActivity(this, HomeActivity.class);
+    public void handleDotAndBoxesButtonClick(View view) {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        changeActivity(this, DotAndBoxesActivity.class);
     }
+
     @Override
     protected Class<?> getBackDestination() {
         return HomeActivity.class;
