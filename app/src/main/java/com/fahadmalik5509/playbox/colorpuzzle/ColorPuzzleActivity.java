@@ -91,6 +91,7 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
         vb.Shop.wordleTV.setSelected(false);
         vb.Shop.shopWordleLL.setVisibility(GONE);
         vb.Shop.shopCPLL.setVisibility(VISIBLE);
+        toggleVisibility(true, vb.DifficultyMenu.ColorPuzzleDifficultyLayout, vb.Shadow.ShadowLayout);
         updateGameBasedOnDifficulty();
         updateBestScoreDisplay();
     }
@@ -584,7 +585,7 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
         switch (difficultyLevel) {
             case 1:
                 BEST_SCORE_KEY_BASED_ON_DIFFICULTY = PUZZLE_EASY_SCORE_KEY;
-                easyColor = GREEN_COLOR;
+                easyColor = LIGHT_GREEN_COLOR;
                 animateViewScale(vb.DifficultyMenu.easyLayout, 1f, 1.05f, 200);
                 resetGameForDifficulty((byte) 3, (byte) 5, (byte) 30, (byte) 10, (byte) 4);
                 break;
@@ -597,7 +598,7 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
 
             case 3:
                 BEST_SCORE_KEY_BASED_ON_DIFFICULTY = PUZZLE_HARD_SCORE_KEY;
-                hardColor = RED_COLOR;
+                hardColor = DARK_RED_COLOR;
                 animateViewScale(vb.DifficultyMenu.hardLayout, 1f, 1.05f, 200);
                 resetGameForDifficulty((byte) 7, (byte) 9, (byte) 5, (byte) 5, (byte) 0);
                 break;

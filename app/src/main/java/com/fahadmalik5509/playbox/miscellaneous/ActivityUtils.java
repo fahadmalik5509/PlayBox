@@ -57,13 +57,15 @@ public class ActivityUtils {
     public static int WHITE_COLOR;
     public static int BEIGE_COLOR;
     public static int HINT_COLOR;
-    public static int RED_COLOR;
+    public static int DARK_RED_COLOR;
+    public static int LIGHT_RED_COLOR;
     public static int YELLOW_COLOR;
-    public static int GREEN_COLOR;
+    public static int DARK_GREEN_COLOR;
+    public static int LIGHT_GREEN_COLOR;
     public static int BLUE_COLOR;
     public static int CHARCOAL_COLOR;
     public static int BROWNISH_GRAY_COLOR;
-    public static int ESPRESSO;
+    public static int ESPRESSO_COLOR;
 
     private static SoundPool soundPool;
     public static int fun_openURL = 0;
@@ -240,13 +242,15 @@ public class ActivityUtils {
         WHITE_COLOR = getColorByID(context, R.color.white);
         BEIGE_COLOR = getColorByID(context, R.color.beige);
         HINT_COLOR = getColorByID(context, R.color.hint);
-        RED_COLOR = getColorByID(context, R.color.red);
+        DARK_RED_COLOR = getColorByID(context, R.color.dark_red);
+        LIGHT_RED_COLOR = getColorByID(context, R.color.light_red);
         YELLOW_COLOR = getColorByID(context, R.color.yellow);
-        GREEN_COLOR = getColorByID(context, R.color.green);
+        DARK_GREEN_COLOR = getColorByID(context, R.color.dark_green);
+        LIGHT_GREEN_COLOR = getColorByID(context, R.color.light_green);
         BLUE_COLOR = getColorByID(context, R.color.blue);
         CHARCOAL_COLOR = getColorByID(context, R.color.charcoal);
         BROWNISH_GRAY_COLOR = getColorByID(context, R.color.brownish_gray);
-        ESPRESSO = getColorByID(context, R.color.espresso);
+        ESPRESSO_COLOR = getColorByID(context, R.color.espresso);
     }
 
     public static void toggleVisibility(boolean visible, View... views) {

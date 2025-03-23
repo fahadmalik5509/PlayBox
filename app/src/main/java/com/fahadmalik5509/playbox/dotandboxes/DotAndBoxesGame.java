@@ -1,10 +1,10 @@
 package com.fahadmalik5509.playbox.dotandboxes;
 
 public class DotAndBoxesGame {
-    private final int gridSize;  // number of boxes per row (dots count = gridSize + 1)
-    private int[][] horizontalLines; // dimensions: (gridSize+1) x gridSize; 0 = not drawn, 1 = Player 1, 2 = Player 2
-    private int[][] verticalLines;   // dimensions: gridSize x (gridSize+1)
-    private int[][] boxes;           // dimensions: gridSize x gridSize; 0 = unclaimed, 1 = Player 1, 2 = Player 2
+    private final int gridSize;  // boxes per row (dots count = gridSize + 1)
+    private int[][] horizontalLines; // (gridSize+1) x gridSize
+    private int[][] verticalLines;   // gridSize x (gridSize+1)
+    private int[][] boxes;           // gridSize x gridSize
     private boolean playerOneTurn;
 
     public DotAndBoxesGame(int gridSize) {
@@ -20,10 +20,9 @@ public class DotAndBoxesGame {
     }
 
     /**
-     * Marks a line (horizontal or vertical) at the given row and col using the current player's number.
-     * If the line is already drawn, returns false.
-     * After marking, checks for any completed boxes.
-     * If no box was completed, toggles the turn.
+     * Marks a line (horizontal/vertical) using the current player's number.
+     * Returns false if the line was already drawn.
+     * Switches turn if no box is completed.
      */
     public boolean markLine(boolean horizontal, int row, int col) {
         int currentPlayer = playerOneTurn ? 1 : 2;
@@ -34,19 +33,15 @@ public class DotAndBoxesGame {
             if (verticalLines[row][col] != 0) return false;
             verticalLines[row][col] = currentPlayer;
         }
-        boolean boxCompleted = checkForCompletedBoxes();
-        // If no box was completed, switch turn.
-        if (!boxCompleted) {
-
+        if (!checkForCompletedBoxes()) {
             playerOneTurn = !playerOneTurn;
         }
         return true;
     }
 
     /**
-     * Checks every box on the board. If all four surrounding lines of an unclaimed box
-     * are drawn, the box is claimed by the current player.
-     * Returns true if at least one box was completed by this move.
+     * Claims any box whose four sides are complete.
+     * Returns true if at least one new box was claimed.
      */
     public boolean checkForCompletedBoxes() {
         boolean anyCompleted = false;
@@ -82,7 +77,7 @@ public class DotAndBoxesGame {
     }
 
     /**
-     * Builds a score string by counting the claimed boxes for each player.
+     * Returns the current score as a formatted string.
      */
     public String getScoreText() {
         int score1 = 0, score2 = 0;
@@ -96,9 +91,9 @@ public class DotAndBoxesGame {
     }
 
     public boolean isGameOver() {
-        for (int r = 0; r < gridSize; r++) {
-            for (int c = 0; c < gridSize; c++) {
-                if (boxes[r][c] == 0) return false;
+        for (int[] row : boxes) {
+            for (int box : row) {
+                if (box == 0) return false;
             }
         }
         return true;

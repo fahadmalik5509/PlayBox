@@ -193,8 +193,8 @@ public class WordleActivity extends BaseActivity implements BaseActivity.ShopUpd
         for (int i = 0; i < MAX_COLS; i++) {
             char guessChar = userGuess.charAt(i);
             if (targetWord.charAt(i) == guessChar) {
-                changeBackgroundColor(letterBox[currentRow][i], GREEN_COLOR);
-                updateKeyboardColor(guessChar, GREEN_COLOR);
+                changeBackgroundColor(letterBox[currentRow][i], LIGHT_GREEN_COLOR);
+                updateKeyboardColor(guessChar, LIGHT_GREEN_COLOR);
                 letterMatched[i] = true;
                 targetLetterCount[guessChar - 'A']--;
             }
@@ -266,9 +266,9 @@ public class WordleActivity extends BaseActivity implements BaseActivity.ShopUpd
         Integer existingColor = letterColorMap.get(letter);
 
         // Apply the color based on priority
-        if (color == GREEN_COLOR ||
-                (color == YELLOW_COLOR && (existingColor == null || existingColor != GREEN_COLOR)) ||
-                (color == GRAY_COLOR && (existingColor == null || existingColor != GREEN_COLOR && existingColor != YELLOW_COLOR))) {
+        if (color == LIGHT_GREEN_COLOR ||
+                (color == YELLOW_COLOR && (existingColor == null || existingColor != LIGHT_GREEN_COLOR)) ||
+                (color == GRAY_COLOR && (existingColor == null || existingColor != LIGHT_GREEN_COLOR && existingColor != YELLOW_COLOR))) {
             letterColorMap.put(letter, color);
 
             // Update grayedOutLetters list if the color is gray
@@ -319,7 +319,7 @@ public class WordleActivity extends BaseActivity implements BaseActivity.ShopUpd
             for (int column = 0; column < MAX_COLS; column++) {
                 letterBox[row][column].setText("");
                 letterBox[row][column].setHint("");
-                changeBackgroundColor(letterBox[row][column], RED_COLOR);
+                changeBackgroundColor(letterBox[row][column], DARK_RED_COLOR);
             }
         }
 
@@ -454,7 +454,7 @@ public class WordleActivity extends BaseActivity implements BaseActivity.ShopUpd
             char targetChar = targetWord.charAt(i);
             Integer keyboardColor = letterColorMap.get(targetChar);
 
-            if (keyboardColor == null || keyboardColor != GREEN_COLOR) {
+            if (keyboardColor == null || keyboardColor != LIGHT_GREEN_COLOR) {
                 unrevealedPositions.add(i);
             }
         }
@@ -475,7 +475,7 @@ public class WordleActivity extends BaseActivity implements BaseActivity.ShopUpd
         revealedHints.put(positionToReveal, correctLetter);
 
         playSoundAndVibrate(this, R.raw.sound_hint, true, 50);
-        updateKeyboardColor(correctLetter, GREEN_COLOR);
+        updateKeyboardColor(correctLetter, LIGHT_GREEN_COLOR);
         applyKeyboardColors();
 
         hintUsed++;

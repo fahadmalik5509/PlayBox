@@ -25,7 +25,6 @@ public class DotAndBoxesActivity extends BaseActivity {
 
     private DotandboxesLayoutBinding vb;
     private TextView previouslySelectedGridSizeTV = null;
-    private TextView previouslySelectedDifficultyTV = null;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -34,6 +33,7 @@ public class DotAndBoxesActivity extends BaseActivity {
         vb = DotandboxesLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
+        // Update score whenever the board is touched.
         vb.dotAndBoxesView.setOnTouchListener((v, event) -> {
             v.onTouchEvent(event);
             updateScore();
@@ -42,14 +42,14 @@ public class DotAndBoxesActivity extends BaseActivity {
 
         setupOnBackPressed();
         setupGameUI();
-        getBindings();
+        initBindings();
     }
 
     private void setupGameUI() {
-        // Default values (grid size here represents boxes count)
-        int defaultGridSize = 6;
-        int defaultDifficulty = 0;
-        String defaultGameMode = "pvp";
+        // Set default game settings
+        final int defaultGridSize = 6;
+        final String defaultDifficulty = "casual";
+        final String defaultGameMode = "pvp";
 
         toggleVisibility(true, vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
         vb.dotAndBoxesView.updateGridSize(defaultGridSize);
@@ -59,16 +59,8 @@ public class DotAndBoxesActivity extends BaseActivity {
         updateScore();
     }
 
-    private void setupOnBackPressed() {
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                // Implement back navigation logic here if needed.
-            }
-        });
-    }
-
-    private void getBindings() {
+    private void initBindings() {
+        // Bind layout components for shop, navigation, etc.
         ShopButtonLayoutBinding shopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
         ShopLayoutBinding shopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
         NavigationLayoutBinding navigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
@@ -92,18 +84,14 @@ public class DotAndBoxesActivity extends BaseActivity {
 
     public void handleDotAndBoxesMenuClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        if ("open".equals(view.getTag())) {
-            toggleVisibility(true, vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
-        } else if ("close".equals(view.getTag())) {
-            toggleVisibility(false, vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
-        }
+        // Toggle menu visibility based on tag value.
+        toggleVisibility("open".equals(view.getTag()), vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
     }
 
     public void handleGridSizeButtons(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        // Assuming the tag value represents the number of dots (e.g., "8")
         int dotsCount = Integer.parseInt(view.getTag().toString());
-        // If grid size in game logic represents boxes count, subtract 1.
+        // Grid size (boxes) = dots count - 1.
         int boxesCount = dotsCount - 1;
         vb.dotAndBoxesView.updateGridSize(boxesCount);
         updateScore();
@@ -130,7 +118,7 @@ public class DotAndBoxesActivity extends BaseActivity {
                 if (previouslySelectedGridSizeTV != tv) {
                     animateViewScale(tv, 1.0f, 1.1f, 200);
                     tv.setSelected(true);
-                    if (previouslySelectedGridSizeTV != null && previouslySelectedGridSizeTV != tv) {
+                    if (previouslySelectedGridSizeTV != null) {
                         animateViewScale(previouslySelectedGridSizeTV, 1.1f, 1.0f, 0);
                         previouslySelectedGridSizeTV.setSelected(false);
                     }
@@ -148,15 +136,14 @@ public class DotAndBoxesActivity extends BaseActivity {
     }
 
     private void updateGameModeUI(String mode) {
-        if ("pvai".equals(mode)) {
-            vb.pvaiTV.setSelected(true);
-            vb.pvpTV.setSelected(false);
+        boolean isPvAI = "pvai".equals(mode);
+        vb.pvaiTV.setSelected(isPvAI);
+        vb.pvpTV.setSelected(!isPvAI);
+        if (isPvAI) {
             animateViewScale(vb.pvaiTV, 1f, 1.05f, 200);
             animateViewScale(vb.pvpTV, 1.05f, 1f, 0);
             toggleVisibility(true, vb.selectDifficultyTV, vb.selectDifficultyLL);
         } else {
-            vb.pvaiTV.setSelected(false);
-            vb.pvpTV.setSelected(true);
             animateViewScale(vb.pvaiTV, 1.05f, 1f, 0);
             animateViewScale(vb.pvpTV, 1f, 1.05f, 200);
             toggleVisibility(false, vb.selectDifficultyTV, vb.selectDifficultyLL);
@@ -165,32 +152,19 @@ public class DotAndBoxesActivity extends BaseActivity {
 
     public void handleDifficultyButtons(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        int selected = Integer.parseInt(view.getTag().toString());
-        updateDifficultyUI(selected - 1);
+        updateDifficultyUI(view.getTag().toString());
     }
 
-    private void updateDifficultyUI(int selectedDifficulty) {
-        TextView[] difficultyTVs = new TextView[]{
-                vb.easyTV,
-                vb.mediumTV,
-                vb.hardTV
-        };
-
-        for (int i = 0; i < difficultyTVs.length; i++) {
-            TextView tv = difficultyTVs[i];
-            if (i == selectedDifficulty) {
-                if (previouslySelectedDifficultyTV != tv) {
-                    animateViewScale(tv, 1.0f, 1.1f, 200);
-                    tv.setSelected(true);
-                    if (previouslySelectedDifficultyTV != null && previouslySelectedDifficultyTV != tv) {
-                        animateViewScale(previouslySelectedDifficultyTV, 1.1f, 1.0f, 0);
-                        previouslySelectedDifficultyTV.setSelected(false);
-                    }
-                    previouslySelectedDifficultyTV = tv;
-                }
-            } else {
-                tv.setSelected(false);
-            }
+    private void updateDifficultyUI(String mode) {
+        boolean isCasual = "casual".equals(mode);
+        vb.casualDifficultyTV.setSelected(isCasual);
+        vb.tacticalDifficultyTV.setSelected(!isCasual);
+        if (isCasual) {
+            animateViewScale(vb.casualDifficultyTV, 1f, 1.05f, 200);
+            animateViewScale(vb.tacticalDifficultyTV, 1.05f, 1f, 0);
+        } else {
+            animateViewScale(vb.casualDifficultyTV, 1.05f, 1f, 0);
+            animateViewScale(vb.tacticalDifficultyTV, 1f, 1.05f, 200);
         }
     }
 
@@ -198,19 +172,18 @@ public class DotAndBoxesActivity extends BaseActivity {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         if (vb.dotAndBoxesView.gameInProgress) {
             toggleVisibility(true, vb.resetRL, vb.Shadow.ShadowLayout);
+        } else {
+            vb.dotAndBoxesView.restartGame();
+            updateScore();
         }
         if ("yes".equals(view.getTag())) {
             toggleVisibility(false, vb.resetRL, vb.Shadow.ShadowLayout);
             vb.dotAndBoxesView.gameInProgress = false;
             vb.dotAndBoxesView.restartGame();
             updateScore();
-            return;
         } else if ("no".equals(view.getTag())) {
             toggleVisibility(false, vb.resetRL, vb.Shadow.ShadowLayout);
-            return;
         }
-        vb.dotAndBoxesView.restartGame();
-        updateScore();
     }
 
     public void handleExitButtons(View view) {
@@ -220,5 +193,14 @@ public class DotAndBoxesActivity extends BaseActivity {
         } else {
             changeActivity(this, GamesActivity.class);
         }
+    }
+
+    private void setupOnBackPressed() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                // Implement back navigation logic if necessary.
+            }
+        });
     }
 }

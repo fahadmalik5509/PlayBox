@@ -1,18 +1,16 @@
 package com.fahadmalik5509.playbox.tictactoe;
 
 import static android.view.View.GONE;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GREEN_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.RED_COLOR;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.DARK_RED_COLOR;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.LIGHT_GREEN_COLOR;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_DIFFICULTY_KEY;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.YELLOW_COLOR;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
 import android.os.Bundle;
 import android.view.View;
@@ -125,7 +123,7 @@ public class TicTacToeAIActivity extends BaseActivity {
     private void animateWinningButtons(int... winBtn) {
         for (int index : winBtn) {
             animateViewScale(buttons[index], 1f, 1.1f, 100);
-            changeBackgroundColor(buttons[index], GREEN_COLOR);
+            changeBackgroundColor(buttons[index], LIGHT_GREEN_COLOR);
         }
     }
 
@@ -155,7 +153,7 @@ public class TicTacToeAIActivity extends BaseActivity {
             button.setText("");
             button.setEnabled(true);
             animateViewScale(button, 1.1f, 1f, 100);
-            changeBackgroundColor(button, RED_COLOR);
+            changeBackgroundColor(button, DARK_RED_COLOR);
         }
     }
 
@@ -173,9 +171,9 @@ public class TicTacToeAIActivity extends BaseActivity {
 
     private void updateDifficultyColor() {
         int color = switch (difficulty) {
-            case 1 -> GREEN_COLOR;
+            case 1 -> LIGHT_GREEN_COLOR;
             case 2 -> YELLOW_COLOR;
-            default -> RED_COLOR;
+            default -> DARK_RED_COLOR;
         };
         changeBackgroundColor(vb.difficultyIV, color);
     }

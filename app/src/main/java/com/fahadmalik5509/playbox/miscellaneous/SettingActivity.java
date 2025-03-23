@@ -33,8 +33,8 @@ public class SettingActivity extends AppCompatActivity {
     }
 
     private void updateButtonStates() {
-        changeBackgroundColor(vb.soundB, isSoundEnabled ? GREEN_COLOR : RED_COLOR);
-        changeBackgroundColor(vb.vibrationB, isVibrationEnabled ? GREEN_COLOR : RED_COLOR);
+        changeBackgroundColor(vb.soundB, isSoundEnabled ? LIGHT_GREEN_COLOR : DARK_RED_COLOR);
+        changeBackgroundColor(vb.vibrationB, isVibrationEnabled ? LIGHT_GREEN_COLOR : DARK_RED_COLOR);
         updateButtonState(vb.soundB, isSoundEnabled, "Sounds ");
         updateButtonState(vb.vibrationB, isVibrationEnabled, "Vibration ");
     }
@@ -43,7 +43,7 @@ public class SettingActivity extends AppCompatActivity {
     public void handleSoundButtonClick(View view) {
         isSoundEnabled = !isSoundEnabled;
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        int color = isSoundEnabled ? GREEN_COLOR : RED_COLOR;
+        int color = isSoundEnabled ? LIGHT_GREEN_COLOR : DARK_RED_COLOR;
         changeBackgroundColor(vb.soundB, color);
         updateButtonState(vb.soundB, isSoundEnabled, "Sounds ");
 
@@ -54,7 +54,7 @@ public class SettingActivity extends AppCompatActivity {
     public void handleVibrationButtonClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         isVibrationEnabled = !isVibrationEnabled;
-        int color = isVibrationEnabled ? GREEN_COLOR : RED_COLOR;
+        int color = isVibrationEnabled ? LIGHT_GREEN_COLOR : DARK_RED_COLOR;
         changeBackgroundColor(vb.vibrationB, color);
         updateButtonState(vb.vibrationB, isVibrationEnabled, "Vibration ");
 

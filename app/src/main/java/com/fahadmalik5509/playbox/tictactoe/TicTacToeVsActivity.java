@@ -1,8 +1,8 @@
 package com.fahadmalik5509.playbox.tictactoe;
 
 import static android.view.View.VISIBLE;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.GREEN_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.RED_COLOR;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.DARK_RED_COLOR;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.LIGHT_GREEN_COLOR;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_PLAYER_ONE_NAME_KEY;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_PLAYER_TWO_NAME_KEY;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
@@ -112,7 +112,7 @@ public class TicTacToeVsActivity extends BaseActivity {
     private void animateWinningButtons(int... winBtn) {
         for (int index : winBtn) {
             animateViewScale(buttons[index], 1f, 1.1f, 100);
-            changeBackgroundColor(buttons[index], GREEN_COLOR);
+            changeBackgroundColor(buttons[index], LIGHT_GREEN_COLOR);
         }
     }
 
@@ -147,7 +147,7 @@ public class TicTacToeVsActivity extends BaseActivity {
             button.setText("");
             button.setEnabled(true);
             animateViewScale(button, 1.1f, 1f, 100);
-            changeBackgroundColor(button, RED_COLOR);
+            changeBackgroundColor(button, DARK_RED_COLOR);
         }
     }
 

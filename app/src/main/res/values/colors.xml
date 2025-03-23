@@ -7,13 +7,14 @@
     <color name="white">#FFFFFFFF</color>
     <color name="beige">#F9F9EB</color>
     <color name="hint">#b0b0b0</color>
-    <color name="red">#6C2828</color>
+    <color name="dark_red">#6C2828</color>
+    <color name="light_red">#E81111</color>
     <color name="yellow">#ffc107</color>
-    <color name="green">#11e889</color>
+    <color name="dark_green">#0EBA6E</color>
+    <color name="light_green">#11e889</color>
     <color name="gold">#FFCC33</color>
     <color name="blue">#6aa9ff</color>
     <color name="espresso">#2f2626</color>
     <color name="brownish_gray">#4c3c3c</color>
-
 
 </resources>
