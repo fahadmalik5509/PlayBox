@@ -1,5 +1,6 @@
 package com.fahadmalik5509.playbox.dotandboxes;
 
+import static android.view.View.VISIBLE;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
@@ -48,14 +49,12 @@ public class DotAndBoxesActivity extends BaseActivity {
     private void setupGameUI() {
         // Set default game settings
         final int defaultGridSize = 6;
-        final String defaultDifficulty = "casual";
         final String defaultGameMode = "pvp";
 
         toggleVisibility(true, vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
         vb.dotAndBoxesView.updateGridSize(defaultGridSize);
         updateGridSizeUI(defaultGridSize);
         updateGameModeUI(defaultGameMode);
-        updateDifficultyUI(defaultDifficulty);
         updateScore();
     }
 
@@ -96,6 +95,7 @@ public class DotAndBoxesActivity extends BaseActivity {
         vb.dotAndBoxesView.updateGridSize(boxesCount);
         updateScore();
         updateGridSizeUI(boxesCount);
+        vb.dotAndBoxesView.gameInProgress = false;
     }
 
     private void updateGridSizeUI(int boxesCount) {
@@ -142,29 +142,9 @@ public class DotAndBoxesActivity extends BaseActivity {
         if (isPvAI) {
             animateViewScale(vb.pvaiTV, 1f, 1.05f, 200);
             animateViewScale(vb.pvpTV, 1.05f, 1f, 0);
-            toggleVisibility(true, vb.selectDifficultyTV, vb.selectDifficultyLL);
         } else {
             animateViewScale(vb.pvaiTV, 1.05f, 1f, 0);
             animateViewScale(vb.pvpTV, 1f, 1.05f, 200);
-            toggleVisibility(false, vb.selectDifficultyTV, vb.selectDifficultyLL);
-        }
-    }
-
-    public void handleDifficultyButtons(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        updateDifficultyUI(view.getTag().toString());
-    }
-
-    private void updateDifficultyUI(String mode) {
-        boolean isCasual = "casual".equals(mode);
-        vb.casualDifficultyTV.setSelected(isCasual);
-        vb.tacticalDifficultyTV.setSelected(!isCasual);
-        if (isCasual) {
-            animateViewScale(vb.casualDifficultyTV, 1f, 1.05f, 200);
-            animateViewScale(vb.tacticalDifficultyTV, 1.05f, 1f, 0);
-        } else {
-            animateViewScale(vb.casualDifficultyTV, 1.05f, 1f, 0);
-            animateViewScale(vb.tacticalDifficultyTV, 1f, 1.05f, 200);
         }
     }
 
@@ -173,12 +153,14 @@ public class DotAndBoxesActivity extends BaseActivity {
         if (vb.dotAndBoxesView.gameInProgress) {
             toggleVisibility(true, vb.resetRL, vb.Shadow.ShadowLayout);
         } else {
+            vb.dotAndBoxesView.animateGameReset();
             vb.dotAndBoxesView.restartGame();
             updateScore();
         }
         if ("yes".equals(view.getTag())) {
             toggleVisibility(false, vb.resetRL, vb.Shadow.ShadowLayout);
             vb.dotAndBoxesView.gameInProgress = false;
+            vb.dotAndBoxesView.animateGameReset();
             vb.dotAndBoxesView.restartGame();
             updateScore();
         } else if ("no".equals(view.getTag())) {
@@ -199,8 +181,46 @@ public class DotAndBoxesActivity extends BaseActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                // Implement back navigation logic if necessary.
+                backLogic();
             }
         });
+    }
+
+    @Override
+    public void backLogic() {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+
+        // Close Shop layout if open.
+        if (vb.Shop.ShopLayout.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.Shop.ShopLayout, vb.Shadow.ShadowLayout);
+            return;
+        }
+
+        // Close DotAndBoxes menu if open.
+        if (vb.DotAndBoxesMenuLayout.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
+            return;
+        }
+
+        // Close reset confirmation if visible.
+        if (vb.resetRL.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.resetRL, vb.Shadow.ShadowLayout);
+            return;
+        }
+
+        // Close leave confirmation if visible.
+        if (vb.leaveRL.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.leaveRL, vb.Shadow.ShadowLayout);
+            return;
+        }
+
+        // If the game is in progress, prompt exit confirmation.
+        if (vb.dotAndBoxesView.gameInProgress) {
+            toggleVisibility(true, vb.leaveRL, vb.Shadow.ShadowLayout);
+            return;
+        }
+
+        // If nothing is open or active, go back.
+        changeActivity(this, getBackDestination());
     }
 }

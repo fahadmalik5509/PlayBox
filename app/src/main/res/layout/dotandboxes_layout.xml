@@ -189,7 +189,7 @@
         android:padding="16dp"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:visibility="gone">
+>
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -379,29 +379,10 @@
                 android:layout_gravity="center"/>
 
             <TextView
-                android:id="@+id/pvpTV"
-                android:tag="pvp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="230dp"
-                android:minHeight="50dp"
-                android:gravity="center"
-                android:background="@drawable/selection"
-                android:padding="10dp"
-                android:text="@string/pvp"
-                android:textSize="18sp"
-                android:textColor="@color/beige"
-                android:textAppearance="@style/default_font"
-                android:layout_gravity="center"
-                android:stateListAnimator="@animator/pulse_animation"
-                android:onClick="handleGameModeButtons"/>
-
-            <TextView
                 android:id="@+id/pvaiTV"
                 android:tag="pvai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:minWidth="230dp"
                 android:minHeight="50dp"
                 android:gravity="center"
@@ -416,66 +397,23 @@
                 android:onClick="handleGameModeButtons"/>
 
             <TextView
-                android:id="@+id/selectDifficultyTV"
+                android:id="@+id/pvpTV"
+                android:tag="pvp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/select_difficulty"
-                android:textSize="22sp"
+                android:layout_marginTop="10dp"
+                android:minWidth="230dp"
+                android:minHeight="50dp"
+                android:gravity="center"
+                android:background="@drawable/selection"
+                android:padding="10dp"
+                android:text="@string/pvp"
+                android:textSize="18sp"
                 android:textColor="@color/beige"
                 android:textAppearance="@style/default_font"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
-
-            <LinearLayout
-                android:id="@+id/selectDifficultyLL"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/casualDifficultyTV"
-                    android:tag="casual"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:minWidth="80dp"
-                    android:minHeight="50dp"
-                    android:gravity="center"
-                    android:background="@drawable/selection"
-                    android:padding="10dp"
-                    android:text="Casual"
-                    android:textSize="18sp"
-                    android:textColor="@color/beige"
-                    android:textAppearance="@style/default_font"
-                    android:layout_gravity="center"
-                    android:stateListAnimator="@animator/pulse_animation"
-                    android:onClick="handleDifficultyButtons"/>
-
-                <TextView
-                    android:id="@+id/tacticalDifficultyTV"
-                    android:tag="tactical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="10dp"
-                    android:minWidth="80dp"
-                    android:minHeight="50dp"
-                    android:gravity="center"
-                    android:background="@drawable/selection"
-                    android:padding="10dp"
-                    android:text="Tactical"
-                    android:textSize="18sp"
-                    android:textColor="@color/beige"
-                    android:textAppearance="@style/default_font"
-                    android:layout_gravity="center"
-                    android:stateListAnimator="@animator/pulse_animation"
-                    android:onClick="handleDifficultyButtons"/>
-
-            </LinearLayout>
-
+                android:stateListAnimator="@animator/pulse_animation"
+                android:onClick="handleGameModeButtons"/>
 
         </LinearLayout>
 

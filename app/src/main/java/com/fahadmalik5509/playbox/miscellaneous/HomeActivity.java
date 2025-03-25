@@ -43,14 +43,6 @@ public class HomeActivity extends BaseActivity implements SensorEventListener {
         vb = HomeLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                backLogic();
-                toggleVisibility(vb.exitRL.getVisibility() != VISIBLE, vb.exitRL, vb.Shadow.ShadowLayout);
-            }
-        });
-
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         if (sensorManager != null) {
             accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -60,8 +52,19 @@ public class HomeActivity extends BaseActivity implements SensorEventListener {
         isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
         isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
 
+        setupOnBackPressed();
         getBindings();
     }
+
+    private void setupOnBackPressed() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                backLogic();
+            }
+        });
+    }
+
 
     private void getBindings() {
         ShopButtonLayoutBinding ShopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());

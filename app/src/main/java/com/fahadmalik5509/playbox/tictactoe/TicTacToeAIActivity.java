@@ -40,17 +40,20 @@ public class TicTacToeAIActivity extends BaseActivity {
         vb = TictactoeaiLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
+        game = new TicTacToeLogic();
+        setupOnBackPressed();
+        getBindings();
+        initialize();
+        setupGameMode();
+    }
+
+    private void setupOnBackPressed() {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 backLogic();
             }
         });
-
-        game = new TicTacToeLogic();
-        getBindings();
-        initialize();
-        setupGameMode();
     }
 
     private void getBindings() {

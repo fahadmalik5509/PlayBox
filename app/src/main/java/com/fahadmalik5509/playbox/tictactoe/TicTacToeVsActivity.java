@@ -43,16 +43,20 @@ public class TicTacToeVsActivity extends BaseActivity {
         vb = TictactoevsLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
+        game = new TicTacToeLogic();
+
+        setupOnBackPressed();
+        getBindings();
+        initialize();
+    }
+
+    private void setupOnBackPressed() {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 backLogic();
             }
         });
-
-        game = new TicTacToeLogic();
-        getBindings();
-        initialize();
     }
 
     private void getBindings() {

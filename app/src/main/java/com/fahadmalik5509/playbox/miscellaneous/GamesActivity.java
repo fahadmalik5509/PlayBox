@@ -29,14 +29,17 @@ public class GamesActivity extends BaseActivity {
         vb = GamesLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
-        // Handle back button press
+        setupOnBackPressed();
+        getBindings();
+    }
+
+    private void setupOnBackPressed() {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 backLogic();
             }
         });
-        getBindings();
     }
 
     private void getBindings() {

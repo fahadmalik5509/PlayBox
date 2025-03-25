@@ -516,19 +516,25 @@ public class WordleActivity extends BaseActivity implements BaseActivity.ShopUpd
 
     @Override
     public void backLogic() {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
 
-        if(gameWon) {
-            super.backLogic();
+        if(vb.Shop.ShopLayout.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.Shop.ShopLayout, vb.Shadow.ShadowLayout);
             return;
         }
 
+        if(gameWon) {
+            changeActivity(this, getBackDestination());
+            return;
+        }
+
+
         if ((currentRow > 0) && (streakCount != 0)) {
-            playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
             toggleVisibility(vb.leaveGameRL.getVisibility() != View.VISIBLE, vb.Shadow.ShadowLayout, vb.leaveGameRL);
             return;
         }
 
-        super.backLogic();
+        changeActivity(this, getBackDestination());
     }
 
     // OnClick Method

@@ -27,6 +27,7 @@ import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.ColorpuzzleLayoutBinding;
 import com.airbnb.lottie.LottieAnimationView;
+import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -65,15 +66,20 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
         vb = ColorpuzzleLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
-        // Handle back navigation.
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() { handleBackNavigation(); }
-        });
 
+        setupOnBackPressed();
         getBindings();
         setupGame();
         updateUI();
+    }
+
+    private void setupOnBackPressed() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                backLogic();
+            }
+        });
     }
 
     private void getBindings() {
@@ -635,13 +641,27 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
         }
     }
 
-    private void handleBackNavigation() {
-        vibrate(this, 50);
+
+    @Override
+    public void backLogic() {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+
+        if(vb.Shop.ShopLayout.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.Shop.ShopLayout, vb.Shadow.ShadowLayout);
+            return;
+        }
+
+        if(vb.DifficultyMenu.ColorPuzzleDifficultyLayout.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.DifficultyMenu.ColorPuzzleDifficultyLayout, vb.Shadow.ShadowLayout);
+            return;
+        }
+
         if (currentScore > 0 && !gameLost) {
             toggleVisibility(vb.leaveRL.getVisibility() != View.VISIBLE, vb.leaveRL, vb.Shadow.ShadowLayout);
-        } else {
-            changeActivity(this, GamesActivity.class);
+            return;
         }
+
+        changeActivity(this, getBackDestination());
     }
 
     private void resetGameState() {

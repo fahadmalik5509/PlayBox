@@ -10,6 +10,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RadialGradient;
+import android.graphics.Shader;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -18,6 +20,10 @@ import androidx.annotation.NonNull;
 
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.miscellaneous.ActivityUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class DotAndBoxesView extends View {
     private int gridSize;
@@ -57,12 +63,17 @@ public class DotAndBoxesView extends View {
     }
 
     private void init(Context context) {
-        // Initial gridSize could be set by external call to updateGridSize.
         gridInternalPadding = dpToPx(32, context);
         setLayerType(LAYER_TYPE_SOFTWARE, null);
-        // Initialize with a default grid size if not already set.
+        // Set default grid size if not provided.
         gridSize = 6;
         game = new DotAndBoxesGame(gridSize);
+        boxFillScales = new float[gridSize][gridSize];
+        for (int r = 0; r < gridSize; r++) {
+            for (int c = 0; c < gridSize; c++) {
+                boxFillScales[r][c] = 0f;
+            }
+        }
         dotHitRadius = dpToPx(32 - gridSize, context);
 
         dotPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -97,12 +108,37 @@ public class DotAndBoxesView extends View {
 
     @Override
     protected void onDraw(@NonNull Canvas canvas) {
+
+        drawCheckerboard(canvas);
+
         drawBoxes(canvas);
+
         drawCommittedLines(canvas);
+
         if (isDragging) {
             drawPreviewLine(canvas);
         }
+
         drawDots(canvas);
+    }
+
+    // Draws a checkerboard pattern behind the grid.
+    private void drawCheckerboard(Canvas canvas) {
+        Paint checkerPaint = new Paint();
+        checkerPaint.setColor(Color.parseColor("#1D1D1D"));
+        // Loop over each box cell.
+        for (int r = 0; r < gridSize; r++) {
+            for (int c = 0; c < gridSize; c++) {
+                // Alternate cells: only draw on odd-sum cells.
+                if ((r + c) % 2 == 1) {
+                    float left = offsetX + c * spacing;
+                    float top = offsetY + r * spacing;
+                    float right = offsetX + (c + 1) * spacing;
+                    float bottom = offsetY + (r + 1) * spacing;
+                    canvas.drawRect(left, top, right, bottom, checkerPaint);
+                }
+            }
+        }
     }
 
     private void drawBoxes(Canvas canvas) {
@@ -176,8 +212,7 @@ public class DotAndBoxesView extends View {
     private void drawPreviewLine(Canvas canvas) {
         previewPaint.setColor(game.isPlayerOneTurn() ? LIGHT_GREEN_COLOR : Color.RED);
         previewPaint.setAlpha(128);
-        float dx = currentDragX - dragStartX;
-        float dy = currentDragY - dragStartY;
+        float dx = currentDragX - dragStartX, dy = currentDragY - dragStartY;
         float distance = (float) Math.hypot(dx, dy);
         float clampedDistance = Math.min(distance, spacing);
         float endX = (distance == 0) ? dragStartX : dragStartX + (dx / distance) * clampedDistance;
@@ -185,7 +220,6 @@ public class DotAndBoxesView extends View {
         canvas.drawLine(dragStartX, dragStartY, endX, endY, previewPaint);
     }
 
-    // Returns the nearest dot if within hit radius; otherwise null.
     private int[] getNearestDot(float x, float y) {
         int nearestRow = -1, nearestCol = -1;
         float minDistSq = Float.MAX_VALUE;
@@ -264,11 +298,9 @@ public class DotAndBoxesView extends View {
                         int dr = Math.abs(chosen[0] - startDotRow);
                         int dc = Math.abs(chosen[1] - startDotCol);
                         if ((dr == 1 && dc == 0) || (dr == 0 && dc == 1)) {
-                            if (dr == 0) {
-                                moveCommitted = game.markLine(true, startDotRow, Math.min(startDotCol, chosen[1]));
-                            } else {
-                                moveCommitted = game.markLine(false, Math.min(startDotRow, chosen[0]), startDotCol);
-                            }
+                            moveCommitted = (dr == 0)
+                                    ? game.markLine(true, startDotRow, Math.min(startDotCol, chosen[1]))
+                                    : game.markLine(false, Math.min(startDotRow, chosen[0]), startDotCol);
                         }
                     }
                     int boxesAfter = countClaimedBoxes(game.getBoxes());
@@ -299,7 +331,6 @@ public class DotAndBoxesView extends View {
         }
     }
 
-    // Determines if a dot is "closed" (all adjacent lines are drawn)
     private boolean isDotClosed(int row, int col) {
         int[][] hLines = game.getHorizontalLines();
         int[][] vLines = game.getVerticalLines();
@@ -324,7 +355,6 @@ public class DotAndBoxesView extends View {
         this.gridSize = newGridSize;
         game = new DotAndBoxesGame(newGridSize);
         boxFillScales = new float[newGridSize][newGridSize];
-        // Initialize fill scales to 0.
         for (int r = 0; r < newGridSize; r++) {
             for (int c = 0; c < newGridSize; c++) {
                 boxFillScales[r][c] = 0f;
@@ -347,6 +377,17 @@ public class DotAndBoxesView extends View {
         }
         invalidate();
     }
+
+    public void animateGameReset() {
+        // Fade out the view over 300ms
+        this.animate().alpha(0f).setDuration(300).withEndAction(() -> {
+            // Once faded out, reset the game state.
+            restartGame();
+            // Then fade the view back in over 300ms.
+            this.animate().alpha(1f).setDuration(300).start();
+        }).start();
+    }
+
 
     public String getScoreText() {
         return game.getScoreText();
