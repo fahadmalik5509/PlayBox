@@ -330,6 +330,10 @@ public class DotAndBoxesView extends View {
                             playSoundAndVibrate(getContext(), R.raw.sound_dot_clicked, true, 50);
                             gameInProgress = true;
                         }
+
+                        if (moveListener != null) {
+                            moveListener.onMoveCommitted();
+                        }
                     }
                     isDragging = false;
                     startDotRow = -1;
@@ -457,5 +461,16 @@ public class DotAndBoxesView extends View {
 
     public void setInputEnabled(boolean enabled) {
         inputEnabled = enabled;
+    }
+
+    // Add to DotAndBoxesView class
+    public interface OnMoveListener {
+        void onMoveCommitted();
+    }
+
+    private OnMoveListener moveListener;
+
+    public void setOnMoveListener(OnMoveListener listener) {
+        this.moveListener = listener;
     }
 }

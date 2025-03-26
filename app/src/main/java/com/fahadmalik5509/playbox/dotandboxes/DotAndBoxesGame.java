@@ -95,6 +95,18 @@ public class DotAndBoxesGame {
         return playerOneTurn;
     }
 
+    public int getGridSize() {
+        return gridSize;
+    }
+
+    public boolean isHorizontalLineMarked(int row, int col) {
+        return horizontalLines[row][col] != 0;
+    }
+
+    public boolean isVerticalLineMarked(int row, int col) {
+        return verticalLines[row][col] != 0;
+    }
+
     /**
      * Returns the current score as a formatted string.
      */

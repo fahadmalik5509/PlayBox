@@ -30,7 +30,8 @@
             android:minWidth="130dp"
             android:minHeight="50dp"
             android:padding="5dp"
-            android:background="@drawable/popup_background">
+            android:background="@drawable/popup_background"
+            android:layout_marginEnd="10dp">
 
             <ImageView
                 android:id="@+id/playerOneIV"
@@ -80,7 +81,6 @@
             android:id="@+id/timerTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
             android:minWidth="25dp"
             android:minHeight="25dp"
             android:text="00"
@@ -97,7 +97,8 @@
             android:minWidth="130dp"
             android:minHeight="50dp"
             android:padding="5dp"
-            android:background="@drawable/popup_background">
+            android:background="@drawable/popup_background"
+            android:layout_marginStart="10dp">
 
             <ImageView
                 android:id="@+id/playerTwoIV"
@@ -151,12 +152,24 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_marginTop="15dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="110dp"
         android:src="@drawable/profile_icon"
         android:onClick="handleProfileClick"
         android:contentDescription="@string/image_description"
         android:stateListAnimator="@animator/pulse_animation"
         android:visibility="gone"/>
+
+    <ImageView
+        android:tag="open"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:src="@drawable/menu"
+        android:background="@drawable/keyboard_keys_background"
+        android:onClick="handleDotAndBoxesMenuClick"
+        android:stateListAnimator="@animator/pulse_animation"
+        android:contentDescription="@string/image_description"/>
 
     <!--Profile RelativeLayout-->
     <RelativeLayout
@@ -266,15 +279,6 @@
 
 
     </RelativeLayout>
-
-    <ImageView
-        android:tag="open"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@drawable/menu"
-        android:onClick="handleDotAndBoxesMenuClick"
-        android:stateListAnimator="@animator/pulse_animation"
-        android:contentDescription="@string/image_description"/>
 
     <!-- Reset TextView at bottom -->
     <TextView
