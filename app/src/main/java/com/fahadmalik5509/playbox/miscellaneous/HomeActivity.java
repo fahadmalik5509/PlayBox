@@ -1,9 +1,6 @@
 package com.fahadmalik5509.playbox.miscellaneous;
 
-import static android.view.View.VISIBLE;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
-
-import static java.sql.Types.NULL;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +11,6 @@ import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
@@ -52,28 +48,7 @@ public class HomeActivity extends BaseActivity implements SensorEventListener {
         isSoundEnabled = sharedPreferences.getBoolean(SOUND_KEY, true);
         isVibrationEnabled = sharedPreferences.getBoolean(VIBRATION_KEY, true);
 
-        setupOnBackPressed();
-        getBindings();
     }
-
-    private void setupOnBackPressed() {
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                backLogic();
-            }
-        });
-    }
-
-
-    private void getBindings() {
-        ShopButtonLayoutBinding ShopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
-        ShopLayoutBinding ShopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
-        NavigationLayoutBinding NavigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
-        ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
-        setBindings(ShopButtonBinding, ShopBinding, NavigationBinding, ShadowBinding);
-    }
-
 
     @Override
     protected Class<?> getBackDestination() {
@@ -84,6 +59,13 @@ public class HomeActivity extends BaseActivity implements SensorEventListener {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         changeActivity(this, GamesActivity.class);
     }
+
+    public void handleToolsClick(View view) {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        changeActivity(this, ToolsActivity.class);
+    }
+
+
     public void handleSettingsClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);

@@ -83,16 +83,7 @@ public class WordleActivity extends BaseActivity implements BaseActivity.ShopUpd
         ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
         setBindings(ShopButtonBinding, ShopBinding, NavigationBinding, ShadowBinding);
     }
-    
-    private void setupOnBackPressed() {
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
 
-                backLogic();
-            }
-        });
-    }
     private void initialize() {
 
         keyboard = new TextView[] {

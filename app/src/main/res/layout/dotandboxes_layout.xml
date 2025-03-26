@@ -15,17 +15,257 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp" />
 
-    <!-- Score Display at top -->
-    <TextView
-        android:id="@+id/tvScore"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/dotAndBoxesView"
+        android:layout_marginTop="120dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="180dp"
-        android:text="Player 1: 0  |  Player 2: 0"
-        android:textSize="24sp"
-        android:textColor="@color/beige"
-        android:textAppearance="@style/default_font" />
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/playerOneRL"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:minWidth="130dp"
+            android:minHeight="50dp"
+            android:padding="5dp"
+            android:background="@drawable/popup_background">
+
+            <ImageView
+                android:id="@+id/playerOneIV"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:contentDescription="@string/image_description"
+                android:src="@drawable/player_one"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@+id/playerOneIV"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/playerOneNameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Player 1"
+                    android:textColor="@color/beige"
+                    android:textSize="11sp"
+                    android:textAppearance="@style/default_font"/>
+
+                <TextView
+                    android:id="@+id/playerOneScoreTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:textColor="@color/beige"
+                    android:textSize="11sp"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center" />
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/timerTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:minWidth="25dp"
+            android:minHeight="25dp"
+            android:text="00"
+            android:textSize="18sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_gravity="center"
+            android:gravity="center"/>
+
+        <RelativeLayout
+            android:id="@+id/playerTwoRL"
+            android:layout_width="130dp"
+            android:layout_height="50dp"
+            android:minWidth="130dp"
+            android:minHeight="50dp"
+            android:padding="5dp"
+            android:background="@drawable/popup_background">
+
+            <ImageView
+                android:id="@+id/playerTwoIV"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:contentDescription="@string/image_description"
+                android:src="@drawable/player_two"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:layout_toEndOf="@+id/playerTwoIV"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/playerTwoNameTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Player 2"
+                    android:textColor="@color/beige"
+                    android:textSize="11sp"
+                    android:textAppearance="@style/default_font"/>
+
+                <TextView
+                    android:id="@+id/playerTwoScoreTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00"
+                    android:textColor="@color/beige"
+                    android:textSize="11sp"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center" />
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <!--Profile ImageView-->
+    <ImageView
+        android:id="@+id/profileIV"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="64dp"
+        android:src="@drawable/profile_icon"
+        android:onClick="handleProfileClick"
+        android:contentDescription="@string/image_description"
+        android:stateListAnimator="@animator/pulse_animation"
+        android:visibility="gone"/>
+
+    <!--Profile RelativeLayout-->
+    <RelativeLayout
+        android:id="@+id/profileRL"
+        android:layout_width="250dp"
+        android:layout_height="180dp"
+        android:layout_centerInParent="true"
+        android:padding="20dp"
+        android:background="@drawable/popup_background"
+        android:visibility="gone"
+        android:elevation="101dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:gravity="center">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/player_one"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/image_description" />
+
+            <EditText
+                android:id="@+id/playerOneET"
+                android:autofillHints="name"
+                android:background="@drawable/keyboard_keys_background"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:inputType="text"
+                android:maxLength="8"
+                android:padding="5dp"
+                android:text="@string/player_one"
+                android:textSize="12sp"
+                android:textColor="@color/gray"
+                android:textAppearance="@style/default_font"
+                android:hint="@string/profile_hint"
+                android:textColorHint="@color/hint"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/player_two"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="@string/image_description" />
+
+            <EditText
+                android:id="@+id/playerTwoET"
+                android:autofillHints="name"
+                android:background="@drawable/keyboard_keys_background"
+                android:layout_width="150dp"
+                android:layout_height="30dp"
+                android:inputType="text"
+                android:maxLength="8"
+                android:padding="5dp"
+                android:text="@string/player_two"
+                android:textSize="12sp"
+                android:textColor="@color/gray"
+                android:textAppearance="@style/default_font"
+                android:hint="@string/profile_hint"
+                android:textColorHint="@color/hint"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/profileExitB"
+            android:tag="exit"
+            android:background="@drawable/ui_background"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:text="@string/exit"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:onClick="handleProfileButtons"
+            android:stateListAnimator="@animator/pulse_animation" />
+
+        <Button
+            android:id="@+id/profileSaveB"
+            android:tag="save"
+            android:background="@drawable/exit_no"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:text="@string/save"
+            android:textSize="20sp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:onClick="handleProfileButtons"
+            android:stateListAnimator="@animator/pulse_animation" />
+
+
+    </RelativeLayout>
 
     <ImageView
         android:tag="open"
@@ -189,7 +429,7 @@
         android:padding="16dp"
         android:clipToPadding="false"
         android:clipChildren="false"
->
+        android:visibility="gone">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -379,29 +619,10 @@
                 android:layout_gravity="center"/>
 
             <TextView
-                android:id="@+id/pvaiTV"
-                android:tag="pvai"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="230dp"
-                android:minHeight="50dp"
-                android:gravity="center"
-                android:background="@drawable/selection"
-                android:padding="10dp"
-                android:text="@string/pvAI"
-                android:textSize="18sp"
-                android:textColor="@color/beige"
-                android:textAppearance="@style/default_font"
-                android:layout_gravity="center"
-                android:stateListAnimator="@animator/pulse_animation"
-                android:onClick="handleGameModeButtons"/>
-
-            <TextView
                 android:id="@+id/pvpTV"
                 android:tag="pvp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:minWidth="230dp"
                 android:minHeight="50dp"
                 android:gravity="center"
@@ -414,6 +635,92 @@
                 android:layout_gravity="center"
                 android:stateListAnimator="@animator/pulse_animation"
                 android:onClick="handleGameModeButtons"/>
+
+            <TextView
+                android:id="@+id/pvaiTV"
+                android:tag="pvai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="230dp"
+                android:minHeight="50dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:background="@drawable/selection"
+                android:padding="10dp"
+                android:text="@string/pvAI"
+                android:textSize="18sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_gravity="center"
+                android:stateListAnimator="@animator/pulse_animation"
+                android:onClick="handleGameModeButtons"/>
+
+
+            <TextView
+                android:id="@+id/difficultyTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/select_difficulty"
+                android:textSize="22sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/difficultyLL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:layout_gravity="center"
+                android:visibility="gone">
+
+
+                <TextView
+                    android:id="@+id/casualTV"
+                    android:tag="casual"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:minWidth="120dp"
+                    android:minHeight="50dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:text="@string/casual"
+                    android:textSize="18sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:stateListAnimator="@animator/pulse_animation"
+                    android:onClick="handleDifficultyButtons"/>
+
+                <TextView
+                    android:id="@+id/tacticalTV"
+                    android:tag="tactical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:minWidth="120dp"
+                    android:minHeight="50dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:text="@string/tactical"
+                    android:textSize="18sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:stateListAnimator="@animator/pulse_animation"
+                    android:onClick="handleDifficultyButtons"/>
+
+
+            </LinearLayout>
 
         </LinearLayout>
 

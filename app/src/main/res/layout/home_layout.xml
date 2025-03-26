@@ -10,8 +10,7 @@
     <!-- Background Lottie Animation -->
     <com.airbnb.lottie.LottieAnimationView
         app:lottie_rawRes="@raw/lottie_stars_background"
-        style="@style/BackgroundLottieAnimation"
-        />
+        style="@style/BackgroundLottieAnimation" />
 
     <!-- GitHub Lottie Animation -->
     <com.airbnb.lottie.LottieAnimationView
@@ -74,6 +73,14 @@
             android:onClick="handleGamesClick" />
 
         <Button
+            android:id="@+id/toolsB"
+            android:text="@string/tools"
+            android:letterSpacing="0.05"
+            style="@style/NavigationButton"
+            android:onClick="handleToolsClick" />
+
+
+        <Button
             android:id="@+id/settingsB"
             android:text="@string/settings"
             android:letterSpacing="0.05"
@@ -114,20 +121,9 @@
         android:textColor="@color/yellow"
         android:textAppearance="@style/funky_font" />
 
-    <!-- Shop Button RelativeLayout -->
-    <include
-        android:id="@+id/ShopButton"
-        layout="@layout/shop_button_layout"/>
-
-    <!-- Shadow Layout -->
     <include
         android:id="@+id/Shadow"
         layout="@layout/shadow_layout"/>
-
-    <!-- Shop RelativeLayout -->
-    <include
-        android:id="@+id/Shop"
-        layout="@layout/shop_layout"/>
 
     <!-- Leave RelativeLayout -->
     <RelativeLayout
@@ -183,6 +179,7 @@
 
     </RelativeLayout>
 
+    <!-- Navigation Layout -->
     <include
         android:id="@+id/Navigation"
         layout="@layout/navigation_layout"/>

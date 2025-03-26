@@ -34,8 +34,10 @@ public class ActivityUtils {
     public static final String SOUND_KEY = "soundEnabled";
     public static final String VIBRATION_KEY = "vibrationEnabled";
     public static final String TTT_DIFFICULTY_KEY = "TTT_currentDifficulty";
-    public static final String TTT_PLAYER_ONE_NAME_KEY = "playerOneName";
-    public static final String TTT_PLAYER_TWO_NAME_KEY = "playerTwoName";
+    public static final String TTT_PLAYER_ONE_NAME_KEY = "tttPlayerOneName";
+    public static final String TTT_PLAYER_TWO_NAME_KEY = "tttPlayerTwoName";
+    public static final String DNBS_PLAYER_ONE_NAME_KEY = "dnbsPlayerOneName";
+    public static final String DNBS_PLAYER_TWO_NAME_KEY = "dnbsPlayerTwoName";
     public static final String WORDLE_STREAK_KEY = "streakNumber";
     public static final String WORDLE_HIGHEST_STREAK_KEY = "streakHighestNumber";
     public static final String WORDLE_EXPLOSION_KEY = "boomKey";

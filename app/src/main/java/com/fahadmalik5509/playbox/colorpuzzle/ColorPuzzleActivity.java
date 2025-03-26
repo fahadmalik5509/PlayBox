@@ -66,20 +66,9 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
         vb = ColorpuzzleLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
-
-        setupOnBackPressed();
         getBindings();
         setupGame();
         updateUI();
-    }
-
-    private void setupOnBackPressed() {
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                backLogic();
-            }
-        });
     }
 
     private void getBindings() {

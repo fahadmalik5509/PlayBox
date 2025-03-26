@@ -60,6 +60,25 @@ public class DotAndBoxesGame {
         return anyCompleted;
     }
 
+    public DotAndBoxesGame deepCopy() {
+        DotAndBoxesGame copy = new DotAndBoxesGame(this.gridSize);
+        copy.horizontalLines = deepCopy2DArray(this.horizontalLines);
+        copy.verticalLines = deepCopy2DArray(this.verticalLines);
+        copy.boxes = deepCopy2DArray(this.boxes);
+        copy.playerOneTurn = this.playerOneTurn;
+        return copy;
+    }
+
+    private int[][] deepCopy2DArray(int[][] array) {
+        if (array == null) return null;
+        int[][] copy = new int[array.length][];
+        for (int i = 0; i < array.length; i++) {
+            copy[i] = array[i].clone();
+        }
+        return copy;
+    }
+
+
     public int[][] getHorizontalLines() {
         return horizontalLines;
     }
@@ -79,7 +98,7 @@ public class DotAndBoxesGame {
     /**
      * Returns the current score as a formatted string.
      */
-    public String getScoreText() {
+    public int[] getScores() {
         int score1 = 0, score2 = 0;
         for (int r = 0; r < gridSize; r++) {
             for (int c = 0; c < gridSize; c++) {
@@ -87,7 +106,7 @@ public class DotAndBoxesGame {
                 else if (boxes[r][c] == 2) score2++;
             }
         }
-        return "Player 1: " + score1 + "  |  Player 2: " + score2;
+        return new int[]{score1, score2};
     }
 
     public boolean isGameOver() {

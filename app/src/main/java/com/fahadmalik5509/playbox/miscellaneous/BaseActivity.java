@@ -20,9 +20,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fahadmalik5509.playbox.R;
+import com.fahadmalik5509.playbox.cgpacalculator.CgpaActivity;
 import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
@@ -53,6 +55,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        setupOnBackPressed();
+
         currencyCount = sharedPreferences.getInt(WORDLE_CURRENCY_KEY, 300);
         bombCount = sharedPreferences.getInt(WORDLE_BOMB_KEY, 5);
         hintCount = sharedPreferences.getInt(WORDLE_HINT_KEY, 5);
@@ -254,14 +258,20 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void backLogic() {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
 
-        if(ShopBinding.ShopLayout.getVisibility() == VISIBLE) {
-            toggleVisibility(false, ShopBinding.ShopLayout, ShadowBinding.ShadowLayout);
+        if(this instanceof ToolsActivity || this instanceof CgpaActivity) {
+            changeActivity(this, getBackDestination());
             return;
         }
 
         if(this instanceof HomeActivity) {
             return;
         }
+
+        if(ShopBinding.ShopLayout.getVisibility() == VISIBLE) {
+            toggleVisibility(false, ShopBinding.ShopLayout, ShadowBinding.ShadowLayout);
+            return;
+        }
+
         changeActivity(this, getBackDestination());
     }
 
@@ -283,4 +293,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected abstract Class<?> getBackDestination();
+
+    public void setupOnBackPressed() {
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                backLogic();
+            }
+        });
+    }
 }

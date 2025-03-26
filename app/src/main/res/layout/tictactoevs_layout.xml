@@ -220,7 +220,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginStart="64dp"
         android:src="@drawable/profile_icon"
-        android:onClick="profileClicked"
+        android:onClick="handleProfileClick"
         android:contentDescription="@string/image_description"
         android:stateListAnimator="@animator/pulse_animation" />
 

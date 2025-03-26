@@ -45,18 +45,8 @@ public class TicTacToeVsActivity extends BaseActivity {
 
         game = new TicTacToeLogic();
 
-        setupOnBackPressed();
         getBindings();
         initialize();
-    }
-
-    private void setupOnBackPressed() {
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                backLogic();
-            }
-        });
     }
 
     private void getBindings() {

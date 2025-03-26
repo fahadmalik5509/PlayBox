@@ -69,9 +69,21 @@
             android:exported="true"
             android:screenOrientation="portrait"/>
 
+        <!-- GamesActivity -->
+        <activity
+            android:name=".miscellaneous.ToolsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+
         <!-- SettingActivity -->
         <activity
             android:name=".miscellaneous.SettingActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+
+        <!-- SettingActivity -->
+        <activity
+            android:name=".cgpacalculator.CgpaActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
 

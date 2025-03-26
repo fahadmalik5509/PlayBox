@@ -28,17 +28,7 @@ public class GameModeActivity extends BaseActivity {
         vb = GamemodeLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
-        setupOnBackPressed();
         getBindings();
-    }
-
-    private void setupOnBackPressed() {
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                backLogic();
-            }
-        });
     }
 
     private void getBindings() {
