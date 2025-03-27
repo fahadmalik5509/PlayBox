@@ -47,17 +47,25 @@ public class DotAndBoxesGame {
         boolean anyCompleted = false;
         for (int r = 0; r < gridSize; r++) {
             for (int c = 0; c < gridSize; c++) {
-                if (boxes[r][c] == 0 &&
-                        horizontalLines[r][c] != 0 &&
-                        horizontalLines[r + 1][c] != 0 &&
-                        verticalLines[r][c] != 0 &&
-                        verticalLines[r][c + 1] != 0) {
+                if (boxes[r][c] == 0 && getBoxLineCount(r, c) == 4) {
                     boxes[r][c] = playerOneTurn ? 1 : 2;
                     anyCompleted = true;
                 }
             }
         }
         return anyCompleted;
+    }
+
+    /**
+     * Helper method: returns the count of marked sides for the box at (r, c).
+     */
+    public int getBoxLineCount(int r, int c) {
+        int count = 0;
+        if (horizontalLines[r][c] != 0) count++;
+        if (horizontalLines[r+1][c] != 0) count++;
+        if (verticalLines[r][c] != 0) count++;
+        if (verticalLines[r][c+1] != 0) count++;
+        return count;
     }
 
     public DotAndBoxesGame deepCopy() {
@@ -78,38 +86,6 @@ public class DotAndBoxesGame {
         return copy;
     }
 
-
-    public int[][] getHorizontalLines() {
-        return horizontalLines;
-    }
-
-    public int[][] getVerticalLines() {
-        return verticalLines;
-    }
-
-    public int[][] getBoxes() {
-        return boxes;
-    }
-
-    public boolean isPlayerOneTurn() {
-        return playerOneTurn;
-    }
-
-    public int getGridSize() {
-        return gridSize;
-    }
-
-    public boolean isHorizontalLineMarked(int row, int col) {
-        return horizontalLines[row][col] != 0;
-    }
-
-    public boolean isVerticalLineMarked(int row, int col) {
-        return verticalLines[row][col] != 0;
-    }
-
-    /**
-     * Returns the current score as a formatted string.
-     */
     public int[] getScores() {
         int score1 = 0, score2 = 0;
         for (int r = 0; r < gridSize; r++) {
@@ -129,4 +105,21 @@ public class DotAndBoxesGame {
         }
         return true;
     }
+
+    /**
+     * Returns the total count of claimed boxes.
+     */
+    public int getClaimedBoxesCount() {
+        int[] scores = getScores();
+        return scores[0] + scores[1];
+    }
+
+    public int[][] getHorizontalLines() { return horizontalLines; }
+    public int[][] getVerticalLines() { return verticalLines; }
+    public int[][] getBoxes() { return boxes; }
+    public boolean isPlayerOneTurn() { return playerOneTurn; }
+    public int getGridSize() { return gridSize; }
+    public boolean isHorizontalLineMarked(int row, int col) { return horizontalLines[row][col] != 0; }
+    public boolean isVerticalLineMarked(int row, int col) { return verticalLines[row][col] != 0; }
+
 }

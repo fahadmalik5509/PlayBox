@@ -27,6 +27,7 @@ public class DotAndBoxesView extends View {
     // Game state
     private int gridSize;
     private DotAndBoxesGame game;
+    private OnMoveListener moveListener;
     private boolean inputEnabled = true;
     public boolean gameInProgress = false;
 
@@ -463,12 +464,7 @@ public class DotAndBoxesView extends View {
         inputEnabled = enabled;
     }
 
-    // Add to DotAndBoxesView class
-    public interface OnMoveListener {
-        void onMoveCommitted();
-    }
-
-    private OnMoveListener moveListener;
+    public interface OnMoveListener { void onMoveCommitted(); }
 
     public void setOnMoveListener(OnMoveListener listener) {
         this.moveListener = listener;

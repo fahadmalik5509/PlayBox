@@ -56,7 +56,7 @@
                     android:id="@+id/playerOneNameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Player 1"
+                    android:text="@string/player_one"
                     android:textColor="@color/beige"
                     android:textSize="11sp"
                     android:textAppearance="@style/default_font"/>
@@ -65,7 +65,7 @@
                     android:id="@+id/playerOneScoreTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00"
+                    android:text="@string/empty"
                     android:textColor="@color/beige"
                     android:textSize="11sp"
                     android:textAppearance="@style/default_font"
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:minWidth="25dp"
             android:minHeight="25dp"
-            android:text="00"
+            android:text="15"
             android:textSize="18sp"
             android:textColor="@color/beige"
             android:textAppearance="@style/default_font"
@@ -123,7 +123,7 @@
                     android:id="@+id/playerTwoNameTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Player 2"
+                    android:text="@string/player_two"
                     android:textColor="@color/beige"
                     android:textSize="11sp"
                     android:textAppearance="@style/default_font"/>
@@ -132,7 +132,7 @@
                     android:id="@+id/playerTwoScoreTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="00"
+                    android:text="@string/empty"
                     android:textColor="@color/beige"
                     android:textSize="11sp"
                     android:textAppearance="@style/default_font"
@@ -151,8 +151,8 @@
         android:id="@+id/profileIV"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="110dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginStart="60dp"
         android:src="@drawable/profile_icon"
         android:onClick="handleProfileClick"
         android:contentDescription="@string/image_description"
@@ -433,7 +433,7 @@
         android:padding="16dp"
         android:clipToPadding="false"
         android:clipChildren="false"
-        android:visibility="gone">
+        >
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -622,23 +622,6 @@
                 android:textAppearance="@style/default_font"
                 android:layout_gravity="center"/>
 
-            <TextView
-                android:id="@+id/pvpTV"
-                android:tag="pvp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="230dp"
-                android:minHeight="50dp"
-                android:gravity="center"
-                android:background="@drawable/selection"
-                android:padding="10dp"
-                android:text="@string/pvp"
-                android:textSize="18sp"
-                android:textColor="@color/beige"
-                android:textAppearance="@style/default_font"
-                android:layout_gravity="center"
-                android:stateListAnimator="@animator/pulse_animation"
-                android:onClick="handleGameModeButtons"/>
 
             <TextView
                 android:id="@+id/pvaiTV"
@@ -647,11 +630,29 @@
                 android:layout_height="wrap_content"
                 android:minWidth="230dp"
                 android:minHeight="50dp"
-                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:background="@drawable/selection"
                 android:padding="10dp"
                 android:text="@string/pvAI"
+                android:textSize="18sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_gravity="center"
+                android:stateListAnimator="@animator/pulse_animation"
+                android:onClick="handleGameModeButtons"/>
+
+            <TextView
+                android:id="@+id/pvpTV"
+                android:tag="pvp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="230dp"
+                android:minHeight="50dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:background="@drawable/selection"
+                android:padding="10dp"
+                android:text="@string/pvp"
                 android:textSize="18sp"
                 android:textColor="@color/beige"
                 android:textAppearance="@style/default_font"
@@ -723,6 +724,81 @@
                     android:stateListAnimator="@animator/pulse_animation"
                     android:onClick="handleDifficultyButtons"/>
 
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/setTimerTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Set Timer"
+                android:textSize="22sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/timerLL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:clipToPadding="false"
+                android:clipChildren="false"
+                android:layout_gravity="center"
+                android:visibility="gone">
+
+
+                <TextView
+                    android:tag="-"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background"
+                    android:minWidth="80dp"
+                    android:minHeight="50dp"
+                    android:gravity="center"
+                    android:text="-"
+                    android:textSize="30sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:stateListAnimator="@animator/pulse_animation"
+                    android:onClick="handleTimeButtons" />
+
+                <TextView
+                    android:id="@+id/menuTimerTV"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:minWidth="80dp"
+                    android:minHeight="50dp"
+                    android:gravity="center"
+                    android:text="15"
+                    android:textSize="18sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:stateListAnimator="@animator/pulse_animation" />
+
+                <TextView
+                    android:tag="+"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/background"
+                    android:minWidth="80dp"
+                    android:minHeight="50dp"
+                    android:gravity="center"
+                    android:text="+"
+                    android:textSize="30sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:layout_gravity="center"
+                    android:stateListAnimator="@animator/pulse_animation"
+                    android:onClick="handleTimeButtons" />
 
             </LinearLayout>
 

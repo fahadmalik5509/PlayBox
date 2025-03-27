@@ -1,18 +1,8 @@
 package com.fahadmalik5509.playbox.dotandboxes;
 
 import static android.view.View.VISIBLE;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.CHARCOAL_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.DNBS_PLAYER_ONE_NAME_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.DNBS_PLAYER_TWO_NAME_KEY;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.LIGHT_GREEN_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.LIGHT_RED_COLOR;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
+import static com.fahadmalik5509.playbox.dotandboxes.DotAndBoxesAI.getValidMoves;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -31,21 +21,20 @@ import com.fahadmalik5509.playbox.databinding.ShopLayoutBinding;
 import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
 import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class DotAndBoxesActivity extends BaseActivity{
+public class DotAndBoxesActivity extends BaseActivity {
 
     private DotandboxesLayoutBinding vb;
     private TextView previouslySelectedGridSizeTV = null;
-    private boolean isPvAI, isCasual, previousTurnIsPlayerOne;
+    private boolean isPlayerVsAI, isCasual, previousTurnIsPlayerOne;
 
-    // Add these class variables
-    private Handler timerHandler = new Handler();
+    // Timer variables
+    private final Handler timerHandler = new Handler();
     private Runnable timerRunnable;
-    private int timeLeft = 15;
-    private boolean isTimerRunning = false;
+    private int timeLeft;
+    private int initialTime = 15;  // default timer value
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -54,17 +43,40 @@ public class DotAndBoxesActivity extends BaseActivity{
         vb = DotandboxesLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
+        initTimerRunnable();
+        setupGameUI();
+        initBindings();
+
+        // Reset timer when a move is made in PvP mode.
         vb.dotAndBoxesView.setOnMoveListener(() -> {
-            if (!isPvAI) {
+            if (!isPlayerVsAI) {
                 resetTimer();
             }
         });
 
-        // Initialize timer
+        // Game touch listener to update UI, score and perform AI moves.
+        vb.dotAndBoxesView.setOnTouchListener((v, event) -> {
+            v.onTouchEvent(event);
+            updateScore();
+            checkAndUpdateTurn();
+            if (isPlayerVsAI && !vb.dotAndBoxesView.getGame().isPlayerOneTurn()) {
+                performCasualAIMove();
+            }
+            return true;
+        });
+
+        // Initialize turn state.
+        previousTurnIsPlayerOne = vb.dotAndBoxesView.getGame().isPlayerOneTurn();
+    }
+
+    /**
+     * Initialize the timer runnable that updates the timer each second.
+     */
+    private void initTimerRunnable() {
         timerRunnable = new Runnable() {
             @Override
             public void run() {
-                if (timeLeft > 0 && !isPvAI && vb.dotAndBoxesView.gameInProgress) {
+                if (timeLeft > 0 && !isPlayerVsAI && vb.dotAndBoxesView.gameInProgress) {
                     timeLeft--;
                     vb.timerTV.setText(String.valueOf(timeLeft));
                     timerHandler.postDelayed(this, 1000);
@@ -73,46 +85,13 @@ public class DotAndBoxesActivity extends BaseActivity{
                 }
             }
         };
-
-        // Initialize previous turn state.
-        previousTurnIsPlayerOne = vb.dotAndBoxesView.getGame().isPlayerOneTurn();
-
-        // Set up the game view touch listener.
-        vb.dotAndBoxesView.setOnTouchListener((v, event) -> {
-            v.onTouchEvent(event);
-            updateScore();
-            boolean currentTurnIsPlayerOne = vb.dotAndBoxesView.getGame().isPlayerOneTurn();
-            if (currentTurnIsPlayerOne != previousTurnIsPlayerOne) {
-                updateTurnUI();
-                previousTurnIsPlayerOne = currentTurnIsPlayerOne;
-            }
-
-            if (isPvAI && !currentTurnIsPlayerOne) {
-                performCasualAIMove();
-            }
-            return true;
-        });
-
-        setupGameUI();
-        initBindings();
     }
 
-    // Update the player card UI based on whose turn it is.
-    private void updateTurnUI() {
-        if (vb.dotAndBoxesView.getGame().isPlayerOneTurn()) {
-            changeBackgroundColor(vb.playerOneRL, LIGHT_GREEN_COLOR);
-            changeBackgroundColor(vb.playerTwoRL, CHARCOAL_COLOR);
-            animateViewScale(vb.playerOneRL, 1f, 1.1f, 200);
-            animateViewScale(vb.playerTwoRL, 1.1f, 1f, 200);
-        } else {
-            changeBackgroundColor(vb.playerOneRL, CHARCOAL_COLOR);
-            changeBackgroundColor(vb.playerTwoRL, LIGHT_RED_COLOR);
-            animateViewScale(vb.playerOneRL, 1.1f, 1f, 200);
-            animateViewScale(vb.playerTwoRL, 1f, 1.1f, 200);
-        }
-    }
+    // =================== UI Setup Methods ===================
 
-    // Set up default game settings and UI.
+    /**
+     * Setup default game settings and UI components.
+     */
     private void setupGameUI() {
         final int defaultGridSize = 6;
         final String defaultGameMode = "pvai";
@@ -130,16 +109,20 @@ public class DotAndBoxesActivity extends BaseActivity{
         updateTurnUI();
     }
 
-    // Initialize additional view bindings.
+    /**
+     * Initialize additional view bindings.
+     */
     private void initBindings() {
         ShopButtonLayoutBinding shopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
         ShopLayoutBinding shopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
-        NavigationLayoutBinding NavigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
-        ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
-        setBindings(shopButtonBinding, shopBinding, NavigationBinding, ShadowBinding);
+        NavigationLayoutBinding navigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
+        ShadowLayoutBinding shadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
+        setBindings(shopButtonBinding, shopBinding, navigationBinding, shadowBinding);
     }
 
-    // Update the score UI.
+    /**
+     * Update the score UI and stop game if over.
+     */
     private void updateScore() {
         int[] score = vb.dotAndBoxesView.getScore();
         if (vb.dotAndBoxesView.isGameOver()) {
@@ -149,7 +132,9 @@ public class DotAndBoxesActivity extends BaseActivity{
         vb.playerTwoScoreTV.setText(String.valueOf(score[1]));
     }
 
-    // Update grid size UI (for grid size selection views).
+    /**
+     * Update grid size UI highlighting based on selection.
+     */
     private void updateGridSizeUI(int boxesCount) {
         int dotCount = boxesCount + 1;
         if (dotCount < 5 || dotCount > 10) return;
@@ -172,6 +157,36 @@ public class DotAndBoxesActivity extends BaseActivity{
         }
     }
 
+    /**
+     * Update the turn UI by switching colors and animations based on current player.
+     */
+    private void updateTurnUI() {
+        if (vb.dotAndBoxesView.getGame().isPlayerOneTurn()) {
+            changeBackgroundColor(vb.playerOneRL, LIGHT_GREEN_COLOR);
+            changeBackgroundColor(vb.playerTwoRL, CHARCOAL_COLOR);
+            animateViewScale(vb.playerOneRL, 1f, 1.1f, 200);
+            animateViewScale(vb.playerTwoRL, 1.1f, 1f, 200);
+        } else {
+            changeBackgroundColor(vb.playerOneRL, CHARCOAL_COLOR);
+            changeBackgroundColor(vb.playerTwoRL, LIGHT_RED_COLOR);
+            animateViewScale(vb.playerOneRL, 1.1f, 1f, 200);
+            animateViewScale(vb.playerTwoRL, 1f, 1.1f, 200);
+        }
+    }
+
+    /**
+     * Check if turn has changed and update UI accordingly.
+     */
+    private void checkAndUpdateTurn() {
+        boolean currentTurnIsPlayerOne = vb.dotAndBoxesView.getGame().isPlayerOneTurn();
+        if (currentTurnIsPlayerOne != previousTurnIsPlayerOne) {
+            updateTurnUI();
+            previousTurnIsPlayerOne = currentTurnIsPlayerOne;
+        }
+    }
+
+    // =================== Event Handlers ===================
+
     public void handleDotAndBoxesMenuClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         toggleVisibility("open".equals(view.getTag()), vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
@@ -180,9 +195,10 @@ public class DotAndBoxesActivity extends BaseActivity{
     public void handleGridSizeButtons(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         int dotsCount = Integer.parseInt(view.getTag().toString());
-        vb.dotAndBoxesView.updateGridSize(dotsCount - 1);
+        int boxesCount = dotsCount - 1;
+        vb.dotAndBoxesView.updateGridSize(boxesCount);
         updateScore();
-        updateGridSizeUI(dotsCount - 1);
+        updateGridSizeUI(boxesCount);
         vb.dotAndBoxesView.gameInProgress = false;
     }
 
@@ -192,33 +208,30 @@ public class DotAndBoxesActivity extends BaseActivity{
     }
 
     private void updateGameMode(String mode) {
-        isPvAI = "pvai".equals(mode);
-        vb.pvaiTV.setSelected(isPvAI);
-        vb.pvpTV.setSelected(!isPvAI);
-        if (isPvAI) {
+        isPlayerVsAI = "pvai".equals(mode);
+        vb.pvaiTV.setSelected(isPlayerVsAI);
+        vb.pvpTV.setSelected(!isPlayerVsAI);
+
+        if (isPlayerVsAI) {
             animateViewScale(vb.pvaiTV, 1f, 1.05f, 200);
             animateViewScale(vb.pvpTV, 1.05f, 1f, 0);
             toggleVisibility(true, vb.difficultyTV, vb.difficultyLL);
             vb.playerOneNameTV.setText(R.string.you);
             vb.playerTwoNameTV.setText(R.string.ai);
-            toggleVisibility(false, vb.profileIV, vb.timerTV);
+            toggleVisibility(false, vb.profileIV, vb.timerTV, vb.setTimerTV, vb.timerLL);
+            stopTimer();
         } else {
             animateViewScale(vb.pvaiTV, 1.05f, 1f, 0);
             animateViewScale(vb.pvpTV, 1f, 1.05f, 200);
             toggleVisibility(false, vb.difficultyTV, vb.difficultyLL);
             vb.playerOneNameTV.setText(sharedPreferences.getString(DNBS_PLAYER_ONE_NAME_KEY, "Player 1"));
             vb.playerTwoNameTV.setText(sharedPreferences.getString(DNBS_PLAYER_TWO_NAME_KEY, "Player 2"));
-            toggleVisibility(true, vb.profileIV, vb.timerTV);
+            toggleVisibility(true, vb.profileIV, vb.timerTV, vb.setTimerTV, vb.timerLL);
+            startTimer();
         }
 
         vb.dotAndBoxesView.restartGame();
         updateScore();
-
-        if (isPvAI) {
-            stopTimer();
-        } else {
-            startTimer();
-        }
     }
 
     public void handleDifficultyButtons(View view) {
@@ -242,25 +255,18 @@ public class DotAndBoxesActivity extends BaseActivity{
 
     public void handleResetClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-
-        // If the reset confirmation layout is already visible, process the confirmation.
+        // If reset confirmation is visible, process confirmation
         if (vb.resetRL.getVisibility() == VISIBLE) {
             if ("yes".equals(view.getTag())) {
                 resetGame();
             }
-            // In either case, hide the confirmation layout.
             toggleVisibility(false, vb.resetRL, vb.Shadow.ShadowLayout);
             return;
         }
-
-        // If the game is over, reset immediately without showing the confirmation layout.
+        // Reset immediately if game is over, otherwise ask confirmation.
         if (vb.dotAndBoxesView.isGameOver()) {
             resetGame();
-            return;
-        }
-
-        // If the game is in progress, show the reset confirmation layout.
-        if (vb.dotAndBoxesView.gameInProgress) {
+        } else if (vb.dotAndBoxesView.gameInProgress) {
             toggleVisibility(true, vb.resetRL, vb.Shadow.ShadowLayout);
         }
     }
@@ -271,9 +277,8 @@ public class DotAndBoxesActivity extends BaseActivity{
         vb.dotAndBoxesView.restartGame();
         updateScore();
         updateTurnUI();
-        vb.timerTV.setText("00");
-        if (!isPvAI) startTimer();
-
+        vb.timerTV.setText(String.valueOf(initialTime));
+        if (!isPlayerVsAI) startTimer();
     }
 
     public void handleExitButtons(View view) {
@@ -295,10 +300,14 @@ public class DotAndBoxesActivity extends BaseActivity{
 
     public void handleProfileButtons(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        if ("save".equals(view.getTag())) updateProfilesUI();
+        if ("save".equals(view.getTag())) {
+            updateProfilesUI();
+        }
         toggleVisibility(false, vb.profileRL, vb.Shadow.ShadowLayout);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void updateProfilesUI() {
@@ -306,6 +315,7 @@ public class DotAndBoxesActivity extends BaseActivity{
             vb.playerOneET.setText(getString(R.string.player_one));
         if (vb.playerTwoET.getText().toString().trim().isEmpty())
             vb.playerTwoET.setText(getString(R.string.player_two));
+
         String playerOneName = vb.playerOneET.getText().toString().trim().replaceAll("\\s", "");
         String playerTwoName = vb.playerTwoET.getText().toString().trim().replaceAll("\\s", "");
         saveToSharedPreferences(DNBS_PLAYER_ONE_NAME_KEY, playerOneName);
@@ -314,7 +324,11 @@ public class DotAndBoxesActivity extends BaseActivity{
         vb.playerTwoNameTV.setText(sharedPreferences.getString(DNBS_PLAYER_TWO_NAME_KEY, "Player 2"));
     }
 
-    // AI move: calls our DotAndBoxesAI helper and updates the UI.
+    // =================== AI and Timeout Logic ===================
+
+    /**
+     * Perform an AI move in casual mode.
+     */
     private void performCasualAIMove() {
         vb.dotAndBoxesView.setInputEnabled(false);
         new Handler().postDelayed(() -> {
@@ -328,79 +342,65 @@ public class DotAndBoxesActivity extends BaseActivity{
                 vb.dotAndBoxesView.setInputEnabled(true);
                 return;
             }
-            int boxesBefore = countClaimedBoxes(game.getBoxes());
+            int boxesBefore = game.getClaimedBoxesCount();
             game.markLine(chosenMove.isHorizontal, chosenMove.row, chosenMove.col);
             vb.dotAndBoxesView.invalidate();
             updateScore();
             updateTurnUI();
-            int boxesAfter = countClaimedBoxes(game.getBoxes());
+            int boxesAfter = game.getClaimedBoxesCount();
             if (boxesAfter > boxesBefore) {
                 vb.dotAndBoxesView.animateCompletedBoxes();
                 playSoundAndVibrate(this, R.raw.sound_box_complete, true, 200);
-                performCasualAIMove();
+                performCasualAIMove(); // repeat turn if box completed
             } else {
                 playSoundAndVibrate(this, R.raw.sound_dot_clicked, true, 50);
                 vb.dotAndBoxesView.setInputEnabled(true);
             }
-        }, 1000);
+        }, 200);
     }
 
-    private int countClaimedBoxes(int[][] boxes) {
-        int count = 0;
-        for (int[] row : boxes) {
-            for (int box : row) {
-                if (box != 0) count++;
+    /**
+     * Handle a timeout by making a random valid move.
+     */
+    private void handleTimeout() {
+        if (isPlayerVsAI || vb.dotAndBoxesView.isGameOver()) return;
+
+        DotAndBoxesGame game = vb.dotAndBoxesView.getGame();
+        int boxesBefore = game.getClaimedBoxesCount();
+
+        List<DotAndBoxesAI.Move> availableMoves = getValidMoves(game);
+
+        if (!availableMoves.isEmpty()) {
+            DotAndBoxesAI.Move randomMove = availableMoves.get(new Random().nextInt(availableMoves.size()));
+            boolean success = game.markLine(randomMove.isHorizontal, randomMove.row, randomMove.col);
+            if (success) {
+                int boxesAfter = game.getClaimedBoxesCount();
+                vb.dotAndBoxesView.invalidate();
+                updateScore();
+                updateTurnUI();
+                if (boxesAfter > boxesBefore) {
+                    vb.dotAndBoxesView.animateCompletedBoxes();
+                    playSoundAndVibrate(this, R.raw.sound_box_complete, true, 200);
+                } else {
+                    playSoundAndVibrate(this, R.raw.sound_dot_clicked, true, 50);
+                }
+                startTimer();
             }
         }
-        return count;
     }
 
-    @Override
-    public void backLogic() {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        if (vb.Shop.ShopLayout.getVisibility() == VISIBLE) {
-            toggleVisibility(false, vb.Shop.ShopLayout, vb.Shadow.ShadowLayout);
-            return;
-        }
-        if (vb.DotAndBoxesMenuLayout.getVisibility() == VISIBLE) {
-            toggleVisibility(false, vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
-            return;
-        }
-        if (vb.resetRL.getVisibility() == VISIBLE) {
-            toggleVisibility(false, vb.resetRL, vb.Shadow.ShadowLayout);
-            return;
-        }
-        if (vb.leaveRL.getVisibility() == VISIBLE) {
-            toggleVisibility(false, vb.leaveRL, vb.Shadow.ShadowLayout);
-            return;
-        }
-        if (vb.dotAndBoxesView.gameInProgress) {
-            toggleVisibility(true, vb.leaveRL, vb.Shadow.ShadowLayout);
-            return;
-        }
-        changeActivity(this, getBackDestination());
-    }
-
-    @Override
-    protected Class<?> getBackDestination() {
-        return GamesActivity.class;
-    }
+    // =================== Timer Methods ===================
 
     private void startTimer() {
-        if (!isPvAI && vb.dotAndBoxesView.gameInProgress) {
-            stopTimer();
-            isTimerRunning = true;
-            timeLeft = 15;
-            vb.timerTV.setText(String.valueOf(timeLeft));
-            vb.timerTV.setVisibility(View.VISIBLE);
-            timerHandler.postDelayed(timerRunnable, 1000);
-        }
+        if (initialTime == 0 || isPlayerVsAI || !vb.dotAndBoxesView.gameInProgress) return;
+        stopTimer();
+        timeLeft = initialTime;
+        vb.timerTV.setText(String.valueOf(timeLeft));
+        timerHandler.postDelayed(timerRunnable, 1000);
     }
 
     private void stopTimer() {
-        isTimerRunning = false;
         timerHandler.removeCallbacks(timerRunnable);
-        vb.timerTV.setVisibility(View.GONE);
     }
 
     private void resetTimer() {
@@ -408,83 +408,52 @@ public class DotAndBoxesActivity extends BaseActivity{
         startTimer();
     }
 
-    private void handleTimeout() {
-        if (isPvAI || vb.dotAndBoxesView.isGameOver()) return;
-
-        DotAndBoxesGame game = vb.dotAndBoxesView.getGame();
-
-        // Store initial state
-        int[] scoresBefore = game.getScores();
-        int boxesBefore = scoresBefore[0] + scoresBefore[1];
-
-        List<DotAndBoxesAI.Move> availableMoves = new ArrayList<>();
-
-        // Find all available moves (existing code)
-        // Horizontal lines
-        for (int row = 0; row <= game.getGridSize(); row++) {
-            for (int col = 0; col < game.getGridSize(); col++) {
-                if (!game.isHorizontalLineMarked(row, col)) {
-                    availableMoves.add(new DotAndBoxesAI.Move(true, row, col));
+    public void handleTimeButtons(View view) {
+        switch(view.getTag().toString()) {
+            case "+":
+                if (initialTime >= 30) {
+                    playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                    return;
                 }
-            }
+                initialTime += 5;
+                break;
+            case "-":
+                if (initialTime <= 0) {
+                    playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                    return;
+                }
+                initialTime -= 5;
+                break;
+
         }
+        vb.menuTimerTV.setText(String.valueOf(initialTime));
+        toggleVisibility(initialTime != 0, vb.timerTV);
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        resetGame();
+    }
 
-        // Vertical lines
-        for (int row = 0; row < game.getGridSize(); row++) {
-            for (int col = 0; col <= game.getGridSize(); col++) {
-                if (!game.isVerticalLineMarked(row, col)) {
-                    availableMoves.add(new DotAndBoxesAI.Move(false, row, col));
-                }
-            }
-        }
+    // =================== Back and Lifecycle ===================
 
-        if (!availableMoves.isEmpty()) {
-            Random random = new Random();
-            DotAndBoxesAI.Move randomMove = availableMoves.get(random.nextInt(availableMoves.size()));
-
-            // Apply the random move
-            boolean success = game.markLine(randomMove.isHorizontal,
-                    randomMove.row,
-                    randomMove.col);
-
-            if (success) {
-                // Get new state after move
-                int[] scoresAfter = game.getScores();
-                int boxesAfter = scoresAfter[0] + scoresAfter[1];
-
-                // Update UI
-                vb.dotAndBoxesView.invalidate();
-                updateScore();
-                updateTurnUI();
-
-                // Check if boxes were completed
-                if (boxesAfter > boxesBefore) {
-                    // Animate completed boxes
-                    vb.dotAndBoxesView.animateCompletedBoxes();
-                    playSoundAndVibrate(this, R.raw.sound_box_complete, true, 200);
-
-                    // If boxes were completed, keep the turn and restart timer immediately
-                    startTimer();
-                } else {
-                    // No boxes completed, normal turn flow
-                    playSoundAndVibrate(this, R.raw.sound_dot_clicked, true, 50);
-                    startTimer();
-                }
-            }
+    @Override
+    public void backLogic() {
+        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        if (vb.Shop.ShopLayout.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.Shop.ShopLayout, vb.Shadow.ShadowLayout);
+        } else if (vb.DotAndBoxesMenuLayout.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
+        } else if (vb.resetRL.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.resetRL, vb.Shadow.ShadowLayout);
+        } else if (vb.leaveRL.getVisibility() == VISIBLE) {
+            toggleVisibility(false, vb.leaveRL, vb.Shadow.ShadowLayout);
+        } else if (vb.dotAndBoxesView.gameInProgress) {
+            toggleVisibility(true, vb.leaveRL, vb.Shadow.ShadowLayout);
+        } else {
+            changeActivity(this, GamesActivity.class);
         }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        stopTimer();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (!isPvAI && vb.dotAndBoxesView.gameInProgress) {
-            startTimer();
-        }
+    protected Class<?> getBackDestination() {
+        return GamesActivity.class;
     }
 }
