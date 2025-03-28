@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DotAndBoxesAI {
+public class DotAndBoxesCasualAI {
 
     // Simple representation of a move.
     public static class Move {

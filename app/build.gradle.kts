@@ -4,12 +4,12 @@ plugins {
 
 android {
     namespace = "com.fahadmalik5509.playbox"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.fahadmalik5509.playbox"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 

@@ -115,6 +115,7 @@ public class ActivityUtils {
         soundMap.put(R.raw.sound_contrast, soundPool.load(context, R.raw.sound_contrast, 1));
         soundMap.put(R.raw.sound_dot_clicked, soundPool.load(context, R.raw.sound_dot_clicked, 1));
         soundMap.put(R.raw.sound_box_complete, soundPool.load(context, R.raw.sound_box_complete, 1));
+        soundMap.put(R.raw.sound_line_placed, soundPool.load(context, R.raw.sound_line_placed, 1));
     }
 
     public static void playSoundAndVibrate(Context context, int soundResId, boolean vibrate, int vibrationDuration) {

@@ -1,12 +1,13 @@
 package com.fahadmalik5509.playbox.dotandboxes;
 
 import static android.view.View.VISIBLE;
-import static com.fahadmalik5509.playbox.dotandboxes.DotAndBoxesAI.getValidMoves;
+import static com.fahadmalik5509.playbox.dotandboxes.DotAndBoxesCasualAI.getValidMoves;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.*;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -30,11 +31,9 @@ public class DotAndBoxesActivity extends BaseActivity {
     private TextView previouslySelectedGridSizeTV = null;
     private boolean isPlayerVsAI, isCasual, previousTurnIsPlayerOne;
 
-    // Timer variables
-    private final Handler timerHandler = new Handler();
-    private Runnable timerRunnable;
-    private int timeLeft;
-    private int initialTime = 15;  // default timer value
+    // Timer variables using CountDownTimer
+    private CountDownTimer countDownTimer;
+    private int initialTime = 15;  // default timer value in seconds
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -43,25 +42,25 @@ public class DotAndBoxesActivity extends BaseActivity {
         vb = DotandboxesLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
-        initTimerRunnable();
         setupGameUI();
         initBindings();
 
         // Reset timer when a move is made in PvP mode.
         vb.dotAndBoxesView.setOnMoveListener(() -> {
+            updateScore();
+            checkAndUpdateTurn();
             if (!isPlayerVsAI) {
                 resetTimer();
+            }
+            if (isPlayerVsAI && !vb.dotAndBoxesView.getGame().isPlayerOneTurn()) {
+                if(isCasual) performCasualAIMove();
+                else performTacticalAIMove();
             }
         });
 
         // Game touch listener to update UI, score and perform AI moves.
         vb.dotAndBoxesView.setOnTouchListener((v, event) -> {
             v.onTouchEvent(event);
-            updateScore();
-            checkAndUpdateTurn();
-            if (isPlayerVsAI && !vb.dotAndBoxesView.getGame().isPlayerOneTurn()) {
-                performCasualAIMove();
-            }
             return true;
         });
 
@@ -69,29 +68,8 @@ public class DotAndBoxesActivity extends BaseActivity {
         previousTurnIsPlayerOne = vb.dotAndBoxesView.getGame().isPlayerOneTurn();
     }
 
-    /**
-     * Initialize the timer runnable that updates the timer each second.
-     */
-    private void initTimerRunnable() {
-        timerRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (timeLeft > 0 && !isPlayerVsAI && vb.dotAndBoxesView.gameInProgress) {
-                    timeLeft--;
-                    vb.timerTV.setText(String.valueOf(timeLeft));
-                    timerHandler.postDelayed(this, 1000);
-                } else if (timeLeft <= 0) {
-                    handleTimeout();
-                }
-            }
-        };
-    }
-
     // =================== UI Setup Methods ===================
 
-    /**
-     * Setup default game settings and UI components.
-     */
     private void setupGameUI() {
         final int defaultGridSize = 6;
         final String defaultGameMode = "pvai";
@@ -105,13 +83,9 @@ public class DotAndBoxesActivity extends BaseActivity {
         updateGridSizeUI(defaultGridSize);
         updateGameMode(defaultGameMode);
         updateDifficultyUI(defaultDifficulty);
-        updateScore();
         updateTurnUI();
     }
 
-    /**
-     * Initialize additional view bindings.
-     */
     private void initBindings() {
         ShopButtonLayoutBinding shopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
         ShopLayoutBinding shopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
@@ -120,21 +94,98 @@ public class DotAndBoxesActivity extends BaseActivity {
         setBindings(shopButtonBinding, shopBinding, navigationBinding, shadowBinding);
     }
 
-    /**
-     * Update the score UI and stop game if over.
-     */
     private void updateScore() {
         int[] score = vb.dotAndBoxesView.getScore();
         if (vb.dotAndBoxesView.isGameOver()) {
             vb.dotAndBoxesView.gameInProgress = false;
+            winnerSplash();
+            stopTimer();
         }
         vb.playerOneScoreTV.setText(String.valueOf(score[0]));
         vb.playerTwoScoreTV.setText(String.valueOf(score[1]));
     }
 
-    /**
-     * Update grid size UI highlighting based on selection.
-     */
+    private void winnerSplash() {
+        // Set the winner's name and win text.
+        int[] score = vb.dotAndBoxesView.getScore();
+        if (score[0] > score[1]) {
+            vb.winnerNameTV.setText(vb.playerOneNameTV.getText());
+        } else {
+            vb.winnerNameTV.setText(vb.playerTwoNameTV.getText());
+        }
+        vb.celebrationLAV.setVisibility(VISIBLE);
+        vb.celebrationLAV.playAnimation();
+
+        animateViewScale(vb.winnerNameTV, 0f, 1f, 500);
+        animateViewScale(vb.winnerWonTV, 0f, 1f, 500);
+        toggleVisibility(true, vb.winnerSplashRL);
+//        vb.winnerNameTV.setText("Fahad");
+//        vb.winnerWonTV.setText("Wins");
+
+
+
+        // Animate winnerNameTV: from off-screen left to an intermediate target then slight drift.
+//        vb.winnerNameTV.post(() -> {
+//            int screenWidth = getResources().getDisplayMetrics().widthPixels;
+//            // Start off-screen to the left.
+//            vb.winnerNameTV.setTranslationX(-screenWidth);
+//
+//            vb.winnerNameTV.setVisibility(View.VISIBLE);
+//
+//            // Calculate the centered position (for reference).
+//            float centerX = (screenWidth - vb.winnerNameTV.getWidth()) / 2f;
+//            // Instead of center, pick an intermediate target (80% of center)
+//            float intermediateX = centerX * 0.35f;
+//            // Final drift target: slightly to the right of the intermediate position.
+//            float finalX = intermediateX + 100f; // adjust as needed
+//
+//            // First phase: slide in from off-screen left to intermediate target with deceleration.
+//            ObjectAnimator animIn = ObjectAnimator.ofFloat(vb.winnerNameTV, "translationX", -screenWidth, intermediateX);
+//            animIn.setInterpolator(new DecelerateInterpolator());
+//            animIn.setDuration(800);
+//
+//            // Second phase: drift right a little.
+//            ObjectAnimator animDrift = ObjectAnimator.ofFloat(vb.winnerNameTV, "translationX", intermediateX, finalX);
+//            animDrift.setInterpolator(new LinearInterpolator());
+//            animDrift.setDuration(1200);
+//
+//            AnimatorSet animatorSet = new AnimatorSet();
+//            animatorSet.playSequentially(animIn, animDrift);
+//            animatorSet.start();
+//        });
+//
+//        // Animate winnerWonTV: from off-screen right to an intermediate target then slight drift.
+//        vb.winnerWonTV.post(() -> {
+//            int screenWidth = getResources().getDisplayMetrics().widthPixels;
+//            // Start off-screen to the right.
+//            vb.winnerWonTV.setTranslationX(screenWidth);
+//
+//            vb.winnerWonTV.setVisibility(View.VISIBLE);
+//
+//            // Calculate the centered position (for reference).
+//            float centerX = (screenWidth - vb.winnerWonTV.getWidth()) / 2f;
+//            // Use an intermediate target at 80% of center.
+//            float intermediateX = centerX * 1.6f;
+//            // Final drift target: slightly to the left of the intermediate position.
+//            float finalX = intermediateX - 100f; // adjust as needed
+//
+//            // First phase: slide in from off-screen right to intermediate target.
+//            ObjectAnimator animIn = ObjectAnimator.ofFloat(vb.winnerWonTV, "translationX", screenWidth, intermediateX);
+//            animIn.setInterpolator(new DecelerateInterpolator());
+//            animIn.setDuration(800);
+//
+//            // Second phase: drift left a little.
+//            ObjectAnimator animDrift = ObjectAnimator.ofFloat(vb.winnerWonTV, "translationX", intermediateX, finalX);
+//            animDrift.setInterpolator(new LinearInterpolator());
+//            animDrift.setDuration(1200);
+//
+//            AnimatorSet animatorSet = new AnimatorSet();
+//            animatorSet.playSequentially(animIn, animDrift);
+//            animatorSet.start();
+//        });
+    }
+
+
     private void updateGridSizeUI(int boxesCount) {
         int dotCount = boxesCount + 1;
         if (dotCount < 5 || dotCount > 10) return;
@@ -157,9 +208,6 @@ public class DotAndBoxesActivity extends BaseActivity {
         }
     }
 
-    /**
-     * Update the turn UI by switching colors and animations based on current player.
-     */
     private void updateTurnUI() {
         if (vb.dotAndBoxesView.getGame().isPlayerOneTurn()) {
             changeBackgroundColor(vb.playerOneRL, LIGHT_GREEN_COLOR);
@@ -174,9 +222,6 @@ public class DotAndBoxesActivity extends BaseActivity {
         }
     }
 
-    /**
-     * Check if turn has changed and update UI accordingly.
-     */
     private void checkAndUpdateTurn() {
         boolean currentTurnIsPlayerOne = vb.dotAndBoxesView.getGame().isPlayerOneTurn();
         if (currentTurnIsPlayerOne != previousTurnIsPlayerOne) {
@@ -197,9 +242,9 @@ public class DotAndBoxesActivity extends BaseActivity {
         int dotsCount = Integer.parseInt(view.getTag().toString());
         int boxesCount = dotsCount - 1;
         vb.dotAndBoxesView.updateGridSize(boxesCount);
-        updateScore();
+
+        resetGame();
         updateGridSizeUI(boxesCount);
-        vb.dotAndBoxesView.gameInProgress = false;
     }
 
     public void handleGameModeButtons(View view) {
@@ -230,8 +275,7 @@ public class DotAndBoxesActivity extends BaseActivity {
             startTimer();
         }
 
-        vb.dotAndBoxesView.restartGame();
-        updateScore();
+        resetGame();
     }
 
     public void handleDifficultyButtons(View view) {
@@ -255,7 +299,6 @@ public class DotAndBoxesActivity extends BaseActivity {
 
     public void handleResetClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
-        // If reset confirmation is visible, process confirmation
         if (vb.resetRL.getVisibility() == VISIBLE) {
             if ("yes".equals(view.getTag())) {
                 resetGame();
@@ -263,7 +306,6 @@ public class DotAndBoxesActivity extends BaseActivity {
             toggleVisibility(false, vb.resetRL, vb.Shadow.ShadowLayout);
             return;
         }
-        // Reset immediately if game is over, otherwise ask confirmation.
         if (vb.dotAndBoxesView.isGameOver()) {
             resetGame();
         } else if (vb.dotAndBoxesView.gameInProgress) {
@@ -277,7 +319,10 @@ public class DotAndBoxesActivity extends BaseActivity {
         vb.dotAndBoxesView.restartGame();
         updateScore();
         updateTurnUI();
+        resetTimer();
         vb.timerTV.setText(String.valueOf(initialTime));
+        toggleVisibility(false, vb.celebrationLAV, vb.winnerSplashRL, vb.Shadow.ShadowLayout);
+        vb.celebrationLAV.cancelAnimation();
         if (!isPlayerVsAI) startTimer();
     }
 
@@ -289,6 +334,69 @@ public class DotAndBoxesActivity extends BaseActivity {
             changeActivity(this, GamesActivity.class);
         }
     }
+
+    // =================== AI and Timeout Logic ===================
+
+    private void performCasualAIMove() {
+        vb.dotAndBoxesView.setInputEnabled(false);
+        new Handler().postDelayed(() -> {
+            DotAndBoxesGame game = vb.dotAndBoxesView.getGame();
+            if (game.isPlayerOneTurn()) {
+                vb.dotAndBoxesView.setInputEnabled(true);
+                return;
+            }
+            DotAndBoxesCasualAI.Move chosenMove = DotAndBoxesCasualAI.chooseAIMove(game);
+
+            if (chosenMove == null) {
+                vb.dotAndBoxesView.setInputEnabled(true);
+                return;
+            }
+            processMove(chosenMove);
+            // If a box was completed, the AI may move again; otherwise, re-enable input.
+            if (game.getClaimedBoxesCount() > 0) {
+                performCasualAIMove();
+            } else {
+                vb.dotAndBoxesView.setInputEnabled(true);
+            }
+        }, 200);
+    }
+
+    private void performTacticalAIMove() {
+        performCasualAIMove();
+    }
+
+    private void handleTimeout() {
+        if (isPlayerVsAI || vb.dotAndBoxesView.isGameOver()) return;
+        DotAndBoxesGame game = vb.dotAndBoxesView.getGame();
+        List<DotAndBoxesCasualAI.Move> availableMoves = getValidMoves(game);
+        if (!availableMoves.isEmpty()) {
+            DotAndBoxesCasualAI.Move randomMove = availableMoves.get(new Random().nextInt(availableMoves.size()));
+            processMove(randomMove);
+            startTimer();
+        }
+    }
+
+    private void processMove(DotAndBoxesCasualAI.Move move) {
+        DotAndBoxesGame game = vb.dotAndBoxesView.getGame();
+        int boxesBefore = game.getClaimedBoxesCount();
+        boolean success = game.markLine(move.isHorizontal, move.row, move.col);
+        if (!success) {
+            vb.dotAndBoxesView.setInputEnabled(true);
+            return;
+        }
+        vb.dotAndBoxesView.invalidate();
+        updateScore();
+        updateTurnUI();
+        int boxesAfter = game.getClaimedBoxesCount();
+        if (boxesAfter > boxesBefore) {
+            vb.dotAndBoxesView.animateCompletedBoxes();
+            playSoundAndVibrate(this, R.raw.sound_box_complete, true, 200);
+        } else {
+            playSoundAndVibrate(this, R.raw.sound_line_placed, true, 50);
+        }
+    }
+
+    // =================== Profile Handling ===================
 
     public void handleProfileClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
@@ -324,89 +432,7 @@ public class DotAndBoxesActivity extends BaseActivity {
         vb.playerTwoNameTV.setText(sharedPreferences.getString(DNBS_PLAYER_TWO_NAME_KEY, "Player 2"));
     }
 
-    // =================== AI and Timeout Logic ===================
-
-    /**
-     * Perform an AI move in casual mode.
-     */
-    private void performCasualAIMove() {
-        vb.dotAndBoxesView.setInputEnabled(false);
-        new Handler().postDelayed(() -> {
-            DotAndBoxesGame game = vb.dotAndBoxesView.getGame();
-            if (game.isPlayerOneTurn()) {
-                vb.dotAndBoxesView.setInputEnabled(true);
-                return;
-            }
-            DotAndBoxesAI.Move chosenMove = DotAndBoxesAI.chooseAIMove(game);
-            if (chosenMove == null) {
-                vb.dotAndBoxesView.setInputEnabled(true);
-                return;
-            }
-            int boxesBefore = game.getClaimedBoxesCount();
-            game.markLine(chosenMove.isHorizontal, chosenMove.row, chosenMove.col);
-            vb.dotAndBoxesView.invalidate();
-            updateScore();
-            updateTurnUI();
-            int boxesAfter = game.getClaimedBoxesCount();
-            if (boxesAfter > boxesBefore) {
-                vb.dotAndBoxesView.animateCompletedBoxes();
-                playSoundAndVibrate(this, R.raw.sound_box_complete, true, 200);
-                performCasualAIMove(); // repeat turn if box completed
-            } else {
-                playSoundAndVibrate(this, R.raw.sound_dot_clicked, true, 50);
-                vb.dotAndBoxesView.setInputEnabled(true);
-            }
-        }, 200);
-    }
-
-    /**
-     * Handle a timeout by making a random valid move.
-     */
-    private void handleTimeout() {
-        if (isPlayerVsAI || vb.dotAndBoxesView.isGameOver()) return;
-
-        DotAndBoxesGame game = vb.dotAndBoxesView.getGame();
-        int boxesBefore = game.getClaimedBoxesCount();
-
-        List<DotAndBoxesAI.Move> availableMoves = getValidMoves(game);
-
-        if (!availableMoves.isEmpty()) {
-            DotAndBoxesAI.Move randomMove = availableMoves.get(new Random().nextInt(availableMoves.size()));
-            boolean success = game.markLine(randomMove.isHorizontal, randomMove.row, randomMove.col);
-            if (success) {
-                int boxesAfter = game.getClaimedBoxesCount();
-                vb.dotAndBoxesView.invalidate();
-                updateScore();
-                updateTurnUI();
-                if (boxesAfter > boxesBefore) {
-                    vb.dotAndBoxesView.animateCompletedBoxes();
-                    playSoundAndVibrate(this, R.raw.sound_box_complete, true, 200);
-                } else {
-                    playSoundAndVibrate(this, R.raw.sound_dot_clicked, true, 50);
-                }
-                startTimer();
-            }
-        }
-    }
-
-    // =================== Timer Methods ===================
-
-    private void startTimer() {
-        if (initialTime == 0 || isPlayerVsAI || !vb.dotAndBoxesView.gameInProgress) return;
-        stopTimer();
-        timeLeft = initialTime;
-        vb.timerTV.setText(String.valueOf(timeLeft));
-        timerHandler.postDelayed(timerRunnable, 1000);
-    }
-
-    private void stopTimer() {
-        timerHandler.removeCallbacks(timerRunnable);
-    }
-
-    private void resetTimer() {
-        stopTimer();
-        startTimer();
-    }
+    // =================== Timer Methods using CountDownTimer ===================
 
     public void handleTimeButtons(View view) {
         switch(view.getTag().toString()) {
@@ -424,12 +450,43 @@ public class DotAndBoxesActivity extends BaseActivity {
                 }
                 initialTime -= 5;
                 break;
-
         }
+
         vb.menuTimerTV.setText(String.valueOf(initialTime));
         toggleVisibility(initialTime != 0, vb.timerTV);
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         resetGame();
+    }
+
+    private void startTimer() {
+        if (initialTime == 0 || isPlayerVsAI || !vb.dotAndBoxesView.gameInProgress) return;
+        stopTimer();
+        vb.timerTV.setText(String.valueOf(initialTime));
+        countDownTimer = new CountDownTimer(initialTime * 1000L, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // Add 1 so that 15000ms -> 15, 14000ms -> 14, etc.
+                int secondsRemaining = (int) (millisUntilFinished / 1000) + 1;
+                vb.timerTV.setText(String.valueOf(secondsRemaining));
+            }
+            @Override
+            public void onFinish() {
+                handleTimeout();
+            }
+        }.start();
+    }
+
+
+    private void stopTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
+    }
+
+    private void resetTimer() {
+        stopTimer();
+        startTimer();
     }
 
     // =================== Back and Lifecycle ===================

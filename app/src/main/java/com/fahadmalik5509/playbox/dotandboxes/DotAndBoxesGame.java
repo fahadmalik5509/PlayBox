@@ -118,8 +118,4 @@ public class DotAndBoxesGame {
     public int[][] getVerticalLines() { return verticalLines; }
     public int[][] getBoxes() { return boxes; }
     public boolean isPlayerOneTurn() { return playerOneTurn; }
-    public int getGridSize() { return gridSize; }
-    public boolean isHorizontalLineMarked(int row, int col) { return horizontalLines[row][col] != 0; }
-    public boolean isVerticalLineMarked(int row, int col) { return verticalLines[row][col] != 0; }
-
 }

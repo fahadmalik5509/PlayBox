@@ -305,7 +305,7 @@ public class DotAndBoxesView extends View {
                             chosen = candidate;
                         }
                     }
-                    int boxesBefore = countClaimedBoxes(game.getBoxes());
+                    int boxesBefore = game.getClaimedBoxesCount();
                     boolean moveCommitted = false;
                     if (chosen != null) {
                         int dr = Math.abs(chosen[0] - startDotRow);
@@ -316,7 +316,7 @@ public class DotAndBoxesView extends View {
                                     : game.markLine(false, Math.min(startDotRow, chosen[0]), startDotCol);
                         }
                     }
-                    int boxesAfter = countClaimedBoxes(game.getBoxes());
+                    int boxesAfter = game.getClaimedBoxesCount();
                     if (moveCommitted) {
                         if (boxesAfter > boxesBefore) {
                             playSoundAndVibrate(getContext(), R.raw.sound_box_complete, true, 200);
@@ -328,7 +328,7 @@ public class DotAndBoxesView extends View {
                                 }
                             }
                         } else {
-                            playSoundAndVibrate(getContext(), R.raw.sound_dot_clicked, true, 50);
+                            playSoundAndVibrate(getContext(), R.raw.sound_line_placed, true, 50);
                             gameInProgress = true;
                         }
 
@@ -379,19 +379,6 @@ public class DotAndBoxesView extends View {
         boolean up = (row == 0) || (vLines[row - 1][col] != 0);
         boolean down = (row == gridSize) || (vLines[row][col] != 0);
         return left && right && up && down;
-    }
-
-    // Counts the number of claimed boxes.
-    private int countClaimedBoxes(int[][] boxes) {
-        int count = 0;
-        for (int[] row : boxes) {
-            for (int box : row) {
-                if (box != 0) {
-                    count++;
-                }
-            }
-        }
-        return count;
     }
 
     // Converts dp to pixels.
@@ -448,9 +435,7 @@ public class DotAndBoxesView extends View {
         }
     }
 
-    public int[] getScore() {
-        return game.getScores();
-    }
+    public int[] getScore() { return game.getScores(); }
 
     public boolean isGameOver() {
         return game.isGameOver();
@@ -466,7 +451,5 @@ public class DotAndBoxesView extends View {
 
     public interface OnMoveListener { void onMoveCommitted(); }
 
-    public void setOnMoveListener(OnMoveListener listener) {
-        this.moveListener = listener;
-    }
+    public void setOnMoveListener(OnMoveListener listener) { this.moveListener = listener; }
 }
