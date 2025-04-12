@@ -110,79 +110,22 @@ public class DotAndBoxesActivity extends BaseActivity {
         int[] score = vb.dotAndBoxesView.getScore();
         if (score[0] > score[1]) {
             vb.winnerNameTV.setText(vb.playerOneNameTV.getText());
-        } else {
+            animateViewScale(vb.winnerNameTV, 0f, 1f, 500);
+            animateViewScale(vb.winnerWonTV, 0f, 1f, 500);
+            toggleVisibility(true, vb.winnerNameTV, vb.winnerWonTV);
+        } else if(score[0] < score[1]) {
             vb.winnerNameTV.setText(vb.playerTwoNameTV.getText());
+            animateViewScale(vb.winnerNameTV, 0f, 1f, 500);
+            animateViewScale(vb.winnerWonTV, 0f, 1f, 500);
+            toggleVisibility(true, vb.winnerNameTV, vb.winnerWonTV);
+        } else {
+            vb.winnerNameTV.setText(getString(R.string.draw));
+            animateViewScale(vb.winnerNameTV, 0f, 1f, 500);
+            toggleVisibility(true, vb.winnerNameTV);
         }
+
         vb.celebrationLAV.setVisibility(VISIBLE);
         vb.celebrationLAV.playAnimation();
-
-        animateViewScale(vb.winnerNameTV, 0f, 1f, 500);
-        animateViewScale(vb.winnerWonTV, 0f, 1f, 500);
-        toggleVisibility(true, vb.winnerSplashRL);
-//        vb.winnerNameTV.setText("Fahad");
-//        vb.winnerWonTV.setText("Wins");
-
-
-
-        // Animate winnerNameTV: from off-screen left to an intermediate target then slight drift.
-//        vb.winnerNameTV.post(() -> {
-//            int screenWidth = getResources().getDisplayMetrics().widthPixels;
-//            // Start off-screen to the left.
-//            vb.winnerNameTV.setTranslationX(-screenWidth);
-//
-//            vb.winnerNameTV.setVisibility(View.VISIBLE);
-//
-//            // Calculate the centered position (for reference).
-//            float centerX = (screenWidth - vb.winnerNameTV.getWidth()) / 2f;
-//            // Instead of center, pick an intermediate target (80% of center)
-//            float intermediateX = centerX * 0.35f;
-//            // Final drift target: slightly to the right of the intermediate position.
-//            float finalX = intermediateX + 100f; // adjust as needed
-//
-//            // First phase: slide in from off-screen left to intermediate target with deceleration.
-//            ObjectAnimator animIn = ObjectAnimator.ofFloat(vb.winnerNameTV, "translationX", -screenWidth, intermediateX);
-//            animIn.setInterpolator(new DecelerateInterpolator());
-//            animIn.setDuration(800);
-//
-//            // Second phase: drift right a little.
-//            ObjectAnimator animDrift = ObjectAnimator.ofFloat(vb.winnerNameTV, "translationX", intermediateX, finalX);
-//            animDrift.setInterpolator(new LinearInterpolator());
-//            animDrift.setDuration(1200);
-//
-//            AnimatorSet animatorSet = new AnimatorSet();
-//            animatorSet.playSequentially(animIn, animDrift);
-//            animatorSet.start();
-//        });
-//
-//        // Animate winnerWonTV: from off-screen right to an intermediate target then slight drift.
-//        vb.winnerWonTV.post(() -> {
-//            int screenWidth = getResources().getDisplayMetrics().widthPixels;
-//            // Start off-screen to the right.
-//            vb.winnerWonTV.setTranslationX(screenWidth);
-//
-//            vb.winnerWonTV.setVisibility(View.VISIBLE);
-//
-//            // Calculate the centered position (for reference).
-//            float centerX = (screenWidth - vb.winnerWonTV.getWidth()) / 2f;
-//            // Use an intermediate target at 80% of center.
-//            float intermediateX = centerX * 1.6f;
-//            // Final drift target: slightly to the left of the intermediate position.
-//            float finalX = intermediateX - 100f; // adjust as needed
-//
-//            // First phase: slide in from off-screen right to intermediate target.
-//            ObjectAnimator animIn = ObjectAnimator.ofFloat(vb.winnerWonTV, "translationX", screenWidth, intermediateX);
-//            animIn.setInterpolator(new DecelerateInterpolator());
-//            animIn.setDuration(800);
-//
-//            // Second phase: drift left a little.
-//            ObjectAnimator animDrift = ObjectAnimator.ofFloat(vb.winnerWonTV, "translationX", intermediateX, finalX);
-//            animDrift.setInterpolator(new LinearInterpolator());
-//            animDrift.setDuration(1200);
-//
-//            AnimatorSet animatorSet = new AnimatorSet();
-//            animatorSet.playSequentially(animIn, animDrift);
-//            animatorSet.start();
-//        });
     }
 
 
@@ -321,7 +264,7 @@ public class DotAndBoxesActivity extends BaseActivity {
         updateTurnUI();
         resetTimer();
         vb.timerTV.setText(String.valueOf(initialTime));
-        toggleVisibility(false, vb.celebrationLAV, vb.winnerSplashRL, vb.Shadow.ShadowLayout);
+        toggleVisibility(false, vb.celebrationLAV, vb.winnerWonTV, vb.winnerNameTV, vb.Shadow.ShadowLayout);
         vb.celebrationLAV.cancelAnimation();
         if (!isPlayerVsAI) startTimer();
     }

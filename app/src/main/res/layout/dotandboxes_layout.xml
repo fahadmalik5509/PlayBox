@@ -15,6 +15,53 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp" />
 
+    <!-- Winner LAV !-->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/celebrationLAV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:lottie_rawRes="@raw/lottie_celebration_star"
+        app:lottie_asyncUpdates="automatic"
+        app:lottie_cacheComposition="true"
+        app:lottie_loop="true"
+        android:visibility="gone"/>
+
+    <!-- Winner Splash !-->
+    <RelativeLayout
+        android:id="@+id/winnerSplashRL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/winnerNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Fahad"
+            android:textSize="64sp"
+            android:textAppearance="@style/funky_font"
+            android:textColor="@color/charcoal"
+            android:letterSpacing="0.1"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/winnerWonTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/winnerNameTV"
+            android:layout_centerHorizontal="true"
+            android:text="Won"
+            android:textSize="48sp"
+            android:textAppearance="@style/funky_font"
+            android:textColor="@color/charcoal"
+            android:letterSpacing="0.1"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <!-- Turn LinearLayout !-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -83,7 +130,6 @@
             android:layout_height="wrap_content"
             android:minWidth="25dp"
             android:minHeight="25dp"
-            android:text="15"
             android:textSize="18sp"
             android:textColor="@color/beige"
             android:textAppearance="@style/default_font"
@@ -151,14 +197,15 @@
         android:id="@+id/profileIV"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginStart="60dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="64dp"
         android:src="@drawable/profile_icon"
         android:onClick="handleProfileClick"
         android:contentDescription="@string/image_description"
         android:stateListAnimator="@animator/pulse_animation"
         android:visibility="gone"/>
 
+    <!--Menu ImageView-->
     <ImageView
         android:tag="open"
         android:layout_width="30dp"
@@ -290,16 +337,6 @@
         android:id="@+id/Shadow"
         layout="@layout/shadow_layout"/>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/celebrationLAV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:lottie_rawRes="@raw/lottie_celebration_star"
-        app:lottie_asyncUpdates="automatic"
-        app:lottie_cacheComposition="true"
-        app:lottie_loop="true"
-        android:visibility="gone"/>
     <!-- Reset TextView at bottom -->
     <TextView
         android:id="@+id/resetTV"
@@ -315,6 +352,7 @@
         android:textAppearance="@style/default_font"
         android:onClick="handleResetClick"
         android:stateListAnimator="@animator/pulse_animation" />
+
 
     <RelativeLayout
         android:id="@+id/resetRL"
@@ -432,6 +470,7 @@
         android:id="@+id/Navigation"
         layout="@layout/navigation_layout" />
 
+    <!-- Menu RelativeLayout !-->
     <RelativeLayout
         android:id="@+id/DotAndBoxesMenuLayout"
         android:background="@drawable/popup_background"
@@ -814,38 +853,6 @@
 
         </LinearLayout>
 
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/winnerSplashRL"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/winnerNameTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="Fahad"
-            android:textSize="64sp"
-            android:textAppearance="@style/funky_font"
-            android:textColor="@color/charcoal"
-            android:letterSpacing="0.1"/>
-
-        <TextView
-            android:id="@+id/winnerWonTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/winnerNameTV"
-            android:layout_centerHorizontal="true"
-            android:text="Won"
-            android:textSize="48sp"
-            android:textAppearance="@style/funky_font"
-            android:textColor="@color/charcoal"
-            android:letterSpacing="0.1" />
 
     </RelativeLayout>
 

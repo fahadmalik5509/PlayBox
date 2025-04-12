@@ -6,21 +6,17 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.LIGHT_GREEN
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_PLAYER_ONE_NAME_KEY;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.TTT_PLAYER_TWO_NAME_KEY;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.animateViewScale;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeBackgroundColor;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-
-import androidx.activity.OnBackPressedCallback;
 
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
@@ -145,13 +141,8 @@ public class TicTacToeVsActivity extends BaseActivity {
         }
     }
 
-    public void handleBackNavigation() {
-        vibrate(this, 50);
-        changeActivity(this, GameModeActivity.class);
-    }
-
     //onClick Method
-    public void profileClicked(View view) {
+    public void handleProfileClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         animateViewScale(vb.profileRL, 0f, 1.0f, 200);
         vb.profileRL.setVisibility(VISIBLE);

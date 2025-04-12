@@ -84,6 +84,7 @@
     <string name="size9">9 x 9</string>
     <string name="size10">10 x 10</string>
     <string name="empty">00</string>
+    <string name="draw">Draw</string>
 
     <!-- On-screen keyboard letters -->
     <string name="letter_A" translatable="false">A</string>

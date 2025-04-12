@@ -205,12 +205,10 @@
 
     <!--Difficulty RelativeLayout-->
     <RelativeLayout
-        android:id="@+id/ColorPuzzleDifficultyLayout"
-        android:layout_width="100dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
         android:elevation="2dp">
 
         <ImageView
@@ -247,8 +245,8 @@
         android:id="@+id/symbolSwitchIV"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
         android:src="@drawable/switch_icon"
         android:onClick="handleSwitchClick"
         android:contentDescription="@string/image_description"

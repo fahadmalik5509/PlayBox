@@ -80,39 +80,32 @@ public class DotAndBoxesGame {
     private int[][] deepCopy2DArray(int[][] array) {
         if (array == null) return null;
         int[][] copy = new int[array.length][];
-        for (int i = 0; i < array.length; i++) {
-            copy[i] = array[i].clone();
-        }
+        for (int i = 0; i < array.length; i++) copy[i] = array[i].clone();
+
         return copy;
     }
 
     public int[] getScores() {
         int score1 = 0, score2 = 0;
-        for (int r = 0; r < gridSize; r++) {
-            for (int c = 0; c < gridSize; c++) {
+        for (int r = 0; r < gridSize; r++)
+            for (int c = 0; c < gridSize; c++)
                 if (boxes[r][c] == 1) score1++;
                 else if (boxes[r][c] == 2) score2++;
-            }
-        }
+
         return new int[]{score1, score2};
     }
 
     public boolean isGameOver() {
-        for (int[] row : boxes) {
-            for (int box : row) {
+        for (int[] row : boxes)
+            for (int box : row)
                 if (box == 0) return false;
-            }
-        }
         return true;
     }
 
     /**
      * Returns the total count of claimed boxes.
      */
-    public int getClaimedBoxesCount() {
-        int[] scores = getScores();
-        return scores[0] + scores[1];
-    }
+    public int getClaimedBoxesCount() { return getScores()[0] + getScores()[1]; }
 
     public int[][] getHorizontalLines() { return horizontalLines; }
     public int[][] getVerticalLines() { return verticalLines; }
