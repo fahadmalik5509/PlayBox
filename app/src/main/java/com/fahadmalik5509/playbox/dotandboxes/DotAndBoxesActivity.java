@@ -29,7 +29,7 @@ public class DotAndBoxesActivity extends BaseActivity {
 
     private DotandboxesLayoutBinding vb;
     private TextView previouslySelectedGridSizeTV = null;
-    private boolean isPlayerVsAI, isCasual, previousTurnIsPlayerOne;
+    private boolean isPlayerVsAI, isCasual;
 
     // Timer variables using CountDownTimer
     private CountDownTimer countDownTimer;
@@ -48,7 +48,7 @@ public class DotAndBoxesActivity extends BaseActivity {
         // Reset timer when a move is made in PvP mode.
         vb.dotAndBoxesView.setOnMoveListener(() -> {
             updateScore();
-            checkAndUpdateTurn();
+            updateTurnUI();
             if (!isPlayerVsAI) {
                 resetTimer();
             }
@@ -63,9 +63,6 @@ public class DotAndBoxesActivity extends BaseActivity {
             v.onTouchEvent(event);
             return true;
         });
-
-        // Initialize turn state.
-        previousTurnIsPlayerOne = vb.dotAndBoxesView.getGame().isPlayerOneTurn();
     }
 
     // =================== UI Setup Methods ===================
@@ -82,7 +79,7 @@ public class DotAndBoxesActivity extends BaseActivity {
         vb.dotAndBoxesView.updateGridSize(defaultGridSize);
         updateGridSizeUI(defaultGridSize);
         updateGameMode(defaultGameMode);
-        updateDifficultyUI(defaultDifficulty);
+        updateDifficulty(defaultDifficulty);
         updateTurnUI();
     }
 
@@ -124,6 +121,7 @@ public class DotAndBoxesActivity extends BaseActivity {
             toggleVisibility(true, vb.winnerNameTV);
         }
 
+        playSoundAndVibrate(this, R.raw.sound_victory, true, 200);
         vb.celebrationLAV.setVisibility(VISIBLE);
         vb.celebrationLAV.playAnimation();
     }
@@ -165,19 +163,12 @@ public class DotAndBoxesActivity extends BaseActivity {
         }
     }
 
-    private void checkAndUpdateTurn() {
-        boolean currentTurnIsPlayerOne = vb.dotAndBoxesView.getGame().isPlayerOneTurn();
-        if (currentTurnIsPlayerOne != previousTurnIsPlayerOne) {
-            updateTurnUI();
-            previousTurnIsPlayerOne = currentTurnIsPlayerOne;
-        }
-    }
-
     // =================== Event Handlers ===================
 
     public void handleDotAndBoxesMenuClick(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         toggleVisibility("open".equals(view.getTag()), vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
+        animateViewScale(vb.DotAndBoxesMenuLayout, 0f, 1.0f, 200);
     }
 
     public void handleGridSizeButtons(View view) {
@@ -224,10 +215,10 @@ public class DotAndBoxesActivity extends BaseActivity {
     public void handleDifficultyButtons(View view) {
         playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
         isCasual = view.getTag().equals("casual");
-        updateDifficultyUI(view.getTag().toString());
+        updateDifficulty(view.getTag().toString());
     }
 
-    private void updateDifficultyUI(String difficulty) {
+    private void updateDifficulty(String difficulty) {
         isCasual = "casual".equals(difficulty);
         vb.casualTV.setSelected(isCasual);
         vb.tacticalTV.setSelected(!isCasual);
@@ -328,8 +319,10 @@ public class DotAndBoxesActivity extends BaseActivity {
             return;
         }
         vb.dotAndBoxesView.invalidate();
+
         updateScore();
         updateTurnUI();
+
         int boxesAfter = game.getClaimedBoxesCount();
         if (boxesAfter > boxesBefore) {
             vb.dotAndBoxesView.animateCompletedBoxes();

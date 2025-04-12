@@ -418,9 +418,7 @@ public class DotAndBoxesView extends View {
     }
 
     public void animateGameReset() {
-        this.animate().alpha(0f).setDuration(300).withEndAction(() -> {
-            this.animate().alpha(1f).setDuration(300).start();
-        }).start();
+        this.animate().alpha(0f).setDuration(300).withEndAction(() -> this.animate().alpha(1f).setDuration(300).start()).start();
     }
 
     public void animateCompletedBoxes() {

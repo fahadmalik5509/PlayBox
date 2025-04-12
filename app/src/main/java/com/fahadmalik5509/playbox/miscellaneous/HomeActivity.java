@@ -13,14 +13,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
-
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.HomeLayoutBinding;
-import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
-import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
-import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
-import com.fahadmalik5509.playbox.databinding.ShopLayoutBinding;
 
 public class HomeActivity extends BaseActivity implements SensorEventListener {
 

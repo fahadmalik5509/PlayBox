@@ -17,6 +17,7 @@ import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -116,6 +117,7 @@ public class ActivityUtils {
         soundMap.put(R.raw.sound_dot_clicked, soundPool.load(context, R.raw.sound_dot_clicked, 1));
         soundMap.put(R.raw.sound_box_complete, soundPool.load(context, R.raw.sound_box_complete, 1));
         soundMap.put(R.raw.sound_line_placed, soundPool.load(context, R.raw.sound_line_placed, 1));
+        soundMap.put(R.raw.sound_victory, soundPool.load(context, R.raw.sound_victory, 1));
     }
 
     public static void playSoundAndVibrate(Context context, int soundResId, boolean vibrate, int vibrationDuration) {
