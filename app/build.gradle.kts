@@ -43,6 +43,7 @@ dependencies {
     testImplementation(libs.junit)
     implementation(libs.lottie)
     implementation(libs.gridlayout)
+    implementation(libs.recyclerview)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

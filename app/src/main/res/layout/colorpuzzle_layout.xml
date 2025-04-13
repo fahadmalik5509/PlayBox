@@ -165,7 +165,7 @@
         <!-- Strike RelativeLayout -->
         <RelativeLayout
             android:id="@+id/strikeRL"
-            android:layout_width="82dp"
+            android:layout_width="72dp"
             android:layout_height="33dp"
             android:onClick="handleStrikeClick"
             android:stateListAnimator="@animator/pulse_animation"
@@ -173,7 +173,7 @@
 
             <ImageView
                 android:background="@drawable/ui_background"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:layout_alignParentBottom="true"
                 android:padding="2dp"
@@ -197,7 +197,7 @@
         <!-- Spotlight RelativeLayout -->
         <RelativeLayout
             android:id="@+id/spotlightRL"
-            android:layout_width="82dp"
+            android:layout_width="72dp"
             android:layout_height="33dp"
             android:onClick="handleSpotlightClick"
             android:stateListAnimator="@animator/pulse_animation"
@@ -205,7 +205,7 @@
 
             <ImageView
                 android:background="@drawable/ui_background"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:layout_alignParentBottom="true"
                 android:padding="2dp"
@@ -229,7 +229,7 @@
         <!-- Contrast RelativeLayout -->
         <RelativeLayout
             android:id="@+id/contrastRL"
-            android:layout_width="82dp"
+            android:layout_width="72dp"
             android:layout_height="33dp"
             android:onClick="handleContrastClick"
             android:stateListAnimator="@animator/pulse_animation"
@@ -237,7 +237,7 @@
 
             <ImageView
                 android:background="@drawable/ui_background"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:layout_alignParentBottom="true"
                 android:padding="2dp"
@@ -261,7 +261,7 @@
         <!-- Jump RelativeLayout -->
         <RelativeLayout
             android:id="@+id/jumpRL"
-            android:layout_width="82dp"
+            android:layout_width="72dp"
             android:layout_height="33dp"
             android:onClick="handleJumpClick"
             android:stateListAnimator="@animator/pulse_animation"
@@ -269,7 +269,7 @@
 
             <ImageView
                 android:background="@drawable/ui_background"
-                android:layout_width="80dp"
+                android:layout_width="70dp"
                 android:layout_height="30dp"
                 android:layout_alignParentBottom="true"
                 android:src="@drawable/jump"

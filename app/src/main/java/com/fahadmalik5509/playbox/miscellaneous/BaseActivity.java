@@ -133,7 +133,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void handleShopButtonClick(View view) {
 
-        playSoundAndVibrate(this, R.raw.sound_register, true, 50);
+        playSoundAndVibrate(R.raw.sound_register, true, 50);
 
         ShopBinding.shopCurrencyCountTV.setText(String.valueOf(currencyCount));
         ShopBinding.shopBombCountTV.setText(String.valueOf(bombCount));
@@ -149,7 +149,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void handleShopButtons(View view) {
         if(view.getTag().toString().equals("close")) {
-            playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+            playSoundAndVibrate(R.raw.sound_ui, true, 50);
             toggleVisibility(false, ShopBinding.ShopLayout, ShadowBinding.ShadowLayout);
 
             if (shopUpdateListener != null) {
@@ -161,79 +161,79 @@ public abstract class BaseActivity extends AppCompatActivity {
         switch (view.getTag().toString()) {
             case "bomb":
                 if(currencyCount >= 40) {
-                    playSoundAndVibrate(this, R.raw.sound_bought, true, 50);
+                    playSoundAndVibrate(R.raw.sound_bought, true, 50);
                     bombCount += 1;
                     saveToSharedPreferences(WORDLE_BOMB_KEY, bombCount);
                     ShopBinding.shopBombCountTV.setText(String.valueOf(bombCount));
                     decreaseAndSaveCurrencyCount(40);
                 }
-                else playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                else playSoundAndVibrate(R.raw.sound_error, true, 50);
                 break;
             case "hint":
                 if(currencyCount >= 100) {
-                    playSoundAndVibrate(this, R.raw.sound_bought, true, 50);
+                    playSoundAndVibrate(R.raw.sound_bought, true, 50);
                     hintCount += 1;
                     saveToSharedPreferences(WORDLE_HINT_KEY, hintCount);
                     ShopBinding.shopHintCountTV.setText(String.valueOf(hintCount));
                     decreaseAndSaveCurrencyCount(100);
                 }
-                else playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                else playSoundAndVibrate(R.raw.sound_error, true, 50);
                 break;
             case "skip":
                 if(currencyCount >= 200) {
-                    playSoundAndVibrate(this, R.raw.sound_bought, true, 50);
+                    playSoundAndVibrate(R.raw.sound_bought, true, 50);
                     skipCount += 1;
                     saveToSharedPreferences(WORDLE_SKIP_KEY, skipCount);
                     ShopBinding.shopSkipCountTV.setText(String.valueOf(skipCount));
                     decreaseAndSaveCurrencyCount(200);
                 }
-                else playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                else playSoundAndVibrate(R.raw.sound_error, true, 50);
                 break;
             case "strike":
                 if(currencyCount >= 100) {
-                    playSoundAndVibrate(this, R.raw.sound_bought, true, 50);
+                    playSoundAndVibrate(R.raw.sound_bought, true, 50);
                     strikeCount += 1;
                     saveToSharedPreferences(WORDLE_STRIKE_KEY, strikeCount);
                     ShopBinding.shopStrikeCountTV.setText(String.valueOf(strikeCount));
                     decreaseAndSaveCurrencyCount(100);
                 }
-                else playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                else playSoundAndVibrate(R.raw.sound_error, true, 50);
                 break;
             case "spotlight":
                 if(currencyCount >= 100) {
-                    playSoundAndVibrate(this, R.raw.sound_bought, true, 50);
+                    playSoundAndVibrate(R.raw.sound_bought, true, 50);
                     spotlightCount += 1;
                     saveToSharedPreferences(WORDLE_SPOTLIGHT_KEY, spotlightCount);
                     ShopBinding.shopSpotlightCountTV.setText(String.valueOf(spotlightCount));
                     decreaseAndSaveCurrencyCount(100);
                 }
-                else playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                else playSoundAndVibrate(R.raw.sound_error, true, 50);
                 break;
             case "contrast":
                 if(currencyCount >= 150) {
-                    playSoundAndVibrate(this, R.raw.sound_bought, true, 50);
+                    playSoundAndVibrate(R.raw.sound_bought, true, 50);
                     contrastCount += 1;
                     saveToSharedPreferences(WORDLE_CONTRAST_KEY, contrastCount);
                     ShopBinding.shopContrastCountTV.setText(String.valueOf(contrastCount));
                     decreaseAndSaveCurrencyCount(150);
                 }
-                else playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                else playSoundAndVibrate(R.raw.sound_error, true, 50);
                 break;
             case "jump":
                 if(currencyCount >= 200) {
-                    playSoundAndVibrate(this, R.raw.sound_bought, true, 50);
+                    playSoundAndVibrate(R.raw.sound_bought, true, 50);
                     jumpCount += 1;
                     saveToSharedPreferences(WORDLE_JUMP_KEY, jumpCount);
                     ShopBinding.shopJumpCountTV.setText(String.valueOf(jumpCount));
                     decreaseAndSaveCurrencyCount(200);
                 }
-                else playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                else playSoundAndVibrate(R.raw.sound_error, true, 50);
                 break;
 
             case "wordle":
                 if(ShopBinding.shopWordleLL.getVisibility() == VISIBLE) return;
 
-                playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+                playSoundAndVibrate(R.raw.sound_ui, true, 50);
                 ShopBinding.wordleTV.setSelected(true);
                 ShopBinding.colorpuzzleTV.setSelected(false);
                 ShopBinding.shopWordleLL.setVisibility(VISIBLE);
@@ -242,7 +242,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
             case "colorpuzzle":
                 if(ShopBinding.shopCPLL.getVisibility() == VISIBLE) return;
-                playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+                playSoundAndVibrate(R.raw.sound_ui, true, 50);
                 ShopBinding.wordleTV.setSelected(false);
                 ShopBinding.colorpuzzleTV.setSelected(true);
                 ShopBinding.shopWordleLL.setVisibility(GONE);
@@ -256,7 +256,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public void backLogic() {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
 
         if(this instanceof ToolsActivity || this instanceof CgpaActivity) {
             changeActivity(this, getBackDestination());
@@ -277,16 +277,16 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void handleHomeClick(View view) {
         if (this instanceof HomeActivity) {
-            playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+            playSoundAndVibrate(R.raw.sound_error, true, 50);
             return;
         }
 
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         changeActivity(this, HomeActivity.class);
     }
 
     public void goToSetting(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", this.getClass().getSimpleName());
         startActivity(intent);

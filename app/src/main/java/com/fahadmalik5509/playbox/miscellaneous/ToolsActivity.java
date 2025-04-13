@@ -6,8 +6,6 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAn
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.activity.OnBackPressedCallback;
-
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.cgpacalculator.CgpaActivity;
 import com.fahadmalik5509.playbox.databinding.ToolsLayoutBinding;
@@ -25,7 +23,7 @@ public class ToolsActivity extends BaseActivity {
     }
 
     public void handleCGPACalculatorButtonClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         changeActivity(this, CgpaActivity.class);
     }
 

@@ -42,7 +42,7 @@ public class SettingActivity extends AppCompatActivity {
     // OnClick Method
     public void handleSoundButtonClick(View view) {
         isSoundEnabled = !isSoundEnabled;
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         int color = isSoundEnabled ? LIGHT_GREEN_COLOR : DARK_RED_COLOR;
         changeBackgroundColor(vb.soundB, color);
         updateButtonState(vb.soundB, isSoundEnabled, "Sounds ");
@@ -52,7 +52,7 @@ public class SettingActivity extends AppCompatActivity {
 
     // OnClick Method
     public void handleVibrationButtonClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         isVibrationEnabled = !isVibrationEnabled;
         int color = isVibrationEnabled ? LIGHT_GREEN_COLOR : DARK_RED_COLOR;
         changeBackgroundColor(vb.vibrationB, color);
@@ -68,12 +68,12 @@ public class SettingActivity extends AppCompatActivity {
 
     // OnClick Method
     public void goBack(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         handleBackNavigation();
     }
 
     public void handleBackNavigation() {
-        vibrate(this, 50);
+        vibrate(50);
         finish();
     }
 

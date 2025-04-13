@@ -1,6 +1,6 @@
 [versions]
 agp = "8.9.1"
-gridlayout = "1.0.0"
+gridlayout = "1.1.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -9,6 +9,7 @@ material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.2.1"
 lottie = "6.5.2"
+recyclerview = "1.4.0"
 
 [libraries]
 gridlayout = { module = "androidx.gridlayout:gridlayout", version.ref = "gridlayout" }
@@ -20,7 +21,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
-
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

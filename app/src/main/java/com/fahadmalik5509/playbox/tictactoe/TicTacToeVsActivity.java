@@ -56,10 +56,10 @@ public class TicTacToeVsActivity extends BaseActivity {
     //onClick Method
     public void handleBoardClick(View view) {
         if (game.getHasWon() || game.getHasDraw()) {
-            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
+            playSoundAndVibrate(R.raw.sound_error, false, 0);
             return;
         }
-        playSoundAndVibrate(this, R.raw.sound_click, true, 50);
+        playSoundAndVibrate(R.raw.sound_click, true, 50);
         int move = Integer.parseInt(view.getTag().toString());
         handlePlayerMove(move, buttons[move]);
     }
@@ -85,7 +85,7 @@ public class TicTacToeVsActivity extends BaseActivity {
     }
 
     private void updateWinGUI() {
-        playSoundAndVibrate(this, R.raw.sound_win, true, 100);
+        playSoundAndVibrate(R.raw.sound_win, true, 100);
         animateWinningButtons(game.winA, game.winB, game.winC);
 
         updateScore();
@@ -95,7 +95,7 @@ public class TicTacToeVsActivity extends BaseActivity {
     }
 
     private void updateDrawGUI() {
-        playSoundAndVibrate(this, R.raw.sound_draw, true, 100);
+        playSoundAndVibrate(R.raw.sound_draw, true, 100);
         vb.drawIV.setVisibility(VISIBLE);
     }
 
@@ -113,7 +113,7 @@ public class TicTacToeVsActivity extends BaseActivity {
 
     //onClick Method
     public void handleResetClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         resetGame();
 
     }
@@ -143,7 +143,7 @@ public class TicTacToeVsActivity extends BaseActivity {
 
     //onClick Method
     public void handleProfileClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         animateViewScale(vb.profileRL, 0f, 1.0f, 200);
         vb.profileRL.setVisibility(VISIBLE);
         vb.Shadow.ShadowLayout.setVisibility(VISIBLE);
@@ -152,7 +152,7 @@ public class TicTacToeVsActivity extends BaseActivity {
     }
 
     public void handleProfileButtons(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         if ("save".equals(view.getTag())) updateProfiles();
         animateViewScale(vb.profileRL, 1.0f, 0f, 200);
         vb.Shadow.ShadowLayout.setVisibility(View.GONE);

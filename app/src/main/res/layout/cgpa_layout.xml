@@ -2,13 +2,46 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:clipToPadding="false"
     android:background="@color/background" >
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/subjectRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/add"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="96dp"
+        android:layout_marginEnd="24dp"
+        android:onClick="handleAddSubject"
+        android:stateListAnimator="@animator/pulse_animation"/>
+
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/plusLAV"-->
+<!--        android:layout_width="64dp"-->
+<!--        android:layout_height="64dp"-->
+<!--        app:lottie_rawRes="@raw/lottie_plus"-->
+<!--        app:lottie_cacheComposition="true"-->
+<!--        app:lottie_asyncUpdates="automatic"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginBottom="96dp"-->
+<!--        android:layout_marginEnd="24dp"-->
+<!--        android:onClick="handleAddSubject"-->
+<!--        android:stateListAnimator="@animator/pulse_animation"/>-->
 
     <!-- Navigation Layout -->
     <include
         android:id="@+id/Navigation"
-        layout="@layout/navigation_layout"/>
+        layout="@layout/navigation_layout" />
 
 </RelativeLayout>

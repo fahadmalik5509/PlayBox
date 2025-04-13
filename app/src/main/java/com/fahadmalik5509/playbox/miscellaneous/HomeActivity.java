@@ -50,18 +50,18 @@ public class HomeActivity extends BaseActivity implements SensorEventListener {
     }
 
     public void handleGamesClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         changeActivity(this, GamesActivity.class);
     }
 
     public void handleToolsClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         changeActivity(this, ToolsActivity.class);
     }
 
 
     public void handleSettingsClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", getClass().getSimpleName());
         startActivity(intent);
@@ -70,7 +70,7 @@ public class HomeActivity extends BaseActivity implements SensorEventListener {
     // Onclick Method
     public void handleExitButtons(View view) {
 
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
 
         if(view.getTag().equals("yes")) {
             finishAffinity();
@@ -90,7 +90,7 @@ public class HomeActivity extends BaseActivity implements SensorEventListener {
     }
 
     public void handleGitHubClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/fahadmalik5509"));
         this.startActivity(intent);
     }
@@ -127,14 +127,14 @@ public class HomeActivity extends BaseActivity implements SensorEventListener {
         if (isCoinFlipping) return;
         isCoinFlipping = true;
 
-        playSoundAndVibrate(this, R.raw.sound_coin_flip, false, 0);
-        vibrate(this, 300);
+        playSoundAndVibrate(R.raw.sound_coin_flip, false, 0);
+        vibrate(300);
         vb.lavCoinFlip.setVisibility(View.VISIBLE);
         vb.lavCoinFlip.playAnimation();
 
         vb.lavCoinFlip.postDelayed(() -> {
                 vb.lavCoinFlip.setVisibility(View.GONE);
-            playSoundAndVibrate(this, R.raw.sound_coin_reveal, true, 100);
+            playSoundAndVibrate(R.raw.sound_coin_reveal, true, 100);
 
             vb.coinFlipTV.setText(getCoinFlipResult());
             vb.coinFlipTV.setVisibility(View.VISIBLE);

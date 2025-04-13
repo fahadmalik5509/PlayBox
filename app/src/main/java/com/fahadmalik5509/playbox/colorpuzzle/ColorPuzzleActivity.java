@@ -16,8 +16,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 
-import androidx.activity.OnBackPressedCallback;
-
 import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
@@ -27,7 +25,6 @@ import com.fahadmalik5509.playbox.miscellaneous.GamesActivity;
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.ColorpuzzleLayoutBinding;
 import com.airbnb.lottie.LottieAnimationView;
-import com.fahadmalik5509.playbox.miscellaneous.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -200,7 +197,7 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
             } else {
                 handleLoss(button);
             }
-            playSoundAndVibrate(this,
+            playSoundAndVibrate(
                     isTarget ? (isGridSizeChanged ? R.raw.sound_new_level : R.raw.sound_success) : R.raw.sound_heart_crack,
                     false, 0);
             isGridSizeChanged = false;
@@ -253,7 +250,7 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
             gameLost = true;
             toggleVisibility(true, vb.Shadow.ShadowLayout, vb.gameOverLAV);
             vb.gameOverLAV.playAnimation();
-            playSoundAndVibrate(this, R.raw.sound_game_over, true, 100);
+            playSoundAndVibrate(R.raw.sound_game_over, true, 100);
             // Animate all target buttons on game loss.
             for (Button tButton : targetButtons) {
                 animateBlink(tButton, 300, 3);
@@ -321,13 +318,13 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
     }
 
     public void handleResetClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         resetGameState();
     }
 
     public void handleStrikeClick(View view) {
         if (strikeCount == 0 || isStrikeUsed) {
-            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
+            playSoundAndVibrate(R.raw.sound_error, false, 0);
             return;
         }
 
@@ -336,7 +333,7 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
         decreaseAndSaveStrikeCount();
         vb.strikeCountTV.setText(String.valueOf(strikeCount));
 
-        playSoundAndVibrate(this, R.raw.sound_explosion, false, 0);
+        playSoundAndVibrate(R.raw.sound_explosion, false, 0);
 
         vb.strikeLAV.playAnimation();
         vb.strikeLAV.setVisibility(VISIBLE);
@@ -377,14 +374,14 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
 
     public void handleJumpClick(View view) {
         if(jumpCount == 0) {
-            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
+            playSoundAndVibrate(R.raw.sound_error, false, 0);
             return;
         }
 
         decreaseAndSaveJumpCount();
         vb.jumpCountTV.setText(String.valueOf(jumpCount));
 
-        playSoundAndVibrate(this, R.raw.sound_skip, true, 50);
+        playSoundAndVibrate(R.raw.sound_skip, true, 50);
         vb.jumpLAV.setVisibility(VISIBLE);
         vb.jumpLAV.playAnimation();
         vb.jumpLAV.postDelayed(() -> vb.jumpLAV.setVisibility(GONE), 600);
@@ -403,10 +400,10 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
 
     public void handleSpotlightClick(View view) {
         if (isSpotlightUsed || spotlightCount == 0) {
-            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
+            playSoundAndVibrate(R.raw.sound_error, false, 0);
             return;
         }
-        playSoundAndVibrate(this, R.raw.sound_reveal, true, 50);
+        playSoundAndVibrate(R.raw.sound_reveal, true, 50);
 
         decreaseAndSaveSpotlightCount();
         vb.spotlightCountTV.setText(String.valueOf(spotlightCount));
@@ -510,13 +507,13 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
 
     public void handleContrastClick(View view) {
         if(contrastCount == 0) {
-            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
+            playSoundAndVibrate(R.raw.sound_error, false, 0);
             return;
         }
         decreaseAndSaveContrastCount();
         vb.contrastCountTV.setText(String.valueOf(contrastCount));
 
-        playSoundAndVibrate(this, R.raw.sound_contrast, true, 50);
+        playSoundAndVibrate(R.raw.sound_contrast, true, 50);
         vb.contrastLAV.setVisibility(VISIBLE);
         vb.contrastLAV.playAnimation();
 
@@ -553,14 +550,14 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
     }
 
     public void handleDifficultyButton(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         vb.difficultyLAV.playAnimation();
         animateViewScale(vb.DifficultyMenu.ColorPuzzleDifficultyLayout, 0f, 1f, 200);
         toggleVisibility(true, vb.DifficultyMenu.ColorPuzzleDifficultyLayout, vb.Shadow.ShadowLayout);
     }
 
     public void onDifficultySelected(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         byte temp = difficultyLevel;
 
         difficultyLevel = Byte.parseByte(view.getTag().toString());
@@ -622,7 +619,7 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
     }
 
     public void handleExitButtons(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         if ("no".equals(view.getTag())) {
             toggleVisibility(false, vb.leaveRL, vb.Shadow.ShadowLayout);
         } else {
@@ -633,7 +630,7 @@ public class ColorPuzzleActivity extends BaseActivity implements BaseActivity.Sh
 
     @Override
     public void backLogic() {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
 
         if(vb.Shop.ShopLayout.getVisibility() == VISIBLE) {
             toggleVisibility(false, vb.Shop.ShopLayout, vb.Shadow.ShadowLayout);

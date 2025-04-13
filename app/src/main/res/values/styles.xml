@@ -5,7 +5,19 @@
     </style>
 
     <style name="funky_font">
-        <item name="android:fontFamily">@font/funkyfont</item>
+        <item name="android:fontFamily">@font/funky_font</item>
+    </style>
+
+    <style name="man_rope">
+        <item name="android:fontFamily">@font/man_rope</item>
+    </style>
+
+    <style name="urbanist">
+        <item name="android:fontFamily">@font/urbanist</item>
+    </style>
+
+    <style name="rubik">
+        <item name="android:fontFamily">@font/rubik</item>
     </style>
 
     <style name="BackgroundLottieAnimation">

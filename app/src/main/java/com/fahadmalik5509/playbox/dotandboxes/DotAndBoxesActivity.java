@@ -121,7 +121,7 @@ public class DotAndBoxesActivity extends BaseActivity {
             toggleVisibility(true, vb.winnerNameTV);
         }
 
-        playSoundAndVibrate(this, R.raw.sound_victory, true, 200);
+        playSoundAndVibrate(R.raw.sound_victory, true, 200);
         vb.celebrationLAV.setVisibility(VISIBLE);
         vb.celebrationLAV.playAnimation();
     }
@@ -166,13 +166,13 @@ public class DotAndBoxesActivity extends BaseActivity {
     // =================== Event Handlers ===================
 
     public void handleDotAndBoxesMenuClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         toggleVisibility("open".equals(view.getTag()), vb.DotAndBoxesMenuLayout, vb.Shadow.ShadowLayout);
         animateViewScale(vb.DotAndBoxesMenuLayout, 0f, 1.0f, 200);
     }
 
     public void handleGridSizeButtons(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         int dotsCount = Integer.parseInt(view.getTag().toString());
         int boxesCount = dotsCount - 1;
         vb.dotAndBoxesView.updateGridSize(boxesCount);
@@ -182,7 +182,7 @@ public class DotAndBoxesActivity extends BaseActivity {
     }
 
     public void handleGameModeButtons(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         updateGameMode(view.getTag().toString());
     }
 
@@ -213,7 +213,7 @@ public class DotAndBoxesActivity extends BaseActivity {
     }
 
     public void handleDifficultyButtons(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         isCasual = view.getTag().equals("casual");
         updateDifficulty(view.getTag().toString());
     }
@@ -232,7 +232,7 @@ public class DotAndBoxesActivity extends BaseActivity {
     }
 
     public void handleResetClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         if (vb.resetRL.getVisibility() == VISIBLE) {
             if ("yes".equals(view.getTag())) {
                 resetGame();
@@ -261,7 +261,7 @@ public class DotAndBoxesActivity extends BaseActivity {
     }
 
     public void handleExitButtons(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         if ("no".equals(view.getTag())) {
             toggleVisibility(false, vb.leaveRL, vb.Shadow.ShadowLayout);
         } else {
@@ -326,16 +326,16 @@ public class DotAndBoxesActivity extends BaseActivity {
         int boxesAfter = game.getClaimedBoxesCount();
         if (boxesAfter > boxesBefore) {
             vb.dotAndBoxesView.animateCompletedBoxes();
-            playSoundAndVibrate(this, R.raw.sound_box_complete, true, 200);
+            playSoundAndVibrate(R.raw.sound_box_complete, true, 200);
         } else {
-            playSoundAndVibrate(this, R.raw.sound_line_placed, true, 50);
+            playSoundAndVibrate(R.raw.sound_line_placed, true, 50);
         }
     }
 
     // =================== Profile Handling ===================
 
     public void handleProfileClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         animateViewScale(vb.profileRL, 0f, 1.0f, 200);
         toggleVisibility(true, vb.profileRL, vb.Shadow.ShadowLayout);
         vb.playerOneET.setText(sharedPreferences.getString(DNBS_PLAYER_ONE_NAME_KEY, "Player 1"));
@@ -343,7 +343,7 @@ public class DotAndBoxesActivity extends BaseActivity {
     }
 
     public void handleProfileButtons(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         if ("save".equals(view.getTag())) {
             updateProfilesUI();
         }
@@ -374,14 +374,14 @@ public class DotAndBoxesActivity extends BaseActivity {
         switch(view.getTag().toString()) {
             case "+":
                 if (initialTime >= 30) {
-                    playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                    playSoundAndVibrate(R.raw.sound_error, true, 50);
                     return;
                 }
                 initialTime += 5;
                 break;
             case "-":
                 if (initialTime <= 0) {
-                    playSoundAndVibrate(this, R.raw.sound_error, true, 50);
+                    playSoundAndVibrate(R.raw.sound_error, true, 50);
                     return;
                 }
                 initialTime -= 5;
@@ -390,7 +390,7 @@ public class DotAndBoxesActivity extends BaseActivity {
 
         vb.menuTimerTV.setText(String.valueOf(initialTime));
         toggleVisibility(initialTime != 0, vb.timerTV);
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         resetGame();
     }
 
@@ -429,7 +429,7 @@ public class DotAndBoxesActivity extends BaseActivity {
 
     @Override
     public void backLogic() {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         if (vb.Shop.ShopLayout.getVisibility() == VISIBLE) {
             toggleVisibility(false, vb.Shop.ShopLayout, vb.Shadow.ShadowLayout);
         } else if (vb.DotAndBoxesMenuLayout.getVisibility() == VISIBLE) {

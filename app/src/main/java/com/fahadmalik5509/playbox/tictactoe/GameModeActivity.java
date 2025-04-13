@@ -2,12 +2,9 @@ package com.fahadmalik5509.playbox.tictactoe;
 
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.vibrate;
 
 import android.os.Bundle;
 import android.view.View;
-
-import androidx.activity.OnBackPressedCallback;
 
 import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
@@ -41,14 +38,14 @@ public class GameModeActivity extends BaseActivity {
 
     public void handlePvPClick(View view) {
 
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         changeActivity(this, TicTacToeVsActivity.class);
 
     }
 
     public void handlePvAClick(View view) {
 
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         changeActivity(this, TicTacToeAIActivity.class);
     }
 

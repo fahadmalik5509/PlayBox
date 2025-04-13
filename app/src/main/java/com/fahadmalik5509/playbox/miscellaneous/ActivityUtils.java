@@ -15,9 +15,9 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.util.SparseIntArray;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -118,12 +118,14 @@ public class ActivityUtils {
         soundMap.put(R.raw.sound_box_complete, soundPool.load(context, R.raw.sound_box_complete, 1));
         soundMap.put(R.raw.sound_line_placed, soundPool.load(context, R.raw.sound_line_placed, 1));
         soundMap.put(R.raw.sound_victory, soundPool.load(context, R.raw.sound_victory, 1));
+        soundMap.put(R.raw.sound_delete, soundPool.load(context, R.raw.sound_delete, 1));
+        soundMap.put(R.raw.sound_edit, soundPool.load(context, R.raw.sound_edit, 1));
     }
 
-    public static void playSoundAndVibrate(Context context, int soundResId, boolean vibrate, int vibrationDuration) {
-        if (context == null || soundPool == null) return;
+    public static void playSoundAndVibrate(int soundResId, boolean vibrate, int vibrationDuration) {
+        if (soundPool == null) return;
 
-        if(vibrate) vibrate(context, vibrationDuration);
+        if(vibrate) vibrate(vibrationDuration);
 
         if (!isSoundEnabled) return;
 
@@ -155,18 +157,17 @@ public class ActivityUtils {
         editor.apply();
     }
 
-    public static void vibrate(Context context, long milliseconds) {
-
+    public static void vibrate(long milliseconds) {
         if (!isVibrationEnabled) return;
 
-        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+        Context context = PlayboxApplication.getAppContext();
+        if (context == null) return; // Handle null case if needed
 
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
         if (vibrator != null && vibrator.hasVibrator()) {
-            // For devices running Android O (API 26) and above
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 vibrator.vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE));
             } else {
-                // For devices below Android O
                 vibrator.vibrate(milliseconds);
             }
         }

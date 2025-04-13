@@ -257,7 +257,7 @@ public class DotAndBoxesView extends View {
             case MotionEvent.ACTION_DOWN:
                 int[] dot = getNearestDot(event.getX(), event.getY());
                 if (dot != null && !isDotClosed(dot[0], dot[1])) {
-                    playSoundAndVibrate(getContext(), R.raw.sound_dot_clicked, true, 100);
+                    playSoundAndVibrate(R.raw.sound_dot_clicked, true, 100);
                     startDotRow = dot[0];
                     startDotCol = dot[1];
                     highlightedDotRow = dot[0];
@@ -319,7 +319,7 @@ public class DotAndBoxesView extends View {
                     int boxesAfter = game.getClaimedBoxesCount();
                     if (moveCommitted) {
                         if (boxesAfter > boxesBefore) {
-                            playSoundAndVibrate(getContext(), R.raw.sound_box_complete, true, 200);
+                            playSoundAndVibrate(R.raw.sound_box_complete, true, 200);
                             for (int r = 0; r < gridSize; r++) {
                                 for (int c = 0; c < gridSize; c++) {
                                     if (game.getBoxes()[r][c] != 0 && boxFillScales[r][c] == 0f) {
@@ -328,7 +328,7 @@ public class DotAndBoxesView extends View {
                                 }
                             }
                         } else {
-                            playSoundAndVibrate(getContext(), R.raw.sound_line_placed, true, 50);
+                            playSoundAndVibrate(R.raw.sound_line_placed, true, 50);
                             gameInProgress = true;
                         }
 

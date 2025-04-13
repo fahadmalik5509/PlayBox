@@ -62,10 +62,10 @@ public class TicTacToeAIActivity extends BaseActivity {
     //onClick Method
     public void handleBoardClick(View view) {
         if (game.getHasWon() || game.getHasDraw()) {
-            playSoundAndVibrate(this, R.raw.sound_error, false, 0);
+            playSoundAndVibrate(R.raw.sound_error, false, 0);
             return;
         }
-        playSoundAndVibrate(this, R.raw.sound_click, true, 50);
+        playSoundAndVibrate(R.raw.sound_click, true, 50);
         int playerMove = Integer.parseInt(view.getTag().toString());
         handlePlayerMove(playerMove, buttons[playerMove]);
 
@@ -98,7 +98,7 @@ public class TicTacToeAIActivity extends BaseActivity {
     }
 
     private void updateWinGUI() {
-        playSoundAndVibrate(this, R.raw.sound_win, true, 100);
+        playSoundAndVibrate(R.raw.sound_win, true, 100);
         animateWinningButtons(game.winA, game.winB, game.winC);
 
         updateScore();
@@ -109,7 +109,7 @@ public class TicTacToeAIActivity extends BaseActivity {
 
     private void updateDrawGUI() {
         vb.drawIV.setVisibility(View.VISIBLE);
-        playSoundAndVibrate(this, R.raw.sound_draw, true, 100);
+        playSoundAndVibrate(R.raw.sound_draw, true, 100);
     }
 
     private void animateWinningButtons(int... winBtn) {
@@ -121,7 +121,7 @@ public class TicTacToeAIActivity extends BaseActivity {
 
     //onClick Method
     public void handleResetClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         resetGame();
     }
 
@@ -151,7 +151,7 @@ public class TicTacToeAIActivity extends BaseActivity {
 
     //onClick Method
     public void difficultyClicked(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         difficulty = (difficulty % 3) + 1;
         saveToSharedPreferences(TTT_DIFFICULTY_KEY, difficulty);
         vb.difficultyTooltipTV.setText(getString(R.string.difficulty_tooltip, getDifficultyText()));
@@ -184,7 +184,7 @@ public class TicTacToeAIActivity extends BaseActivity {
 
     //onClick Method
     public void handleSymbolClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         if ("X".equals(view.getTag())) {
             playerSymbol = 'X';
             aiSymbol = 'O';
@@ -205,7 +205,7 @@ public class TicTacToeAIActivity extends BaseActivity {
 
     //onClick Method
     public void handleSwitchClick(View view) {
-        playSoundAndVibrate(this, R.raw.sound_ui, true, 50);
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
         toggleVisibility(true, vb.symbolRL, vb.Shadow.ShadowLayout);
     }
 

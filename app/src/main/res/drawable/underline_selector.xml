@@ -1,0 +1,27 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Focused state -->
+    <item android:state_focused="true">
+        <layer-list>
+            <item android:gravity="bottom">
+                <shape android:shape="rectangle">
+                    <size android:height="1dp" />
+                    <solid android:color="#00BFA5" /> <!-- Teal underline -->
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+    <!-- Default (unfocused) state -->
+    <item>
+        <layer-list>
+            <item android:gravity="bottom">
+                <shape android:shape="rectangle">
+                    <size android:height="1dp" />
+                    <solid android:color="#FFAAAAAA" />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+</selector>
