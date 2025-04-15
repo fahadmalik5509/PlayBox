@@ -90,6 +90,11 @@
     <string name="one_to_hundred">1 – 100</string>
     <string name="zero_to_hundred">0 – 100</string>
     <string name="one_to_nine">1 – 9</string>
+    <string name="gpa">GPA</string>
+    <string name="total_marks">Total\nMarks</string>
+    <string name="marks_gained">Marks\nGained</string>
+    <string name="credit_hours">Credit\nHours</string>
+    <string name="default_gpa">0,0</string>
 
     <!-- On-screen keyboard letters -->
     <string name="letter_A" translatable="false">A</string>
