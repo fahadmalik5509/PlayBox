@@ -44,6 +44,8 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.gridlayout)
     implementation(libs.recyclerview)
+    implementation(libs.room)
+    annotationProcessor(libs.room.compiler)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
