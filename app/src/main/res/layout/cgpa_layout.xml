@@ -7,12 +7,52 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/subjectRV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/infoRL"
+        android:layout_above="@+id/Navigation">
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <RelativeLayout
+        android:id="@+id/infoRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/charcoal">
+
+        <TextView
+            android:id="@+id/subjectProfileNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fahad"
+            android:textSize="32dp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/subjectTotalSubjectsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subjectProfileNameTV"
+            android:text="Semester: 1"
+            android:textSize="16dp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subjectTotalSubjectsTV"
+            android:text="Total Subjects: 8"
+            android:textSize="16dp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_centerHorizontal="true"/>
+
+
+
+    </RelativeLayout>
 
     <ImageView
         android:layout_width="64dp"

@@ -4,16 +4,15 @@ public class Subject {
 
     private String subjectName;
     private int totalMarks;
-    private int marksObtained;
+    private int marksGained;
     private int creditHours;
     private double gpa;
 
-    public Subject(int marksObtained, String subjectName, int totalMarks, int creditHours, double gpa) {
-        this.marksObtained = marksObtained;
+    public Subject(String subjectName, int totalMarks, int marksGained, int creditHours) {
         this.subjectName = subjectName;
+        this.marksGained = marksGained;
         this.totalMarks = totalMarks;
         this.creditHours = creditHours;
-        this.gpa = gpa;
     }
 
     public String getSubjectName() {
@@ -32,12 +31,12 @@ public class Subject {
         this.totalMarks = totalMarks;
     }
 
-    public int getMarksObtained() {
-        return marksObtained;
+    public int getMarksGained() {
+        return marksGained;
     }
 
-    public void setMarksObtained(int marksObtained) {
-        this.marksObtained = marksObtained;
+    public void setMarksGained(int marksGained) {
+        this.marksGained = marksGained;
     }
 
     public int getCreditHours() {

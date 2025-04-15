@@ -27,8 +27,6 @@ public class CgpaActivity extends BaseActivity {
         setContentView(vb.getRoot());
         // Initialize your list (this could be empty or pre-populated)
         subjectList = new ArrayList<>();
-        // Optionally, add a default subject
-        // subjectList.add(new subject(0, "", 0, 0, 0.0));
 
         // Set up the RecyclerView
         vb.subjectRV.setLayoutManager(new LinearLayoutManager(this));
@@ -42,7 +40,7 @@ public class CgpaActivity extends BaseActivity {
         playSoundAndVibrate(R.raw.sound_ui, true, 50);
         //vb.plusLAV.playAnimation();
         // Create a new subject with default or empty values
-        Subject newSubject = new Subject(0, "", 0, 0, 0.0);
+        Subject newSubject = new Subject("", 0, 0, 0);
         adapter.addSubject(newSubject);
         // Optionally scroll to the newly added item
         vb.subjectRV.smoothScrollToPosition(subjectList.size() - 1);
