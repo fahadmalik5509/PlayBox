@@ -15,6 +15,7 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAn
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
+import com.fahadmalik5509.playbox.gpamanager.AppDatabase;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,8 @@ import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Database;
+import androidx.room.RoomDatabase;
 
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.gpamanager.ProfileActivity;
@@ -38,6 +41,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ShopLayoutBinding ShopBinding;
     private NavigationLayoutBinding NavigationBinding;
     private ShadowLayoutBinding ShadowBinding;
+
+    public RoomDatabase db;
 
     protected int currencyCount, bombCount, hintCount, skipCount, strikeCount, spotlightCount, contrastCount, jumpCount;
     @Override
@@ -58,7 +63,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initialize() {
         setupOnBackPressed();
-
+        db = AppDatabase.getInstance(getApplicationContext());
         currencyCount = sharedPreferences.getInt(WORDLE_CURRENCY_KEY, 300);
         bombCount = sharedPreferences.getInt(WORDLE_BOMB_KEY, 5);
         hintCount = sharedPreferences.getInt(WORDLE_HINT_KEY, 5);

@@ -30,7 +30,6 @@ public class SubjectActivity extends BaseActivity {
         vb.subjectRV.setLayoutManager(new LinearLayoutManager(this));
         adapter = new SubjectAdapter(subjectList);
         vb.subjectRV.setAdapter(adapter);
-
     }
 
     public void handleAddSubject(View view) {

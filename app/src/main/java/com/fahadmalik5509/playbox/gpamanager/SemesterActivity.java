@@ -6,22 +6,47 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAn
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.SemesterLayoutBinding;
 import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
 
+import java.util.ArrayList;
+
 public class SemesterActivity extends BaseActivity {
 
     SemesterLayoutBinding vb;
+    private SemesterAdapter adapter;
+    private ArrayList<Semester> semesterList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         vb = SemesterLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
 
+
+        semesterList = new ArrayList<>();
+
+        // Set up the RecyclerView
+        vb.semesterRV.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new SemesterAdapter(semesterList);
+        vb.semesterRV.setAdapter(adapter);
     }
 
-    public void handleSemesterButton(View view) {
+    public void handleAddSemester(View view) {
+
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
+        //vb.plusLAV.playAnimation();
+        // Create a new subject with default or empty values
+        Semester newSemester = new Semester("", 1);
+        adapter.addSemester(newSemester);
+        // Optionally scroll to the newly added item
+        vb.semesterRV.smoothScrollToPosition(semesterList.size() - 1);
+    }
+
+    public void goToSubjects(View view) {
         playSoundAndVibrate(R.raw.sound_ui, true, 50);
         changeActivity(this, SubjectActivity.class);
     }

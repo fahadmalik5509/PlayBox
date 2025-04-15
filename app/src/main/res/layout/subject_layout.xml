@@ -30,7 +30,7 @@
             android:layout_centerHorizontal="true"/>
 
         <TextView
-            android:id="@+id/subjectTotalSubjectsTV"
+            android:id="@+id/subjectSemesterTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/subjectProfileNameTV"
@@ -41,9 +41,10 @@
             android:layout_centerHorizontal="true"/>
 
         <TextView
+            android:id="@+id/subjectTotalSubjectsTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/subjectTotalSubjectsTV"
+            android:layout_below="@+id/subjectSemesterTV"
             android:text="Total Subjects: 8"
             android:textSize="16dp"
             android:textColor="@color/beige"

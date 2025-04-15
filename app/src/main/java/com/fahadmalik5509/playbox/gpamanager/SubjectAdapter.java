@@ -40,7 +40,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         Subject currentSubject = subjectList.get(position);
 
         // Set the index (displaying one-based index)
-        holder.vb.indexTV.setText(String.valueOf(position + 1));
+        holder.vb.subjectIndexTV.setText(String.valueOf(position + 1));
 
         String subjectNameStr = currentSubject.getSubjectName();
         String totalMarksStr = String.valueOf(currentSubject.getTotalMarks());
@@ -50,16 +50,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         // Bind the subject name and other fields as needed
         if (!holder.vb.subjectNameET.getText().toString().equals(subjectNameStr) && subjectNameStr.isEmpty())
             holder.vb.subjectNameET.setText(currentSubject.getSubjectName());
-        if (!holder.vb.totalMarksET.getText().toString().equals(totalMarksStr) && currentSubject.getTotalMarks() != 0)
-            holder.vb.totalMarksET.setText(totalMarksStr);
-        if (!holder.vb.marksGainedET.getText().toString().equals(marksGainedStr) && currentSubject.getMarksGained() != 0)
-            holder.vb.marksGainedET.setText(marksGainedStr);
+        if (!holder.vb.subjectTotalMarksET.getText().toString().equals(totalMarksStr) && currentSubject.getTotalMarks() != 0)
+            holder.vb.subjectTotalMarksET.setText(totalMarksStr);
+        if (!holder.vb.subjectMarksGainedET.getText().toString().equals(marksGainedStr) && currentSubject.getMarksGained() != 0)
+            holder.vb.subjectMarksGainedET.setText(marksGainedStr);
         if (!holder.vb.creditHoursET.getText().toString().equals(creditHoursStr) && currentSubject.getCreditHours() != 0)
             holder.vb.creditHoursET.setText(creditHoursStr);
 
-
-
-        holder.vb.deleteIV.setOnClickListener(v -> {
+        holder.vb.subjectDeleteIV.setOnClickListener(v -> {
             playSoundAndVibrate(R.raw.sound_delete, true, 50);
 
             if (position != RecyclerView.NO_POSITION) {
@@ -68,24 +66,24 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         });
 
 
-        holder.vb.editIV.setOnClickListener(v -> {
-            if (holder.vb.saveB.getVisibility() == View.VISIBLE) return;
+        holder.vb.subjectEditIV.setOnClickListener(v -> {
+            if (holder.vb.subjectSaveB.getVisibility() == View.VISIBLE) return;
 
             playSoundAndVibrate(R.raw.sound_edit, true, 50);
             holder.vb.subjectNameET.setEnabled(true);
-            holder.vb.totalMarksET.setEnabled(true);
-            holder.vb.marksGainedET.setEnabled(true);
+            holder.vb.subjectTotalMarksET.setEnabled(true);
+            holder.vb.subjectMarksGainedET.setEnabled(true);
             holder.vb.creditHoursET.setEnabled(true);
-            holder.vb.saveB.setVisibility(View.VISIBLE);
+            holder.vb.subjectSaveB.setVisibility(View.VISIBLE);
         });
 
-        holder.vb.saveB.setOnClickListener(v -> {
+        holder.vb.subjectSaveB.setOnClickListener(v -> {
             playSoundAndVibrate(R.raw.sound_ui, true, 50);
             holder.vb.subjectNameET.setEnabled(false);
-            holder.vb.totalMarksET.setEnabled(false);
-            holder.vb.marksGainedET.setEnabled(false);
+            holder.vb.subjectTotalMarksET.setEnabled(false);
+            holder.vb.subjectMarksGainedET.setEnabled(false);
             holder.vb.creditHoursET.setEnabled(false);
-            holder.vb.saveB.setVisibility(View.GONE);
+            holder.vb.subjectSaveB.setVisibility(View.GONE);
         });
 
         // Common focus listener for playing a sound when focused
@@ -96,8 +94,8 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         };
 
         holder.vb.subjectNameET.setOnFocusChangeListener(focusListener);
-        holder.vb.totalMarksET.setOnFocusChangeListener(focusListener);
-        holder.vb.marksGainedET.setOnFocusChangeListener(focusListener);
+        holder.vb.subjectTotalMarksET.setOnFocusChangeListener(focusListener);
+        holder.vb.subjectMarksGainedET.setOnFocusChangeListener(focusListener);
         holder.vb.creditHoursET.setOnFocusChangeListener(focusListener);
     }
 

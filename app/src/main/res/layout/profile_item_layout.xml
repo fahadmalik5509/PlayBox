@@ -1,6 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/profileItemLayout"
+    android:background="@drawable/gradient_1_drawable"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:padding="10dp"
+    android:onClick="goToSemester"
+    android:stateListAnimator="@animator/pulse_animation">
+
+    <EditText
+        android:id="@+id/profileNameET"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="70dp"
+        android:autofillHints=""
+        android:background="@drawable/underline_selector"
+        android:ellipsize="end"
+        android:enabled="false"
+        android:hint="Profile Name"
+        android:imeOptions="actionDone"
+        android:inputType="text|textCapWords"
+        android:maxLines="1"
+        android:stateListAnimator="@animator/pulse_animation"
+        android:textAppearance="@style/man_rope"
+        android:textColor="#E1ECF1"
+        android:textColorHint="#8DA1A8"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/profileDeleteIV"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/trash_bin"
+        android:contentDescription="@string/image_description"
+        android:stateListAnimator="@animator/pulse_animation"/>
+
+    <ImageView
+        android:id="@+id/profileEditIV"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/profileDeleteIV"
+        android:contentDescription="@string/image_description"
+        android:src="@drawable/edit"
+        android:stateListAnimator="@animator/pulse_animation" />
+
+
+    <TextView
+        android:id="@+id/profileTotalProfilesTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileNameET"
+        android:layout_marginTop="10dp"
+        android:text="Total Subjects: 41"
+        android:textSize="13dp"
+        android:textColor="@color/white"
+        android:textAppearance="@style/default_font"/>
+
+    <TextView
+        android:id="@+id/profileCurrentSemesterTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profileTotalProfilesTV"
+        android:text="Current Semester: 3"
+        android:textSize="13dp"
+        android:textColor="@color/white"
+        android:textAppearance="@style/default_font"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/profileCgpaCV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/profileDeleteIV"
+        android:layout_marginTop="10dp"
+        android:minWidth="80dp"
+        android:minHeight="80dp"
+        app:cardBackgroundColor="@color/dark_green"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cgpa"
+                android:textAppearance="@style/default_font"
+                android:textColor="@color/charcoal"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/profileCgpaTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/default_gpa"
+                android:textAppearance="@style/rubik"
+                android:textColor="@color/charcoal"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/profileSaveB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/exit_no"
+        android:layout_below="@+id/profileCgpaCV"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="40dp"
+        android:text="@string/save"
+        android:textSize="22sp"
+        android:textColor="@color/charcoal"
+        android:textAppearance="@style/default_font"
+        android:visibility="gone"/>
 
 </RelativeLayout>

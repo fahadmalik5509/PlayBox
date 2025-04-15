@@ -2,14 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/purple_gradient"
-    android:layout_width="wrap_content"
+    android:background="@drawable/gradient_1_drawable"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:padding="10dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/indexCV"
+        android:id="@+id/subjectIndexCV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -17,7 +17,7 @@
         app:cardCornerRadius="20dp">
 
         <TextView
-            android:id="@+id/indexTV"
+            android:id="@+id/subjectIndexTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingHorizontal="10dp"
@@ -33,7 +33,7 @@
         android:id="@+id/subjectNameET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/indexCV"
+        android:layout_toEndOf="@+id/subjectIndexCV"
         android:layout_marginStart="5dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="70dp"
@@ -52,7 +52,7 @@
         android:stateListAnimator="@animator/pulse_animation"/>
 
     <ImageView
-        android:id="@+id/deleteIV"
+        android:id="@+id/subjectDeleteIV"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="4dp"
@@ -62,22 +62,22 @@
         android:stateListAnimator="@animator/pulse_animation"/>
 
     <ImageView
-        android:id="@+id/editIV"
+        android:id="@+id/subjectEditIV"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginTop="4dp"
         android:layout_marginEnd="10dp"
-        android:layout_toStartOf="@+id/deleteIV"
+        android:layout_toStartOf="@+id/subjectDeleteIV"
         android:contentDescription="@string/image_description"
         android:src="@drawable/edit"
         android:stateListAnimator="@animator/pulse_animation" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/layout1"
+        android:id="@+id/subjectLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/subjectNameET"
-        android:layout_toStartOf="@+id/gpaCV"
+        android:layout_toStartOf="@+id/subjectGpaCV"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:cardBackgroundColor="#445963"
@@ -95,7 +95,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/totalMarksTV"
+                    android:id="@+id/subjectTotalMarksTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/total_marks"
@@ -104,10 +104,10 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/totalMarksET"
+                    android:id="@+id/subjectTotalMarksET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/totalMarksTV"
+                    android:layout_below="@id/subjectTotalMarksTV"
                     android:background="@drawable/underline_selector"
                     android:inputType="number"
                     android:maxLength="3"
@@ -139,7 +139,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/marksGainedTV"
+                    android:id="@+id/subjectMarksGainedTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/marks_gained"
@@ -148,10 +148,10 @@
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/marksGainedET"
+                    android:id="@+id/subjectMarksGainedET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/marksGainedTV"
+                    android:layout_below="@+id/subjectMarksGainedTV"
                     android:background="@drawable/underline_selector"
                     android:inputType="number"
                     android:maxLength="3"
@@ -183,7 +183,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/creditHoursTV"
+                    android:id="@+id/subjectCreditHoursTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/credit_hours"
@@ -195,7 +195,7 @@
                     android:id="@+id/creditHoursET"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/creditHoursTV"
+                    android:layout_below="@+id/subjectCreditHoursTV"
                     android:background="@drawable/underline_selector"
                     android:inputType="number"
                     android:maxLength="1"
@@ -212,19 +212,16 @@
 
             </RelativeLayout>
 
-
-
-
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/gpaCV"
+        android:id="@+id/subjectGpaCV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/subjectNameET"
-        android:layout_alignBottom="@+id/layout1"
+        android:layout_alignBottom="@+id/subjectLayout"
         android:layout_marginTop="10dp"
         android:layout_marginStart="5dp"
         android:layout_alignParentEnd="true"
@@ -261,11 +258,11 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/saveB"
+        android:id="@+id/subjectSaveB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/exit_no"
-        android:layout_below="@+id/layout1"
+        android:layout_below="@+id/subjectLayout"
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="40dp"
         android:text="@string/save"

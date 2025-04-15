@@ -7,9 +7,14 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.loadPrefere
 import android.app.Application;
 import android.content.Context;
 
+import androidx.room.RoomDatabase;
+
+import com.fahadmalik5509.playbox.gpamanager.AppDatabase;
+
 public class PlayboxApplication extends Application {
 
     private static Context appContext;
+
 
     @Override
     public void onCreate() {
