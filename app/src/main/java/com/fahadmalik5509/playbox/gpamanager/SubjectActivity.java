@@ -48,6 +48,6 @@ public class SubjectActivity extends BaseActivity {
 
     @Override
     protected Class<?> getBackDestination() {
-        return ToolsActivity.class;
+        return SemesterActivity.class;
     }
 }
