@@ -32,7 +32,7 @@
     <string name="wordle">Wordle</string>
     <string name="color_puzzle">Color Puzzle</string>
     <string name="dot_and_boxes">Dot And Boxes</string>
-    <string name="cgpa_calculator">CGPA Calculator</string>
+    <string name="gpa_manager">GPA Manager</string>"
 
     <string name="pvp">Player Vs Player</string>
     <string name="pvAI">Player   Vs   AI</string>

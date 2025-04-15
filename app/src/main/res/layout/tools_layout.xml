@@ -15,10 +15,9 @@
         android:orientation="vertical" >
 
         <Button
-            android:id="@+id/cgpaCalculatorB"
-            android:text="@string/cgpa_calculator"
+            android:text="@string/gpa_manager"
             style="@style/NavigationButton"
-            android:onClick="handleCGPACalculatorButtonClick" />
+            android:onClick="handleGPAManagerButtonClick" />
 
     </LinearLayout>
 

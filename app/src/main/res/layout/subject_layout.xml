@@ -1,269 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/purple_gradient"
-    android:layout_margin="10dp"
-    android:padding="10dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background" >
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/indexCV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        app:cardBackgroundColor="#445963"
-        app:cardCornerRadius="20dp">
-
-        <TextView
-            android:id="@+id/indexTV"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="5dp"
-            android:textColor="#B4C6CC"
-            android:textAppearance="@style/default_font"
-            android:textSize="11sp"/>
-
-
-    </androidx.cardview.widget.CardView>
-
-    <EditText
-        android:id="@+id/subjectNameET"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/indexCV"
-        android:layout_marginStart="5dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="70dp"
-        android:background="@drawable/underline_selector"
-        android:ellipsize="end"
-        android:imeOptions="actionDone"
-        android:inputType="text|textCapWords"
-        android:maxLines="1"
-        android:textAppearance="@style/man_rope"
-        android:textColor="#E1ECF1"
-        android:textSize="18sp"
-        android:hint="@string/subject_name"
-        android:textColorHint="#8DA1A8"
-        android:enabled="false"
-        android:stateListAnimator="@animator/pulse_animation"/>
-
-    <ImageView
-        android:id="@+id/deleteIV"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="4dp"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/trash_bin"
-        android:stateListAnimator="@animator/pulse_animation"/>
-
-    <ImageView
-        android:id="@+id/editIV"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="4dp"
-        android:layout_toStartOf="@+id/deleteIV"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/edit"
-        android:stateListAnimator="@animator/pulse_animation"/>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/layout1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/subjectNameET"
-        android:layout_toLeftOf="@+id/gpaCV"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        app:cardBackgroundColor="#445963"
-        app:cardCornerRadius="5dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/totalMarksTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Total\nMarks"
-                    android:textAppearance="@style/rubik"
-                    android:textColor="#B4C6CC"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/totalMarksET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/totalMarksTV"
-                    android:background="@drawable/underline_selector"
-                    android:inputType="number"
-                    android:maxLength="3"
-                    android:textAppearance="@style/default_font"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:hint="@string/one_to_hundred"
-                    android:textColorHint="#8DA1A8"
-                    android:enabled="false"
-                    android:stateListAnimator="@animator/pulse_animation"/>
-
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="2dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="5dp"
-                android:background="#33FFFFFF"
-                android:alpha="0.5"/>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="5dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/marksGainedTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Marks\nGained"
-                    android:textAppearance="@style/rubik"
-                    android:textColor="#B4C6CC"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/marksGainedET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/marksGainedTV"
-                    android:background="@drawable/underline_selector"
-                    android:inputType="number"
-                    android:maxLength="3"
-                    android:textAppearance="@style/default_font"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:hint="@string/zero_to_hundred"
-                    android:textColorHint="#8DA1A8"
-                    android:enabled="false"
-                    android:stateListAnimator="@animator/pulse_animation"/>
-
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="2dp"
-                android:layout_height="60dp"
-                android:layout_gravity="center"
-                android:layout_marginHorizontal="5dp"
-                android:background="#33FFFFFF"
-                android:alpha="0.5"/>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="5dp"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/creditHoursTV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Credit\nHours"
-                    android:textAppearance="@style/rubik"
-                    android:textColor="#B4C6CC"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/creditHoursET"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/creditHoursTV"
-                    android:background="@drawable/underline_selector"
-                    android:inputType="number"
-                    android:maxLength="1"
-                    android:textAppearance="@style/default_font"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:hint="@string/one_to_nine"
-                    android:textColorHint="#8DA1A8"
-                    android:enabled="false"
-                    android:stateListAnimator="@animator/pulse_animation"/>
-
-
-            </RelativeLayout>
-
-
-
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/gpaCV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/subjectNameET"
-        android:layout_alignBottom="@+id/layout1"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="5dp"
-        android:layout_alignParentEnd="true"
-        android:minWidth="70dp"
-        app:cardBackgroundColor="@color/dark_green"
-        app:cardCornerRadius="5dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="GPA"
-                android:textAppearance="@style/default_font"
-                android:textColor="@color/charcoal"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/gpaTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0,0"
-                android:textAppearance="@style/rubik"
-                android:textColor="@color/charcoal"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <Button
-        android:id="@+id/saveB"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/subjectRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/exit_no"
-        android:layout_below="@+id/layout1"
-        android:layout_marginTop="10dp"
-        android:layout_marginHorizontal="40dp"
-        android:text="Save"
-        android:textSize="22sp"
-        android:textColor="@color/charcoal"
-        android:textAppearance="@style/default_font"
-        android:visibility="gone"/>
+        android:layout_below="@+id/infoRL"
+        android:layout_above="@+id/Navigation">
+
+    </androidx.recyclerview.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/infoRL"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/charcoal">
+
+        <TextView
+            android:id="@+id/subjectProfileNameTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fahad"
+            android:textSize="32dp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/subjectTotalSubjectsTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subjectProfileNameTV"
+            android:text="Semester: 1"
+            android:textSize="16dp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/subjectTotalSubjectsTV"
+            android:text="Total Subjects: 8"
+            android:textSize="16dp"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_centerHorizontal="true"/>
+
+
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/add"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="96dp"
+        android:layout_marginEnd="24dp"
+        android:onClick="handleAddSubject"
+        android:stateListAnimator="@animator/pulse_animation"/>
+
+<!--    <com.airbnb.lottie.LottieAnimationView-->
+<!--        android:id="@+id/plusLAV"-->
+<!--        android:layout_width="64dp"-->
+<!--        android:layout_height="64dp"-->
+<!--        app:lottie_rawRes="@raw/lottie_plus"-->
+<!--        app:lottie_cacheComposition="true"-->
+<!--        app:lottie_asyncUpdates="automatic"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginBottom="96dp"-->
+<!--        android:layout_marginEnd="24dp"-->
+<!--        android:onClick="handleAddSubject"-->
+<!--        android:stateListAnimator="@animator/pulse_animation"/>-->
+
+    <!-- Navigation Layout -->
+    <include
+        android:id="@+id/Navigation"
+        layout="@layout/navigation_layout" />
 
 </RelativeLayout>

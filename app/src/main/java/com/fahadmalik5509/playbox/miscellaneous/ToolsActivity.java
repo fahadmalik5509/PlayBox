@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.fahadmalik5509.playbox.R;
-import com.fahadmalik5509.playbox.cgpacalculator.CgpaActivity;
+import com.fahadmalik5509.playbox.gpamanager.SubjectActivity;
 import com.fahadmalik5509.playbox.databinding.ToolsLayoutBinding;
 
 public class ToolsActivity extends BaseActivity {
@@ -22,9 +22,9 @@ public class ToolsActivity extends BaseActivity {
 
     }
 
-    public void handleCGPACalculatorButtonClick(View view) {
+    public void handleGPAManagerButtonClick(View view) {
         playSoundAndVibrate(R.raw.sound_ui, true, 50);
-        changeActivity(this, CgpaActivity.class);
+        changeActivity(this, SubjectActivity.class);
     }
 
     @Override

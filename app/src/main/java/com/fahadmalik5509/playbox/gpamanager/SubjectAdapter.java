@@ -1,17 +1,15 @@
-package com.fahadmalik5509.playbox.cgpacalculator;
+package com.fahadmalik5509.playbox.gpamanager;
 
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fahadmalik5509.playbox.R;
-import com.fahadmalik5509.playbox.databinding.SubjectLayoutBinding;
-
+import com.fahadmalik5509.playbox.databinding.SubjectItemLayoutBinding;
 import java.util.ArrayList;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder> {
@@ -33,7 +31,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     public SubjectViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // Inflate your subject layout (e.g., R.layout.subject_card_layout)
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        SubjectLayoutBinding vb = SubjectLayoutBinding.inflate(inflater, parent, false);
+        SubjectItemLayoutBinding vb = SubjectItemLayoutBinding.inflate(inflater, parent, false);
         return new SubjectViewHolder(vb);
     }
 
@@ -121,9 +119,9 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     }
 
     public static class SubjectViewHolder extends RecyclerView.ViewHolder {
-        SubjectLayoutBinding vb;
+        SubjectItemLayoutBinding vb;
 
-        public SubjectViewHolder(SubjectLayoutBinding vb) {
+        public SubjectViewHolder(SubjectItemLayoutBinding vb) {
 
             super(vb.getRoot());
             this.vb = vb;

@@ -83,7 +83,7 @@
 
         <!-- SettingActivity -->
         <activity
-            android:name=".cgpacalculator.CgpaActivity"
+            android:name=".gpamanager.SubjectActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
 

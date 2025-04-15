@@ -1,4 +1,4 @@
-package com.fahadmalik5509.playbox.cgpacalculator;
+package com.fahadmalik5509.playbox.gpamanager;
 
 public class Subject {
 
@@ -6,7 +6,6 @@ public class Subject {
     private int totalMarks;
     private int marksGained;
     private int creditHours;
-    private double gpa;
 
     public Subject(String subjectName, int totalMarks, int marksGained, int creditHours) {
         this.subjectName = subjectName;
@@ -45,9 +44,5 @@ public class Subject {
 
     public void setCreditHours(int creditHours) {
         this.creditHours = creditHours;
-    }
-
-    public double getGpa() {
-        return gpa;
     }
 }

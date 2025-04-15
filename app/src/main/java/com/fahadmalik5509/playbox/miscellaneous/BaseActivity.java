@@ -24,7 +24,7 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fahadmalik5509.playbox.R;
-import com.fahadmalik5509.playbox.cgpacalculator.CgpaActivity;
+import com.fahadmalik5509.playbox.gpamanager.SubjectActivity;
 import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
@@ -258,7 +258,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void backLogic() {
         playSoundAndVibrate(R.raw.sound_ui, true, 50);
 
-        if(this instanceof ToolsActivity || this instanceof CgpaActivity) {
+        if(this instanceof ToolsActivity || this instanceof SubjectActivity) {
             changeActivity(this, getBackDestination());
             return;
         }
