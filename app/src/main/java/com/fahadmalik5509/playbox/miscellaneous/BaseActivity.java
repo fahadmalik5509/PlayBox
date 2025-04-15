@@ -24,6 +24,8 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.fahadmalik5509.playbox.R;
+import com.fahadmalik5509.playbox.gpamanager.ProfileActivity;
+import com.fahadmalik5509.playbox.gpamanager.SemesterActivity;
 import com.fahadmalik5509.playbox.gpamanager.SubjectActivity;
 import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
@@ -258,7 +260,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void backLogic() {
         playSoundAndVibrate(R.raw.sound_ui, true, 50);
 
-        if(this instanceof ToolsActivity || this instanceof SubjectActivity) {
+        if(this instanceof ToolsActivity || this instanceof ProfileActivity || this instanceof SemesterActivity || this instanceof SubjectActivity) {
             changeActivity(this, getBackDestination());
             return;
         }

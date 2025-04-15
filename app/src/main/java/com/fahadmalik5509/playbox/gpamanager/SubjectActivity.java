@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.SubjectLayoutBinding;
 import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
-import com.fahadmalik5509.playbox.miscellaneous.ToolsActivity;
-
 import java.util.ArrayList;
 
 public class SubjectActivity extends BaseActivity {

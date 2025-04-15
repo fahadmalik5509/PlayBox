@@ -81,7 +81,19 @@
             android:exported="true"
             android:screenOrientation="portrait"/>
 
-        <!-- SettingActivity -->
+        <!-- ProfileActivity -->
+        <activity
+            android:name=".gpamanager.ProfileActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+
+        <!-- SemesterActivity -->
+        <activity
+            android:name=".gpamanager.SemesterActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"/>
+
+        <!-- SubjectActivity -->
         <activity
             android:name=".gpamanager.SubjectActivity"
             android:exported="true"
