@@ -42,7 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private NavigationLayoutBinding NavigationBinding;
     private ShadowLayoutBinding ShadowBinding;
 
-    public RoomDatabase db;
+    public AppDatabase db;
 
     protected int currencyCount, bombCount, hintCount, skipCount, strikeCount, spotlightCount, contrastCount, jumpCount;
     @Override

@@ -5,94 +5,73 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAn
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.ProfileItemLayoutBinding;
+
 import java.util.ArrayList;
+import java.util.List;
 
-public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder>{
+public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.ProfileViewHolder> {
 
-    private final ArrayList<Profile> profileList;
+    public interface OnSaveClickListener {
+        void onSaveClick(int position, String name);
+    }
 
-    public ProfileAdapter(ArrayList<Profile> profileList) {
+    public interface OnDeleteClickListener {
+        void onDeleteClick(int position);
+    }
+
+    private final List<Profile> profileList;
+    private final OnSaveClickListener saveListener;
+    private final OnDeleteClickListener deleteListener;
+
+    public ProfileAdapter(List<Profile> profileList,
+                          OnSaveClickListener saveListener,
+                          OnDeleteClickListener deleteListener) {
         this.profileList = profileList;
+        this.saveListener = saveListener;
+        this.deleteListener = deleteListener;
+    }
+
+    @NonNull @Override
+    public ProfileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        ProfileItemLayoutBinding vb = ProfileItemLayoutBinding
+                .inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new ProfileViewHolder(vb);
     }
 
     @Override
-    public int getItemCount() {
-        return profileList.size();
-    }
-
-    @NonNull
-    @Override
-    public ProfileAdapter.ProfileViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        ProfileItemLayoutBinding vb = ProfileItemLayoutBinding.inflate(inflater, parent, false);
-        return new ProfileAdapter.ProfileViewHolder(vb);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ProfileAdapter.ProfileViewHolder holder, int position) {
-
-        holder.vb.profileDeleteIV.setOnClickListener(v -> {
-            playSoundAndVibrate(R.raw.sound_delete, true, 50);
-
-            if (position != RecyclerView.NO_POSITION) {
-                removeProfile(position);
-            }
-        });
+    public void onBindViewHolder(@NonNull ProfileViewHolder holder, int pos) {
+        Profile p = profileList.get(pos);
+        holder.vb.profileNameET.setText(p.getProfileName());
 
         holder.vb.profileEditIV.setOnClickListener(v -> {
-            if (holder.vb.profileSaveB.getVisibility() == View.VISIBLE) return;
-
             playSoundAndVibrate(R.raw.sound_edit, true, 50);
-            holder.vb.profileItemLayout.setClickable(false);
-            holder.vb.profileItemLayout.setFocusable(false);
-
             holder.vb.profileNameET.setEnabled(true);
-            holder.vb.profileNameET.setClickable(true);
-            holder.vb.profileNameET.setFocusable(true);
-
             holder.vb.profileSaveB.setVisibility(View.VISIBLE);
         });
 
         holder.vb.profileSaveB.setOnClickListener(v -> {
             playSoundAndVibrate(R.raw.sound_ui, true, 50);
-
-            holder.vb.profileItemLayout.setClickable(true);
-            holder.vb.profileItemLayout.setFocusable(true);
-
             holder.vb.profileNameET.setEnabled(false);
-            holder.vb.profileNameET.setClickable(false);
-            holder.vb.profileNameET.setFocusable(false);
             holder.vb.profileSaveB.setVisibility(View.GONE);
+            saveListener.onSaveClick(pos, holder.vb.profileNameET.getText().toString());
+        });
+
+        holder.vb.profileDeleteIV.setOnClickListener(v -> {
+            playSoundAndVibrate(R.raw.sound_delete, true, 50);
+            deleteListener.onDeleteClick(pos);
         });
     }
 
-    // A helper to add a new profile
-    public void addProfile(Profile newProfile) {
-        profileList.add(newProfile);
-        // Notify the adapter that a new item is inserted at the end
-        notifyItemInserted(profileList.size() - 1);
-    }
+    @Override public int getItemCount() { return profileList.size(); }
 
-    // Remove profile based on its position
-    public void removeProfile(int position) {
-        if (position < profileList.size() && position >= 0) {
-            profileList.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, profileList.size()); // refresh positions
-        }
-    }
-
-    public static class ProfileViewHolder extends RecyclerView.ViewHolder {
-        ProfileItemLayoutBinding vb;
-
-        public ProfileViewHolder(ProfileItemLayoutBinding vb) {
-
+    static class ProfileViewHolder extends RecyclerView.ViewHolder {
+        final ProfileItemLayoutBinding vb;
+        ProfileViewHolder(ProfileItemLayoutBinding vb) {
             super(vb.getRoot());
             this.vb = vb;
         }

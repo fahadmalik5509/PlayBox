@@ -13,24 +13,22 @@ import com.fahadmalik5509.playbox.databinding.SemesterLayoutBinding;
 import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SemesterActivity extends BaseActivity {
 
     SemesterLayoutBinding vb;
     private SemesterAdapter adapter;
-    private ArrayList<Semester> semesterList;
+    private final List<Semester> semesterList = new ArrayList<>();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         vb = SemesterLayoutBinding.inflate(getLayoutInflater());
         setContentView(vb.getRoot());
-
-
-        semesterList = new ArrayList<>();
-
         // Set up the RecyclerView
         vb.semesterRV.setLayoutManager(new LinearLayoutManager(this));
+
         adapter = new SemesterAdapter(semesterList);
         vb.semesterRV.setAdapter(adapter);
     }

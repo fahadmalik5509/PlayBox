@@ -18,7 +18,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="70dp"
         android:autofillHints=""
-        android:background="@drawable/underline_selector"
+        android:background="@null"
         android:ellipsize="end"
         android:enabled="false"
         android:hint="Profile Name"
@@ -29,7 +29,7 @@
         android:textAppearance="@style/man_rope"
         android:textColor="#E1ECF1"
         android:textColorHint="#8DA1A8"
-        android:textSize="18sp" />
+        android:textSize="32sp" />
 
     <ImageView
         android:id="@+id/profileDeleteIV"

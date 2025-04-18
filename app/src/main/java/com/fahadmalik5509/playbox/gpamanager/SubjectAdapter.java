@@ -10,20 +10,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.SubjectItemLayoutBinding;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder> {
 
-    private final ArrayList<Subject> subjectList;
+    public interface OnSaveClickListener {
+        void onSaveClick(int position, String name, int totalMarks, int marksGained, int creditHours);
+    }
 
-    public SubjectAdapter(ArrayList<Subject> subjectList) {
-        this.subjectList = subjectList;
+    public interface OnDeleteClickListener {
+        void onDeleteClick(int position);
+    }
 
+    private final List<Subject> subjectsList;
+    private final SubjectAdapter.OnSaveClickListener saveListener;
+    private final SubjectAdapter.OnDeleteClickListener deleteListener;
+
+    public SubjectAdapter(List<Subject> subjectsList,
+                          SubjectAdapter.OnSaveClickListener saveListener,
+                          SubjectAdapter.OnDeleteClickListener deleteListener) {
+        this.subjectsList = subjectsList;
+        this.saveListener = saveListener;
+        this.deleteListener = deleteListener;
     }
 
     @Override
     public int getItemCount() {
-        return subjectList.size();
+        return subjectsList.size();
     }
 
     @NonNull
@@ -36,11 +51,11 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     }
 
     @Override
-    public void onBindViewHolder(SubjectViewHolder holder, int position) {
-        Subject currentSubject = subjectList.get(position);
+    public void onBindViewHolder(SubjectViewHolder holder, int pos) {
+        Subject currentSubject = subjectsList.get(pos);
 
         // Set the index (displaying one-based index)
-        holder.vb.subjectIndexTV.setText(String.valueOf(position + 1));
+        holder.vb.subjectIndexTV.setText(String.valueOf(pos + 1));
 
         String subjectNameStr = currentSubject.getSubjectName();
         String totalMarksStr = String.valueOf(currentSubject.getTotalMarks());
@@ -59,10 +74,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
 
         holder.vb.subjectDeleteIV.setOnClickListener(v -> {
             playSoundAndVibrate(R.raw.sound_delete, true, 50);
-
-            if (position != RecyclerView.NO_POSITION) {
-                removeSubject(position);
-            }
+            deleteListener.onDeleteClick(pos);
         });
 
 
@@ -84,6 +96,10 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             holder.vb.subjectMarksGainedET.setEnabled(false);
             holder.vb.creditHoursET.setEnabled(false);
             holder.vb.subjectSaveB.setVisibility(View.GONE);
+
+            saveListener.onSaveClick(pos, holder.vb.subjectNameET.getText().toString(), Integer.parseInt(holder.vb.subjectTotalMarksET.getText().toString()),
+                    Integer.parseInt(holder.vb.subjectMarksGainedET.getText().toString()), Integer.parseInt(holder.vb.creditHoursET.getText().toString())
+                    );
         });
 
         // Common focus listener for playing a sound when focused
@@ -102,17 +118,17 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
 
     // A helper to add a new subject
     public void addSubject(Subject newSubject) {
-        subjectList.add(newSubject);
+        subjectsList.add(newSubject);
         // Notify the adapter that a new item is inserted at the end
-        notifyItemInserted(subjectList.size() - 1);
+        notifyItemInserted(subjectsList.size() - 1);
     }
 
     // Remove subject based on its position
     public void removeSubject(int position) {
-        if (position < subjectList.size() && position >= 0) {
-            subjectList.remove(position);
+        if (position < subjectsList.size() && position >= 0) {
+            subjectsList.remove(position);
             notifyItemRemoved(position);
-            notifyItemRangeChanged(position, subjectList.size()); // refresh positions
+            notifyItemRangeChanged(position, subjectsList.size()); // refresh positions
         }
     }
 

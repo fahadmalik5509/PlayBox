@@ -25,7 +25,6 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "gpa_manager_database")
-                            .fallbackToDestructiveMigration() // Optional, depends on whether you're handling migrations
                             .build();
                 }
             }

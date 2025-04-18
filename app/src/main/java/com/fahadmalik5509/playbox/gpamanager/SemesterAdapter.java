@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.SemesterItemLayoutBinding;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.SemesterViewHolder>{
 
-    private final ArrayList<Semester> semesterList;
+    private final List<Semester> semesterList;
 
-    public SemesterAdapter(ArrayList<Semester> semesterList) {
+    public SemesterAdapter(List<Semester> semesterList) {
         this.semesterList = semesterList;
     }
 
