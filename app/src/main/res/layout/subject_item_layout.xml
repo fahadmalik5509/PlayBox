@@ -197,7 +197,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/subjectCreditHoursTV"
                     android:background="@drawable/underline_selector"
-                    android:inputType="number"
+                    android:inputType="numberDecimal"
                     android:maxLength="1"
                     android:textAppearance="@style/default_font"
                     android:textColor="@color/white"

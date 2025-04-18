@@ -269,6 +269,12 @@ public class ActivityUtils {
         }
     }
 
+    public static void toggleEnable(boolean setEnable,View... views) {
+        for (View view : views) {
+            view.setEnabled(setEnable);
+        }
+    }
+
     public static void changeBackgroundColor(View view, int color) {
         if (view == null) return;
 

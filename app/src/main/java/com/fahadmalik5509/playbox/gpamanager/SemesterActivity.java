@@ -44,7 +44,7 @@ public class SemesterActivity extends BaseActivity {
 
         // 2) Setup RecyclerView
         vb.semesterRV.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new SemesterAdapter(semesterList, this::openSubjectsForSemester);
+        adapter = new SemesterAdapter(this, semesterList, this::openSubjectsForSemester);
         vb.semesterRV.setAdapter(adapter);
 
         // 3) Load existing semesters for this profile

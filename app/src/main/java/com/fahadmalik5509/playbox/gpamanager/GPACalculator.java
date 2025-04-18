@@ -4,7 +4,38 @@ import java.util.List;
 
 public class GPACalculator {
 
-    public static double calculateGpa(List<Subject> subjects) {
+//    public static String getCumulativeGPAStringFromSemesters(List<Semester> semesters) {
+//        if (semesters == null || semesters.size() == 0) return "0.0";
+//
+//        double total = 0.0;
+//        for (double sgpa : sgpas) {
+//            total += sgpa;
+//        }
+//        return total / sgpas.size();  // Simple average of all SGPAs
+//    }
+
+    public static String getSemesterGPAStringFromSubjects(List<Subject> subjects) {
+
+
+        double totalQualityPoints = 0;
+        int totalCreditHours = 0;
+
+        for (Subject subject : subjects) {
+            int creditHours = subject.getCreditHours();
+            double percentage = calculatePercentage(subject.getMarksGained(), subject.getTotalMarks());
+            double gradePoint = getSubjectGPADoubleFromPercentage(percentage);
+
+            totalQualityPoints += gradePoint * creditHours;
+            totalCreditHours += creditHours;
+        }
+
+        if (totalCreditHours == 0) return "0.0";
+
+
+        return String.valueOf(totalQualityPoints / totalCreditHours).replace('.', ',');
+    }
+
+    public static Double getSemesterGPADoubleFromSubjects(List<Subject> subjects) {
         double totalQualityPoints = 0;
         int totalCreditHours = 0;
 
@@ -20,10 +51,6 @@ public class GPACalculator {
         if (totalCreditHours == 0) return 0.0;
 
         return totalQualityPoints / totalCreditHours;
-    }
-
-    public static double calculatePercentage(int totalMarks, int marksGained) {
-        return (double) marksGained / totalMarks * 100;
     }
 
     // You can adjust this scale according to your university’s policy
@@ -51,4 +78,9 @@ public class GPACalculator {
         else if (percentage >= 50) return 1.0;
         else return 0.0;
     }
+
+    public static double calculatePercentage(int totalMarks, int marksGained) {
+        return (double) marksGained / totalMarks * 100;
+    }
+
 }

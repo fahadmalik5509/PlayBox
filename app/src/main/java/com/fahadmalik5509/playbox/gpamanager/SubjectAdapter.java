@@ -1,8 +1,9 @@
 package com.fahadmalik5509.playbox.gpamanager;
 
-import static com.fahadmalik5509.playbox.gpamanager.GPACalculator.calculateGpa;
 import static com.fahadmalik5509.playbox.gpamanager.GPACalculator.getSubjectGPAStringFromPercentage;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleEnable;
+import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,20 +67,16 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             if (holder.vb.subjectSaveB.getVisibility() == View.VISIBLE) return;
 
             playSoundAndVibrate(R.raw.sound_edit, true, 50);
-            holder.vb.subjectNameET.setEnabled(true);
-            holder.vb.subjectTotalMarksET.setEnabled(true);
-            holder.vb.subjectMarksGainedET.setEnabled(true);
-            holder.vb.creditHoursET.setEnabled(true);
-            holder.vb.subjectSaveB.setVisibility(View.VISIBLE);
+            toggleEnable(true, holder.vb.subjectNameET, holder.vb.subjectTotalMarksET,
+                    holder.vb.subjectMarksGainedET, holder.vb.creditHoursET);
+            toggleVisibility(true, holder.vb.subjectSaveB);
         });
 
         holder.vb.subjectSaveB.setOnClickListener(v -> {
             playSoundAndVibrate(R.raw.sound_ui, true, 50);
-            holder.vb.subjectNameET.setEnabled(false);
-            holder.vb.subjectTotalMarksET.setEnabled(false);
-            holder.vb.subjectMarksGainedET.setEnabled(false);
-            holder.vb.creditHoursET.setEnabled(false);
-            holder.vb.subjectSaveB.setVisibility(View.GONE);
+            toggleEnable(false, holder.vb.subjectNameET, holder.vb.subjectTotalMarksET,
+                    holder.vb.subjectMarksGainedET, holder.vb.creditHoursET);
+            toggleVisibility(false, holder.vb.subjectSaveB);
 
             saveListener.onSaveClick(pos, holder.vb.subjectNameET.getText().toString(), Integer.parseInt(holder.vb.subjectTotalMarksET.getText().toString()),
                     Integer.parseInt(holder.vb.subjectMarksGainedET.getText().toString()), Integer.parseInt(holder.vb.creditHoursET.getText().toString())

@@ -55,7 +55,7 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/semesterSGPATV"
+                android:id="@+id/semesterGPATV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/default_gpa"

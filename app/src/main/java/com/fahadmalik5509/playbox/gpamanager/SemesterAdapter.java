@@ -1,7 +1,10 @@
 package com.fahadmalik5509.playbox.gpamanager;
 
+import static com.fahadmalik5509.playbox.gpamanager.GPACalculator.getSemesterGPAStringFromSubjects;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -21,9 +24,11 @@ public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.Semest
 
     private final List<Semester> semesterList;
     private final OnSemesterClickListener clickListener;
+    private final Context context;
 
-    public SemesterAdapter(List<Semester> semesterList,
+    public SemesterAdapter(Context context, List<Semester> semesterList,
                            OnSemesterClickListener clickListener) {
+        this.context = context;
         this.semesterList = semesterList;
         this.clickListener = clickListener;
     }
@@ -39,7 +44,26 @@ public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.Semest
     @Override
     public void onBindViewHolder(@NonNull SemesterViewHolder holder, int position) {
         Semester currentSemester = semesterList.get(position);
-        holder.vb.semesterNameTV.setText(currentSemester.getSemesterName());
+        int semesterId = currentSemester.getSemesterId();
+
+        AppDatabase db = AppDatabase.getInstance(holder.itemView.getContext());
+
+        new Thread(() -> {
+            List<Subject> subjects = db.subjectDao().getSubjectsForSemester(semesterId);
+
+            // Use context.runOnUiThread to update the UI on the main thread
+            ((Activity) context).runOnUiThread(() -> {
+                String semesterGPA = getSemesterGPAStringFromSubjects(subjects);
+
+                holder.vb.semesterNameTV.setText(currentSemester.getSemesterName());
+                holder.vb.semesterGPATV.setText(semesterGPA);
+
+                holder.itemView.setOnClickListener(v -> {
+                    playSoundAndVibrate(R.raw.sound_ui, true, 50);
+                    clickListener.onSemesterClick(currentSemester.getSemesterId());
+                });
+            });
+        }).start();
 
         holder.itemView.setOnClickListener(v -> {
             playSoundAndVibrate(R.raw.sound_ui, true, 50);
