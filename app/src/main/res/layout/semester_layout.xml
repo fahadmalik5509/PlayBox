@@ -13,6 +13,7 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <ImageView
+        android:id="@+id/addSemesterB"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/add"

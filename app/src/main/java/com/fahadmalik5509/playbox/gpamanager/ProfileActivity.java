@@ -1,15 +1,19 @@
+// ProfileActivity.java
 package com.fahadmalik5509.playbox.gpamanager;
 
-import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.changeActivity;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.ProfileLayoutBinding;
 import com.fahadmalik5509.playbox.miscellaneous.BaseActivity;
 import com.fahadmalik5509.playbox.miscellaneous.ToolsActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,11 +56,13 @@ public class ProfileActivity extends BaseActivity {
                             adapter.notifyItemRangeChanged(pos, profileList.size() - pos);
                         }
                     });
-                }
+                },
+                // Click to open semesters
+                this::openSemestersForProfile
         );
         vb.profileRV.setAdapter(adapter);
 
-        // Load existing profiles from DB (newest appear at bottom)
+        // Load all profiles from DB
         new Thread(() -> {
             List<Profile> all = db.profileDao().getAllProfiles();
             runOnUiThread(() -> {
@@ -69,23 +75,22 @@ public class ProfileActivity extends BaseActivity {
 
     public void handleAddProfile(View v) {
         playSoundAndVibrate(R.raw.sound_ui, true, 50);
-        // Create and display a new blank profile at the bottom
         Profile p = new Profile("");
         profileList.add(p);
         int lastPos = profileList.size() - 1;
         adapter.notifyItemInserted(lastPos);
         vb.profileRV.scrollToPosition(lastPos);
 
-        // Persist in background
         new Thread(() -> {
             long id = db.profileDao().insertProfile(p);
             p.setProfileId((int) id);
         }).start();
     }
 
-    public void goToSemester(View v) {
-        playSoundAndVibrate(R.raw.sound_ui, true, 50);
-        changeActivity(this, SemesterActivity.class);
+    private void openSemestersForProfile(int profileId) {
+        Intent intent = new Intent(this, SemesterActivity.class);
+        intent.putExtra("profile_id", profileId);
+        startActivity(intent);
     }
 
     @Override

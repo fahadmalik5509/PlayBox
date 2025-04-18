@@ -59,14 +59,6 @@ public class HomeActivity extends BaseActivity implements SensorEventListener {
         changeActivity(this, ToolsActivity.class);
     }
 
-
-    public void handleSettingsClick(View view) {
-        playSoundAndVibrate(R.raw.sound_ui, true, 50);
-        Intent intent = new Intent(this, SettingActivity.class);
-        intent.putExtra("origin_activity", getClass().getSimpleName());
-        startActivity(intent);
-    }
-
     // Onclick Method
     public void handleExitButtons(View view) {
 

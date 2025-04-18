@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.SubjectItemLayoutBinding;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectViewHolder> {
@@ -25,8 +23,9 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
     }
 
     private final List<Subject> subjectsList;
-    private final SubjectAdapter.OnSaveClickListener saveListener;
-    private final SubjectAdapter.OnDeleteClickListener deleteListener;
+    private final OnSaveClickListener saveListener;
+    private final OnDeleteClickListener deleteListener;
+
 
     public SubjectAdapter(List<Subject> subjectsList,
                           SubjectAdapter.OnSaveClickListener saveListener,

@@ -292,7 +292,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         changeActivity(this, HomeActivity.class);
     }
 
-    public void goToSetting(View view) {
+    public void handleSettingsClick(View view) {
         playSoundAndVibrate(R.raw.sound_ui, true, 50);
         Intent intent = new Intent(this, SettingActivity.class);
         intent.putExtra("origin_activity", this.getClass().getSimpleName());

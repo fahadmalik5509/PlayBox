@@ -56,6 +56,7 @@
     </RelativeLayout>
 
     <ImageView
+        android:id="@+id/addSubjectB"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/add"

@@ -3,7 +3,6 @@ package com.fahadmalik5509.playbox.gpamanager;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -11,15 +10,41 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fahadmalik5509.playbox.R;
 import com.fahadmalik5509.playbox.databinding.SemesterItemLayoutBinding;
-import java.util.ArrayList;
+
 import java.util.List;
 
-public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.SemesterViewHolder>{
+public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.SemesterViewHolder> {
+
+    public interface OnSemesterClickListener {
+        void onSemesterClick(int semesterId);
+    }
 
     private final List<Semester> semesterList;
+    private final OnSemesterClickListener clickListener;
 
-    public SemesterAdapter(List<Semester> semesterList) {
+    public SemesterAdapter(List<Semester> semesterList,
+                           OnSemesterClickListener clickListener) {
         this.semesterList = semesterList;
+        this.clickListener = clickListener;
+    }
+
+    @NonNull
+    @Override
+    public SemesterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        SemesterItemLayoutBinding vb = SemesterItemLayoutBinding.inflate(inflater, parent, false);
+        return new SemesterViewHolder(vb);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull SemesterViewHolder holder, int position) {
+        Semester currentSemester = semesterList.get(position);
+        holder.vb.semesterNameTV.setText(currentSemester.getSemesterName());
+
+        holder.itemView.setOnClickListener(v -> {
+            playSoundAndVibrate(R.raw.sound_ui, true, 50);
+            clickListener.onSemesterClick(currentSemester.getSemesterId());
+        });
     }
 
     @Override
@@ -27,42 +52,10 @@ public class SemesterAdapter extends RecyclerView.Adapter<SemesterAdapter.Semest
         return semesterList.size();
     }
 
-    @NonNull
-    @Override
-    public SemesterAdapter.SemesterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        SemesterItemLayoutBinding vb = SemesterItemLayoutBinding.inflate(inflater, parent, false);
-        return new SemesterAdapter.SemesterViewHolder(vb);
-    }
+    static class SemesterViewHolder extends RecyclerView.ViewHolder {
+        final SemesterItemLayoutBinding vb;
 
-    @Override
-    public void onBindViewHolder(@NonNull SemesterAdapter.SemesterViewHolder holder, int position) {
-
-        Semester currentSemester = semesterList.get(position);
-
-    }
-
-    // A helper to add a new semester
-    public void addSemester(Semester newSemester) {
-        semesterList.add(newSemester);
-        // Notify the adapter that a new item is inserted at the end
-        notifyItemInserted(semesterList.size() - 1);
-    }
-
-    // Remove semester based on its position
-    public void removeSemester(int position) {
-        if (position < semesterList.size() && position >= 0) {
-            semesterList.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, semesterList.size()); // refresh positions
-        }
-    }
-
-    public static class SemesterViewHolder extends RecyclerView.ViewHolder {
-        SemesterItemLayoutBinding vb;
-
-        public SemesterViewHolder(SemesterItemLayoutBinding vb) {
-
+        SemesterViewHolder(SemesterItemLayoutBinding vb) {
             super(vb.getRoot());
             this.vb = vb;
         }
