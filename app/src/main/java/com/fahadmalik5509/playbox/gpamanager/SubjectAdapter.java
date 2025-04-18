@@ -1,5 +1,7 @@
 package com.fahadmalik5509.playbox.gpamanager;
 
+import static com.fahadmalik5509.playbox.gpamanager.GPACalculator.calculateGpa;
+import static com.fahadmalik5509.playbox.gpamanager.GPACalculator.getSubjectGPAStringFromPercentage;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
 
 import android.view.LayoutInflater;
@@ -58,6 +60,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
         holder.vb.subjectTotalMarksET.setText(String.valueOf(currentSubject.getTotalMarks()));
         holder.vb.subjectMarksGainedET.setText(String.valueOf(currentSubject.getMarksGained()));
         holder.vb.creditHoursET.setText(String.valueOf(currentSubject.getCreditHours()));
+        holder.vb.subjectGPATV.setText(getSubjectGPAStringFromPercentage(currentSubject.getMarksGained()));
 
         holder.vb.subjectEditIV.setOnClickListener(v -> {
             if (holder.vb.subjectSaveB.getVisibility() == View.VISIBLE) return;
@@ -81,6 +84,8 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.SubjectV
             saveListener.onSaveClick(pos, holder.vb.subjectNameET.getText().toString(), Integer.parseInt(holder.vb.subjectTotalMarksET.getText().toString()),
                     Integer.parseInt(holder.vb.subjectMarksGainedET.getText().toString()), Integer.parseInt(holder.vb.creditHoursET.getText().toString())
                     );
+
+            holder.vb.subjectGPATV.setText(getSubjectGPAStringFromPercentage(currentSubject.getMarksGained()));
         });
 
         holder.vb.subjectDeleteIV.setOnClickListener(v -> {
