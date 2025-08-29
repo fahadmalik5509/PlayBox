@@ -73,14 +73,6 @@
             android:onClick="handleGamesClick" />
 
         <Button
-            android:id="@+id/toolsB"
-            android:text="@string/tools"
-            android:letterSpacing="0.05"
-            style="@style/NavigationButton"
-            android:onClick="handleToolsClick" />
-
-
-        <Button
             android:id="@+id/settingsB"
             android:text="@string/settings"
             android:letterSpacing="0.05"

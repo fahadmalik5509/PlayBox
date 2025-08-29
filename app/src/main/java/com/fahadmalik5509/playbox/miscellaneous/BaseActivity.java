@@ -15,7 +15,6 @@ import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.playSoundAn
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.saveToSharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.sharedPreferences;
 import static com.fahadmalik5509.playbox.miscellaneous.ActivityUtils.toggleVisibility;
-import com.fahadmalik5509.playbox.gpamanager.AppDatabase;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,13 +22,8 @@ import android.view.View;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Database;
-import androidx.room.RoomDatabase;
 
 import com.fahadmalik5509.playbox.R;
-import com.fahadmalik5509.playbox.gpamanager.ProfileActivity;
-import com.fahadmalik5509.playbox.gpamanager.SemesterActivity;
-import com.fahadmalik5509.playbox.gpamanager.SubjectActivity;
 import com.fahadmalik5509.playbox.databinding.NavigationLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.ShadowLayoutBinding;
 import com.fahadmalik5509.playbox.databinding.ShopButtonLayoutBinding;
@@ -41,8 +35,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     private ShopLayoutBinding ShopBinding;
     private NavigationLayoutBinding NavigationBinding;
     private ShadowLayoutBinding ShadowBinding;
-
-    public AppDatabase db;
 
     protected int currencyCount, bombCount, hintCount, skipCount, strikeCount, spotlightCount, contrastCount, jumpCount;
     @Override
@@ -63,7 +55,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private void initialize() {
         setupOnBackPressed();
-        db = AppDatabase.getInstance(getApplicationContext());
         currencyCount = sharedPreferences.getInt(WORDLE_CURRENCY_KEY, 300);
         bombCount = sharedPreferences.getInt(WORDLE_BOMB_KEY, 5);
         hintCount = sharedPreferences.getInt(WORDLE_HINT_KEY, 5);
@@ -264,11 +255,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void backLogic() {
         playSoundAndVibrate(R.raw.sound_ui, true, 50);
-
-        if(this instanceof ToolsActivity || this instanceof ProfileActivity || this instanceof SemesterActivity || this instanceof SubjectActivity) {
-            changeActivity(this, getBackDestination());
-            return;
-        }
 
         if(this instanceof HomeActivity) {
             return;

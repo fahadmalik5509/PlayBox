@@ -69,12 +69,6 @@
             android:exported="true"
             android:screenOrientation="portrait"/>
 
-        <!-- ToolsActivity -->
-        <activity
-            android:name=".miscellaneous.ToolsActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"/>
-
         <!-- SettingActivity -->
         <activity
             android:name=".miscellaneous.SettingActivity"

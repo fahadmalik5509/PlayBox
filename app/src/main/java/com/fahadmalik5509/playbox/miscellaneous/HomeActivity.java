@@ -54,11 +54,6 @@ public class HomeActivity extends BaseActivity implements SensorEventListener {
         changeActivity(this, GamesActivity.class);
     }
 
-    public void handleToolsClick(View view) {
-        playSoundAndVibrate(R.raw.sound_ui, true, 50);
-        changeActivity(this, ToolsActivity.class);
-    }
-
     // Onclick Method
     public void handleExitButtons(View view) {
 
