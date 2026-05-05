@@ -7,7 +7,7 @@
     android:clipToPadding="false">
 
     <!-- Custom Game View: Centered in parent -->
-    <com.fahadmalik5509.playbox.dotandboxes.DotAndBoxesView
+    <com.fahadmalik.playbox.dotandboxes.DotAndBoxesView
         android:id="@+id/dotAndBoxesView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -708,6 +708,25 @@
                 android:layout_gravity="center"
                 android:stateListAnimator="@animator/pulse_animation"
                 android:onClick="handleGameModeButtons"/>
+
+            <TextView
+                android:id="@+id/onlineTV"
+                android:tag="online"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="230dp"
+                android:minHeight="50dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:background="@drawable/selection"
+                android:padding="10dp"
+                android:text="🌐 Online"
+                android:textSize="18sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_gravity="center"
+                android:stateListAnimator="@animator/pulse_animation"
+                android:onClick="handleOnlineClick"/>
 
 
             <TextView

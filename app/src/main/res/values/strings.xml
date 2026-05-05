@@ -69,6 +69,7 @@
     <string name="difficulty_tooltip">AI Difficulty\n(%1$s)</string>
     <string name="streak_tooltip">Streak\n(Current: %1$d)\n(Best: %2$d)</string>
     <string name="wordle_exit">Exit mid-game?\nStreak reset!</string>
+    <string name="opponent_left">Opponent left the game</string>
 
     <string name="dot_and_boxes_menu">Dot and Boxes Menu</string>
     <string name="select_size">Select Size</string>
@@ -85,18 +86,6 @@
     <string name="size10">10 x 10</string>
     <string name="empty">00</string>
     <string name="draw">Draw</string>
-
-    <string name="subject_name">Subject Name</string>
-    <string name="one_to_hundred">1 – 100</string>
-    <string name="zero_to_hundred">0 – 100</string>
-    <string name="one_to_nine">1 – 9</string>
-    <string name="gpa">GPA</string>
-    <string name="sgpa">SGPA</string>
-    <string name="cgpa">CGPA</string>
-    <string name="total_marks">Total\nMarks</string>
-    <string name="marks_gained">Marks\nGained</string>
-    <string name="credit_hours">Credit\nHours</string>
-    <string name="default_gpa">0,0</string>
 
     <!-- On-screen keyboard letters -->
     <string name="letter_A" translatable="false">A</string>

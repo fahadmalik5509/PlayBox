@@ -1,13 +1,14 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.google.services)
 }
 
 android {
-    namespace = "com.fahadmalik5509.playbox"
+    namespace = "com.fahadmalik.playbox"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.fahadmalik5509.playbox"
+        applicationId = "com.fahadmalik.playbox"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
@@ -44,8 +45,10 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.gridlayout)
     implementation(libs.recyclerview)
-    implementation(libs.room)
-    annotationProcessor(libs.room.compiler)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.database)
+
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }

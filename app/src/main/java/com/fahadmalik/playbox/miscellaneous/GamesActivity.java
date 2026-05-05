@@ -1,0 +1,62 @@
+package com.fahadmalik.playbox.miscellaneous;
+
+import static com.fahadmalik.playbox.miscellaneous.ActivityUtils.changeActivity;
+import static com.fahadmalik.playbox.miscellaneous.ActivityUtils.playSoundAndVibrate;
+
+import android.os.Bundle;
+import android.view.View;
+
+import com.fahadmalik.playbox.R;
+import com.fahadmalik.playbox.colorpuzzle.ColorPuzzleActivity;
+import com.fahadmalik.playbox.databinding.GamesLayoutBinding;
+import com.fahadmalik.playbox.databinding.NavigationLayoutBinding;
+import com.fahadmalik.playbox.databinding.ShadowLayoutBinding;
+import com.fahadmalik.playbox.databinding.ShopButtonLayoutBinding;
+import com.fahadmalik.playbox.databinding.ShopLayoutBinding;
+import com.fahadmalik.playbox.dotandboxes.DotAndBoxesActivity;
+import com.fahadmalik.playbox.tictactoe.GameModeActivity;
+import com.fahadmalik.playbox.wordle.WordleActivity;
+
+public class GamesActivity extends BaseActivity {
+    GamesLayoutBinding vb;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        vb = GamesLayoutBinding.inflate(getLayoutInflater());
+        setContentView(vb.getRoot());
+
+        getBindings();
+    }
+
+    private void getBindings() {
+        ShopButtonLayoutBinding ShopButtonBinding = ShopButtonLayoutBinding.bind(vb.ShopButton.getRoot());
+        ShopLayoutBinding ShopBinding = ShopLayoutBinding.bind(vb.Shop.getRoot());
+        NavigationLayoutBinding NavigationBinding = NavigationLayoutBinding.bind(vb.Navigation.getRoot());
+        ShadowLayoutBinding ShadowBinding = ShadowLayoutBinding.bind(vb.Shadow.getRoot());
+        setBindings(ShopButtonBinding, ShopBinding, NavigationBinding, ShadowBinding);
+    }
+    public void handleTicTacToeButtonClick(View view) {
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
+        changeActivity(this, GameModeActivity.class);
+    }
+    public void handleWordleButtonClick(View view) {
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
+        changeActivity(this, WordleActivity.class);
+    }
+    public void handleColorPuzzleButtonClick(View view) {
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
+        changeActivity(this, ColorPuzzleActivity.class);
+    }
+
+    public void handleDotAndBoxesButtonClick(View view) {
+        playSoundAndVibrate(R.raw.sound_ui, true, 50);
+        changeActivity(this, DotAndBoxesActivity.class);
+    }
+
+    @Override
+    protected Class<?> getBackDestination() {
+        return HomeActivity.class;
+    }
+
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "365003403236",
+    "project_id": "playbox-by-fahad",
+    "storage_bucket": "playbox-by-fahad.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:365003403236:android:a48bc203e3d9a299d161f1",
+        "android_client_info": {
+          "package_name": "com.fahadmalik.playbox"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6yrbFq74nfBqOEQVbFAuoU8gCX335dmk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

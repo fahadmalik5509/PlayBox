@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    online_lobby_layout.xml
+    Place in: res/layout/online_lobby_layout.xml
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Online Game"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:textColor="@color/beige"
+            android:textAppearance="@style/default_font"
+            android:layout_marginBottom="32dp"/>
+
+        <!-- ── SETUP LAYOUT (shown while configuring / entering code) ── -->
+        <LinearLayout
+            android:id="@+id/lobbySetupLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <!-- Player name label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Name"
+                android:textSize="16sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Player name input -->
+            <EditText
+                android:id="@+id/playerNameET"
+                android:autofillHints="name"
+                android:background="@drawable/keyboard_keys_background"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:inputType="textPersonName"
+                android:maxLength="20"
+                android:padding="10dp"
+                android:textSize="14sp"
+                android:textColor="@color/gray"
+                android:textAppearance="@style/default_font"
+                android:hint="Enter your name"
+                android:textColorHint="@color/hint"
+                android:layout_marginBottom="24dp"/>
+
+            <!-- Grid size label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Grid Size"
+                android:textSize="16sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Grid size selector (4 × 4 through 8 × 8) -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/grid4Btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="56dp"
+                    android:minHeight="48dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:text="4"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+                <TextView
+                    android:id="@+id/grid5Btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="56dp"
+                    android:minHeight="48dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:layout_marginStart="8dp"
+                    android:text="5"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+                <TextView
+                    android:id="@+id/grid6Btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="56dp"
+                    android:minHeight="48dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:layout_marginStart="8dp"
+                    android:text="6"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+                <TextView
+                    android:id="@+id/grid7Btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="56dp"
+                    android:minHeight="48dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:layout_marginStart="8dp"
+                    android:text="7"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+                <TextView
+                    android:id="@+id/grid8Btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="56dp"
+                    android:minHeight="48dp"
+                    android:gravity="center"
+                    android:background="@drawable/selection"
+                    android:padding="10dp"
+                    android:layout_marginStart="8dp"
+                    android:text="8"
+                    android:textSize="16sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+            </LinearLayout>
+
+            <!-- Timer label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Turn Timer"
+                android:textSize="16sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Timer controls -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="32dp">
+
+                <TextView
+                    android:id="@+id/timerMinusBtn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:background="@drawable/background"
+                    android:text="−"
+                    android:textSize="22sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+                <TextView
+                    android:id="@+id/timerValueTV"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:text="15s"/>
+
+                <TextView
+                    android:id="@+id/timerPlusBtn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:gravity="center"
+                    android:background="@drawable/background"
+                    android:text="+"
+                    android:textSize="22sp"
+                    android:textColor="@color/beige"
+                    android:textAppearance="@style/default_font"
+                    android:stateListAnimator="@animator/pulse_animation"/>
+
+            </LinearLayout>
+
+            <!-- Create Room button -->
+            <TextView
+                android:id="@+id/createRoomBtn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center"
+                android:background="@drawable/ui_background"
+                android:text="Create Room"
+                android:textSize="18sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:stateListAnimator="@animator/pulse_animation"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Divider -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="— OR JOIN AN EXISTING ROOM —"
+                android:textSize="12sp"
+                android:textColor="@color/gray"
+                android:textAppearance="@style/default_font"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Room code label -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Room Code"
+                android:textSize="16sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Room code input -->
+            <EditText
+                android:id="@+id/roomCodeET"
+                android:autofillHints=""
+                android:background="@drawable/keyboard_keys_background"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:inputType="textCapCharacters"
+                android:maxLength="6"
+                android:padding="10dp"
+                android:letterSpacing="0.3"
+                android:textSize="18sp"
+                android:gravity="center"
+                android:textColor="@color/gray"
+                android:textAppearance="@style/default_font"
+                android:hint="6-character code"
+                android:textColorHint="@color/hint"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Join Room button -->
+            <TextView
+                android:id="@+id/joinRoomBtn"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center"
+                android:background="@drawable/exit_no"
+                android:text="Join Room"
+                android:textSize="18sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:stateListAnimator="@animator/pulse_animation"/>
+
+            <!-- Loading spinner (hidden by default) -->
+            <ProgressBar
+                android:id="@+id/loadingProgress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+        <!-- END lobbySetupLayout -->
+
+        <!-- ── WAITING LAYOUT (shown after creating a room, while waiting for opponent) ── -->
+        <LinearLayout
+            android:id="@+id/waitingLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Waiting for opponent…"
+                android:textSize="20sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:layout_marginBottom="24dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Share this code:"
+                android:textSize="14sp"
+                android:textColor="@color/gray"
+                android:textAppearance="@style/default_font"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/roomCodeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:letterSpacing="0.3"
+                android:layout_marginBottom="32dp"/>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"/>
+
+            <TextView
+                android:id="@+id/cancelWaitingBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:background="@drawable/exit_no"
+                android:text="Cancel"
+                android:textSize="16sp"
+                android:textColor="@color/beige"
+                android:textAppearance="@style/default_font"
+                android:stateListAnimator="@animator/pulse_animation"/>
+
+        </LinearLayout>
+        <!-- END waitingLayout -->
+
+    </LinearLayout>
+</ScrollView>
